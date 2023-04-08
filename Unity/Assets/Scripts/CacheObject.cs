@@ -1,5 +1,4 @@
 using System;
-using System.Buffers;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -58,12 +57,11 @@ namespace Game
             int length = count / 16 * 16;
             if (count % 16 != 0)
                 length += 16;
-            T[] tempArray = ArrayPool<T>.Shared.Rent(length);
+            T[] tempArray = new T[length];
             for (int i = 0; i < count; i++)
                 tempArray[i] = PopItem(template);
             for (int i = 0; i < count; i++)
                 PushItem(template, tempArray[i]);
-            ArrayPool<T>.Shared.Return(tempArray);
         }
 
         public IEnumerator GetEnumerator() => Caches.GetEnumerator();

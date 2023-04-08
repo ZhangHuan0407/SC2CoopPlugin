@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 
 namespace Game
@@ -13,5 +14,7 @@ namespace Game
         public static LogService LogService { get; internal set; }
 
         public static BackThread BackThread { get; internal set; }
+
+        public static Process StarCraftProcess { get; internal set; }
     }
 }

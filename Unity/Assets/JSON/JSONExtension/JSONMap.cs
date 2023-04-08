@@ -7,7 +7,9 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Linq;
+#if UNITY_STANDALONE
 using UnityEngine;
+#endif
 using System.Threading;
 using System.Collections;
 using System.Runtime.CompilerServices;
@@ -52,11 +54,13 @@ public static class JSONMap
         RegisterType(BasicValueJSONSerialized.LongSerialized);
         RegisterType(BasicValueJSONSerialized.StringSerialized);
         RegisterType(BasicValueJSONSerialized.DateTimeSerialized);
+#if UNITY_STANDALONE
         RegisterType(VectorJSONSerialized.Vector4Serialized);
         RegisterType(VectorJSONSerialized.Vector3IntSerialized);
         RegisterType(VectorJSONSerialized.Vector3Serialized);
         RegisterType(VectorJSONSerialized.Vector2IntSerialized);
         RegisterType(VectorJSONSerialized.Vector2Serialized);
+#endif
     }
     public static void RegisterAllTypes()
     {
@@ -158,17 +162,21 @@ public static class JSONMap
         List<Type> registerTypes = new List<Type>();
         List<Type> blacklist = new List<Type>()
         {
+#if UNITY_STANDALONE
             typeof(UnityEngine.Object),
             typeof(Component),
             typeof(ScriptableObject),
+#endif
         };
         foreach (Type type in selectTypes)
         {
             // 这些类型如果有对应的序列化函数，还是能添加进去
             // 但不会主动为其生成序列化函数
+#if UNITY_STANDALONE
             if (type.IsSubclassOf(typeof(Component)) ||
                 type.IsSubclassOf(typeof(ScriptableObject)))
                 blacklist.Add(type);
+#endif
             registerTypes.Add(type);
         }
         AddBlackList(blacklist);
@@ -500,11 +508,19 @@ public static class JSONMap
         }
     }
 
-    public static T DeepClone<T>(in T instance)
+    public static T JSONDeepClone<T>(in T instance)
     {
         T t = default;
         JSONObject @object = ToJSON(typeof(T), instance);
         t = ParseJSON<T>(@object);
         return t;
     }
+
+#if !UNITY_STANDALONE
+    internal static class Debug
+    {
+        public static void LogError(string info) => WindowsOCR.LogService.Error("JSON", info);
+        public static void LogWarning(string info) => Console.WriteLine(info);
+    }
+#endif
 }

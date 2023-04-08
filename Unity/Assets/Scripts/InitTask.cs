@@ -19,7 +19,7 @@ namespace Game
 
             GameObject loadingGo = new GameObject("Loading", typeof(SpriteRenderer));
             loadingGo.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Textures/Loading");
-#if !UNITY_EDITOR
+#if !UNITY_EDITOR && !ALPHA
             Debug.unityLogger.logEnabled = false;
 #endif
             yield return null;

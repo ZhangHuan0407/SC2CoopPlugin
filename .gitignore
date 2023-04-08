@@ -58,3 +58,6 @@ sysinfo.txt
 # Crashlytics generated file
 crashlytics-build.properties
 
+WindowsOCR/obj/*
+WindowsOCR/bin/*
+Unity/.vsconfig

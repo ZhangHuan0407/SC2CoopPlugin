@@ -1,0 +1,532 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>LittleNN</name>
+    </assembly>
+    <members>
+        <member name="T:LittleNN.ActivationsFunctions">
+            <summary>
+            https://pytorch-cn.readthedocs.io/zh/latest/package_references/torch-nn/#non-linear-activations-source
+            copy from website
+            </summary>
+        </member>
+        <member name="T:LittleNN.ActivationsFunctions.ActivationsFunction">
+            <summary>
+            Extend more custom <see cref="T:LittleNN.ActivationsFunctionType"/>, and extend <see cref="M:LittleNN.ActivationsFunctions.Output(LittleNN.ActivationsFunctionType,System.Single,System.Single)"/> by add delegate to <see cref="E:LittleNN.ActivationsFunctions.OutputExtension_Handle"/>
+            </summary>
+        </member>
+        <member name="E:LittleNN.ActivationsFunctions.OutputExtension_Handle">
+            <summary>
+            Extend more custom <see cref="T:LittleNN.ActivationsFunctionType"/>, and extend <see cref="M:LittleNN.ActivationsFunctions.Output(LittleNN.ActivationsFunctionType,System.Single,System.Single)"/> by add delegate to <see cref="E:LittleNN.ActivationsFunctions.OutputExtension_Handle"/>
+            </summary>
+        </member>
+        <member name="M:LittleNN.ActivationsFunctions.Output(LittleNN.ActivationsFunctionType,System.Single,System.Single)">
+            <summary>
+            Calculate activation function result
+            <para>If type is not build-in, will invoke <see cref="E:LittleNN.ActivationsFunctions.OutputExtension_Handle"/> to get activation</para>
+            </summary>
+        </member>
+        <member name="T:LittleNN.ActivationsFunctions.DerivativeFunction">
+            <summary>
+            Extend more custom <see cref="T:LittleNN.ActivationsFunctionType"/>, and extend <see cref="M:LittleNN.ActivationsFunctions.Output(LittleNN.ActivationsFunctionType,System.Single,System.Single)"/> by add delegate to <see cref="E:LittleNN.ActivationsFunctions.DerivativeExtension_Handle"/>
+            </summary>
+        </member>
+        <member name="E:LittleNN.ActivationsFunctions.DerivativeExtension_Handle">
+            <summary>
+            Extend more custom <see cref="T:LittleNN.ActivationsFunctionType"/>, and extend <see cref="M:LittleNN.ActivationsFunctions.Output(LittleNN.ActivationsFunctionType,System.Single,System.Single)"/> by add delegate to <see cref="E:LittleNN.ActivationsFunctions.DerivativeExtension_Handle"/>
+            </summary>
+        </member>
+        <member name="M:LittleNN.ActivationsFunctions.Derivative(LittleNN.ActivationsFunctionType,System.Single,System.Single)">
+            <summary>
+            Calculate derivative function result
+            <para>If type is not build-in, will invoke <see cref="E:LittleNN.ActivationsFunctions.DerivativeExtension_Handle"/> to get derivative</para>
+            </summary>
+        </member>
+        <member name="T:LittleNN.ActivationsFunctionType">
+            <summary>
+            There are implement some of pytorch activation functions.
+            </summary>
+        </member>
+        <member name="F:LittleNN.ActivationsFunctionType.Unknown">
+            <summary>
+            Default value 0 convert to <see cref="F:LittleNN.ActivationsFunctionType.Unknown"/>,
+            forget to set type value?
+            </summary>
+        </member>
+        <member name="F:LittleNN.ActivationsFunctionType.InputLayer">
+            <summary>
+            Input layer don't have activations function, just padding function argument
+            </summary>
+        </member>
+        <member name="F:LittleNN.ActivationsFunctionType.LeakyReLU">
+            <summary>
+            x > 0 ? x : (0.02 * x)
+            </summary>
+        </member>
+        <member name="F:LittleNN.ActivationsFunctionType.ReLU">
+            <summary>
+            max(x, 0)
+            </summary>
+        </member>
+        <member name="F:LittleNN.ActivationsFunctionType.Sigmoid">
+            <summary>
+            1f / (1f + MathF.Exp(-x))
+            </summary>
+        </member>
+        <member name="F:LittleNN.ActivationsFunctionType.Softsign">
+            <summary>
+            x / (1f + |x|);
+            </summary>
+        </member>
+        <member name="T:LittleNN.LossFuntion">
+            <summary>
+            https://pytorch-cn.readthedocs.io/zh/latest/package_references/torch-nn/#loss-functions
+            copy from website
+            </summary>
+        </member>
+        <member name="M:LittleNN.LossFuntion.L1Loss(System.Single[],System.Single[])">
+            <summary>
+            equal torch.nn.L1Loss
+            </summary>
+            <param name="eval">NN forward return's array</param>
+            <param name="target">the best return's array</param>
+        </member>
+        <member name="M:LittleNN.LossFuntion.MSELoss(System.Single[],System.Single[])">
+            <summary>
+            equal torch.nn.MSELoss
+            </summary>
+            <param name="eval">NN forward return's array</param>
+            <param name="target">the best return's array</param>
+        </member>
+        <member name="T:LittleNN.NeuralNetwork">
+            <summary>
+            A common, but non-core, method
+            </summary>
+        </member>
+        <member name="F:LittleNN.NeuralNetwork.LearnRate">
+            <summary>
+            Control each learning effect.
+            <para>Too high a learning rate <see cref="T:LittleNN.NeuralNetwork"/> will not converge</para>
+            <para>Too samll a learning rate <see cref="T:LittleNN.NeuralNetwork"/> will converge slowly</para>
+            </summary>
+        </member>
+        <member name="F:LittleNN.NeuralNetwork.Momentum">
+            <summary>
+            Control each learning Momentum.
+            <para>Too high a momentum <see cref="T:LittleNN.NeuralNetwork"/> will not converge</para>
+            <para>Too samll a momentum <see cref="T:LittleNN.NeuralNetwork"/> will local overfitting</para>
+            </summary>
+        </member>
+        <member name="F:LittleNN.NeuralNetwork.InputLayer">
+            <summary>
+            The input layer of <see cref="T:LittleNN.NeuralNetwork"/>
+            </summary>
+        </member>
+        <member name="F:LittleNN.NeuralNetwork.HiddenLayers">
+            <summary>
+            The hidden layer of <see cref="T:LittleNN.NeuralNetwork"/>
+            </summary>
+        </member>
+        <member name="F:LittleNN.NeuralNetwork.OutputLayer">
+            <summary>
+            The out layer of <see cref="T:LittleNN.NeuralNetwork"/>
+            </summary>
+        </member>
+        <member name="M:LittleNN.NeuralNetwork.#ctor">
+            <summary>
+            Create an empty instance
+            </summary>
+        </member>
+        <member name="M:LittleNN.NeuralNetwork.#ctor(System.Int32,System.Int32[],System.Int32,System.Single,System.Single)">
+            <summary>
+            Create a new neural network with specified layer size and default parameters.
+            <para><see cref="F:LittleNN.NeuronLayer.ActType"/>all synapse choose Sigmoid as activation function</para>
+            </summary>
+        </member>
+        <member name="M:LittleNN.NeuralNetwork.#ctor(System.Collections.Generic.List{LittleNN.Sequential},System.Single,System.Single)">
+            <summary>
+            Create a new neural network with specified layer size and default parameters.
+            </summary>
+        </member>
+        <member name="M:LittleNN.NeuralNetwork.ForwardPropagate(System.Single[])">
+            <summary>
+            Use inputs value and calculate a targets value
+            <para>Invoke <see cref="M:LittleNN.NeuralNetwork.CopyEvaluation"/> to get the copy of the neural network</para>
+            </summary>
+        </member>
+        <member name="M:LittleNN.NeuralNetwork.OptimizerBackward(System.Single[])">
+            <summary>
+            Use targets value and <see cref="T:LittleNN.NeuralNetwork"/> current <see cref="T:LittleNN.Neuron"/> value to calculate <see cref="F:LittleNN.Neuron.Gradient"/>
+            </summary>
+            <param name="targets">The expected output value of the neural network</param>
+        </member>
+        <member name="M:LittleNN.NeuralNetwork.OptimizerStep">
+            <summary>
+            Use <see cref="F:LittleNN.Neuron.Gradient"/> modified weights and value in current <see cref="T:LittleNN.NeuralNetwork"/>
+            </summary>
+        </member>
+        <member name="M:LittleNN.NeuralNetwork.CopyEvaluation">
+            <summary>
+            Copy the output value of the neural network
+            </summary>
+        </member>
+        <member name="F:LittleNN.NeuralNetwork.RandomOffset">
+            <summary>
+            Avoid seed synchronization
+            </summary>
+        </member>
+        <member name="M:LittleNN.NeuralNetwork.GetRandom">
+            <summary>
+            return a random value in (-1f,1f), without border value
+            </summary>
+        </member>
+        <member name="M:LittleNN.NeuralNetwork.RandomN(System.Int32)">
+            <summary>
+            Create a random value array with specified length
+            </summary>
+            <param name="length">the length of random value array</param>
+        </member>
+        <member name="M:LittleNN.NeuralNetwork.Train(System.Collections.Generic.IList{LittleNN.StandardData},System.Int32)">
+            <summary>
+            Tarin neural network with data continue numEpochs times
+            </summary>
+        </member>
+        <member name="M:LittleNN.NeuralNetwork.Train(LittleNN.StandardData)">
+            <summary>
+            Tarin neural network with data once
+            </summary>
+        </member>
+        <member name="M:LittleNN.NeuralNetwork.Train(System.Single[],System.Single[])">
+            <summary>
+            Tarin neural network with data once
+            </summary>
+        </member>
+        <member name="M:LittleNN.NeuralNetwork.Forward(System.Single[])">
+            <summary>
+            Current neural network use inputs forward propagate and return calculate result
+            </summary>
+        </member>
+        <member name="M:LittleNN.NeuralNetwork.SaveTo(System.String)">
+            <summary>
+            Serialize <see cref="T:LittleNN.NeuralNetwork"/> to bin data, and write to target file.
+            </summary>
+        </member>
+        <member name="M:LittleNN.NeuralNetwork.LoadFrom(System.String)">
+            <summary>
+            Read target file and deserialize <see cref="T:LittleNN.NeuralNetwork"/> from bin data.
+            </summary>
+        </member>
+        <member name="T:LittleNN.NeuralNetworkModel">
+            <summary>
+            Copy <see cref="T:LittleNN.NeuralNetwork"/> parameter and serialize/deserialize
+            </summary>
+        </member>
+        <member name="F:LittleNN.NeuralNetworkModel.HeadSize">
+            <summary>
+            bin data head area size
+            </summary>
+        </member>
+        <member name="F:LittleNN.NeuralNetworkModel.Version">
+            <summary>
+            You can not use model in accross version
+            </summary>
+        </member>
+        <member name="F:LittleNN.NeuralNetworkModel.LearnRate">
+            <summary>
+            <see cref="F:LittleNN.NeuralNetwork.LearnRate"/> backup
+            </summary>
+        </member>
+        <member name="F:LittleNN.NeuralNetworkModel.Momentum">
+            <summary>
+            <see cref="F:LittleNN.NeuralNetwork.Momentum"/> backup
+            </summary>
+        </member>
+        <member name="F:LittleNN.NeuralNetworkModel.LayerRank">
+            <summary>
+            <see cref="T:LittleNN.NeuralNetwork"/> neuron count of each layer
+            </summary>
+        </member>
+        <member name="F:LittleNN.NeuralNetworkModel.ActivationsFunctionTypes">
+            <summary>
+            [HiddenLayer 1~HiddenLayer n OutputLayer][NeuronIndex]' ActivationsFunctionType
+            </summary>
+        </member>
+        <member name="F:LittleNN.NeuralNetworkModel.ActivationsFunctionParameters">
+            <summary>
+            [HiddenLayer 1~HiddenLayer n OutputLayer][NeuronIndex]' ActivationsFunctionType
+            </summary>
+        </member>
+        <member name="F:LittleNN.NeuralNetworkModel.NeuronBias">
+            <summary>
+            [HiddenLayer 1~HiddenLayer n OutputLayer][NeuronIndex]' Bias
+            <para>
+            <see cref="F:LittleNN.NeuralNetworkModel.NeuronBias"/>.GetLength(0) is equal <see cref="F:LittleNN.NeuralNetworkModel.LayerRank"/>.Length - 1
+            <see cref="F:LittleNN.NeuralNetworkModel.NeuronBias"/>[i].Length is equal <see cref="F:LittleNN.NeuralNetworkModel.LayerRank"/>[i]
+            </para>
+            </summary>
+        </member>
+        <member name="F:LittleNN.NeuralNetworkModel.SynapseWeight">
+            <summary>
+            [InputLayer HiddenLayer 1~HiddenLayer n][neuronLayer+1 link to neuronLayer]' weight
+            <para>
+            <see cref="F:LittleNN.NeuralNetworkModel.SynapseWeight"/>.GetLength(0) is equal <see cref="F:LittleNN.NeuralNetworkModel.LayerRank"/>.Length - 1
+            <see cref="F:LittleNN.NeuralNetworkModel.NeuronBias"/>[i].Length is equal <see cref="F:LittleNN.NeuralNetworkModel.LayerRank"/>[i] * <see cref="F:LittleNN.NeuralNetworkModel.LayerRank"/>[i + 1]
+            </para>
+            </summary>
+        </member>
+        <member name="M:LittleNN.NeuralNetworkModel.#ctor">
+            <summary>
+            Create a empty model
+            </summary>
+        </member>
+        <member name="M:LittleNN.NeuralNetworkModel.CopyFrom(LittleNN.NeuralNetwork)">
+            <summary>
+            Copy <paramref name="neuralNetwork"/> value to <see cref="T:LittleNN.NeuralNetworkModel"/>,
+            all of NeuralNetwork forward parameter create a backup.
+            </summary>
+        </member>
+        <member name="M:LittleNN.NeuralNetworkModel.CopyLayerSynapseToArray(LittleNN.NeuronLayer)">
+            <summary>
+            return: float[neuronLayer+1 link to neuronLayer]'s weight
+            </summary>
+        </member>
+        <member name="M:LittleNN.NeuralNetworkModel.Override(LittleNN.NeuralNetwork)">
+            <summary>
+            Use <see cref="T:LittleNN.NeuralNetworkModel"/> value override <paramref name="neuralNetwork"/> content,
+            all of NeuralNetwork forward parameter will return to model's backup.
+            </summary>
+        </member>
+        <member name="M:LittleNN.NeuralNetworkModel.QuickForward(System.Single[])">
+            <summary>
+            Direct use model forward calculate without <see cref="T:LittleNN.NeuralNetwork"/>.
+            You can't train neural network by this way.
+            </summary>
+            <param name="input">input value of neural network</param>
+            <returns>forward calculate result</returns>
+        </member>
+        <member name="M:LittleNN.NeuralNetworkModel.Write(System.IO.Stream)">
+            <summary>
+            Wrtite model data with bin format
+            </summary>
+        </member>
+        <member name="M:LittleNN.NeuralNetworkModel.Read(System.IO.Stream)">
+            <summary>
+            Read model data with bin format
+            </summary>
+        </member>
+        <member name="T:LittleNN.Neuron">
+            <summary>
+            Neuron link another Neuron which in connected layer
+            </summary>
+        </member>
+        <member name="F:LittleNN.Neuron.InputSynapses">
+            <summary>
+            Each Synapse in InputSynapses is link to current Neuron
+            </summary>
+        </member>
+        <member name="F:LittleNN.Neuron.OutputSynapses">
+            <summary>
+            Each Synapse in OutputSynapses is link from current Neuron
+            </summary>
+        </member>
+        <member name="M:LittleNN.Neuron.#ctor">
+            <summary>
+            Create an empty instance
+            </summary>
+        </member>
+        <member name="M:LittleNN.Neuron.CreateNeuron(System.Single,System.Int32,System.Int32)">
+            <summary>
+            Create a Neuron with special Synapse length
+            </summary>
+        </member>
+        <member name="M:LittleNN.Neuron.CreateNeuronAndConnect(System.Int32,LittleNN.NeuronLayer,LittleNN.NeuronLayer)">
+            <summary>
+            Create a Neuron whitch in <see cref="F:LittleNN.NeuralNetwork.HiddenLayers"/> or <see cref="F:LittleNN.NeuralNetwork.OutputLayer"/>,
+            new Neuron connect to each Neuron of inputLayer before return
+            <para>InputSynapses:√</para>
+            <para>OutputSynapses:√</para>
+            <param name="index">new in Neuron sequence index in outputLayer layer</param>
+            <param name="inputLayer">the layer connect with outputLayer</param>
+            <param name="outputLayer">new Neuron will locate in outputLayer layer or null</param>
+            </summary>
+        </member>
+        <member name="M:LittleNN.Neuron.CreateInputLayerNeuron(System.Int32,LittleNN.NeuronLayer)">
+            <summary>
+            Create a Neuron whitch in <see cref="F:LittleNN.NeuralNetwork.InputLayer"/>
+            <para>InputSynapses:x</para>
+            <para>OutputSynapses:√</para>
+            <param name="index">new in Neuron sequence index in outputLayer layer</param>
+            <param name="outputLayer">new Neuron will locate in outputLayer layer</param>
+            </summary>
+        </member>
+        <member name="T:LittleNN.NeuronLayer">
+            <summary>
+            Contains Neuron in same layer
+            </summary>
+        </member>
+        <member name="F:LittleNN.NeuronLayer.NeuronsCount">
+            <summary>
+            Neurons count
+            </summary>
+        </member>
+        <member name="F:LittleNN.NeuronLayer.Neurons">
+            <summary>
+            Neuron in same layer
+            </summary>
+        </member>
+        <member name="F:LittleNN.NeuronLayer.ActType">
+            <summary>
+            Activations Function Type of Neurons in this layer
+            </summary>
+        </member>
+        <member name="F:LittleNN.NeuronLayer.ActParameter">
+            <summary>
+            The parameter of activation function, example: <see cref="F:LittleNN.ActivationsFunctionType.LeakyReLU"/> use 0.02f
+            </summary>
+        </member>
+        <member name="M:LittleNN.NeuronLayer.#ctor(System.Int32,LittleNN.ActivationsFunctionType,System.Nullable{System.Single})">
+            <summary>
+            Create a layer with special count
+            </summary>
+        </member>
+        <member name="T:LittleNN.Sequential">
+            <summary>
+            Neural network contains layers and synapse whitch between two neural.
+            <para>This class wanna to declare a neural network decided and fully.</para>
+            <para>See more example in XorSampleNN2.cs</para>
+            </summary>
+        </member>
+        <member name="T:LittleNN.Sequential.SequentialParameter">
+            <summary>
+            The type of <see cref="T:LittleNN.Sequential"/>
+            </summary>
+        </member>
+        <member name="F:LittleNN.Sequential.SequentialParameter.LayerNeuralCount">
+            <summary>
+            use <see cref="F:LittleNN.Sequential.NeuralCount"/> field
+            </summary>
+        </member>
+        <member name="F:LittleNN.Sequential.SequentialParameter.ActivationFunction">
+            <summary>
+            use <see cref="F:LittleNN.Sequential.ActType"/>, <see cref="F:LittleNN.Sequential.ActParameter"/> fields
+            </summary>
+        </member>
+        <member name="F:LittleNN.Sequential.Annotation">
+            <summary>
+            just annotation, no practical use
+            </summary>
+        </member>
+        <member name="F:LittleNN.Sequential.ParameterType">
+            <summary>
+            The type of <see cref="T:LittleNN.Sequential"/>
+            </summary>
+        </member>
+        <member name="F:LittleNN.Sequential.NeuralCount">
+            <summary>
+            neural count in this layer
+            </summary>
+        </member>
+        <member name="F:LittleNN.Sequential.ActType">
+            <summary>
+            One of <see cref="T:LittleNN.ActivationsFunctionType"/>, or your custom type: (ActivationsFunctionType)1001
+            </summary>
+        </member>
+        <member name="F:LittleNN.Sequential.ActParameter">
+            <summary>
+            The parameter of activation function, default(null) will be convert to 0f
+            </summary>
+        </member>
+        <member name="M:LittleNN.Sequential.#ctor">
+            <summary>
+            Create an empty instance
+            </summary>
+        </member>
+        <member name="M:LittleNN.Sequential.Neural(System.String,System.Int32)">
+            <summary>
+            Declare a neural layers with specified number
+            </summary>
+            <param name="annotation">just annotation, no practical use</param>
+            <param name="neuralCount">neural count in this layer</param>
+        </member>
+        <member name="M:LittleNN.Sequential.Activation(System.String,LittleNN.ActivationsFunctionType,System.Nullable{System.Single})">
+            <summary>
+            Declare a specified activation function between two layers
+            </summary>
+            <param name="annotation">just annotation, no practical use</param>
+            <param name="actType">One of <see cref="T:LittleNN.ActivationsFunctionType"/>, or your custom type: (ActivationsFunctionType)1001</param>
+            <param name="actParameter">The parameter of activation function, default(null) will be convert to 0f</param>
+        </member>
+        <member name="M:LittleNN.Sequential.CreateNew">
+            <summary>
+            Create an empty list
+            <para>Please add <see cref="T:LittleNN.Sequential"/> instance which create by <see cref="M:LittleNN.Sequential.Neural(System.String,System.Int32)"/> and <see cref="M:LittleNN.Sequential.Activation(System.String,LittleNN.ActivationsFunctionType,System.Nullable{System.Single})"/></para>
+            <para>Each neural network must have more than three layers</para>
+            <para>Default activation is <see cref="F:LittleNN.ActivationsFunctionType.Sigmoid"/></para>
+            </summary>
+        </member>
+        <member name="T:LittleNN.SequentialExtension">
+            <summary>
+            Neural network contains layers and synapse whitch between two neural.
+            <para>This class wanna to declare a neural network decided and fully.</para>
+            <para>See more example in XorSampleNN2.cs</para>
+            </summary>
+        </member>
+        <member name="M:LittleNN.SequentialExtension.LayerCount(System.Collections.Generic.List{LittleNN.Sequential})">
+            <summary>
+            Calculate layers count in this list
+            </summary>
+        </member>
+        <member name="T:LittleNN.StandardData">
+            <summary>
+            Data format of <see cref="M:LittleNN.NeuralNetwork.Train(LittleNN.StandardData)"/>,
+            but use <see cref="T:LittleNN.StandardData"/> is not necessary.
+            <para>This class just a wrapper of input and target's data</para>
+            </summary>
+        </member>
+        <member name="F:LittleNN.StandardData.Inputs">
+            <summary>
+            input data array, each element in range(0, 1)
+            </summary>
+        </member>
+        <member name="F:LittleNN.StandardData.Targets">
+            <summary>
+            target data array, each element in range(0, 1)
+            </summary>
+        </member>
+        <member name="M:LittleNN.StandardData.#ctor(System.Single[],System.Single[])">
+            <summary>
+            Pack input and target's data
+            </summary>
+        </member>
+        <member name="T:LittleNN.Synapse">
+            <summary>
+            Link two Neuron which in connected layer
+            </summary>
+        </member>
+        <member name="F:LittleNN.Synapse.InputNeuron">
+            <summary>
+            Synapse link from InputNeuron to OutputNeuron
+            </summary>
+        </member>
+        <member name="F:LittleNN.Synapse.OutputNeuron">
+            <summary>
+            Synapse link from InputNeuron to OutputNeuron
+            </summary>
+        </member>
+        <member name="F:LittleNN.Synapse.Weight">
+            <summary>
+            Link weight from InputNeuron.Value to OutputNeuron.Value
+            </summary>
+        </member>
+        <member name="M:LittleNN.Synapse.#ctor">
+            <summary>
+            Create an empty instance
+            </summary>
+        </member>
+        <member name="M:LittleNN.Synapse.#ctor(LittleNN.Neuron,LittleNN.Neuron)">
+            <summary>
+            Create an Synapse link from inputNeuron to outputNeuron
+            </summary>
+        </member>
+    </members>
+</doc>
