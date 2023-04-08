@@ -1,0 +1,17 @@
+{
+    "name": "Tween.Editor",
+    "references": [
+        "GUID:0cbc5fd6a066e45bc9c48705a57f4f7d"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

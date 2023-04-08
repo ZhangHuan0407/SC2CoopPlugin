@@ -1,0 +1,7 @@
+// append log in this file when publish product
+
+//Client V1
+//Commit 51c008b
+//Time: 1970/1/1
+//Platform: Steam
+//Annotation: init Client

@@ -1,0 +1,14 @@
+{
+	"m_Entries":[
+		{"ID":"Describe.Chinese","FormatString":"Tables/DescribeTable_zh-hans","DataFormat":"Json"},
+		{"ID":"Describe.ChineseSimplified","FormatString":"Tables/DescribeTable_zh-hans","DataFormat":"Json"},
+		{"ID":"Describe.English","FormatString":"Tables/DescribeTable_en","DataFormat":"Json"},
+		{"ID":"InnerTable.DropList","FormatString":"Tables/DropList","DataFormat":"Json"},
+		{"ID":"InnerTable.ItemTable","FormatString":"Tables/ItemTable","DataFormat":"Json"},
+		{"ID":"InnerTable.PathTable","FormatString":"Tables/PathTable","DataFormat":"Json"},
+		{"ID":"InnerTableDirectory","FormatString":"Tables","DataFormat":"Directory"},
+		{"ID":"SaveDirectory","FormatString":"{Application.persistentDataPath}/Save","DataFormat":"Directory"},
+		{"ID":"LogDirectory","FormatString":"{Application.persistentDataPath}/Log","DataFormat":"Directory"},
+		{"ID":"TestLevel","FormatString":"Assets/Test/TestLevel.json","DataFormat":"Json"}
+	]
+}

@@ -1,0 +1,7 @@
+{
+	"m_Entries":[
+		{"ID":"UI.Loading","StringValue":"正在加载..."},
+		{"ID":"UI.BackToMenu","StringValue":"退出"},
+		{"ID":"UI.Mods","StringValue":"修改模组"}
+	]
+}
