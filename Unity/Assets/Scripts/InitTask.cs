@@ -1,3 +1,4 @@
+using OCRProtocol;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -17,8 +18,6 @@ namespace Game
             Stopwatch stopwatch = Stopwatch.StartNew();
             DontDestroyOnLoad(gameObject);
 
-            GameObject loadingGo = new GameObject("Loading", typeof(SpriteRenderer));
-            loadingGo.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Textures/Loading");
 #if !UNITY_EDITOR && !ALPHA
             Debug.unityLogger.logEnabled = false;
 #endif
@@ -49,6 +48,8 @@ namespace Game
                 foreach (JSONSerialized serialized in GameDefined.JSONSerializedRegisterTypes)
                     JSONMap.RegisterType(serialized);
             });
+            Task newOCRProcessTask = OCRProcess.StartNewOCRProcessAsync();
+
             yield return new WaitUntil(() => jsonMapInitTask.IsCompleted);
             
             Global.UserSetting = UserSetting.LoadSetting();
@@ -67,11 +68,11 @@ namespace Game
                 UserSetting.Save();
             }
 
-            SceneManager.LoadScene("MenuScene", LoadSceneMode.Single);
+            yield return new WaitUntil(() => newOCRProcessTask.IsCompleted);
+            SceneManager.LoadScene("MainScene", LoadSceneMode.Single);
 
             Debug.Log($"Finish init task {stopwatch.ElapsedMilliseconds} ms");
             stopwatch.Stop();
-            Destroy(loadingGo);
             Destroy(gameObject);
         }
     }

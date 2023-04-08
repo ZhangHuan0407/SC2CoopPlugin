@@ -7,9 +7,8 @@ using System.Linq;
 using Windows.Globalization;
 using Windows.Graphics.Imaging;
 using Windows.Media.Ocr;
-using System.Runtime.InteropServices;
-using System.Text;
 using OCRProtocol;
+using System.Threading.Tasks;
 
 namespace WindowsOCR
 {
@@ -107,24 +106,43 @@ namespace WindowsOCR
             m_ScreenGraphics.CopyFromScreen(Point.Empty, Point.Empty, m_ScreenBitmap.Size);
             if (recognizeRequest.Debug)
                 m_ScreenBitmap.Save("FullBitmap.png", ImageFormat.Png);
+            for (int i = 0; i < recognizeRequest.TaskList.Length; i++)
+            {
+                RecognizeWindowArea_Request.Task task = recognizeRequest.TaskList[i];
+                if (task.RectAnchor.Left < 0 || task.RectAnchor.Top < 0 ||
+                    task.RectAnchor.Width  < 1 || task.RectAnchor.Height < 1)
+                    return ProtocolResponse.Error(ErrorCode.ArgumentError);
+            }
+            RecognizeWindowArea_Response.Result[] results = RecognizeWindowAreaAsync(recognizeRequest).GetAwaiter().GetResult();
+            return new ProtocolResponse(ErrorCode.OK, JSONMap.ToJSON(new RecognizeWindowArea_Response(results)));
+        }
+        private async Task<RecognizeWindowArea_Response.Result[]> RecognizeWindowAreaAsync(RecognizeWindowArea_Request recognizeRequest)
+        {
             RecognizeWindowArea_Response.Result[] results = new RecognizeWindowArea_Response.Result[recognizeRequest.TaskList.Length];
-            BitmapDecoder decoder = BitmapDecoder.CreateAsync(m_MemoryStream.AsRandomAccessStream()).GetResults();
             for (int i = 0; i < recognizeRequest.TaskList.Length; i++)
             {
                 RectAnchor rectAnchor = recognizeRequest.TaskList[i].RectAnchor;
                 Rectangle recognizeRect = new Rectangle(rectAnchor.Left, rectAnchor.Top, rectAnchor.Width, rectAnchor.Height);
-                if (recognizeRect.Width * recognizeRect.Height <= 1)
-                    return ProtocolResponse.Error(ErrorCode.ArgumentError);
                 CopySubBitmapToStream(recognizeRect);
-                using SoftwareBitmap softwareBitmap = decoder.GetSoftwareBitmapAsync(BitmapPixelFormat.Bgra8, BitmapAlphaMode.Premultiplied).GetResults();
-                OcrResult ocrResult = m_OcrEngine.RecognizeAsync(softwareBitmap).GetResults();
+                var getDecoder = BitmapDecoder.CreateAsync(m_MemoryStream.AsRandomAccessStream());
+                await getDecoder;
+                BitmapDecoder decoder = getDecoder.GetResults();
+                var getSoftBMP = decoder.GetSoftwareBitmapAsync(BitmapPixelFormat.Bgra8, BitmapAlphaMode.Premultiplied);
+                await getSoftBMP;
+                OcrResult ocrResult;
+                using (SoftwareBitmap softwareBitmap = getSoftBMP.GetResults())
+                {
+                    var getRecognize = m_OcrEngine.RecognizeAsync(softwareBitmap);
+                    await getRecognize;
+                    ocrResult = getRecognize.GetResults();
+                }
                 results[i] = new RecognizeWindowArea_Response.Result()
                 {
                     Tag = recognizeRequest.TaskList[i].Tag,
                     Contents = ocrResult.Lines.Select(i => i.Text.Replace(" ", string.Empty)).ToArray(),
                 };
             }
-            return new ProtocolResponse(ErrorCode.OK, JSONMap.ToJSON(new RecognizeWindowArea_Response(results)));
+            return results;
         }
 
         //private void CopyBitmapToStream()

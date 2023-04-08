@@ -31,8 +31,13 @@ namespace OCRProtocol
             }
         }
 
-        public const string WinOCRFileName = "WindowsOCR/WindowsOCR.exe";
-        public const string MacOSOCRFileName = "MacOSOCR/MacOSOCR.exe";
+#if UNITY_EDITOR
+        public const string OCRPricessPath = "D:../WindowsOCR/bin/Debug/net5.0/WindowsOCR.exe";
+#elif UNITY_STANDALONE_WIN
+        public const string OCRPricessPath = "WindowsOCR/WindowsOCR.exe";
+#endif
+        //public const string OCRPricessPath = "MacOSOCR/MacOSOCR.exe";
+
         public static async Task StartNewOCRProcessAsync()
         {
             if (OCRConnector.Instance != null)
@@ -44,16 +49,9 @@ namespace OCRProtocol
             {
                 currentProcessId = currentProcess.Id;
             }
-            string fileName;
-            if (Environment.OSVersion.Platform == PlatformID.Win32NT)
-                fileName = WinOCRFileName;
-            else if (Environment.OSVersion.Platform == PlatformID.MacOSX)
-                fileName = MacOSOCRFileName;
-            else
-                throw new NotImplementedException();
             ProcessStartInfo processStartInfo = new ProcessStartInfo()
             {
-                FileName = fileName,
+                FileName = OCRPricessPath,
                 Arguments = $"-port={port} -mainprocess={currentProcessId}",
 #if !UNITY_EDITOR && !ALPHA
                 CreateNoWindow = true,
@@ -61,7 +59,7 @@ namespace OCRProtocol
             };
             using (Process p = Process.Start(processStartInfo))
             {
-                LogService.System("OCRProcess", $"start ocr process {fileName} {processStartInfo.Arguments}");
+                LogService.System("OCRProcess", $"start ocr process {OCRPricessPath} {processStartInfo.Arguments}");
             }
 
             OCRConnector connector = new OCRConnector();

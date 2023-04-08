@@ -61,3 +61,4 @@ crashlytics-build.properties
 WindowsOCR/obj/*
 WindowsOCR/bin/*
 Unity/.vsconfig
+InMapTime/Texture/*

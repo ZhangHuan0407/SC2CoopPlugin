@@ -12,6 +12,8 @@ namespace WindowsOCR
         private static void Main(string[] args)
         {
             JSONMap.CallFromLoadingThread();
+            JSONMap.RegisterDefaultType();
+            JSONMap.RegisterAllTypes();
 
             Dictionary<string, string> parameters = new Dictionary<string, string>();
             int port = 0;

@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "WindowsOCR": {
+      "commandName": "Project",
+      "commandLineArgs": "-unittest"
+    }
+  }
+}
