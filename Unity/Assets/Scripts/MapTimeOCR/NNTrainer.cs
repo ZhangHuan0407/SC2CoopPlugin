@@ -100,7 +100,9 @@ namespace MapTimeOCR
             Task.Run(async () =>
             {
                 NeuralNetwork neuralNetwork = new NeuralNetwork(MapTimeParameter.Size, new int[] { MapTimeParameter.Size }, 11);
-                for (int i = 0; i < 2000; i++)
+                Random random = new Random();
+                // 20min
+                for (int i = 0; i < 30 * 1000; i++)
                 {
                     float totalLoss = 0f;
                     for (int templateIndex = 0; templateIndex < allTemplates.Count; templateIndex++)
@@ -108,15 +110,41 @@ namespace MapTimeOCR
                         TemplateData templateData = allTemplates[templateIndex];
                         float[] input = new float[MapTimeParameter.Size];
                         for (int index = 0; index < templateData.Data.Length; index++)
-                            input[index] = templateData.Data[index] / 255f;
+                        {
+                            byte value = templateData.Data[index];
+                            if (value <= 3 && random.Next() % 5 == 4)
+                                value++;
+                            else if (value > 100)
+                            {
+                                switch (random.Next() % 5)
+                                {
+                                    case 3:
+                                        if (value < 255)
+                                            value++;
+                                        break;
+                                    case 4:
+                                        value--;
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            }
+                            input[index] = value / 255f;
+                        }
                         float[] target = new float[11];
                         target[templateData.SymbolValue] = 1f;
                         float loss = neuralNetwork.Train(input, target);
                         totalLoss += loss;
                     }
-                    if (i % 50 == 49)
+                    if (i % 100 == 99)
+                    {
                         UnityEngine.Debug.Log($"{i} loss {totalLoss / allTemplates.Count}");
-                    await Task.Delay(1);
+                        await Task.Delay(1);
+                    }
+                    if (i % 1000 == 999)
+                    {
+                        neuralNetwork.SaveTo(MapTimeParameter.NNModelFileName);
+                    }
                 }
             });
         }

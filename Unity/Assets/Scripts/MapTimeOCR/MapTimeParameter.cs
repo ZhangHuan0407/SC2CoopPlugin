@@ -6,6 +6,6 @@
         public const int Height = 16;
         public const int Size = Width * Height;
         public const int RectCountLimit = 10;
-        public const string NNModelFileName = "MapTimeNNModel.bin";
+        public const string NNModelFileName = "WindowsOCR/MapTimeNNModel.bin";
     }
 }
