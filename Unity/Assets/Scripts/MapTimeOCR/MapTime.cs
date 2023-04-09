@@ -47,7 +47,7 @@ namespace MapTimeOCR
         {
             seconds = -1;
             List<RectAnchor> subAreaRectList = SplitSubArea(bitmap, isMSK, ref recognizeAreaRect, out byte[] grayBytes);
-            if (subAreaRectList.Count < 3 || subAreaRectList.Count >= MapTimeSymbol.RectCountLimit)
+            if (subAreaRectList.Count < 3 || subAreaRectList.Count >= MapTimeParameter.RectCountLimit)
                 return MapTimeParseResult.RectCountError;
 
             subAreaRectList.Sort((l, r) => l.Left.CompareTo(r.Left));
@@ -160,14 +160,14 @@ namespace MapTimeOCR
                         {
                             RectAnchor rect = new RectAnchor(x, y, 0, 0);
                             Pick(x, y, ref rect);
-                            if (rect.Width > 0 && rect.Width < MapTimeSymbol.Width && rect.Left + MapTimeSymbol.Width < recognizeRect.Width &&
-                                rect.Height > 0 && rect.Height < MapTimeSymbol.Height && rect.Top + MapTimeSymbol.Height < recognizeRect.Height)
+                            if (rect.Width > 0 && rect.Width < MapTimeParameter.Width && rect.Left + MapTimeParameter.Width < recognizeRect.Width &&
+                                rect.Height > 0 && rect.Height < MapTimeParameter.Height && rect.Top + MapTimeParameter.Height < recognizeRect.Height)
                             {
                                 rect.Right++;
                                 rect.Bottom++;
                                 subAreaRectList.Add(rect);
                             }
-                            if (subAreaRectList.Count >= MapTimeSymbol.RectCountLimit)
+                            if (subAreaRectList.Count >= MapTimeParameter.RectCountLimit)
                                 return subAreaRectList;
                         }
                     }
@@ -211,7 +211,7 @@ namespace MapTimeOCR
         public static List<int> ParseSymbol(NeuralNetwork neuralNetwork, Rectangle recognizeAreaRect, List<RectAnchor> subAreaRectList, byte[] grayBytes)
         {
             List<int> numberSymbols = new List<int>();
-            float[] input = new float[MapTimeSymbol.Size];
+            float[] input = new float[MapTimeParameter.Size];
             for (int i = 0; i < subAreaRectList.Count; i++)
             {
                 ConvertToNNFormat(recognizeAreaRect, subAreaRectList[i], grayBytes, input);
@@ -231,8 +231,8 @@ namespace MapTimeOCR
         }
         public static void ConvertToNNFormat(Rectangle recognizeAreaRect, RectAnchor subAreaRect, byte[] grayBytes, float[] buffer)
         {
-            int offsetX = (MapTimeSymbol.Width - subAreaRect.Width) / 2;
-            int offsetY = (MapTimeSymbol.Height - subAreaRect.Height) / 2;
+            int offsetX = (MapTimeParameter.Width - subAreaRect.Width) / 2;
+            int offsetY = (MapTimeParameter.Height - subAreaRect.Height) / 2;
             if (offsetX > 1)
             {
                 if (offsetX > 2)
@@ -242,11 +242,11 @@ namespace MapTimeOCR
             }
             if (subAreaRect.Left < 0)
                 subAreaRect.Left = 0;
-            if (subAreaRect.Width > MapTimeSymbol.Width)
-                subAreaRect.Width = MapTimeSymbol.Width;
+            if (subAreaRect.Width > MapTimeParameter.Width)
+                subAreaRect.Width = MapTimeParameter.Width;
             if (subAreaRect.Right > recognizeAreaRect.Width)
                 subAreaRect.Right = recognizeAreaRect.Width;
-            offsetX = (MapTimeSymbol.Width - subAreaRect.Width) / 2;
+            offsetX = (MapTimeParameter.Width - subAreaRect.Width) / 2;
             if (offsetY > 1)
             {
                 subAreaRect.Top -= offsetY;
@@ -254,11 +254,11 @@ namespace MapTimeOCR
             }
             if (subAreaRect.Top < 0)
                 subAreaRect.Top = 0;
-            if (subAreaRect.Height > MapTimeSymbol.Height)
-                subAreaRect.Height = MapTimeSymbol.Height;
+            if (subAreaRect.Height > MapTimeParameter.Height)
+                subAreaRect.Height = MapTimeParameter.Height;
             if (subAreaRect.Bottom > recognizeAreaRect.Width)
                 subAreaRect.Bottom = recognizeAreaRect.Width;
-            offsetY = (MapTimeSymbol.Height - subAreaRect.Height) / 2;
+            offsetY = (MapTimeParameter.Height - subAreaRect.Height) / 2;
 
             float max = 0f;
             for (int y = 0; y < subAreaRect.Height; y++)
@@ -267,7 +267,7 @@ namespace MapTimeOCR
                 {
                     int pixelIndex = (subAreaRect.Top + y) * recognizeAreaRect.Width + (subAreaRect.Left + x);
                     byte grayValue = grayBytes[pixelIndex * 3];
-                    int index = (offsetY + y) * MapTimeSymbol.Width + (offsetX + x);
+                    int index = (offsetY + y) * MapTimeParameter.Width + (offsetX + x);
                     float value = grayValue / 255f;
                     if (value > max)
                         max = value;
