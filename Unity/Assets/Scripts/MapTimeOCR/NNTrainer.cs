@@ -75,6 +75,12 @@ namespace MapTimeOCR
                     for (int point = 0; point < sampleArray.Length; point++)
                         sampleArray[point] = (byte)(buffer[point] * 255f);
                     File.WriteAllBytes($"{SampleDirectoryPath}/{hashName}.bin", sampleArray);
+                    //for (int symbolValue = 0; symbolValue < 11; symbolValue++)
+                    //{
+                    //    string testFileName = $"{SampleDirectoryPath}/{symbolValue}/{hashName}.bin";
+                    //    if (File.Exists(testFileName))
+                    //        File.WriteAllBytes(testFileName, sampleArray);
+                    //}
                 }
             }
             UnityEngine.Debug.Log("SplitTextureToSample finish");
