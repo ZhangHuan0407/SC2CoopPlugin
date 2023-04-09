@@ -56,6 +56,12 @@ namespace Game
 
         private IntPtr _hwnd;
 
+        public static TransparentWindow Instance;
+        private void Awake()
+        {
+            Instance = this;
+        }
+
         void Start()
         {
     #if !UNITY_EDITOR
@@ -63,8 +69,7 @@ namespace Game
             _hwnd = GetActiveWindow();
             int fWidth = Screen.width;
             int fHeight = Screen.height;
-            SetWindowLong(_hwnd, GWL_STYLE, WS_POPUP | WS_VISIBLE);
-            //SetWindowLong(_hwnd, GWL_EXSTYLE, WS_EX_TOPMOST | WS_EX_LAYERED | WS_EX_TRANSPARENT);//若想鼠标穿透，则将这个注释恢复即可
+            // 扩展工作区
             DwmExtendFrameIntoClientArea(_hwnd, ref margins);
             SetWindowPos(_hwnd, HWND_TOPMOST, 0, 0, fWidth, fHeight, SWP_FRAMECHANGED | SWP_SHOWWINDOW);
             ShowWindowAsync(_hwnd, 3); //Forces window to show in case of unresponsive app    // SW_SHOWMAXIMIZED(3)
@@ -74,6 +79,17 @@ namespace Game
         void OnRenderImage(RenderTexture from, RenderTexture to)
         {
             Graphics.Blit(from, to, m_Material);
+        }
+
+        public void SetWindowTransparent(bool enableTransparent)
+        {
+            LogService.System(nameof(SetWindowTransparent), enableTransparent.ToString());
+#if !UNITY_EDITOR
+            if (enableTransparent)
+                SetWindowLong(_hwnd, GWL_EXSTYLE, WS_EX_TOPMOST | WS_EX_LAYERED | WS_EX_TRANSPARENT);
+            else
+                SetWindowLong(_hwnd, GWL_STYLE, WS_POPUP | WS_VISIBLE);
+#endif
         }
     }
 }
