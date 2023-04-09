@@ -7,6 +7,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Reflection;
+using System.Text;
 using UnityEditor;
 
 namespace MapTimeOCR
@@ -48,7 +49,8 @@ namespace MapTimeOCR
                 byte[] grayBytes;
                 using (Bitmap bitmap = Bitmap.FromFile(textureFile) as Bitmap)
                 {
-                    subAreaRectList = MapTime.SplitSubArea(bitmap, ref recognizeAreaRect, out grayBytes);
+                    bool isMSK = textureFile.Contains("蒙斯克");
+                    subAreaRectList = MapTime.SplitSubArea(bitmap, isMSK, ref recognizeAreaRect, out grayBytes);
                 }
                 for (int i = 0; i < subAreaRectList.Count; i++)
                 {
@@ -56,13 +58,24 @@ namespace MapTimeOCR
                     float[] buffer = new float[MapTimeSymbol.Size];
                     string hashName = CRC32.ComputeString($"{Path.GetFileNameWithoutExtension(textureFile)}_{i}").CRC32Str;
                     MapTime.ConvertToNNFormat(recognizeAreaRect, subAreaRect, grayBytes, buffer);
+                    //StringBuilder stringBuilder = new StringBuilder();
+                    //for (int y = 0; y < subAreaRect.Height; y++)
+                    //{
+                    //    for (int x = 0; x < subAreaRect.Width; x++)
+                    //    {
+                    //        int index = ((y + subAreaRect.Top) * recognizeAreaRect.Width + subAreaRect.Left + x) * 3;
+                    //        stringBuilder.Append(grayBytes[index].ToString().PadLeft(5));
+                    //    }
+                    //    stringBuilder.AppendLine();
+                    //}
+                    //UnityEngine.Debug.Log(stringBuilder);
                     using (Bitmap grayBitmap = new Bitmap(MapTimeSymbol.Width, MapTimeSymbol.Height))
                     {
                         for (int index = 0; index < buffer.Length; index++)
                         {
                             int y = index / MapTimeSymbol.Width;
                             int x = index % MapTimeSymbol.Width;
-                            byte value = (byte)(buffer[index] * 256f);
+                            byte value = (byte)(buffer[index] * 255f);
                             grayBitmap.SetPixel(x, y, Color.FromArgb(value, value, value));
                         }
                         grayBitmap.Save($"{SampleDirectoryPath}/{hashName}.png", ImageFormat.Png);

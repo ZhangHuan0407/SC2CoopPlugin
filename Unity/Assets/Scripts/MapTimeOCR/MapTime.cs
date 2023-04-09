@@ -4,6 +4,10 @@ using System.Runtime.InteropServices;
 using System.Collections.Generic;
 using OCRProtocol;
 using LittleNN;
+using System.Text;
+using System.Reflection;
+using UnityEngine.TestTools;
+using UnityEngine;
 
 namespace MapTimeOCR
 {
@@ -32,11 +36,17 @@ namespace MapTimeOCR
             recognizeRect.Width = (recognizeRect.Width * 24 + 31) / 32;
             return recognizeRect;
         }
-        public static MapTimeParseResult TryParse(Bitmap bitmap, NeuralNetwork neuralNetwork, Rectangle recognizeAreaRect,
+
+        /// <summary>
+        /// 解析地图内时间
+        /// </summary>
+        /// <param name="bitmap">全屏截图</param>
+        /// <param name="isMSK">蒙斯克的时间字体存在高亮背景，因此在分割字符之前进行了锐化</param>
+        public static MapTimeParseResult TryParse(Bitmap bitmap, bool isMSK, NeuralNetwork neuralNetwork, Rectangle recognizeAreaRect,
                                                   out int seconds)
         {
             seconds = -1;
-            List<RectAnchor> subAreaRectList = SplitSubArea(bitmap, ref recognizeAreaRect, out byte[] grayBytes);
+            List<RectAnchor> subAreaRectList = SplitSubArea(bitmap, isMSK, ref recognizeAreaRect, out byte[] grayBytes);
             if (subAreaRectList.Count < 3 || subAreaRectList.Count >= MapTimeSymbol.RectCountLimit)
                 return MapTimeParseResult.RectCountError;
 
@@ -66,7 +76,13 @@ namespace MapTimeOCR
             return MapTimeParseResult.WellDone;
         }
 
-        public static List<RectAnchor> SplitSubArea(Bitmap bitmap, ref Rectangle recognizeAreaRect, out byte[] grayBytes)
+        /// <summary>
+        /// 分割高亮标识符区域
+        /// </summary>
+        /// <param name="bitmap">全屏截图</param>
+        /// <param name="isMSK">蒙斯克的时间字体存在高亮背景，因此在分割字符之前进行了锐化</param>
+        /// <param name="grayBytes">灰度值, 每个像素宽度为3</param>
+        public static List<RectAnchor> SplitSubArea(Bitmap bitmap, bool isMSK, ref Rectangle recognizeAreaRect, out byte[] grayBytes)
         {
             recognizeAreaRect = UpTo4(recognizeAreaRect);
             Rectangle recognizeRect = recognizeAreaRect;
@@ -96,15 +112,43 @@ namespace MapTimeOCR
                         point += 3;
                     }
                 }
+
                 lowValue = (byte)(0.33f * totalSum / area);
                 if (lowValue > 40)
                     lowValue = 40;
-                hightValue = (byte)(0.5f * totalSum / area + 127.5f);
+                hightValue = (byte)(0.5f * totalSum / area + 70f);
+                //averageValue = (byte)(0.5f * totalSum / area);
             }
+
+            if (isMSK)
+            {
+                for (int point = 0; point < grayMap.Length; point += 3)
+                {
+                    byte value = grayMap[point];
+                    if (value > hightValue)
+                        value = (byte)((255 + value) / 2);
+                    else if (value > 40)
+                        value -= 40;
+                    else
+                        value = 0;
+                    grayMap[point] = value;
+                }
+            }
+            //StringBuilder stringBuilder = new StringBuilder();
+            //for (int i = 0; i < grayMap.Length / 3; i++)
+            //{
+            //    int y = i / recognizeRect.Width;
+            //    int x = i % recognizeRect.Width;
+            //    if (x == 0)
+            //    {
+            //        stringBuilder.AppendLine();
+            //    }
+            //    stringBuilder.Append(grayMap[i * 3].ToString().PadLeft(5));
+            //}
+            //UnityEngine.Debug.Log(stringBuilder);
 
             // pick high light area
             List<RectAnchor> subAreaRectList = new List<RectAnchor>();
-            //System.Text.StringBuilder stringBuilder = new System.Text.StringBuilder();
             bool[,] havePicked = new bool[recognizeRect.Height, recognizeRect.Width];
             {
                 for (int y = 0; y < recognizeRect.Height; y++)
@@ -112,29 +156,22 @@ namespace MapTimeOCR
                     for (int x = 0; x < recognizeRect.Width; x++)
                     {
                         int point = (y * recognizeRect.Width + x) * 3;
-                        //stringBuilder.Append(grayMap[point].ToString().PadLeft(5));
                         if (!havePicked[y, x] && grayMap[point] > hightValue)
                         {
-                            //int stirngBuilderLength = stringBuilder.Length;
                             RectAnchor rect = new RectAnchor(x, y, 0, 0);
                             Pick(x, y, ref rect);
-                            if (rect.Width > 0 && rect.Width < MapTimeSymbol.Width &&
-                                rect.Height > 0 && rect.Height < MapTimeSymbol.Height)
+                            if (rect.Width > 0 && rect.Width < MapTimeSymbol.Width && rect.Left + MapTimeSymbol.Width < recognizeRect.Width &&
+                                rect.Height > 0 && rect.Height < MapTimeSymbol.Height && rect.Top + MapTimeSymbol.Height < recognizeRect.Height)
                             {
                                 rect.Right++;
                                 rect.Bottom++;
                                 subAreaRectList.Add(rect);
-                                //stringBuilder.AppendLine(rect.ToString());
                             }
-                            //else
-                            //    stringBuilder.Length = stirngBuilderLength;
                             if (subAreaRectList.Count >= MapTimeSymbol.RectCountLimit)
                                 return subAreaRectList;
                         }
                     }
-                    //stringBuilder.AppendLine();
                 }
-                //File.WriteAllText("test.txt", stringBuilder.ToString());
             }
             // 如果是低亮度，继续扩展相邻十字
             // 如果是高亮度，继续扩展包围8格
@@ -164,6 +201,8 @@ namespace MapTimeOCR
                     Pick(pointX - 1, pointY + 1, ref subAreaRect);
                     Pick(pointX + 1, pointY - 1, ref subAreaRect);
                     Pick(pointX + 1, pointY - 1, ref subAreaRect);
+                    Pick(pointX, pointY - 2, ref subAreaRect);
+                    Pick(pointX, pointY + 2, ref subAreaRect);
                 }
             }
             return subAreaRectList;
@@ -196,25 +235,32 @@ namespace MapTimeOCR
             int offsetY = (MapTimeSymbol.Height - subAreaRect.Height) / 2;
             if (offsetX > 1)
             {
-                subAreaRect.Left -= 2;
-                subAreaRect.Width += 4;
-                if (subAreaRect.Left < 0)
-                    subAreaRect.Left = 0;
-                if (subAreaRect.Right > recognizeAreaRect.Right)
-                    subAreaRect.Right = recognizeAreaRect.Right;
-                offsetX = (MapTimeSymbol.Width - subAreaRect.Width) / 2;
+                if (offsetX > 2)
+                    offsetX = 2;
+                subAreaRect.Left -= offsetX;
+                subAreaRect.Width += offsetX + offsetX;
             }
+            if (subAreaRect.Left < 0)
+                subAreaRect.Left = 0;
+            if (subAreaRect.Width > MapTimeSymbol.Width)
+                subAreaRect.Width = MapTimeSymbol.Width;
+            if (subAreaRect.Right > recognizeAreaRect.Width)
+                subAreaRect.Right = recognizeAreaRect.Width;
+            offsetX = (MapTimeSymbol.Width - subAreaRect.Width) / 2;
             if (offsetY > 1)
             {
-                subAreaRect.Top -= 2;
-                subAreaRect.Bottom += 4;
-                if (subAreaRect.Top < 0)
-                    subAreaRect.Top = 0;
-                if (subAreaRect.Bottom > recognizeAreaRect.Bottom)
-                    subAreaRect.Bottom = recognizeAreaRect.Bottom;
-                offsetY = (MapTimeSymbol.Height - subAreaRect.Height) / 2;
+                subAreaRect.Top -= offsetY;
+                subAreaRect.Bottom += offsetY + offsetY;
             }
+            if (subAreaRect.Top < 0)
+                subAreaRect.Top = 0;
+            if (subAreaRect.Height > MapTimeSymbol.Height)
+                subAreaRect.Height = MapTimeSymbol.Height;
+            if (subAreaRect.Bottom > recognizeAreaRect.Width)
+                subAreaRect.Bottom = recognizeAreaRect.Width;
+            offsetY = (MapTimeSymbol.Height - subAreaRect.Height) / 2;
 
+            float max = 0f;
             for (int y = 0; y < subAreaRect.Height; y++)
             {
                 for (int x = 0; x < subAreaRect.Width; x++)
@@ -222,8 +268,19 @@ namespace MapTimeOCR
                     int pixelIndex = (subAreaRect.Top + y) * recognizeAreaRect.Width + (subAreaRect.Left + x);
                     byte grayValue = grayBytes[pixelIndex * 3];
                     int index = (offsetY + y) * MapTimeSymbol.Width + (offsetX + x);
-                    buffer[index] = grayValue / 255.99f;
+                    float value = grayValue / 255f;
+                    if (value > max)
+                        max = value;
+                    buffer[index] = value;
                 }
+            }
+            if (max < 0.99f)
+            {
+                if (max < 0.5f)
+                    max = 0.5f;
+                float ratio = 1f / max;
+                for (int i = 0; i < buffer.Length; i++)
+                    buffer[i] *= ratio;
             }
         }
     }
