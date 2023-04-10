@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using UnityEngine;
+using GitRepository;
 
 namespace Game
 {
@@ -16,5 +17,7 @@ namespace Game
         public static BackThread BackThread { get; internal set; }
 
         public static Process StarCraftProcess { get; internal set; }
+
+        public static RepositoryConfig ResourceRepositoryConfig { get; internal set; }
     }
 }

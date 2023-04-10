@@ -54,7 +54,6 @@ namespace Game.UI
                 m_Instance = null;
         }
 
-        [Obsolete("Refactor function sign with " + nameof(Table.ResourceAddress))]
         public static IDialog PushDialog(string prefabPath)
         {
             GameObject prefab = Resources.Load<GameObject>(prefabPath);

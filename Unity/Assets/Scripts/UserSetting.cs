@@ -23,6 +23,14 @@ namespace Game
             set => m_InGameLanguage = value;
         }
 
+        [SerializeField]
+        private SystemLanguage m_InterfaceLanguage;
+        public SystemLanguage InterfaceLanguage
+        {
+            get => m_InterfaceLanguage;
+            set => m_InterfaceLanguage = value;
+        }
+
         public static UserSetting LoadSetting()
         {
             return new UserSetting();

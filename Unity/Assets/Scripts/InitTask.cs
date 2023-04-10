@@ -1,7 +1,8 @@
-using OCRProtocol;
+using GitRepository;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using Table;
 using UnityEngine;
@@ -48,13 +49,29 @@ namespace Game
                 foreach (JSONSerialized serialized in GameDefined.JSONSerializedRegisterTypes)
                     JSONMap.RegisterType(serialized);
             });
-            Task newOCRProcessTask = OCRProcess.StartNewOCRProcessAsync();
+
+            Task newOCRProcessTask = OCRProtocol.OCRProcess.StartNewOCRProcessAsync();
+
+            Global.ResourceRepositoryConfig = new RepositoryConfig(GameDefined.RemoteResourceRepository, GameDefined.LocalResourceDirectory);
+            if (!Directory.Exists(GameDefined.LocalResourceDirectory))
+            {
+                Global.ResourceRepositoryConfig.IOLock.EnterWriteLock();
+                new DirectoryInfo($"{Application.streamingAssetsPath}/{GameDefined.LocalResourceDirectory}")
+                    .CopyFilesTo(new DirectoryInfo(GameDefined.LocalResourceDirectory), true);
+                Global.ResourceRepositoryConfig.IOLock.ExitWriteLock();
+            }
+
+            MapTimeOCR.MapTime.Model = new LittleNN.NeuralNetworkModel();
+            using (Stream stream = new FileStream(MapTimeOCR.MapTimeParameter.NNModelFileName, FileMode.Open, FileAccess.Read))
+            {
+                MapTimeOCR.MapTime.Model.Read(stream);
+            }
 
             yield return new WaitUntil(() => jsonMapInitTask.IsCompleted);
             
             Global.UserSetting = UserSetting.LoadSetting();
             TableManager.LoadInnerTables();
-            TableManager.LoadDefaultDescribeTable();
+            TableManager.LoadLocalizationTable(Global.UserSetting.InterfaceLanguage);
             yield return null;
 
             if (Global.UserSetting.NewUser)

@@ -1,4 +1,4 @@
-﻿#if UNITY_EDITOR
+﻿#if UNITY_EDITOR && UNITY_STANDALONE_WIN
 using Game;
 using LittleNN;
 using OCRProtocol;
@@ -89,6 +89,7 @@ namespace MapTimeOCR
         [MenuItem("Tools/NNTrainer/TrainNewModel")]
         public static void TrainNewModel()
         {
+            throw new Exception();
             List<TemplateData> allTemplates = new List<TemplateData>();
             foreach (string directoryPath in Directory.GetDirectories(SampleDirectoryPath))
             {
@@ -143,6 +144,7 @@ namespace MapTimeOCR
                     }
                     if (i % 1000 == 999)
                     {
+                        Directory.CreateDirectory(Path.GetDirectoryName(MapTimeParameter.NNModelFileName));
                         neuralNetwork.SaveTo(MapTimeParameter.NNModelFileName);
                     }
                 }

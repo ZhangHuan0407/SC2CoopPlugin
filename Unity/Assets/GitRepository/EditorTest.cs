@@ -42,26 +42,12 @@ namespace GitRepository
                         Debug.Log(task.Status);
                     repositoryConfig.Dispose();
                 });
-            //request.Method = "GET";
-            //var response = request.GetResponse();
-            //var stream = response.GetResponseStream();
-            //StreamReader reader = new StreamReader(stream);
-            //string content = reader.ReadToEnd();
+        }
 
-            //Debug.Log(content);
-            //return;
-
-            //byte[] bytes = new byte[stream.Length];
-            //int size = 0;
-            //int point = 0;
-            //do
-            //{
-            //    size = stream.Read(bytes, point, bytes.Length - point);
-            //    point += size;
-            //} while (size > 0);
-            //File.WriteAllBytes("a.txt", bytes);
-            //Debug.Log($"{point},{stream.Length}");
-            //response.Dispose();
+        [MenuItem("Tools/GitRepository/StreamingAssetsPath")]
+        public static void StreamingAssetsPath()
+        {
+            Debug.Log(Application.streamingAssetsPath);
         }
     }
 }

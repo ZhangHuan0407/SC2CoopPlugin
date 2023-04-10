@@ -2,7 +2,7 @@
 
 ## 仓库同步
 
-### 仓库结构
+### 资源仓库结构
 - README
 - Commit(is origin ? empty file : local commit version)
 - CommanderPipeline-BuildIn
@@ -13,6 +13,8 @@
     - XXX.json(CommanderPipeline file)
 - Localization
   - ${System.SystemLanguage}.json
+- Tables
+  - XXX.json(table file)
 
 ```
 enum System.SystemLanguage
@@ -25,6 +27,10 @@ enum System.SystemLanguage
     German = 0xF,
 }
 ```
+
+### 运行时文件夹结构
+- LocalResourceRepository
+- 
 
 ### 流程
 - 获取commit页的最后一次提交的commit值，命名为origin commit 1

@@ -9,9 +9,7 @@ namespace Table
     /// <summary>
     /// 描述文字
     /// </summary>
-    [Serializable]
-    [StructLayout(LayoutKind.Auto)]
-    public class DescribeTable
+    public class LocalizationTable
     {
         [Serializable]
         [StructLayout(LayoutKind.Auto)]
@@ -37,18 +35,11 @@ namespace Table
         }
 
         /* field */
-        [SerializeField]
-        private Entry[] m_Entries;
-        public Entry[] Entries
-        {
-            get => m_Entries;
-        }
-
         [NonSerialized]
         public readonly Dictionary<string, Entry> Data;
 
         /* ctor */
-        public DescribeTable()
+        public LocalizationTable()
         {
             Data = new Dictionary<string, Entry>();
         }
@@ -68,26 +59,17 @@ namespace Table
                     return ID;
                 }
             }
+            set
+            {
+                Entry entry = new Entry()
+                {
+                    ID = ID,
+                    StringValue = WebUtility.HtmlDecode(value),
+                };
+            }
         }
-        public object GetValue(string key) => this[key];
 
         /* func */
-        public string UseFormat(string ID, params string[] values) => string.Format(this[ID], values);
-
-        #region Serialized
-        public static JSONObject ToJSON(object instance) => JSONMap.FieldsToJSON(instance, null);
-        public static object ParseJSON(JSONObject @object)
-        {
-            DescribeTable describeTable = new DescribeTable();
-            JSONMap.FieldsParseJSON(describeTable, @object);
-            for (int index = 0; index < describeTable.Entries.Length; index++)
-            {
-                describeTable.Entries[index].StringValue = WebUtility.HtmlDecode(describeTable.Entries[index].StringValue);
-                Entry entry = describeTable.Entries[index];
-                describeTable.Data.Add(entry.ID, entry);
-            }
-            return describeTable;
-        }
-        #endregion
+        public string Format(string ID, params string[] values) => string.Format(this[ID], values);
     }
 }

@@ -9,7 +9,7 @@ namespace Table
     {
         /* field */
         public string Key;
-        public string Localization => TableManager.DescribeTable.GetValue(Key) as string;
+        public string Localization => TableManager.LocalizationTable[Key];
 
         /* ctor */
         public StringID(string key)
