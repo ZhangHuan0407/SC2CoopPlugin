@@ -32,11 +32,12 @@ namespace OCRProtocol
         }
 
 #if UNITY_EDITOR
-        public const string OCRPricessPath = "D:../WindowsOCR/bin/Debug/net5.0/WindowsOCR.exe";
+        public const string OCRPricessPath = "../WindowsOCR/bin/Debug/net5.0/WindowsOCR.exe";
 #elif UNITY_STANDALONE_WIN
         public const string OCRPricessPath = "WindowsOCR/WindowsOCR.exe";
+#else
+        public const string OCRPricessPath = "";
 #endif
-        //public const string OCRPricessPath = "MacOSOCR/MacOSOCR.exe";
 
         public static async Task StartNewOCRProcessAsync()
         {

@@ -26,7 +26,8 @@ namespace Table
             resourceRepositoryConfig.IOLock.EnterReadLock();
             try
             {
-
+                // add code here
+                // LoadTable(xxx);
             }
             catch (Exception ex)
             {
@@ -36,6 +37,12 @@ namespace Table
             finally
             {
                 resourceRepositoryConfig.IOLock.ExitReadLock();
+            }
+
+            T LoadTable<T>(string tableName)
+            {
+                string content = File.ReadAllText($"{resourceRepositoryConfig.LocalDirectory}/Tables/{tableName}");
+                return JSONMap.ParseJSON<T>(JSONObject.Create(content));
             }
         }
 
