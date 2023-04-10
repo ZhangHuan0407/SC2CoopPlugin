@@ -9,11 +9,6 @@ namespace Game
     {
         public const int Version = 1;
 
-        /// <summary>
-        /// 用户索引 <see cref="ObjectID"/> 长度
-        /// </summary>
-        public const byte UserIDLength = 16;
-
         public const int DialogSortingOrderPadding = 100;
 
         /// <summary>
@@ -23,5 +18,7 @@ namespace Game
         {
         };
 
+        public const string RemoteResourceRepository = "https://gitcode.net/qq_34919016/sc2coopplugin-resource";
+        public const string LocalResourceDirectory = "LocalResourceRepository";
     }
 }
