@@ -45,17 +45,21 @@ namespace GitRepository
         public readonly Regex CommitRegex;
         private readonly Platform m_Platform;
 
+        public volatile int UpdateTimes;
+
         public string HttpCloneUri
         {
             get
             {
                 switch (m_Platform)
                 {
+                    //case Platform.Github:
+                    //    return $"{RepositoryUri}/archive/refs/heads/{Branch}.zip";
+                    //Gitee需要token
+                    //case Platform.Gitee:
                     // CSDN的路径好诡异
                     case Platform.Gitcode:
                         return $"{RepositoryUri}/-/archive/{Branch}/{RepositoryName}-{Branch}.zip";
-                    //case Platform.Github:
-                    //    return $"{RepositoryUri}/archive/refs/heads/{Branch}.zip";
                     default:
                         throw new NotImplementedException(m_Platform.ToString());
                 }
@@ -125,6 +129,7 @@ namespace GitRepository
                         " href=\"/" + RepositoryOwener + "/" + RepositoryName + "/-/commit/(?<Commit>[0-9a-z]+)\"\\>.+\\</a\\>");
                     break;
             }
+            UpdateTimes = 0;
         }
 
         public void Dispose()

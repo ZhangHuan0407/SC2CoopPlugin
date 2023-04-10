@@ -191,11 +191,13 @@ namespace GitRepository
             catch (Exception ex)
             {
                 UnityEngine.Debug.LogError(ex);
+                return ResourceUpdateResult.UnhandledException;
             }
             finally
             {
                 Config.IOLock.ExitWriteLock();
             }
+            Config.UpdateTimes++;
             return ResourceUpdateResult.Success;
         }
         private void UnZip(string zipFileName, string desDirectory)
