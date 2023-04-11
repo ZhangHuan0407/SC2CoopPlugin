@@ -1,8 +1,7 @@
 ﻿using System;
-using Game.UI;
 using UnityEngine;
 
-namespace Game
+namespace Game.UI
 {
     public class BugReportDialog : MonoBehaviour, IDialog
     {

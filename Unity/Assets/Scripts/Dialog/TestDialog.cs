@@ -1,12 +1,12 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Game.OCR;
-using Game.UI;
 using Tween;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Game
+namespace Game.UI
 {
     public class TestDialog : MonoBehaviour, IDialog
     {
@@ -16,6 +16,8 @@ namespace Game
 
         [SerializeField]
         private Text m_Text;
+        [SerializeField]
+        private InputField m_Rect;
 
         private RectAnchor rect;
 
@@ -30,6 +32,7 @@ namespace Game
             Camera.main.GetComponent<TransparentWindow>().SetWindowState(WindowState.TopMostAndRaycastIgnore);
             GizmosDialog = CameraCanvas.PushDialog(GameDefined.DrawGizmosDialogPath) as DrawGizmosDialog;
             rect = new RectAnchor(264, 770, 80, 36);
+            m_Rect.text = rect.ToString();
         }
 
         public void Hide()
@@ -74,6 +77,15 @@ namespace Game
                     aa.SetWindowState(WindowState.TopMostAndBlockRaycast);
                 else
                     aa.SetWindowState(WindowState.TopMostAndRaycastIgnore);
+            }
+            string rectStr = m_Rect.text;
+            Match match = Regex.Match(rectStr, "L:(?<Left>[0-9]+),T:(?<Top>[0-9]+),W:(?<Width>[0-9]+),H:(?<Height>[0-9]+)");
+            if (match.Success)
+            {
+                rect.Left = int.Parse(match.Groups["Left"].Value);
+                rect.Top = int.Parse(match.Groups["Top"].Value);
+                rect.Width = int.Parse(match.Groups["Width"].Value);
+                rect.Height = int.Parse(match.Groups["Height"].Value);
             }
         }
     }

@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections;
-using Game.UI;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Game
+namespace Game.UI
 {
     public class MainMenuDialog : MonoBehaviour, IDialog
     {

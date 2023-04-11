@@ -1,9 +1,8 @@
-﻿using Game.UI;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Game
+namespace Game.UI
 {
     public class DrawGizmosDialog : MonoBehaviour, IDialog
     {

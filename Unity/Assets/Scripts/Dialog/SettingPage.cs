@@ -1,8 +1,8 @@
 ﻿using System;
-using Table;
 using UnityEngine;
+using UnityEngine.UI;
 
-namespace Game
+namespace Game.UI
 {
     public abstract class SettingPage : MonoBehaviour
     {
@@ -12,5 +12,12 @@ namespace Game
 
         [SerializeField]
         private SettingDialog m_SettingDialog;
+        public SettingDialog SettingDialog;
+
+        [SerializeField]
+        private Button m_TabButton;
+        public Button TabButton => m_TabButton;
+
+        public bool HaveLookup { get; set; }
     }
 }

@@ -1,9 +1,8 @@
-﻿using Game.UI;
-using System;
+﻿using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Game
+namespace Game.UI
 {
     public class SettingDialog : MonoBehaviour, IDialog
     {
@@ -22,9 +21,12 @@ namespace Game
         [SerializeField]
         private Transform m_TabList;
 
+        public UserSetting UserSetting { get; private set; }
+
         private void Awake()
         {
-            if (Global.UserSetting.NewUser)
+            UserSetting = JSONMap.JSONDeepClone(Global.UserSetting);
+            if (UserSetting.NewUser)
             {
                 m_CloseButton.gameObject.SetActive(false);
                 m_SaveButton.gameObject.SetActive(false);
@@ -48,11 +50,20 @@ namespace Game
 
         public void SelectPage(SettingPage sender)
         {
+            bool anyNeverLookup = false;
+            sender.HaveLookup = true;
             for (int i = 0; i < m_SettingPageList.Length; i++)
             {
-                m_SettingPageList[i].gameObject.SetActive(m_SettingPageList[i] == sender);
+                SettingPage settingPage = m_SettingPageList[i];
+                settingPage.gameObject.SetActive(m_SettingPageList[i] == sender);
+                if (!settingPage.HaveLookup)
+                    anyNeverLookup = true;
             }
             m_TabList.position = sender.TabListPosition.position;
+            if (UserSetting.NewUser && !anyNeverLookup)
+            {
+                m_SaveButton.gameObject.SetActive(true);
+            }
         }
 
         private void OnClickCloseButton()
@@ -61,8 +72,11 @@ namespace Game
         }
         private void OnClickSaveButton()
         {
+            bool newUser = UserSetting.NewUser;
+            Global.UserSetting = UserSetting;
             UserSetting.Save();
-            m_CloseButton.gameObject.SetActive(true);
+            if (newUser)
+                CameraCanvas.PopDialog(this);
         }
     }
 }
