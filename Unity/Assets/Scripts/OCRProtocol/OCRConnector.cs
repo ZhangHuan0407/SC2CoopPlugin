@@ -130,6 +130,7 @@ namespace Game.OCR
 
         public void Dispose()
         {
+            Debug.Log("OCRConnector Dispose");
             if (m_TcpClient != null && m_TcpClient.Connected)
             {
                 SendRequest_Internal<ProcessExit_Response>(ProtocolId.ProcessExit, new ProcessExit_Request());

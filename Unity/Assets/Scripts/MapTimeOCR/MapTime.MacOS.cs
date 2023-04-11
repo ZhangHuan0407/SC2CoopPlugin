@@ -24,6 +24,7 @@ namespace Game.OCR
 
         public void Dispose()
         {
+            Debug.Log("MapTime Dispose");
             ScreenShot?.Dispose();
             throw new NotImplementedException();
         }

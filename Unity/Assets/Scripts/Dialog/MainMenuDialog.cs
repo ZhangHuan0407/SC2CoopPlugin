@@ -23,11 +23,15 @@ namespace Game.UI
         private Button m_UpdateResourceButton;
         [SerializeField]
         private Button m_ExitButton;
+        [SerializeField]
+        private Button m_TestButton;
 
         private void Awake()
         {
             Application.targetFrameRate = 30;
             Camera.main.GetComponent<TransparentWindow>().SetWindowState(WindowState.Normal);
+
+            m_TestButton.onClick.AddListener(OnClickTestButton);
         }
 
         public void Hide()
@@ -65,6 +69,11 @@ namespace Game.UI
         public void OnClickExitButton()
         {
             Application.Quit();
+        }
+        public void OnClickTestButton()
+        {
+            CameraCanvas.PushDialog(GameDefined.TestDialog);
+            CameraCanvas.PopDialog(this);
         }
 
         IEnumerator HideUntilDialogClose(IDialog dialog, Action callback = null)

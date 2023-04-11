@@ -7,7 +7,8 @@ namespace Game
 {
     public class TransparentWindow : MonoBehaviour
     {
-        [SerializeField] private Material m_Material;
+        [SerializeField]
+        private Material m_Material;
 
         private struct MARGINS
         {

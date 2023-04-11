@@ -5,16 +5,22 @@ using System.Runtime.InteropServices;
 using System.Collections.Generic;
 using LittleNN;
 using System.Text;
-using System.Reflection;
-using UnityEngine.TestTools;
+using System;
 using UnityEngine;
+using Graphics = System.Drawing.Graphics;
 
 namespace Game.OCR
 {
-    public class MapTime
+    public class MapTime : IDisposable
     {
         public Bitmap ScreenShot;
-        public NeuralNetworkModel NNModel;
+        private Graphics m_Graphics;
+        public readonly NeuralNetwork NNModel;
+
+        public MapTime(NeuralNetwork model)
+        {
+            NNModel = model;
+        }
 
         private static byte[] m_BytesCache;
         private static object m_Lock = new object();
@@ -40,18 +46,31 @@ namespace Game.OCR
             return recognizeRect;
         }
         
-        public static void UpdateScreenShot()
+        public void UpdateScreenShot()
         {
-
+            int width = Screen.width;
+            int height = Screen.height;
+            if (ScreenShot != null && (ScreenShot.Width != width || ScreenShot.Height != height))
+            {
+                ScreenShot.Dispose();
+                ScreenShot = null;
+                m_Graphics.Dispose();
+                m_Graphics = null;
+            }
+            if (ScreenShot == null)
+                ScreenShot = new Bitmap(width, height);
+            m_Graphics = Graphics.FromImage(ScreenShot);
+            m_Graphics.CopyFromScreen(0, 0, 0, 0, new Size(width, height));
         }
 
         /// <summary>
         /// 解析地图内时间
         /// </summary>
         /// <param name="isMSK">蒙斯克的时间字体存在高亮背景，因此在分割字符之前进行了锐化</param>
-        public MapTimeParseResult TryParse(bool isMSK, Rectangle recognizeAreaRect, out int seconds)
+        public MapTimeParseResult TryParse(bool isMSK, RectAnchor rect, out int seconds)
         {
             seconds = -1;
+            Rectangle recognizeAreaRect = new Rectangle(rect.Left, rect.Top, rect.Width, rect.Height);
             List<RectAnchor> subAreaRectList = SplitSubArea(ScreenShot, isMSK, ref recognizeAreaRect, out byte[] grayBytes);
             if (subAreaRectList.Count < 3 || subAreaRectList.Count >= MapTimeParameter.RectCountLimit)
                 return MapTimeParseResult.RectCountError;
@@ -288,6 +307,13 @@ namespace Game.OCR
                 for (int i = 0; i < buffer.Length; i++)
                     buffer[i] *= ratio;
             }
+        }
+
+        public void Dispose()
+        {
+            Debug.Log("MapTime Dispose");
+            ScreenShot?.Dispose();
+            m_Graphics?.Dispose();
         }
     }
 }

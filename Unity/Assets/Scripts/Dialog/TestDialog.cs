@@ -30,7 +30,7 @@ namespace Game.UI
         private void Awake()
         {
             Camera.main.GetComponent<TransparentWindow>().SetWindowState(WindowState.TopMostAndRaycastIgnore);
-            GizmosDialog = CameraCanvas.PushDialog(GameDefined.DrawGizmosDialogPath) as DrawGizmosDialog;
+            //GizmosDialog = CameraCanvas.PushDialog(GameDefined.DrawGizmosDialogPath) as DrawGizmosDialog;
             rect = new RectAnchor(264, 770, 80, 36);
             m_Rect.text = rect.ToString();
         }
@@ -54,21 +54,24 @@ namespace Game.UI
                 int seconds = -1;
                 object obj = new object();
                 MapTimeParseResult result = MapTimeParseResult.Unknown;
-                Tweener tweener = Global.BackThread.WaitingBackThreadTweener(() =>
-                {
-                    lock (obj)
-                    {
-                        result = Global.MapTime.TryParse(false, rect, out seconds);
-                    }
-                })
-                    .OnComplete(() =>
-                    {
-                        lock (obj)
-                        {
-                            m_Text.text = $"{result}\n{seconds}";
-                        }
-                    })
-                    .DoIt();
+                Global.MapTime.UpdateScreenShot();
+                result = Global.MapTime.TryParse(false, rect, out seconds);
+                m_Text.text = $"{result}\n{seconds}";
+                //Tweener tweener = Global.BackThread.WaitingBackThreadTweener(() =>
+                //{
+                //    lock (obj)
+                //    {
+                //        result = Global.MapTime.TryParse(false, rect, out seconds);
+                //    }
+                //})
+                //    .OnComplete(() =>
+                //    {
+                //        lock (obj)
+                //        {
+                //            m_Text.text = $"{result}\n{seconds}";
+                //        }
+                //    })
+                //    .DoIt();
             }
             if (Input.GetKeyDown(KeyCode.Escape))
             {

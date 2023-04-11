@@ -26,6 +26,8 @@ namespace Game
         public const string DrawGizmosDialogPath = "Dialogs/DrawGizmosDialog";
         public const string SettingDialogPath = "Dialogs/SettingDialog";
         public const string OpenCommanderFileDialog = "Dialogs/OpenCommanderFileDialog";
+        public const string MainManuDialog = "Dialogs/MainManuDialog";
+        public const string TestDialog = "Dialogs/TestDialog";
 
         /* ctor */
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterAssembliesLoaded)]

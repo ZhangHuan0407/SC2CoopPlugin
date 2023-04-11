@@ -9,6 +9,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Stopwatch = System.Diagnostics.Stopwatch;
 using Game.OCR;
+using UnityEditor;
 
 namespace Game
 {
@@ -52,6 +53,15 @@ namespace Game
             });
 
             Task newOCRProcessTask = OCRProcess.StartNewOCRProcessAsync();
+#if UNITY_EDITOR
+            EditorApplication.playModeStateChanged += (i) =>
+            {
+                if (i == PlayModeStateChange.ExitingPlayMode)
+                {
+                    OCRConnector.Instance?.Dispose();
+                }
+            };
+#endif
 
             Global.ResourceRepositoryConfig = new RepositoryConfig(GameDefined.RemoteResourceRepository, GameDefined.LocalResourceDirectory);
             if (!Directory.Exists(GameDefined.LocalResourceDirectory))
@@ -62,11 +72,16 @@ namespace Game
                 Global.ResourceRepositoryConfig.IOLock.ExitWriteLock();
             }
 
-            Global.MapTime.NNModel = new LittleNN.NeuralNetworkModel();
-            using (Stream stream = new FileStream(MapTimeParameter.NNModelFileName, FileMode.Open, FileAccess.Read))
+            Global.MapTime = new MapTime(LittleNN.NeuralNetwork.LoadFrom(MapTimeParameter.NNModelFileName));
+#if UNITY_EDITOR
+            EditorApplication.playModeStateChanged += (i) =>
             {
-                Global.MapTime.NNModel.Read(stream);
-            }
+                if (i == PlayModeStateChange.ExitingPlayMode)
+                {
+                    Global.MapTime.Dispose();
+                }
+            };
+#endif
 
             yield return new WaitUntil(() => jsonMapInitTask.IsCompleted);
 
@@ -75,9 +90,9 @@ namespace Game
             TableManager.LoadLocalizationTable(Global.UserSetting.InterfaceLanguage);
             yield return null;
 
-            if (Global.UserSetting.NewUser)
+            if (Global.UserSetting.NewUser && false)
             {
-                var dialog = Game.UI.CameraCanvas.PushDialog("Dialogs/SettingDialog");
+                var dialog = Game.UI.CameraCanvas.PushDialog(GameDefined.SettingDialogPath);
                 while (dialog.gameObject)
                 {
                     yield return null;
@@ -88,7 +103,7 @@ namespace Game
             yield return new WaitUntil(() => newOCRProcessTask.IsCompleted);
             SceneManager.LoadScene("MainScene", LoadSceneMode.Single);
             yield return null;
-            Game.UI.CameraCanvas.PushDialog("Dialogs/MainManuDialog");
+            Game.UI.CameraCanvas.PushDialog(GameDefined.MainManuDialog);
 
             Debug.Log($"Finish init task {stopwatch.ElapsedMilliseconds} ms");
             Destroy(gameObject);
