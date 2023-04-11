@@ -19,7 +19,7 @@ namespace System.IO
                 string fileSrcPath = filesPath[i];
                 fileSrcPath = fileSrcPath.Replace("\\", "/");
                 string fileLocalPath = fileSrcPath.Substring(srcDirectoryPath.Length);
-                string fileDesPath = $"{fileSrcPath}/{fileLocalPath}";
+                string fileDesPath = $"{desDirectoryPath}/{fileLocalPath}";
                 File.Copy(fileSrcPath, fileDesPath, true);
             }
             if (recursion)

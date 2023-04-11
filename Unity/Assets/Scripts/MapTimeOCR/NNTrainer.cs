@@ -1,7 +1,6 @@
 ﻿#if UNITY_EDITOR && UNITY_STANDALONE_WIN
 using Game;
 using LittleNN;
-using OCRProtocol;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
