@@ -12,7 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEditor;
 
-namespace MapTimeOCR
+namespace Game.OCR
 {
     /// <summary>
     /// 使用预制截图，将数据转换为byte[] 并手动分类

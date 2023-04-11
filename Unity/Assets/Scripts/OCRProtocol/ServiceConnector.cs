@@ -6,7 +6,7 @@ using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using System.Threading;
 
-namespace OCRProtocol
+namespace Game.OCR
 {
     public class ServiceConnector : IDisposable
     {

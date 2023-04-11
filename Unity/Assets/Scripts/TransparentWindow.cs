@@ -56,11 +56,7 @@ namespace Game
 
         private IntPtr _hwnd;
 
-        public static TransparentWindow Instance;
-        private void Awake()
-        {
-            Instance = this;
-        }
+        public WindowState WindowState { get; private set; }
 
         void Start()
         {
@@ -81,15 +77,29 @@ namespace Game
             Graphics.Blit(from, to, m_Material);
         }
 
-        public void SetWindowTransparent(bool enableTransparent)
+        public void SetWindowState(WindowState windowState)
         {
-            LogService.System(nameof(SetWindowTransparent), enableTransparent.ToString());
-#if !UNITY_EDITOR
-            if (enableTransparent)
-                SetWindowLong(_hwnd, GWL_EXSTYLE, WS_EX_TOPMOST | WS_EX_LAYERED | WS_EX_TRANSPARENT);
-            else
-                SetWindowLong(_hwnd, GWL_STYLE, WS_POPUP | WS_VISIBLE);
-#endif
+            if (windowState == WindowState)
+                return;
+            LogService.System(nameof(SetWindowState), windowState.ToString());
+            switch (windowState)
+            {
+                case WindowState.Normal:
+                    SetWindowLong(_hwnd, GWL_EXSTYLE, WS_EX_LAYERED);
+                    break;
+                case WindowState.TopMostAndBlockRaycast:
+                    SetWindowLong(_hwnd, GWL_EXSTYLE, WS_EX_TOPMOST | WS_EX_LAYERED);
+                    break;
+                case WindowState.TopMostAndRaycastIgnore:
+                    SetWindowLong(_hwnd, GWL_EXSTYLE, WS_EX_TOPMOST | WS_EX_LAYERED | WS_EX_TRANSPARENT);
+                    break;
+                default:
+                    throw new NotImplementedException(windowState.ToString());
+            }
+            int fWidth = Screen.width;
+            int fHeight = Screen.height;
+            SetWindowPos(_hwnd, HWND_TOPMOST, 0, 0, fWidth, fHeight, SWP_FRAMECHANGED | SWP_SHOWWINDOW);
+            // WS_EX_LAYERED 去除标记后，据说要 UpdateLayeredWindow 窗体才能正常渲染
         }
     }
 }

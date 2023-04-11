@@ -7,7 +7,7 @@ using System.Net.NetworkInformation;
 using System.Threading.Tasks;
 using Game;
 
-namespace OCRProtocol
+namespace Game.OCR
 {
     public static class OCRProcess
     {

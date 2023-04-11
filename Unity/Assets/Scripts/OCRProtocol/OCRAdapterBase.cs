@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace OCRProtocol
+namespace Game.OCR
 {
     public abstract class OCRAdapterBase : IDisposable
     {

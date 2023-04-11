@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace MapTimeOCR
+namespace Game.OCR
 {
     public enum MapTimeParseResult
     {

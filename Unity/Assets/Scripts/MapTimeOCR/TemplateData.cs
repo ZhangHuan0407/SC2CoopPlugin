@@ -1,6 +1,6 @@
 ﻿#if UNITY_EDITOR
 
-namespace MapTimeOCR
+namespace Game.OCR
 {
     public struct TemplateData
     {

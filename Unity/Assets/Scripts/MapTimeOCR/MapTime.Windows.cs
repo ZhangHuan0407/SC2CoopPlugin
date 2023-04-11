@@ -10,11 +10,12 @@ using System.Reflection;
 using UnityEngine.TestTools;
 using UnityEngine;
 
-namespace MapTimeOCR
+namespace Game.OCR
 {
     public class MapTime
     {
-        public static NeuralNetworkModel Model;
+        public Bitmap ScreenShot;
+        public NeuralNetworkModel NNModel;
 
         private static byte[] m_BytesCache;
         private static object m_Lock = new object();
@@ -39,22 +40,25 @@ namespace MapTimeOCR
             recognizeRect.Width = (recognizeRect.Width * 24 + 31) / 32;
             return recognizeRect;
         }
+        
+        public static void UpdateScreenShot()
+        {
+
+        }
 
         /// <summary>
         /// 解析地图内时间
         /// </summary>
-        /// <param name="bitmap">全屏截图</param>
         /// <param name="isMSK">蒙斯克的时间字体存在高亮背景，因此在分割字符之前进行了锐化</param>
-        public static MapTimeParseResult TryParse(Bitmap bitmap, bool isMSK, NeuralNetwork neuralNetwork, Rectangle recognizeAreaRect,
-                                                  out int seconds)
+        public MapTimeParseResult TryParse(bool isMSK, Rectangle recognizeAreaRect, out int seconds)
         {
             seconds = -1;
-            List<RectAnchor> subAreaRectList = SplitSubArea(bitmap, isMSK, ref recognizeAreaRect, out byte[] grayBytes);
+            List<RectAnchor> subAreaRectList = SplitSubArea(ScreenShot, isMSK, ref recognizeAreaRect, out byte[] grayBytes);
             if (subAreaRectList.Count < 3 || subAreaRectList.Count >= MapTimeParameter.RectCountLimit)
                 return MapTimeParseResult.RectCountError;
 
             subAreaRectList.Sort((l, r) => l.Left.CompareTo(r.Left));
-            List<int> numberSymbols = ParseSymbol(neuralNetwork, recognizeAreaRect, subAreaRectList, grayBytes);
+            List<int> numberSymbols = ParseSymbol(NNModel, recognizeAreaRect, subAreaRectList, grayBytes);
             RevertBytesCache(grayBytes);
 
             if (numberSymbols.Count < 3)

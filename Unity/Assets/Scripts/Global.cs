@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using UnityEngine;
 using GitRepository;
+using System;
+using Game.OCR;
 
 namespace Game
 {
@@ -19,5 +21,7 @@ namespace Game
         public static Process StarCraftProcess { get; internal set; }
 
         public static RepositoryConfig ResourceRepositoryConfig { get; internal set; }
+
+        public static MapTime MapTime { get; internal set; }
     }
 }

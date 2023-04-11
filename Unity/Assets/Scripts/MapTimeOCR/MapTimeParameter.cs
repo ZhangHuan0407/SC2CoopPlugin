@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace MapTimeOCR
+namespace Game.OCR
 {
     internal class MapTimeParameter
     {

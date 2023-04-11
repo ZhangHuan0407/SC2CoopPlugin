@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using Game;
 using UnityEngine;
 
-namespace OCRProtocol
+namespace Game.OCR
 {
     public class OCRConnector : IDisposable
     {

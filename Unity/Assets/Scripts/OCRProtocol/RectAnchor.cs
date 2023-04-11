@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Text.RegularExpressions;
 
-namespace OCRProtocol
+namespace Game.OCR
 {
     // 为了和 System.Drawing.Rectangle 坐标系一致，左上是min点，右下是max点，左上(0,0)
     [Serializable]
