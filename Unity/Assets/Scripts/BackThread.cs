@@ -47,19 +47,19 @@ namespace Game
         private bool m_Inited;
         private volatile bool m_Quit;
         private Thread m_Thread;
-        private System.Diagnostics.Stopwatch m_BackthreadStopwatch;
         private Queue<Task> m_BackTasks;
         private LinkedList<(Task, UpdateMode)> m_MainTasks;
+        private AutoResetEvent m_ResetEvent;
 
         /* ctor */
         private void Awake()
         {
             LockedObject = new object();
             m_Inited = false;
-            m_BackthreadStopwatch = new System.Diagnostics.Stopwatch();
             m_Thread = new Thread(BackThreadUpdate);
             m_BackTasks = new Queue<Task>();
             m_MainTasks = new LinkedList<(Task, UpdateMode)>();
+            m_ResetEvent = new AutoResetEvent(false);
             m_Thread.Start();
             LogService.System($"{nameof(BackThread)}.{nameof(Awake)}",
                               $"{nameof(Thread.ManagedThreadId)}: {m_Thread.ManagedThreadId}, {nameof(Thread.IsBackground)}: {m_Thread.IsBackground}, {nameof(Thread.ThreadState)}: {m_Thread.ThreadState}");
@@ -145,6 +145,7 @@ namespace Game
             lock (LockedObject)
             {
                 m_BackTasks.Enqueue(task);
+                m_ResetEvent.Set();
             }
         }
 
@@ -156,6 +157,7 @@ namespace Game
             lock (LockedObject)
             {
                 m_BackTasks.Enqueue(task);
+                m_ResetEvent.Set();
             }
             return WaitTween.WaitUntil(() => task.IsCompleted);
         }
@@ -178,9 +180,7 @@ namespace Game
                 }
                 if (task == null)
                 {
-                    m_BackthreadStopwatch.Stop();
-                    Thread.Sleep(1);
-                    m_BackthreadStopwatch.Restart();
+                    m_ResetEvent.WaitOne();
                 }
                 else
                 {
@@ -189,7 +189,6 @@ namespace Game
                         LogService.Error($"{nameof(BackThread)}.{Label} task", task.Exception);
                 }
             }
-            m_BackthreadStopwatch.Stop();
         }
     }
 }
