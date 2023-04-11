@@ -68,5 +68,7 @@ namespace Game.OCR
                    l.Width != r.Width &&
                    l.Height != r.Height;
         }
+
+        public override string ToString() => $"L:{Left},T:{Top},W:{Width},H:{Height}";
     }
 }

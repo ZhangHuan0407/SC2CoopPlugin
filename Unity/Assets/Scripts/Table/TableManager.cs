@@ -18,6 +18,9 @@ namespace Table
         {
             get => m_LocalizationTable;
         }
+        public static AttackWaveTable AttackWaveTable { get; private set; }
+        public static PrestigeTable PrestigeTable { get; private set; }
+        public static UnitTable UnitTable { get; private set; }
 
         /* func */
         public static void LoadInnerTables()
@@ -26,8 +29,9 @@ namespace Table
             resourceRepositoryConfig.IOLock.EnterReadLock();
             try
             {
-                // add code here
-                // LoadTable(xxx);
+                AttackWaveTable = LoadTable<AttackWaveTable>("AttackWaveTable.json");
+                PrestigeTable = LoadTable<PrestigeTable>("PrestigeTable.json");
+                UnitTable = LoadTable<UnitTable>("UnitTable.json");
             }
             catch (Exception ex)
             {
