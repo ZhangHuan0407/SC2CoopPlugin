@@ -4,23 +4,66 @@ using System.IO;
 using UnityEngine;
 using System.Collections;
 using Game;
+using System.Threading;
 
 namespace Table
 {
     /// <summary>
     /// 所有的数据表
+    /// <para>由于数据表字段是线程独立数据，因此字段只读线程安全</para>
+    /// <para>方法会请求全局锁</para>
     /// </summary>
     public static class TableManager
     {
         /* field */
+        private static int LoadingThreadID;
+
+        [ThreadStatic]
         private static LocalizationTable m_LocalizationTable;
         public static LocalizationTable LocalizationTable
         {
             get => m_LocalizationTable;
+            private set => m_LocalizationTable = value;
         }
-        public static AttackWaveTable AttackWaveTable { get; private set; }
-        public static PrestigeTable PrestigeTable { get; private set; }
-        public static UnitTable UnitTable { get; private set; }
+
+        [ThreadStatic]
+        private static AttackWaveTable m_AttackWaveTable;
+        public static AttackWaveTable AttackWaveTable
+        {
+            get => m_AttackWaveTable;
+            private set => m_AttackWaveTable = value;
+        }
+
+        [ThreadStatic]
+        private static PrestigeTable m_PrestigeTable;
+        public static PrestigeTable PrestigeTable
+        {
+            get => m_PrestigeTable;
+            private set => m_PrestigeTable = value;
+        }
+
+        [ThreadStatic]
+        private static UnitTable m_UnitTable;
+        public static UnitTable UnitTable
+        {
+            get => m_UnitTable;
+            private set => m_UnitTable = value;
+        }
+
+        [ThreadStatic]
+        private static ModelTable m_ModelTable;
+        public static ModelTable ModelTable
+        {
+            get => m_ModelTable;
+            private set => m_ModelTable = value;
+        }
+
+        /* ctor */
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterAssembliesLoaded)]
+        private static void Init()
+        {
+            LoadingThreadID = Thread.CurrentThread.ManagedThreadId;
+        }
 
         /* func */
         public static void LoadInnerTables()
@@ -32,6 +75,8 @@ namespace Table
                 AttackWaveTable = LoadTable<AttackWaveTable>("AttackWaveTable.json");
                 PrestigeTable = LoadTable<PrestigeTable>("PrestigeTable.json");
                 UnitTable = LoadTable<UnitTable>("UnitTable.json");
+                ModelTable = new ModelTable();
+                ModelTable.SearchAllModelFrom(resourceRepositoryConfig);
             }
             catch (Exception ex)
             {
@@ -50,6 +95,7 @@ namespace Table
             }
         }
 
+        public static event Action MainThread_ReloadLocalizeTable_Handle;
         public static void LoadLocalizationTable(SystemLanguage systemLanguage)
         {
             GitRepository.RepositoryConfig resourceRepositoryConfig = Global.ResourceRepositoryConfig;
@@ -72,7 +118,9 @@ namespace Table
             LocalizationTable table = new LocalizationTable();
             foreach (var pair in @object.dictionary)
                 table[pair.Key] = pair.Value.str;
-            m_LocalizationTable = table;
+            LocalizationTable = table;
+            if (Thread.CurrentThread.ManagedThreadId == LoadingThreadID)
+                MainThread_ReloadLocalizeTable_Handle?.Invoke();
         }
     }
 }

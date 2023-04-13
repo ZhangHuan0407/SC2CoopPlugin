@@ -14,7 +14,7 @@ namespace Table
         public class Entry
         {
             [SerializeField]
-            public Commander m_Commander;
+            private Commander m_Commander;
             public Commander Commander
             {
                 get => m_Commander;
@@ -22,7 +22,7 @@ namespace Table
             }
 
             [SerializeField]
-            public StringID m_Name;
+            private StringID m_Name;
             public StringID Name
             {
                 get => m_Name;
@@ -30,7 +30,7 @@ namespace Table
             }
 
             [SerializeField]
-            public StringID m_Describe;
+            private StringID m_Describe;
             public StringID Describe
             {
                 get => m_Describe;
@@ -38,7 +38,7 @@ namespace Table
             }
 
             [SerializeField]
-            public int m_Index;
+            private int m_Index;
             public int Index
             {
                 get => m_Index;
@@ -46,7 +46,7 @@ namespace Table
             }
 
             [SerializeField]
-            public double m_ThirtyLevelValue;
+            private double m_ThirtyLevelValue;
             public double ThirtyLevelValue
             {
                 get => m_ThirtyLevelValue;
@@ -54,11 +54,12 @@ namespace Table
             }
         }
 
-        public Dictionary<Commander, Entry[]> Data;
+        public Dictionary<Commander, Entry[]> m_Data;
+        public IReadOnlyDictionary<Commander, Entry[]> Data => m_Data;
 
         public PrestigeTable()
         {
-            Data = new Dictionary<Commander, Entry[]>();
+            m_Data = new Dictionary<Commander, Entry[]>();
         }
 
         #region Serialized
@@ -79,14 +80,14 @@ namespace Table
             if (@array.IsNull)
                 return null;
             PrestigeTable table = new PrestigeTable();
-            for (int i = 0; i < array.list.Count; i++)
+            for (int i = 0; i < @array.list.Count; i++)
             {
-                JSONObject @object = array.list[i];
+                JSONObject @object = @array.list[i];
                 Entry entry = JSONMap.ParseJSON<Entry>(@object);
-                if (!table.Data.TryGetValue(entry.Commander, out Entry[] entries))
+                if (!table.m_Data.TryGetValue(entry.Commander, out Entry[] entries))
                 {
                     entries = new Entry[6];
-                    table.Data[entry.Commander] = entries;
+                    table.m_Data[entry.Commander] = entries;
                 }
                 entries[entry.Index] = entry;
             }

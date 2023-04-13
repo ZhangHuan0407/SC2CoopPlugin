@@ -2,7 +2,7 @@
 
 namespace Game.UI
 {
-    public class GameMapSettingPage : SettingPage
+    public class SCMapSettingPage : SettingPage
     {
         private void Start()
         {

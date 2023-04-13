@@ -12,15 +12,15 @@ namespace Table
         public class Entry
         {
             [SerializeField]
-            public AmonAI m_AI;
-            public AmonAI AI
+            private AmonAIName m_AI;
+            public AmonAIName AI
             {
                 get => m_AI;
                 private set => m_AI = value;
             }
 
             [SerializeField]
-            public int m_Technology;
+            private int m_Technology;
             public int Technology
             {
                 get => m_Technology;
@@ -28,7 +28,7 @@ namespace Table
             }
 
             [SerializeField]
-            public StringID m_Name;
+            private StringID m_Name;
             public StringID Name
             {
                 get => m_Name;
@@ -36,7 +36,7 @@ namespace Table
             }
 
             [SerializeField]
-            public int[] m_UnitID;
+            private int[] m_UnitID;
             public int[] UnitID
             {
                 get => m_UnitID;
@@ -44,7 +44,7 @@ namespace Table
             }
 
             [SerializeField]
-            public string m_TotalCost;
+            private string m_TotalCost;
             public string TotalCost
             {
                 get => m_TotalCost;

@@ -2,7 +2,7 @@
 
 namespace Game.UI
 {
-    public class GameMenuSettingPage : SettingPage
+    public class SCMenuSettingPage : SettingPage
     {
         private void Start()
         {

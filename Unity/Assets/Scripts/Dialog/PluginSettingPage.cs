@@ -6,7 +6,7 @@ using UnityEngine.UI.Extension;
 
 namespace Game.UI
 {
-    public class ParameterSettingPage : SettingPage
+    public class PluginSettingPage : SettingPage
     {
         [SerializeField]
         private InputField m_InterfaceLanguage;
