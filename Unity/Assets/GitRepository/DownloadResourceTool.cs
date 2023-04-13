@@ -44,7 +44,7 @@ namespace GitRepository
 #if UNITY_EDITOR || ALPHA
             if (allCommits.Count > 0)
             {
-                string log = string.Join(",", allCommits);
+                string log = string.Join(",  ", allCommits);
                 UnityEngine.Debug.Log(allCommits[0] + "\n" + log);
             }
 #endif

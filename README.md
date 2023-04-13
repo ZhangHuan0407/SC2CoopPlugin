@@ -36,8 +36,9 @@ enum System.SystemLanguage
 
 ### 编辑器更新流程
 - 修改资源文件，git上传到[资源仓库](https://gitcode.net/qq_34919016/sc2coopplugin-resource)
-- Tools/GitRepository/DownloadUpdate 拉取对应分支的更新，内容会同步到 Assets/StreamingAssets
-- Assets/StreamingAssets 下的资源，将跟随包作为默认资源
+- Tools/GitRepository/DownloadUpdate 拉取对应分支的更新，内容会同步到 Unity/Assets/StreamingAssets 和 Unity/LocalResourceRepository
+- Unity/Assets/StreamingAssets/* 的资源，将跟随包作为默认资源
+- Unity/LocalResourceRepository/* 不跟随打包，git忽略此路径
 
 ### 运行时更新流程
 - 获取commit页的最后一次提交的commit值，命名为origin commit 1

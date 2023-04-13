@@ -62,3 +62,4 @@ WindowsOCR/obj/*
 WindowsOCR/bin/*
 Unity/.vsconfig
 InMapTime/Texture/*
+Unity/LocalResourceRepository/*

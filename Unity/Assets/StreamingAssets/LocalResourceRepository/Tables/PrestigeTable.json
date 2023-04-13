@@ -1,0 +1,758 @@
+[
+    {
+        "m_Commander": "Abathur",
+        "m_Name": "Abathur_Prestige_0",
+        "m_Describe": "Abathur_Prestige_0_Desc",
+        "m_Index": 0,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Abathur",
+        "m_Name": "Abathur_Prestige_1",
+        "m_Describe": "Abathur_Prestige_1_Desc",
+        "m_Index": 1,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Abathur",
+        "m_Name": "Abathur_Prestige_2",
+        "m_Describe": "Abathur_Prestige_2_Desc",
+        "m_Index": 2,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Abathur",
+        "m_Name": "Abathur_Prestige_3",
+        "m_Describe": "Abathur_Prestige_3_Desc",
+        "m_Index": 3,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Abathur",
+        "m_Name": "Abathur_Prestige_4",
+        "m_Describe": "Abathur_Prestige_4_Desc",
+        "m_Index": 4,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Abathur",
+        "m_Name": "Abathur_Prestige_5",
+        "m_Describe": "Abathur_Prestige_5_Desc",
+        "m_Index": 5,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Alarak",
+        "m_Name": "Alarak_Prestige_0",
+        "m_Describe": "Alarak_Prestige_0_Desc",
+        "m_Index": 0,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Alarak",
+        "m_Name": "Alarak_Prestige_1",
+        "m_Describe": "Alarak_Prestige_1_Desc",
+        "m_Index": 1,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Alarak",
+        "m_Name": "Alarak_Prestige_2",
+        "m_Describe": "Alarak_Prestige_2_Desc",
+        "m_Index": 2,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Alarak",
+        "m_Name": "Alarak_Prestige_3",
+        "m_Describe": "Alarak_Prestige_3_Desc",
+        "m_Index": 3,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Alarak",
+        "m_Name": "Alarak_Prestige_4",
+        "m_Describe": "Alarak_Prestige_4_Desc",
+        "m_Index": 4,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Alarak",
+        "m_Name": "Alarak_Prestige_5",
+        "m_Describe": "Alarak_Prestige_5_Desc",
+        "m_Index": 5,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Artanis",
+        "m_Name": "Artanis_Prestige_0",
+        "m_Describe": "Artanis_Prestige_0_Desc",
+        "m_Index": 0,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Artanis",
+        "m_Name": "Artanis_Prestige_1",
+        "m_Describe": "Artanis_Prestige_1_Desc",
+        "m_Index": 1,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Artanis",
+        "m_Name": "Artanis_Prestige_2",
+        "m_Describe": "Artanis_Prestige_2_Desc",
+        "m_Index": 2,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Artanis",
+        "m_Name": "Artanis_Prestige_3",
+        "m_Describe": "Artanis_Prestige_3_Desc",
+        "m_Index": 3,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Artanis",
+        "m_Name": "Artanis_Prestige_4",
+        "m_Describe": "Artanis_Prestige_4_Desc",
+        "m_Index": 4,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Artanis",
+        "m_Name": "Artanis_Prestige_5",
+        "m_Describe": "Artanis_Prestige_5_Desc",
+        "m_Index": 5,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Dehaka",
+        "m_Name": "Dehaka_Prestige_0",
+        "m_Describe": "Dehaka_Prestige_0_Desc",
+        "m_Index": 0,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Dehaka",
+        "m_Name": "Dehaka_Prestige_1",
+        "m_Describe": "Dehaka_Prestige_1_Desc",
+        "m_Index": 1,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Dehaka",
+        "m_Name": "Dehaka_Prestige_2",
+        "m_Describe": "Dehaka_Prestige_2_Desc",
+        "m_Index": 2,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Dehaka",
+        "m_Name": "Dehaka_Prestige_3",
+        "m_Describe": "Dehaka_Prestige_3_Desc",
+        "m_Index": 3,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Dehaka",
+        "m_Name": "Dehaka_Prestige_4",
+        "m_Describe": "Dehaka_Prestige_4_Desc",
+        "m_Index": 4,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Dehaka",
+        "m_Name": "Dehaka_Prestige_5",
+        "m_Describe": "Dehaka_Prestige_5_Desc",
+        "m_Index": 5,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Fenix",
+        "m_Name": "Fenix_Prestige_0",
+        "m_Describe": "Fenix_Prestige_0_Desc",
+        "m_Index": 0,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Fenix",
+        "m_Name": "Fenix_Prestige_1",
+        "m_Describe": "Fenix_Prestige_1_Desc",
+        "m_Index": 1,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Fenix",
+        "m_Name": "Fenix_Prestige_2",
+        "m_Describe": "Fenix_Prestige_2_Desc",
+        "m_Index": 2,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Fenix",
+        "m_Name": "Fenix_Prestige_3",
+        "m_Describe": "Fenix_Prestige_3_Desc",
+        "m_Index": 3,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Fenix",
+        "m_Name": "Fenix_Prestige_4",
+        "m_Describe": "Fenix_Prestige_4_Desc",
+        "m_Index": 4,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Fenix",
+        "m_Name": "Fenix_Prestige_5",
+        "m_Describe": "Fenix_Prestige_5_Desc",
+        "m_Index": 5,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "HanAndHorner",
+        "m_Name": "HanAndHorner_Prestige_0",
+        "m_Describe": "HanAndHorner_Prestige_0_Desc",
+        "m_Index": 0,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "HanAndHorner",
+        "m_Name": "HanAndHorner_Prestige_1",
+        "m_Describe": "HanAndHorner_Prestige_1_Desc",
+        "m_Index": 1,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "HanAndHorner",
+        "m_Name": "HanAndHorner_Prestige_2",
+        "m_Describe": "HanAndHorner_Prestige_2_Desc",
+        "m_Index": 2,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "HanAndHorner",
+        "m_Name": "HanAndHorner_Prestige_3",
+        "m_Describe": "HanAndHorner_Prestige_3_Desc",
+        "m_Index": 3,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "HanAndHorner",
+        "m_Name": "HanAndHorner_Prestige_4",
+        "m_Describe": "HanAndHorner_Prestige_4_Desc",
+        "m_Index": 4,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "HanAndHorner",
+        "m_Name": "HanAndHorner_Prestige_5",
+        "m_Describe": "HanAndHorner_Prestige_5_Desc",
+        "m_Index": 5,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Karax",
+        "m_Name": "Karax_Prestige_0",
+        "m_Describe": "Karax_Prestige_0_Desc",
+        "m_Index": 0,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Karax",
+        "m_Name": "Karax_Prestige_1",
+        "m_Describe": "Karax_Prestige_1_Desc",
+        "m_Index": 1,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Karax",
+        "m_Name": "Karax_Prestige_2",
+        "m_Describe": "Karax_Prestige_2_Desc",
+        "m_Index": 2,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Karax",
+        "m_Name": "Karax_Prestige_3",
+        "m_Describe": "Karax_Prestige_3_Desc",
+        "m_Index": 3,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Karax",
+        "m_Name": "Karax_Prestige_4",
+        "m_Describe": "Karax_Prestige_4_Desc",
+        "m_Index": 4,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Karax",
+        "m_Name": "Karax_Prestige_5",
+        "m_Describe": "Karax_Prestige_5_Desc",
+        "m_Index": 5,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Kerrigan",
+        "m_Name": "Kerrigan_Prestige_0",
+        "m_Describe": "Kerrigan_Prestige_0_Desc",
+        "m_Index": 0,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Kerrigan",
+        "m_Name": "Kerrigan_Prestige_1",
+        "m_Describe": "Kerrigan_Prestige_1_Desc",
+        "m_Index": 1,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Kerrigan",
+        "m_Name": "Kerrigan_Prestige_2",
+        "m_Describe": "Kerrigan_Prestige_2_Desc",
+        "m_Index": 2,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Kerrigan",
+        "m_Name": "Kerrigan_Prestige_3",
+        "m_Describe": "Kerrigan_Prestige_3_Desc",
+        "m_Index": 3,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Kerrigan",
+        "m_Name": "Kerrigan_Prestige_4",
+        "m_Describe": "Kerrigan_Prestige_4_Desc",
+        "m_Index": 4,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Kerrigan",
+        "m_Name": "Kerrigan_Prestige_5",
+        "m_Describe": "Kerrigan_Prestige_5_Desc",
+        "m_Index": 5,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Mengsk",
+        "m_Name": "Mengsk_Prestige_0",
+        "m_Describe": "Mengsk_Prestige_0_Desc",
+        "m_Index": 0,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Mengsk",
+        "m_Name": "Mengsk_Prestige_1",
+        "m_Describe": "Mengsk_Prestige_1_Desc",
+        "m_Index": 1,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Mengsk",
+        "m_Name": "Mengsk_Prestige_2",
+        "m_Describe": "Mengsk_Prestige_2_Desc",
+        "m_Index": 2,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Mengsk",
+        "m_Name": "Mengsk_Prestige_3",
+        "m_Describe": "Mengsk_Prestige_3_Desc",
+        "m_Index": 3,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Mengsk",
+        "m_Name": "Mengsk_Prestige_4",
+        "m_Describe": "Mengsk_Prestige_4_Desc",
+        "m_Index": 4,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Mengsk",
+        "m_Name": "Mengsk_Prestige_5",
+        "m_Describe": "Mengsk_Prestige_5_Desc",
+        "m_Index": 5,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Nova",
+        "m_Name": "Nova_Prestige_0",
+        "m_Describe": "Nova_Prestige_0_Desc",
+        "m_Index": 0,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Nova",
+        "m_Name": "Nova_Prestige_1",
+        "m_Describe": "Nova_Prestige_1_Desc",
+        "m_Index": 1,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Nova",
+        "m_Name": "Nova_Prestige_2",
+        "m_Describe": "Nova_Prestige_2_Desc",
+        "m_Index": 2,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Nova",
+        "m_Name": "Nova_Prestige_3",
+        "m_Describe": "Nova_Prestige_3_Desc",
+        "m_Index": 3,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Nova",
+        "m_Name": "Nova_Prestige_4",
+        "m_Describe": "Nova_Prestige_4_Desc",
+        "m_Index": 4,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Nova",
+        "m_Name": "Nova_Prestige_5",
+        "m_Describe": "Nova_Prestige_5_Desc",
+        "m_Index": 5,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Raynor",
+        "m_Name": "Raynor_Prestige_0",
+        "m_Describe": "Raynor_Prestige_0_Desc",
+        "m_Index": 0,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Raynor",
+        "m_Name": "Raynor_Prestige_1",
+        "m_Describe": "Raynor_Prestige_1_Desc",
+        "m_Index": 1,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Raynor",
+        "m_Name": "Raynor_Prestige_2",
+        "m_Describe": "Raynor_Prestige_2_Desc",
+        "m_Index": 2,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Raynor",
+        "m_Name": "Raynor_Prestige_3",
+        "m_Describe": "Raynor_Prestige_3_Desc",
+        "m_Index": 3,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Raynor",
+        "m_Name": "Raynor_Prestige_4",
+        "m_Describe": "Raynor_Prestige_4_Desc",
+        "m_Index": 4,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Raynor",
+        "m_Name": "Raynor_Prestige_5",
+        "m_Describe": "Raynor_Prestige_5_Desc",
+        "m_Index": 5,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Stetmann",
+        "m_Name": "Stetmann_Prestige_0",
+        "m_Describe": "Stetmann_Prestige_0_Desc",
+        "m_Index": 0,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Stetmann",
+        "m_Name": "Stetmann_Prestige_1",
+        "m_Describe": "Stetmann_Prestige_1_Desc",
+        "m_Index": 1,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Stetmann",
+        "m_Name": "Stetmann_Prestige_2",
+        "m_Describe": "Stetmann_Prestige_2_Desc",
+        "m_Index": 2,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Stetmann",
+        "m_Name": "Stetmann_Prestige_3",
+        "m_Describe": "Stetmann_Prestige_3_Desc",
+        "m_Index": 3,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Stetmann",
+        "m_Name": "Stetmann_Prestige_4",
+        "m_Describe": "Stetmann_Prestige_4_Desc",
+        "m_Index": 4,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Stetmann",
+        "m_Name": "Stetmann_Prestige_5",
+        "m_Describe": "Stetmann_Prestige_5_Desc",
+        "m_Index": 5,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Stukov",
+        "m_Name": "Stukov_Prestige_0",
+        "m_Describe": "Stukov_Prestige_0_Desc",
+        "m_Index": 0,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Stukov",
+        "m_Name": "Stukov_Prestige_1",
+        "m_Describe": "Stukov_Prestige_1_Desc",
+        "m_Index": 1,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Stukov",
+        "m_Name": "Stukov_Prestige_2",
+        "m_Describe": "Stukov_Prestige_2_Desc",
+        "m_Index": 2,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Stukov",
+        "m_Name": "Stukov_Prestige_3",
+        "m_Describe": "Stukov_Prestige_3_Desc",
+        "m_Index": 3,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Stukov",
+        "m_Name": "Stukov_Prestige_4",
+        "m_Describe": "Stukov_Prestige_4_Desc",
+        "m_Index": 4,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Stukov",
+        "m_Name": "Stukov_Prestige_5",
+        "m_Describe": "Stukov_Prestige_5_Desc",
+        "m_Index": 5,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Swann",
+        "m_Name": "Swann_Prestige_0",
+        "m_Describe": "Swann_Prestige_0_Desc",
+        "m_Index": 0,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Swann",
+        "m_Name": "Swann_Prestige_1",
+        "m_Describe": "Swann_Prestige_1_Desc",
+        "m_Index": 1,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Swann",
+        "m_Name": "Swann_Prestige_2",
+        "m_Describe": "Swann_Prestige_2_Desc",
+        "m_Index": 2,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Swann",
+        "m_Name": "Swann_Prestige_3",
+        "m_Describe": "Swann_Prestige_3_Desc",
+        "m_Index": 3,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Swann",
+        "m_Name": "Swann_Prestige_4",
+        "m_Describe": "Swann_Prestige_4_Desc",
+        "m_Index": 4,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Swann",
+        "m_Name": "Swann_Prestige_5",
+        "m_Describe": "Swann_Prestige_5_Desc",
+        "m_Index": 5,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Tychus",
+        "m_Name": "Tychus_Prestige_0",
+        "m_Describe": "Tychus_Prestige_0_Desc",
+        "m_Index": 0,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Tychus",
+        "m_Name": "Tychus_Prestige_1",
+        "m_Describe": "Tychus_Prestige_1_Desc",
+        "m_Index": 1,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Tychus",
+        "m_Name": "Tychus_Prestige_2",
+        "m_Describe": "Tychus_Prestige_2_Desc",
+        "m_Index": 2,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Tychus",
+        "m_Name": "Tychus_Prestige_3",
+        "m_Describe": "Tychus_Prestige_3_Desc",
+        "m_Index": 3,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Tychus",
+        "m_Name": "Tychus_Prestige_4",
+        "m_Describe": "Tychus_Prestige_4_Desc",
+        "m_Index": 4,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Tychus",
+        "m_Name": "Tychus_Prestige_5",
+        "m_Describe": "Tychus_Prestige_5_Desc",
+        "m_Index": 5,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Vorazun",
+        "m_Name": "Vorazun_Prestige_0",
+        "m_Describe": "Vorazun_Prestige_0_Desc",
+        "m_Index": 0,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Vorazun",
+        "m_Name": "Vorazun_Prestige_1",
+        "m_Describe": "Vorazun_Prestige_1_Desc",
+        "m_Index": 1,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Vorazun",
+        "m_Name": "Vorazun_Prestige_2",
+        "m_Describe": "Vorazun_Prestige_2_Desc",
+        "m_Index": 2,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Vorazun",
+        "m_Name": "Vorazun_Prestige_3",
+        "m_Describe": "Vorazun_Prestige_3_Desc",
+        "m_Index": 3,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Vorazun",
+        "m_Name": "Vorazun_Prestige_4",
+        "m_Describe": "Vorazun_Prestige_4_Desc",
+        "m_Index": 4,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Vorazun",
+        "m_Name": "Vorazun_Prestige_5",
+        "m_Describe": "Vorazun_Prestige_5_Desc",
+        "m_Index": 5,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Zagara",
+        "m_Name": "Zagara_Prestige_0",
+        "m_Describe": "Zagara_Prestige_0_Desc",
+        "m_Index": 0,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Zagara",
+        "m_Name": "Zagara_Prestige_1",
+        "m_Describe": "Zagara_Prestige_1_Desc",
+        "m_Index": 1,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Zagara",
+        "m_Name": "Zagara_Prestige_2",
+        "m_Describe": "Zagara_Prestige_2_Desc",
+        "m_Index": 2,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Zagara",
+        "m_Name": "Zagara_Prestige_3",
+        "m_Describe": "Zagara_Prestige_3_Desc",
+        "m_Index": 3,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Zagara",
+        "m_Name": "Zagara_Prestige_4",
+        "m_Describe": "Zagara_Prestige_4_Desc",
+        "m_Index": 4,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Zagara",
+        "m_Name": "Zagara_Prestige_5",
+        "m_Describe": "Zagara_Prestige_5_Desc",
+        "m_Index": 5,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Zeratul",
+        "m_Name": "Zeratul_Prestige_0",
+        "m_Describe": "Zeratul_Prestige_0_Desc",
+        "m_Index": 0,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Zeratul",
+        "m_Name": "Zeratul_Prestige_1",
+        "m_Describe": "Zeratul_Prestige_1_Desc",
+        "m_Index": 1,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Zeratul",
+        "m_Name": "Zeratul_Prestige_2",
+        "m_Describe": "Zeratul_Prestige_2_Desc",
+        "m_Index": 2,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Zeratul",
+        "m_Name": "Zeratul_Prestige_3",
+        "m_Describe": "Zeratul_Prestige_3_Desc",
+        "m_Index": 3,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Zeratul",
+        "m_Name": "Zeratul_Prestige_4",
+        "m_Describe": "Zeratul_Prestige_4_Desc",
+        "m_Index": 4,
+        "m_ThirtyLevelValue": 0
+    },
+    {
+        "m_Commander": "Zeratul",
+        "m_Name": "Zeratul_Prestige_5",
+        "m_Describe": "Zeratul_Prestige_5_Desc",
+        "m_Index": 5,
+        "m_ThirtyLevelValue": 0
+    }
+]
