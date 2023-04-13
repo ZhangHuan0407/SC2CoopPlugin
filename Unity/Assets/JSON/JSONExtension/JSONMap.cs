@@ -209,7 +209,12 @@ public static class JSONMap
 
                 JSONSerialized? serialized = null;
                 if (serialized == null && type.IsEnum)
-                    serialized = EnumJSONSerialized.CreateEnumJSONSerialized(type);
+                {
+                    if (type.GetCustomAttribute<FlagsAttribute>() == null)
+                        serialized = EnumJSONSerialized.CreateEnumJSONSerialized(type);
+                    else
+                        serialized = EnumJSONSerialized.CreateEnumFlagsJSONSerialized(type);
+                }
                 if (serialized == null &&
                     type.GetMethod(nameof(ToJSON), BindingFlags.Public | BindingFlags.Static) is MethodInfo toJSONMethod &&
                     type.GetMethod(nameof(ParseJSON), BindingFlags.Public | BindingFlags.Static) is MethodInfo parseJSONMethod)
