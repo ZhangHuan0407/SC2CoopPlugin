@@ -2,16 +2,20 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using UnityEngine;
 using LittleNN;
 
 namespace Game.OCR
 {
     public class MapTime : IDisposable
     {
-        public Bitmap ScreenShot;
-        public NeuralNetworkModel NNModel;
+        //public Bitmap ScreenShot;
+        public readonly NeuralNetwork NNModel;
 
-        public MapTime() { }
+        public MapTime(NeuralNetwork model)
+        {
+            NNModel = model;
+        }
 
         public void UpdateScreenShot()
         {
@@ -25,7 +29,7 @@ namespace Game.OCR
         public void Dispose()
         {
             Debug.Log("MapTime Dispose");
-            ScreenShot?.Dispose();
+            //ScreenShot?.Dispose();
             throw new NotImplementedException();
         }
     }
