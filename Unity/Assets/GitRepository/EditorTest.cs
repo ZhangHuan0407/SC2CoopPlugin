@@ -13,7 +13,7 @@ namespace GitRepository
     public class EditorTest
     {
         [MenuItem("Tools/GitRepository/CheckUpdate")]
-        public static void CheckUpdate()
+        private static void CheckUpdate()
         {
             RepositoryConfig repositoryConfig = new RepositoryConfig(GameDefined.RemoteResourceRepository, GameDefined.LocalResourceDirectory);
             DownloadResourceTool tool = new DownloadResourceTool(repositoryConfig);
@@ -28,10 +28,21 @@ namespace GitRepository
                 });
         }
 
-        [MenuItem("Tools/GitRepository/DownloadUpdate")]
-        public static void DownloadUpdate()
+        [MenuItem("Tools/GitRepository/DownloadUpdate master")]
+        private static void DownloadUpdateMaster()
         {
-            RepositoryConfig repositoryConfig = new RepositoryConfig(GameDefined.RemoteResourceRepository, GameDefined.LocalResourceDirectory);
+            DownloadUpdate("master");
+        }
+
+        [MenuItem("Tools/GitRepository/DownloadUpdate develop")]
+        private static void DownloadUpdateDevelop()
+        {
+            DownloadUpdate("develop");
+        }
+
+        private static void DownloadUpdate(string branch)
+        {
+            RepositoryConfig repositoryConfig = new RepositoryConfig(GameDefined.RemoteResourceRepository, GameDefined.LocalResourceDirectory, branch);
             DownloadResourceTool tool = new DownloadResourceTool(repositoryConfig);
             tool.DownloadUpdateAsync()
                 .ContinueWith((task) =>

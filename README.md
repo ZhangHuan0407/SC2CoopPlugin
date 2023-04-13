@@ -15,6 +15,8 @@
   - ${System.SystemLanguage}.json
 - Tables
   - XXX.json(table file)
+- Models
+  - XXX.json(model file)
 
 ```
 enum System.SystemLanguage
@@ -30,9 +32,14 @@ enum System.SystemLanguage
 
 ### 运行时文件夹结构
 - LocalResourceRepository
-- 
+- SC2Plugin.exe
 
-### 流程
+### 编辑器更新流程
+- 修改资源文件，git上传到[资源仓库](https://gitcode.net/qq_34919016/sc2coopplugin-resource)
+- Tools/GitRepository/DownloadUpdate 拉取对应分支的更新，内容会同步到 Assets/StreamingAssets
+- Assets/StreamingAssets 下的资源，将跟随包作为默认资源
+
+### 运行时更新流程
 - 获取commit页的最后一次提交的commit值，命名为origin commit 1
 - 比对本地commit版本和origin commit 1是否一致
   - 如果一致，中断更新
