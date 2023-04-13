@@ -88,6 +88,7 @@ namespace Game.Editor
                 return;
             }
 
+            // Tool
             GUILayout.BeginHorizontal();
             GUILayout.Label("Regex", GUILayout.Width(80f));
             m_SearchText = GUILayout.TextField(m_SearchText, GUILayout.MinWidth(250f));
@@ -109,8 +110,18 @@ namespace Game.Editor
                 SaveUnitTable();
                 m_SaveDelay = -1;
             }
+
+            // Unit Table Head
+            GUILayout.EndHorizontal();
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("Lock", GUILayout.Width(32f));
+            GUILayout.Label("ID", GUILayout.Width(68f));
+            GUILayout.Label("Name", GUILayout.MinWidth(200f));
+            GUILayout.Label("Annotation", GUILayout.MinWidth(200f));
+            GUILayout.FlexibleSpace();
             GUILayout.EndHorizontal();
 
+            // Unit Table Entries
             m_ScrollPosition = GUILayout.BeginScrollView(m_ScrollPosition, GUILayout.MinHeight(300f));
             for (int i = 0; i < m_InShowList.Count; i++)
             {
@@ -136,7 +147,7 @@ namespace Game.Editor
         {
             GUILayout.BeginHorizontal();
             bool isSelected = m_SelectedUnitSet.Contains(entry.ID);
-            bool nowSelect = GUILayout.Toggle(isSelected, string.Empty, GUILayout.Width(25f));
+            bool nowSelect = GUILayout.Toggle(isSelected, string.Empty, GUILayout.Width(20f));
             if (nowSelect != isSelected)
             {
                 EditorApplication.delayCall += () =>
@@ -162,7 +173,7 @@ namespace Game.Editor
             else
             {
                 GUILayout.Label(entry.Name.Key, GUILayout.Width(200f));
-                GUILayout.Label(entry.Annotation);
+                GUILayout.Label(entry.Annotation, GUILayout.MinWidth(200f));
                 GUILayout.FlexibleSpace();
                 if (GUILayout.Button("▷", GUILayout.Width(30f)))
                 {
@@ -204,17 +215,17 @@ namespace Game.Editor
 
             GUILayout.BeginHorizontal();
             GUILayout.Space(20f);
-            GUILayout.Label("Crystal", GUILayout.Width(60f));
-            entry.CrystalCost = EditorGUILayout.IntField(entry.CrystalCost, GUILayout.Width(100f));
+            GUILayout.Label("Crystal", GUILayout.Width(55f));
+            entry.CrystalCost = EditorGUILayout.IntField(entry.CrystalCost, GUILayout.Width(50f));
             GUILayout.Space(10f);
-            GUILayout.Label("Gas", GUILayout.Width(60f));
-            entry.GasCost = EditorGUILayout.IntField(entry.GasCost, GUILayout.Width(100f));
+            GUILayout.Label("Gas", GUILayout.Width(40f));
+            entry.GasCost = EditorGUILayout.IntField(entry.GasCost, GUILayout.Width(50f));
             GUILayout.Space(10f);
-            GUILayout.Label("Population", GUILayout.Width(60f));
-            entry.Population = EditorGUILayout.FloatField(entry.Population, GUILayout.Width(100f));
+            GUILayout.Label("Population", GUILayout.Width(70f));
+            entry.Population = EditorGUILayout.FloatField(entry.Population, GUILayout.Width(50f));
             GUILayout.Space(10f);
-            GUILayout.Label("BuildDuration", GUILayout.Width(60f));
-            entry.BuildDuration = EditorGUILayout.IntField(entry.BuildDuration, GUILayout.Width(100f));
+            GUILayout.Label("BuildDuration", GUILayout.Width(80f));
+            entry.BuildDuration = EditorGUILayout.IntField(entry.BuildDuration, GUILayout.Width(50f));
             GUILayout.FlexibleSpace();
             GUILayout.EndHorizontal();
 
@@ -251,19 +262,19 @@ namespace Game.Editor
 
         private void FilterTable()
         {
-            List<int> idList = new List<int>();
+            HashSet<int> idSet = new HashSet<int>();
             m_InShowList.Clear();
             UnitTable.Entry[] entries = m_UnitTable.Data.Values.OrderBy(entry => entry.ID).ToArray();
             for (int i = 0; i < entries.Length; i++)
             {
                 UnitTable.Entry entry = entries[i];
                 if (m_SelectedUnitSet.Contains(entry.ID))
-                    idList.Add(entries[i].ID);
+                    idSet.Add(entries[i].ID);
             }
             if (string.IsNullOrWhiteSpace(m_SearchText))
             {
                 for (int i = 0; i < entries.Length && i < 200; i++)
-                    idList.Add(entries[i].ID);
+                    idSet.Add(entries[i].ID);
             }
             else
             {
@@ -272,17 +283,16 @@ namespace Game.Editor
                 {
                     UnitTable.Entry entry = entries[i];
                     if (regex.IsMatch(entry.ID.ToString()) ||
-                        regex.IsMatch(entry.Name.Key) ||
-                        regex.IsMatch(entry.Annotation))
+                        regex.IsMatch(entry.Name.Key ?? string.Empty) ||
+                        regex.IsMatch(entry.Annotation ?? string.Empty))
                     {
-                        idList.Add(entry.ID);
+                        idSet.Add(entry.ID);
                     }
                 }
             }
-            idList.Sort();
-            for (int i = 0; i < idList.Count; i++)
+            foreach (int id in idSet)
             {
-                JSONObject @object = JSONMap.ToJSON(m_UnitTable.Data[idList[i]]);
+                JSONObject @object = JSONMap.ToJSON(m_UnitTable.Data[id]);
                 m_InShowList.Add(JSONMap.ParseJSON<UnitTableEntryWrapper>(@object));
             }
             m_ScrollPosition = Vector2.zero;
