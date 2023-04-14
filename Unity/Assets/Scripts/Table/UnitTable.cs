@@ -89,6 +89,14 @@ namespace Table
                 get => m_Label;
                 private set => m_Label = value;
             }
+            
+            [SerializeField]
+            protected float m_MoveSpeed;
+            public float MoveSpeed
+            {
+                get => m_MoveSpeed;
+                private set => m_MoveSpeed = value;
+            }
 
             [SerializeField]
             protected string m_StealthTechnology;
@@ -98,8 +106,51 @@ namespace Table
                 private set => m_StealthTechnology = value;
             }
 
+            [SerializeField]
+            protected AttackWeapon m_Weapon0;
+            public AttackWeapon Weapon0
+            {
+                get => m_Weapon0;
+                private set => m_Weapon0 = value;
+            }
+
+            [SerializeField]
+            protected AttackWeapon m_Weapon1;
+            public AttackWeapon Weapon1
+            {
+                get => m_Weapon1;
+                private set => m_Weapon1 = value;
+            }
+
+            [SerializeField]
+            protected AttackWeapon m_Weapon2;
+            public AttackWeapon Weapon2
+            {
+                get => m_Weapon2;
+                private set => m_Weapon2 = value;
+            }
+
+            [SerializeField]
+            protected Guard m_Guard;
+            public Guard Guard
+            {
+                get => m_Guard;
+                private set => m_Guard = value;
+            }
+
+            [SerializeField]
+            protected Guard m_Shield;
+            public Guard Shield
+            {
+                get => m_Shield;
+                private set => m_Shield = value;
+            }
+
             protected Entry()
             {
+                m_Annotation = string.Empty;
+                m_Name.Key = string.Empty;
+                m_StealthTechnology = string.Empty;
             }
         }
 

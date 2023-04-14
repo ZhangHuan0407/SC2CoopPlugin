@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using Table;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace Game.Editor
 {
@@ -20,6 +21,8 @@ namespace Game.Editor
         private string m_UnitTablePath;
 
         private string m_SearchText;
+        private Commander m_FilterCommander;
+        private UnitLabel m_FilterLabel;
         private HashSet<int> m_SelectedUnitSet;
         private List<UnitTableEntryWrapper> m_InShowList;
         private HashSet<int> m_UnfoldSet;
@@ -32,19 +35,30 @@ namespace Game.Editor
         public static UnitTableWindow OpenWindow()
         {
             UnitTableWindow editorWindow = GetWindow<UnitTableWindow>();
+            var rect = editorWindow.position;
+            rect.width = 830f;
+            editorWindow.position = rect;
             return editorWindow;
         }
 
         private void OnEnable()
         {
             titleContent = new GUIContent("Unit Table Edit");
-            minSize = new Vector2(500f, 400f);
+            minSize = new Vector2(550f, 400f);
 
             m_UnitTablePath = EditorPrefs.GetString(UnitTablePathKey);
             if (File.Exists(m_UnitTablePath))
             {
-                string content = File.ReadAllText(m_UnitTablePath);
-                m_UnitTable = JSONMap.ParseJSON<UnitTable>(JSONObject.Create(content));
+                try
+                {
+                    string content = File.ReadAllText(m_UnitTablePath);
+                    m_UnitTable = JSONMap.ParseJSON<UnitTable>(JSONObject.Create(content));
+                }
+                catch (Exception ex)
+                {
+                    Debug.LogError(ex);
+                    m_UnitTable = null;
+                }
             }
             else
                 m_UnitTable = null;
@@ -77,9 +91,15 @@ namespace Game.Editor
             string path = GUILayout.TextField(m_UnitTablePath, GUILayout.MinWidth(400f));
             if (path != m_UnitTablePath)
             {
-                m_UnitTablePath = path;
-                EditorPrefs.SetString(UnitTablePathKey, path);
+                if (File.Exists(path))
+                {
+                    m_UnitTablePath = path;
+                    EditorPrefs.SetString(UnitTablePathKey, path);
+                }
+                else
+                    Debug.LogError($"{path} is not exists");
             }
+            GUILayout.FlexibleSpace();
             GUILayout.EndHorizontal();
             GUILayout.Space(15f);
             if (m_UnitTable == null)
@@ -91,7 +111,9 @@ namespace Game.Editor
             // Tool
             GUILayout.BeginHorizontal();
             GUILayout.Label("Regex", GUILayout.Width(80f));
-            m_SearchText = GUILayout.TextField(m_SearchText, GUILayout.MinWidth(250f));
+            m_SearchText = GUILayout.TextField(m_SearchText, GUILayout.MinWidth(150f), GUILayout.MaxWidth(300f));
+            m_FilterCommander = (Commander)EditorGUILayout.EnumFlagsField(m_FilterCommander, GUILayout.Width(100f));
+            m_FilterLabel = (UnitLabel)EditorGUILayout.EnumFlagsField(m_FilterLabel, GUILayout.Width(80f));
             if (GUILayout.Button("Search", GUILayout.Width(60f)))
             {
                 EditorApplication.delayCall += () =>
@@ -116,8 +138,8 @@ namespace Game.Editor
             GUILayout.BeginHorizontal();
             GUILayout.Label("Lock", GUILayout.Width(32f));
             GUILayout.Label("ID", GUILayout.Width(68f));
-            GUILayout.Label("Name", GUILayout.MinWidth(200f));
-            GUILayout.Label("Annotation", GUILayout.MinWidth(200f));
+            GUILayout.Label("Name", GUILayout.Width(150f));
+            GUILayout.Label("Annotation", GUILayout.Width(250f));
             GUILayout.FlexibleSpace();
             GUILayout.EndHorizontal();
 
@@ -159,9 +181,16 @@ namespace Game.Editor
                 };
             }
             GUILayout.Label(entry.ID.ToString(), GUILayout.Width(80f));
+            float spaceLength = position.width - 270f - 10f - 30f;
+            float annotationLength = Mathf.Min(spaceLength, 400f);
+            spaceLength -= annotationLength;
             if (m_UnfoldSet.Contains(entry.ID))
             {
-                GUILayout.FlexibleSpace();
+                StringID nameStringID = entry.Name;
+                nameStringID.Key = GUILayout.TextField(nameStringID.Key, GUILayout.Width(150f));
+                entry.Name = nameStringID;
+                entry.Annotation = GUILayout.TextField(entry.Annotation, GUILayout.Width(annotationLength));
+                GUILayout.Space(spaceLength);
                 if (GUILayout.Button("▽", GUILayout.Width(30f)))
                 {
                     EditorApplication.delayCall += () =>
@@ -172,9 +201,9 @@ namespace Game.Editor
             }
             else
             {
-                GUILayout.Label(entry.Name.Key, GUILayout.Width(200f));
-                GUILayout.Label(entry.Annotation, GUILayout.MinWidth(200f));
-                GUILayout.FlexibleSpace();
+                GUILayout.Label(entry.Name.Key, GUILayout.Width(150f));
+                GUILayout.Label(entry.Annotation, GUILayout.Width(annotationLength));
+                GUILayout.Space(spaceLength);
                 if (GUILayout.Button("▷", GUILayout.Width(30f)))
                 {
                     EditorApplication.delayCall += () =>
@@ -189,17 +218,13 @@ namespace Game.Editor
             int hashCode = entry.GetHashCode();
             GUILayout.BeginHorizontal();
             GUILayout.Space(20f);
-            GUILayout.Label("Name", GUILayout.MinWidth(80f));
-            StringID nameStringID = entry.Name;
-            nameStringID.Key = GUILayout.TextField(nameStringID.Key, GUILayout.MinWidth(150f));
+            //GUILayout.Label("Name", GUILayout.MinWidth(80f));
             GUILayout.FlexibleSpace();
-            entry.Name = nameStringID;
             GUILayout.EndHorizontal();
 
             GUILayout.BeginHorizontal();
             GUILayout.Space(20f);
-            GUILayout.Label("Annotation", GUILayout.MinWidth(80f));
-            entry.Annotation = GUILayout.TextField(entry.Annotation, GUILayout.MinWidth(300f));
+            //GUILayout.Label("Annotation", GUILayout.MinWidth(80f));
             GUILayout.FlexibleSpace();
             GUILayout.EndHorizontal();
 
@@ -232,15 +257,111 @@ namespace Game.Editor
             GUILayout.BeginHorizontal();
             GUILayout.Space(20f);
             GUILayout.Label("UnitLabel", GUILayout.Width(60f));
-            entry.Label = (UnitLabel)EditorGUILayout.EnumFlagsField(entry.Label, GUILayout.Width(100f));
+            entry.Label = (UnitLabel)EditorGUILayout.EnumFlagsField(entry.Label, GUILayout.Width(80f));
+            GUILayout.Space(10f);
+            GUILayout.Label("MoveSpeed", GUILayout.Width(60f));
+            entry.MoveSpeed = EditorGUILayout.FloatField(entry.MoveSpeed, GUILayout.Width(50f));
             GUILayout.Space(10f);
             GUILayout.Label("StealthTech", GUILayout.Width(80f));
-            entry.StealthTechnology = EditorGUILayout.TextField(entry.StealthTechnology, GUILayout.Width(150f));
+            entry.StealthTechnology = EditorGUILayout.TextField(entry.StealthTechnology, GUILayout.Width(120f));
             GUILayout.FlexibleSpace();
             GUILayout.EndHorizontal();
+
+            if (position.width > 829.9f)
+            {
+                GUILayout.BeginHorizontal();
+                GUILayout.BeginVertical(GUILayout.Width(445f));
+                PrintWeaponList(entry);
+                GUILayout.EndVertical();
+                GUILayout.BeginVertical(GUILayout.Width(380f));
+                PrintGuardList(entry);
+                GUILayout.EndVertical();
+                GUILayout.FlexibleSpace();
+                GUILayout.EndHorizontal();
+            }
+            else
+            {
+                PrintWeaponList(entry);
+                PrintGuardList(entry);
+            }
+
             if (entry.GetHashCode() != hashCode)
                 m_SaveDelay = 200;
         }
+        private void PrintWeaponList(UnitTableEntryWrapper entry)
+        {
+            GUILayout.BeginHorizontal();
+            GUILayout.Space(120f);
+            GUILayout.Label("Attack", GUILayout.Width(50f));
+            GUILayout.Label("Label", GUILayout.Width(80f));
+            GUILayout.Label("Speed", GUILayout.Width(50f));
+            GUILayout.Label("Upgrade", GUILayout.Width(50f));
+            GUILayout.Label("Technology", GUILayout.Width(100f));
+            GUILayout.FlexibleSpace();
+            GUILayout.EndHorizontal();
+            entry.Weapon0 = PrintWeapon("Weapon0", entry.Weapon0 as AttackWeaponWrapper);
+            entry.Weapon1 = PrintWeapon("Weapon1", entry.Weapon1 as AttackWeaponWrapper);
+            entry.Weapon2 = PrintWeapon("Weapon2", entry.Weapon2 as AttackWeaponWrapper);
+        }
+        private void PrintGuardList(UnitTableEntryWrapper entry)
+        {
+            GUILayout.BeginHorizontal();
+            GUILayout.Space(120f);
+            GUILayout.Label("Defence", GUILayout.Width(50f));
+            GUILayout.Label("Upgrade", GUILayout.Width(50f));
+            GUILayout.Label("Technology", GUILayout.Width(100f));
+            GUILayout.FlexibleSpace();
+            GUILayout.EndHorizontal();
+            entry.Guard = PrintGuard("Guard", entry.Guard as GuardWrapper);
+            entry.Shield = PrintGuard("Shield", entry.Shield as GuardWrapper);
+        }
+        private AttackWeaponWrapper PrintWeapon(string name, AttackWeaponWrapper weapon)
+        {
+            GUILayout.BeginHorizontal();
+            GUILayout.Space(20);
+            GUILayout.Label(name, GUILayout.Width(60f));
+            if (weapon is null && GUILayout.Button("+", GUILayout.Width(30f)))
+                weapon = new AttackWeaponWrapper();
+            else if (weapon != null && GUILayout.Button("-", GUILayout.Width(30f)))
+                weapon = null;
+            if (weapon == null)
+            {
+                GUILayout.EndHorizontal();
+                return null;
+            }
+
+            weapon.Attack = EditorGUILayout.IntField(weapon.Attack, GUILayout.Width(50f));
+            weapon.Label = (UnitLabel)EditorGUILayout.EnumFlagsField(weapon.Label, GUILayout.Width(80f));
+            weapon.Speed = EditorGUILayout.FloatField(weapon.Speed, GUILayout.Width(50f));
+            weapon.UpgradePreLevel = EditorGUILayout.IntField(weapon.UpgradePreLevel, GUILayout.Width(50f));
+            weapon.Technology = GUILayout.TextField(weapon.Technology, GUILayout.Width(100f));
+            GUILayout.FlexibleSpace();
+            GUILayout.EndHorizontal();
+            return weapon;
+        }
+        private GuardWrapper PrintGuard(string name, GuardWrapper guard)
+        {
+            GUILayout.BeginHorizontal();
+            GUILayout.Space(20);
+            GUILayout.Label(name, GUILayout.Width(60f));
+            if (guard is null && GUILayout.Button("+", GUILayout.Width(30f)))
+                guard = new GuardWrapper();
+            else if (guard != null && GUILayout.Button("-", GUILayout.Width(30f)))
+                guard = null;
+            if (guard == null)
+            {
+                GUILayout.EndHorizontal();
+                return null;
+            }
+
+            guard.Defence = EditorGUILayout.IntField(guard.Defence, GUILayout.Width(50f));
+            guard.UpgradePreLevel = EditorGUILayout.IntField(guard.UpgradePreLevel, GUILayout.Width(50f));
+            guard.Technology = GUILayout.TextField(guard.Technology, GUILayout.Width(100f));
+            GUILayout.FlexibleSpace();
+            GUILayout.EndHorizontal();
+            return guard;
+        }
+
         private void AddNewUnitEntry()
         {
             int randomID;
@@ -283,8 +404,8 @@ namespace Game.Editor
                 {
                     UnitTable.Entry entry = entries[i];
                     if (regex.IsMatch(entry.ID.ToString()) ||
-                        regex.IsMatch(entry.Name.Key ?? string.Empty) ||
-                        regex.IsMatch(entry.Annotation ?? string.Empty))
+                        regex.IsMatch(entry.Name.Key) ||
+                        regex.IsMatch(entry.Annotation))
                     {
                         idSet.Add(entry.ID);
                     }
