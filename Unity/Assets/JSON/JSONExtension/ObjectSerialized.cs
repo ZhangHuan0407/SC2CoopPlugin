@@ -12,6 +12,8 @@ public static class ObjectSerialized
             type,
             (object instance) =>
             {
+                if (instance is null)
+                    return new JSONObject(JSONObject.Type.NULL);
                 JSONObject @object = new JSONObject(JSONObject.Type.OBJECT);
                 foreach (FieldInfo fieldInfo in serializedFieldInfos)
                 {
@@ -22,6 +24,8 @@ public static class ObjectSerialized
             },
             (JSONObject @object) =>
             {
+                if (@object is null || @object.IsNull)
+                    return null;
                 object instance;
                 if (selectConstructorInfo != null)
                     instance = selectConstructorInfo.Invoke(new object[0]);
