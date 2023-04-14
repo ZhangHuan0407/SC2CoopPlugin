@@ -28,6 +28,7 @@ namespace Game.Editor
         private Vector2 m_ScrollPosition;
 
         private string m_NewEntryAnnotation;
+        private int m_NewEntryCopyID;
 
         [MenuItem("Tools/Unit Table Edit")]
         public static UnitTableWindow OpenWindow()
@@ -133,6 +134,17 @@ namespace Game.Editor
                 };
             }
             GUILayout.EndHorizontal();
+            GUILayout.BeginHorizontal();
+            m_NewEntryCopyID = EditorGUILayout.IntField(m_NewEntryCopyID, GUILayout.Width(150f));
+            if (GUILayout.Button("Copy", GUILayout.Width(60f)))
+            {
+                EditorApplication.delayCall += () =>
+                {
+                    CopyNewUnitEntry();
+                    m_SaveDelay = 100;
+                };
+            }
+            GUILayout.EndHorizontal();
         }
 
         private void PrintUnitEntry(UnitTableEntryWrapper entry)
@@ -204,7 +216,13 @@ namespace Game.Editor
             entry.Commander = (Commander)EditorGUILayout.EnumPopup(entry.Commander, GUILayout.Width(100f));
             GUILayout.Space(10f);
             GUILayout.Label("UnlockLevel", GUILayout.MinWidth(80f));
-            entry.UnlockLevel = EditorGUILayout.IntField(entry.UnlockLevel, GUILayout.Width(100f));
+            entry.UnlockLevel = EditorGUILayout.IntField(entry.UnlockLevel, GUILayout.Width(50f));
+            GUILayout.Space(10f);
+            GUILayout.Label("HP", GUILayout.MinWidth(30f));
+            entry.HP = EditorGUILayout.IntField(entry.HP, GUILayout.Width(50f));
+            GUILayout.Space(10f);
+            GUILayout.Label("Energy", GUILayout.MinWidth(40f));
+            entry.Energy = EditorGUILayout.IntField(entry.Energy, GUILayout.Width(50f));
             GUILayout.FlexibleSpace();
             GUILayout.EndHorizontal();
 
@@ -213,7 +231,7 @@ namespace Game.Editor
             GUILayout.Label("Crystal", GUILayout.Width(55f));
             entry.CrystalCost = EditorGUILayout.IntField(entry.CrystalCost, GUILayout.Width(50f));
             GUILayout.Space(10f);
-            GUILayout.Label("Gas", GUILayout.Width(40f));
+            GUILayout.Label("Gas", GUILayout.Width(30f));
             entry.GasCost = EditorGUILayout.IntField(entry.GasCost, GUILayout.Width(50f));
             GUILayout.Space(10f);
             GUILayout.Label("Population", GUILayout.Width(70f));
@@ -229,7 +247,7 @@ namespace Game.Editor
             GUILayout.Label("UnitLabel", GUILayout.Width(60f));
             entry.Label = (UnitLabel)EditorGUILayout.EnumFlagsField(entry.Label, GUILayout.Width(80f));
             GUILayout.Space(10f);
-            GUILayout.Label("MoveSpeed", GUILayout.Width(60f));
+            GUILayout.Label("MoveSpeed", GUILayout.Width(80f));
             entry.MoveSpeed = EditorGUILayout.FloatField(entry.MoveSpeed, GUILayout.Width(50f));
             GUILayout.Space(10f);
             GUILayout.Label("StealthTech", GUILayout.Width(80f));
@@ -264,8 +282,8 @@ namespace Game.Editor
             GUILayout.Space(120f);
             GUILayout.Label("Attack", GUILayout.Width(50f));
             GUILayout.Label("Label", GUILayout.Width(80f));
-            GUILayout.Label("Speed", GUILayout.Width(50f));
-            GUILayout.Label("Upgrade", GUILayout.Width(50f));
+            GUILayout.Label("Speed", GUILayout.Width(60f));
+            GUILayout.Label("Upgrade", GUILayout.Width(60f));
             GUILayout.Label("Technology", GUILayout.Width(100f));
             GUILayout.FlexibleSpace();
             GUILayout.EndHorizontal();
@@ -277,8 +295,8 @@ namespace Game.Editor
         {
             GUILayout.BeginHorizontal();
             GUILayout.Space(120f);
-            GUILayout.Label("Defence", GUILayout.Width(50f));
-            GUILayout.Label("Upgrade", GUILayout.Width(50f));
+            GUILayout.Label("Defence", GUILayout.Width(60f));
+            GUILayout.Label("Upgrade", GUILayout.Width(60f));
             GUILayout.Label("Technology", GUILayout.Width(100f));
             GUILayout.FlexibleSpace();
             GUILayout.EndHorizontal();
@@ -324,8 +342,8 @@ namespace Game.Editor
                 return null;
             }
 
-            guard.Defence = EditorGUILayout.IntField(guard.Defence, GUILayout.Width(50f));
-            guard.UpgradePreLevel = EditorGUILayout.IntField(guard.UpgradePreLevel, GUILayout.Width(50f));
+            guard.Defence = EditorGUILayout.IntField(guard.Defence, GUILayout.Width(60f));
+            guard.UpgradePreLevel = EditorGUILayout.IntField(guard.UpgradePreLevel, GUILayout.Width(60f));
             guard.Technology = GUILayout.TextField(guard.Technology, GUILayout.Width(100f));
             GUILayout.FlexibleSpace();
             GUILayout.EndHorizontal();
@@ -349,6 +367,19 @@ namespace Game.Editor
             m_NewEntryAnnotation = string.Empty;
             m_SelectedUnitSet.Add(entry.ID);
             m_InShowList.Add(entry);
+        }
+        private void CopyNewUnitEntry()
+        {
+            int randomID;
+            do
+            {
+                randomID = UnityEngine.Random.Range(1, int.MaxValue);
+            } while (m_UnitTable.Data.ContainsKey(randomID));
+            UnitTable.Entry entry = m_InShowList.FirstOrDefault(e => e.ID == m_NewEntryCopyID) ?? m_UnitTable.Data[m_NewEntryCopyID];
+            UnitTableEntryWrapper newEntry = JSONMap.ParseJSON<UnitTableEntryWrapper>(JSONMap.ToJSON(entry));
+            newEntry.ID = randomID;
+            m_SelectedUnitSet.Add(newEntry.ID);
+            m_InShowList.Add(newEntry);
         }
 
         private void FilterTable()

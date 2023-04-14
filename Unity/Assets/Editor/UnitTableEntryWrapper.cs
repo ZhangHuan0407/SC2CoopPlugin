@@ -60,6 +60,18 @@ namespace Game.Editor
             set => m_BuildDuration = value;
         }
 
+        public new int HP
+        {
+            get => m_HP;
+            set => m_HP = value;
+        }
+
+        public new int Energy
+        {
+            get => m_Energy;
+            set => m_Energy = value;
+        }
+
         public new UnitLabel Label
         {
             get => m_Label;
@@ -140,6 +152,8 @@ namespace Game.Editor
                            m_GasCost == wrapper.m_GasCost &&
                            m_Population == wrapper.m_Population &&
                            m_BuildDuration == wrapper.m_BuildDuration &&
+                           m_HP == wrapper.m_HP &&
+                           m_Energy == wrapper.m_Energy &&
                            m_Label == wrapper.m_Label &&
                            m_StealthTechnology == wrapper.m_StealthTechnology &&
                            m_MoveSpeed == wrapper.m_MoveSpeed;

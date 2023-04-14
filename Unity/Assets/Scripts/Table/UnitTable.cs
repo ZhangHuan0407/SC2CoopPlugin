@@ -83,6 +83,22 @@ namespace Table
             }
 
             [SerializeField]
+            protected int m_HP;
+            public int HP
+            {
+                get => m_HP;
+                private set => m_HP = value;
+            }
+
+            [SerializeField]
+            protected int m_Energy;
+            public int Energy
+            {
+                get => m_Energy;
+                private set => m_Energy = value;
+            }
+
+            [SerializeField]
             protected UnitLabel m_Label;
             public UnitLabel Label
             {
