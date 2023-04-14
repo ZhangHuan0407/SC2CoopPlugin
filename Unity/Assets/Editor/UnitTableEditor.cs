@@ -408,7 +408,7 @@ namespace Game.Editor
             }
             string content = JSONMap.ToJSON(m_UnitTable).ToString();
             File.WriteAllText(m_UnitTablePath, content);
-            string localUnitTablePath = $"{Application.streamingAssetsPath}/{GameDefined.LocalResourceDirectory}/Tables/UnitTable.json";
+            string localUnitTablePath = $"{GameDefined.LocalResourceDirectory}/Tables/UnitTable.json";
             Directory.CreateDirectory(Path.GetDirectoryName(localUnitTablePath));
             File.Copy(m_UnitTablePath, localUnitTablePath, true);
         }
