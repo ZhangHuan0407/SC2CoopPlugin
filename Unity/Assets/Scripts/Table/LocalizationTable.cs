@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Runtime.InteropServices;
+using System.Xml.Linq;
 using UnityEngine;
 
 namespace Table
@@ -71,5 +72,26 @@ namespace Table
 
         /* func */
         public string Format(string ID, params string[] values) => string.Format(this[ID], values);
+
+        #region Serialized
+        public static JSONObject ToJSON(object instance)
+        {
+            if (!(instance is LocalizationTable table))
+                return new JSONObject(JSONObject.Type.NULL);
+            JSONObject @object = new JSONObject(JSONObject.Type.OBJECT);
+            foreach (Entry entry in table.Data.Values)
+                @object.AddField(entry.ID, JSONObject.CreateStringObject(entry.StringValue));
+            return @object;
+        }
+        public static object ParseJSON(JSONObject @object)
+        {
+            if (@object is null || @object.IsNull)
+                return null;
+            LocalizationTable table = new LocalizationTable();
+            foreach (var pair in @object.dictionary)
+                table[pair.Key] = pair.Value.str;
+            return table;
+        }
+        #endregion
     }
 }

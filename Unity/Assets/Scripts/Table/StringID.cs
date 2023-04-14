@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace Table
 {
@@ -34,6 +35,17 @@ namespace Table
             if (@object.type == JSONObject.Type.STRING)
                 stringID.Key = @object.str;
             return stringID;
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is StringID iD &&
+                   Key == iD.Key;
+        }
+
+        public override int GetHashCode()
+        {
+            return 990326508 + EqualityComparer<string>.Default.GetHashCode(Key);
         }
         #endregion
     }

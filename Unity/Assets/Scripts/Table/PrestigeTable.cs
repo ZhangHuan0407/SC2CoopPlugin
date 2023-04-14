@@ -54,7 +54,8 @@ namespace Table
             }
         }
 
-        public Dictionary<Commander, Entry[]> m_Data;
+        [NonSerialized]
+        private Dictionary<Commander, Entry[]> m_Data;
         public IReadOnlyDictionary<Commander, Entry[]> Data => m_Data;
 
         public PrestigeTable()
@@ -77,7 +78,7 @@ namespace Table
         }
         public static object ParseJSON(JSONObject @array)
         {
-            if (@array.IsNull)
+            if (@array is null || @array.IsNull)
                 return null;
             PrestigeTable table = new PrestigeTable();
             for (int i = 0; i < @array.list.Count; i++)

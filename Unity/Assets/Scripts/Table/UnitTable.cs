@@ -154,6 +154,7 @@ namespace Table
             }
         }
 
+        [NonSerialized]
         private Dictionary<int, Entry> m_Data;
         public IReadOnlyDictionary<int, Entry> Data => m_Data;
 
@@ -180,7 +181,7 @@ namespace Table
         }
         public static object ParseJSON(JSONObject @array)
         {
-            if (@array.IsNull)
+            if (@array == null || @array.IsNull)
                 return null;
             UnitTable table = new UnitTable();
             for (int i = 0; i < @array.list.Count; i++)

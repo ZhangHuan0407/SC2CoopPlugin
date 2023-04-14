@@ -69,7 +69,6 @@ public class JSONObject
 	}
 	protected JSONObject() { }
 	//Convenience function for creating a JSONObject containing a string.  This is not part of the constructor so that malformed JSON data doesn't just turn into a string object
-	public static JSONObject StringObject(string val) { return CreateStringObject(val); }
 	public void Absorb(JSONObject obj)
 	{
 		if (obj.list != null && obj.list.Count > 0)

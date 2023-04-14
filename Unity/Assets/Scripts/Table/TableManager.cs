@@ -51,6 +51,14 @@ namespace Table
         }
 
         [ThreadStatic]
+        private static TechnologyTable m_TechnologyTable;
+        public static TechnologyTable TechnologyTable
+        {
+            get => m_TechnologyTable;
+            private set => m_TechnologyTable = value;
+        }
+
+        [ThreadStatic]
         private static ModelTable m_ModelTable;
         public static ModelTable ModelTable
         {
@@ -75,6 +83,7 @@ namespace Table
                 AttackWaveTable = LoadTable<AttackWaveTable>("AttackWaveTable.json");
                 PrestigeTable = LoadTable<PrestigeTable>("PrestigeTable.json");
                 UnitTable = LoadTable<UnitTable>("UnitTable.json");
+                TechnologyTable = LoadTable<TechnologyTable>("TechnologyTable.json");
                 ModelTable = new ModelTable();
                 ModelTable.SearchAllModelFrom(resourceRepositoryConfig);
             }
@@ -114,11 +123,7 @@ namespace Table
             {
                 resourceRepositoryConfig.IOLock.ExitReadLock();
             }
-            JSONObject @object = JSONObject.Create(describeContent);
-            LocalizationTable table = new LocalizationTable();
-            foreach (var pair in @object.dictionary)
-                table[pair.Key] = pair.Value.str;
-            LocalizationTable = table;
+            LocalizationTable = JSONMap.ParseJSON<LocalizationTable>(JSONObject.Create(describeContent));
             if (Thread.CurrentThread.ManagedThreadId == LoadingThreadID)
                 MainThread_ReloadLocalizeTable_Handle?.Invoke();
         }
