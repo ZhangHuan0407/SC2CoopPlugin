@@ -1,4 +1,14 @@
-﻿using System;
+﻿#if CHINESE_GUI
+using CommanderWrapper = Game.Editor.CommanderChinese;
+using AmonAINameWrapper = Game.Editor.AmonAINameChinese;
+using MapNameWrapper = Game.Editor.MapNameChinese;
+#else
+using CommanderWrapper = Table.Commander;
+using AmonAINameWrapper = Table.AmonAIName;
+using MapNameWrapper = Table.MapName;
+#endif
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -83,8 +93,8 @@ namespace Game.Editor
             GUILayout.BeginHorizontal();
             GUILayout.Label("Regex", GUILayout.Width(80f));
             m_SearchText = GUILayout.TextField(m_SearchText, GUILayout.MinWidth(150f), GUILayout.MaxWidth(300f));
-            m_FilterCommander = (Commander)EditorGUILayout.EnumFlagsField(m_FilterCommander, GUILayout.Width(100f));
-            m_FilterLabel = (UnitLabel)EditorGUILayout.EnumFlagsField(m_FilterLabel, GUILayout.Width(80f));
+            m_FilterCommander = (Commander)EditorGUILayout.EnumFlagsField((CommanderWrapper)m_FilterCommander, GUILayout.Width(100f));
+            m_FilterLabel = (UnitLabel)EditorGUILayout.EnumFlagsField((UnitLabelWrapper)m_FilterLabel, GUILayout.Width(80f));
             if (GUILayout.Button("Search", GUILayout.Width(60f)))
             {
                 EditorApplication.delayCall += () =>
@@ -213,7 +223,7 @@ namespace Game.Editor
             GUILayout.BeginHorizontal();
             GUILayout.Space(20f);
             GUILayout.Label("Commander", GUILayout.MinWidth(80f));
-            entry.Commander = (Commander)EditorGUILayout.EnumPopup(entry.Commander, GUILayout.Width(100f));
+            entry.Commander = (Commander)EditorGUILayout.EnumPopup((CommanderWrapper)entry.Commander, GUILayout.Width(100f));
             GUILayout.Space(10f);
             GUILayout.Label("UnlockLevel", GUILayout.MinWidth(80f));
             entry.UnlockLevel = EditorGUILayout.IntField(entry.UnlockLevel, GUILayout.Width(50f));
@@ -245,7 +255,7 @@ namespace Game.Editor
             GUILayout.BeginHorizontal();
             GUILayout.Space(20f);
             GUILayout.Label("UnitLabel", GUILayout.Width(60f));
-            entry.Label = (UnitLabel)EditorGUILayout.EnumFlagsField(entry.Label, GUILayout.Width(80f));
+            entry.Label = (UnitLabel)EditorGUILayout.EnumFlagsField((UnitLabelWrapper)entry.Label, GUILayout.Width(80f));
             GUILayout.Space(10f);
             GUILayout.Label("MoveSpeed", GUILayout.Width(80f));
             entry.MoveSpeed = EditorGUILayout.FloatField(entry.MoveSpeed, GUILayout.Width(50f));
@@ -319,7 +329,7 @@ namespace Game.Editor
             }
 
             weapon.Attack = EditorGUILayout.IntField(weapon.Attack, GUILayout.Width(50f));
-            weapon.Label = (UnitLabel)EditorGUILayout.EnumFlagsField(weapon.Label, GUILayout.Width(80f));
+            weapon.Label = (UnitLabel)EditorGUILayout.EnumFlagsField((UnitLabelWrapper)weapon.Label, GUILayout.Width(80f));
             weapon.Speed = EditorGUILayout.FloatField(weapon.Speed, GUILayout.Width(50f));
             weapon.UpgradePreLevel = EditorGUILayout.IntField(weapon.UpgradePreLevel, GUILayout.Width(50f));
             weapon.Technology = GUILayout.TextField(weapon.Technology, GUILayout.Width(100f));

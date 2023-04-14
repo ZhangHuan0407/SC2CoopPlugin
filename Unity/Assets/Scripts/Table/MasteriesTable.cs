@@ -7,7 +7,7 @@ using UnityEngine.Tilemaps;
 namespace Table
 {
     [Serializable]
-    public class PrestigeTable
+    public class MasteriesTable
     {
         [Serializable]
         [StructLayout(LayoutKind.Auto)]
@@ -58,7 +58,7 @@ namespace Table
         private Dictionary<Commander, Entry[]> m_Data;
         public IReadOnlyDictionary<Commander, Entry[]> Data => m_Data;
 
-        public PrestigeTable()
+        public MasteriesTable()
         {
             m_Data = new Dictionary<Commander, Entry[]>();
         }
@@ -66,7 +66,7 @@ namespace Table
         #region Serialized
         public static JSONObject ToJSON(object instance)
         {
-            if (!(instance is PrestigeTable table))
+            if (!(instance is MasteriesTable table))
                 return new JSONObject(JSONObject.Type.NULL);
             JSONObject @array = new JSONObject(JSONObject.Type.ARRAY);
             foreach (var pair in table.Data)
@@ -80,7 +80,7 @@ namespace Table
         {
             if (@array is null || @array.IsNull)
                 return null;
-            PrestigeTable table = new PrestigeTable();
+            MasteriesTable table = new MasteriesTable();
             for (int i = 0; i < @array.list.Count; i++)
             {
                 JSONObject @object = @array.list[i];

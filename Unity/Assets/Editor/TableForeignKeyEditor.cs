@@ -10,14 +10,14 @@ namespace Game.Editor
     public static class TableForeignKeyEditor
     {
         private static AttackWaveTable m_AttackWaveTable;
-        private static PrestigeTable m_PrestigeTable;
+        private static MasteriesTable m_MasteriesTable;
         private static UnitTable m_UnitTable;
         private static TechnologyTable m_TechnologyTable;
 
         private static void LoadInnerTables()
         {
             m_AttackWaveTable = LoadTable<AttackWaveTable>("AttackWaveTable.json");
-            m_PrestigeTable = LoadTable<PrestigeTable>("PrestigeTable.json");
+            m_MasteriesTable = LoadTable<MasteriesTable>("MasteriesTable.json");
             m_UnitTable = LoadTable<UnitTable>("UnitTable.json");
             m_TechnologyTable = LoadTable<TechnologyTable>("TechnologyTable.json");
 
@@ -37,11 +37,11 @@ namespace Game.Editor
             AppendEnum<MapName>();
             AppendEnum<UnitLabel>();
 
-            foreach (PrestigeTable.Entry[] entries in m_PrestigeTable.Data.Values)
+            foreach (MasteriesTable.Entry[] entries in m_MasteriesTable.Data.Values)
             {
                 for (int i = 0; i < entries.Length; i++)
                 {
-                    PrestigeTable.Entry entry = entries[i];
+                    MasteriesTable.Entry entry = entries[i];
                     stringIDSet.Add(entry.Name.Key);
                     stringIDSet.Add(entry.Describe.Key);
                 }
@@ -59,7 +59,9 @@ namespace Game.Editor
             }
 
             Debug.Log($"total string id: {stringIDSet.Count}");
-            foreach (string filePath in Directory.GetFiles($"{GameDefined.LocalResourceDirectory}/Localization", "*.json"))
+            HashSet<string> needDeleteSet = new HashSet<string>();
+            string submoduleLocalizationDirectory = $"{GameDefined.ResourceSubmoduleDirectory}/Localization";
+            foreach (string filePath in Directory.GetFiles(submoduleLocalizationDirectory, "*.json"))
             {
                 string languageName = Path.GetFileNameWithoutExtension(filePath);
                 if (!Enum.TryParse<SystemLanguage>(languageName, out SystemLanguage language))
@@ -73,7 +75,19 @@ namespace Game.Editor
                 }
                 @object.dictionary = new Dictionary<string, JSONObject>(sortedDictionary);
                 File.WriteAllText(filePath, @object.ToString(true));
+                foreach (string key in sortedDictionary.Keys)
+                {
+                    if (!stringIDSet.Contains(key))
+                        needDeleteSet.Add(key);
+                }
             }
+            string localLocalizationDirectory = $"{GameDefined.LocalResourceDirectory}/Localization";
+            if (Directory.Exists(localLocalizationDirectory))
+                Directory.Delete(localLocalizationDirectory, true);
+            new DirectoryInfo(submoduleLocalizationDirectory).CopyFilesTo(new DirectoryInfo(localLocalizationDirectory), false, "*.json");
+
+            Debug.Log("need delete:\n" + string.Join("\n", needDeleteSet));
+            Debug.Log("finish");
 
             void AppendEnum<T>() where T : Enum
             {
@@ -81,6 +95,27 @@ namespace Game.Editor
                 for (int i = 0; i < names.Length; i++)
                     stringIDSet.Add($"{typeof(T).Name}.{names[i]}");
             }
+        }
+
+        [MenuItem("Tools/Unused/Create Attack Wave Table")]
+        public static void CreateAttackWaveTable()
+        {
+            AttackWaveTable table = new AttackWaveTable();
+            Dictionary<AmonAIName, AttackWaveTable.Entry[]> dictionary = table.Data as Dictionary<AmonAIName, AttackWaveTable.Entry[]>;
+            foreach (AmonAIName AIName in Enum.GetValues(typeof(AmonAIName)))
+            {
+                dictionary[AIName] = new AttackWaveTable.Entry[7];
+                JSONObject @entry = JSONMap.ToJSON(new AttackWaveTable.Entry());
+                for (int t = 0; t < 7; t++)
+                {
+                    @entry.SetField("m_AI", AIName.ToString());
+                    @entry.SetField("m_Technology", t);
+                    @entry.SetField("m_UnitID", new JSONObject(JSONObject.Type.ARRAY));
+                    dictionary[AIName][t] = JSONMap.ParseJSON<AttackWaveTable.Entry>(@entry);
+                }
+            }
+            string content = JSONMap.ToJSON(table).ToString(false);
+            Debug.Log(content);
         }
     }
 }

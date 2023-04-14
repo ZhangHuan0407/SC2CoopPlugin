@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using UnityEngine;
 
@@ -27,13 +28,9 @@ namespace Table
                 private set => m_Technology = value;
             }
 
-            [SerializeField]
-            private StringID m_Name;
-            public StringID Name
-            {
-                get => m_Name;
-                private set => m_Name = value;
-            }
+            public StringID Name => new StringID($"{nameof(AmonAIName)}.{AI}");
+
+            public StringID Describe => new StringID($"{nameof(AmonAIName)}.{AI}.Desc");
 
             [SerializeField]
             private int[] m_UnitID;
@@ -43,17 +40,66 @@ namespace Table
                 private set => m_UnitID = value;
             }
 
-            [SerializeField]
-            private string m_TotalCost;
-            public string TotalCost
+            public int TotalCost
             {
-                get => m_TotalCost;
-                private set => m_TotalCost = value;
+                get
+                {
+                    switch (Technology)
+                    {
+                        case 0:
+                            return 0;
+                        default:
+                            throw new ArgumentException("TotalCost Technology:" + Technology.ToString());
+                    }
+                }
             }
+        }
+
+        [NonSerialized]
+        private Dictionary<AmonAIName, Entry[]> m_Data;
+        public IReadOnlyDictionary<AmonAIName, Entry[]> Data => m_Data;
+
+        public Entry this[AmonAIName AIName, int technology]
+        {
+            get => Data[AIName][technology];
         }
 
         public AttackWaveTable()
         {
+            m_Data = new Dictionary<AmonAIName, Entry[]>();
         }
+
+        #region Serialized
+        public static JSONObject ToJSON(object instance)
+        {
+            if (!(instance is AttackWaveTable table))
+                return new JSONObject(JSONObject.Type.NULL);
+            JSONObject @array = new JSONObject(JSONObject.Type.ARRAY);
+            foreach (Entry[] entries in table.Data.Values)
+            {
+                for (int i = 0; i < entries.Length; i++)
+                    @array.Add(JSONMap.ToJSON(entries[i]));
+            }
+            return @array;
+        }
+        public static object ParseJSON(JSONObject @array)
+        {
+            if (@array == null || @array.IsNull)
+                return null;
+            AttackWaveTable table = new AttackWaveTable();
+            for (int i = 0; i < @array.list.Count; i++)
+            {
+                JSONObject @object = @array.list[i];
+                Entry entry = JSONMap.ParseJSON<Entry>(@object);
+                if (!table.m_Data.TryGetValue(entry.AI, out Entry[] entries))
+                {
+                    entries = new Entry[7];
+                    table.m_Data.Add(entry.AI, entries);
+                }
+                entries[entry.Technology] = entry;
+            }
+            return table;
+        }
+        #endregion
     }
 }

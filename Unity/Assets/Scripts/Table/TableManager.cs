@@ -35,11 +35,11 @@ namespace Table
         }
 
         [ThreadStatic]
-        private static PrestigeTable m_PrestigeTable;
-        public static PrestigeTable PrestigeTable
+        private static MasteriesTable m_MasteriesTable;
+        public static MasteriesTable MasteriesTable
         {
-            get => m_PrestigeTable;
-            private set => m_PrestigeTable = value;
+            get => m_MasteriesTable;
+            private set => m_MasteriesTable = value;
         }
 
         [ThreadStatic]
@@ -81,7 +81,7 @@ namespace Table
             try
             {
                 AttackWaveTable = LoadTable<AttackWaveTable>("AttackWaveTable.json");
-                PrestigeTable = LoadTable<PrestigeTable>("PrestigeTable.json");
+                MasteriesTable = LoadTable<MasteriesTable>("MasteriesTable.json");
                 UnitTable = LoadTable<UnitTable>("UnitTable.json");
                 TechnologyTable = LoadTable<TechnologyTable>("TechnologyTable.json");
                 ModelTable = new ModelTable();

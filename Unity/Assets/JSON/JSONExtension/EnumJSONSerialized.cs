@@ -35,7 +35,10 @@ public static class EnumJSONSerialized
             {
                 if (@object is null || @object.IsNull)
                     return defaultValue;
-                return nameToValue[@object.str];
+                if (nameToValue.TryGetValue(@object.str, out object value))
+                    return value;
+                else
+                    return defaultValue;
             });
         return serialized;
     }
