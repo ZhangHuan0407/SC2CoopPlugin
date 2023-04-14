@@ -12,8 +12,6 @@ namespace Game.Editor
 {
     public class UnitTableWindow : EditorWindow
     {
-        private const string UnitTablePathKey = "UnitTablePathKey";
-        
         private UnitTable m_UnitTable;
         public UnitTable UnitTable => m_UnitTable;
 
@@ -46,22 +44,9 @@ namespace Game.Editor
             titleContent = new GUIContent("Unit Table Edit");
             minSize = new Vector2(550f, 400f);
 
-            m_UnitTablePath = EditorPrefs.GetString(UnitTablePathKey);
-            if (File.Exists(m_UnitTablePath))
-            {
-                try
-                {
-                    string content = File.ReadAllText(m_UnitTablePath);
-                    m_UnitTable = JSONMap.ParseJSON<UnitTable>(JSONObject.Create(content));
-                }
-                catch (Exception ex)
-                {
-                    Debug.LogError(ex);
-                    m_UnitTable = null;
-                }
-            }
-            else
-                m_UnitTable = null;
+            m_UnitTablePath = $"{GameDefined.ResourceSubmoduleDirectory}/Tables/UnitTable.json";
+            string content = File.ReadAllText(m_UnitTablePath);
+            m_UnitTable = JSONMap.ParseJSON<UnitTable>(JSONObject.Create(content));
 
             m_SaveDelay = -1;
             m_SearchText = string.Empty;
@@ -88,25 +73,10 @@ namespace Game.Editor
         {
             GUILayout.BeginHorizontal();
             GUILayout.Label("UnitTablePath");
-            string path = GUILayout.TextField(m_UnitTablePath, GUILayout.MinWidth(400f));
-            if (path != m_UnitTablePath)
-            {
-                if (File.Exists(path))
-                {
-                    m_UnitTablePath = path;
-                    EditorPrefs.SetString(UnitTablePathKey, path);
-                }
-                else
-                    Debug.LogError($"{path} is not exists");
-            }
+            GUILayout.Label(m_UnitTablePath);
             GUILayout.FlexibleSpace();
             GUILayout.EndHorizontal();
             GUILayout.Space(15f);
-            if (m_UnitTable == null)
-            {
-                GUILayout.Label("设置UnitTable.json路径后重启窗体");
-                return;
-            }
 
             // Tool
             GUILayout.BeginHorizontal();

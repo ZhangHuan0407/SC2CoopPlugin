@@ -59,16 +59,24 @@ namespace GitRepository
                 })
                 .ContinueWith((task) =>
                 {
-                    new DirectoryInfo(GameDefined.LocalResourceDirectory)
-                        .CopyFilesTo(new DirectoryInfo($"{Application.streamingAssetsPath}/{GameDefined.LocalResourceDirectory}"), true);
+                    string streamingDirectory = $"{Application.streamingAssetsPath}/{GameDefined.LocalResourceDirectory}";
+                    if (Directory.Exists(streamingDirectory))
+                        Directory.Delete(streamingDirectory, true);
+                    new DirectoryInfo(GameDefined.LocalResourceDirectory).CopyFilesTo(new DirectoryInfo(streamingDirectory), true);
                     Debug.Log("finish");
                 });
         }
 
-        [MenuItem("Tools/GitRepository/StreamingAssetsPath")]
-        public static void StreamingAssetsPath()
+        [MenuItem("Tools/Copy Submodule")]
+        public static void CopySubmodule()
         {
-            Debug.Log(Application.streamingAssetsPath);
+            if (Directory.Exists(GameDefined.LocalResourceDirectory))
+                Directory.Delete(GameDefined.LocalResourceDirectory, true);
+            new DirectoryInfo(GameDefined.ResourceSubmoduleDirectory).CopyFilesTo(new DirectoryInfo(GameDefined.LocalResourceDirectory), true);
+            string streamingDirectory = $"{Application.streamingAssetsPath}/{GameDefined.LocalResourceDirectory}";
+            if (Directory.Exists(streamingDirectory))
+                Directory.Delete(streamingDirectory, true);
+            new DirectoryInfo(GameDefined.LocalResourceDirectory).CopyFilesTo(new DirectoryInfo(streamingDirectory), true);
         }
     }
 }

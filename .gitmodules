@@ -1,0 +1,3 @@
+[submodule "sc2coopplugin-resource"]
+	path = sc2coopplugin-resource
+	url = https://gitcode.net/qq_34919016/sc2coopplugin-resource.git
