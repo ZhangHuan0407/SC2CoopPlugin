@@ -16,7 +16,7 @@ namespace Game.UI
         public string PrefabPath { get; set; }
 
         [SerializeField]
-        private Text m_DescribeText;
+        private Text m_RemoteRepositoryText;
         [SerializeField]
         private Text m_PercentageText;
 
