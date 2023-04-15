@@ -69,7 +69,7 @@ namespace Game
             // 扩展工作区
             DwmExtendFrameIntoClientArea(_hwnd, ref margins);
             SetWindowPos(_hwnd, HWND_TOPMOST, 0, 0, fWidth, fHeight, SWP_FRAMECHANGED | SWP_SHOWWINDOW);
-            ShowWindowAsync(_hwnd, 3); //Forces window to show in case of unresponsive app    // SW_SHOWMAXIMIZED(3)
+            //ShowWindowAsync(_hwnd, 3); //Forces window to show in case of unresponsive app    // SW_SHOWMAXIMIZED(3)
     #endif
         }
 
@@ -82,7 +82,11 @@ namespace Game
         {
             if (windowState == WindowState)
                 return;
+            WindowState = windowState;
             LogService.System(nameof(SetWindowState), windowState.ToString());
+            int fWidth = Screen.width;
+            int fHeight = Screen.height;
+#if !UNITY_EDITOR
             switch (windowState)
             {
                 case WindowState.Normal:
@@ -93,13 +97,13 @@ namespace Game
                     break;
                 case WindowState.TopMostAndRaycastIgnore:
                     SetWindowLong(_hwnd, GWL_EXSTYLE, WS_EX_TOPMOST | WS_EX_LAYERED | WS_EX_TRANSPARENT);
+                    fWidth = fWidth / 2;
                     break;
                 default:
                     throw new NotImplementedException(windowState.ToString());
             }
-            int fWidth = Screen.width;
-            int fHeight = Screen.height;
             SetWindowPos(_hwnd, HWND_TOPMOST, 0, 0, fWidth, fHeight, SWP_FRAMECHANGED | SWP_SHOWWINDOW);
+#endif
             // WS_EX_LAYERED 去除标记后，据说要 UpdateLayeredWindow 窗体才能正常渲染
         }
     }

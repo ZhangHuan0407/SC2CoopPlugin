@@ -33,6 +33,7 @@ namespace Game.UI
             //GizmosDialog = CameraCanvas.PushDialog(GameDefined.DrawGizmosDialogPath) as DrawGizmosDialog;
             rect = new RectAnchor(264, 770, 80, 36);
             m_Rect.text = rect.ToString();
+            Application.targetFrameRate = 5;
         }
 
         public void Hide()
@@ -56,7 +57,7 @@ namespace Game.UI
                 MapTimeParseResult result = MapTimeParseResult.Unknown;
                 Global.MapTime.UpdateScreenShot();
                 result = Global.MapTime.TryParse(false, rect, out seconds);
-                m_Text.text = $"{result}\n{seconds}";
+                m_Text.text = $"{result}\n{seconds}\n{1f / Time.deltaTime}";
                 //Tweener tweener = Global.BackThread.WaitingBackThreadTweener(() =>
                 //{
                 //    lock (obj)
@@ -73,9 +74,15 @@ namespace Game.UI
                 //    })
                 //    .DoIt();
             }
+            var aa = Camera.main.GetComponent<TransparentWindow>();
+            if (Input.GetKey(KeyCode.Escape))
+                m_Text.color = Color.red;
+            else if (aa.WindowState == WindowState.TopMostAndBlockRaycast)
+                m_Text.color = Color.green;
+            else
+                m_Text.color = Color.blue;
             if (Input.GetKeyDown(KeyCode.Escape))
             {
-                var aa = Camera.main.GetComponent<TransparentWindow>();
                 if (aa.WindowState == WindowState.TopMostAndRaycastIgnore)
                     aa.SetWindowState(WindowState.TopMostAndBlockRaycast);
                 else

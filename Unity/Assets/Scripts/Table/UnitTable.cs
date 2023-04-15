@@ -164,7 +164,9 @@ namespace Table
 
             protected Entry()
             {
+#if UNITY_EDITOR
                 m_Annotation = string.Empty;
+#endif
                 m_Name.Key = string.Empty;
                 m_StealthTechnology = string.Empty;
             }
