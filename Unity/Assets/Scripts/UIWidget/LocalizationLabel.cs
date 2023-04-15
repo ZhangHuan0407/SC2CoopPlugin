@@ -1,10 +1,10 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using Table;
 
 namespace Game.UI
 {
+    [RequireComponent(typeof(Text))]
     public class LocalizationLabel : MonoBehaviour
     {
         [SerializeField]
@@ -12,6 +12,10 @@ namespace Game.UI
         [SerializeField]
         private string m_StringID;
 
+        private void Reset()
+        {
+            m_Text = GetComponent<Text>();
+        }
         private void Awake()
         {
             LocalizationLabelRefresh();

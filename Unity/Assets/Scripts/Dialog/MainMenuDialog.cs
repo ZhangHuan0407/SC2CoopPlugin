@@ -31,6 +31,12 @@ namespace Game.UI
             Application.targetFrameRate = 30;
             Camera.main.GetComponent<TransparentWindow>().SetWindowState(WindowState.Normal);
 
+            m_SettingButton.onClick.AddListener(OnClickSettingButton);
+            m_GameStartButton.onClick.AddListener(OnClickGameStartButton);
+            m_CommanderEditorButton.onClick.AddListener(OnClickCommanderEditorButton);
+            m_UpdateResourceButton.onClick.AddListener(OnClickUpdateResourceButton);
+            m_ExitButton.onClick.AddListener(OnClickExitButton);
+
             m_TestButton.onClick.AddListener(OnClickTestButton);
         }
 
