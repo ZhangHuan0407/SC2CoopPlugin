@@ -2,10 +2,12 @@
 using CommanderWrapper = Game.Editor.CommanderChinese;
 using AmonAINameWrapper = Game.Editor.AmonAINameChinese;
 using MapNameWrapper = Game.Editor.MapNameChinese;
+using UnitLabelWrapper = Game.Editor.UnitLabelChinese;
 #else
 using CommanderWrapper = Table.Commander;
 using AmonAINameWrapper = Table.AmonAIName;
 using MapNameWrapper = Table.MapName;
+using UnitLabelWrapper = Table.UnitLabel;
 #endif
 
 using System;
@@ -16,7 +18,6 @@ using System.Text.RegularExpressions;
 using Table;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 namespace Game.Editor
 {
@@ -117,19 +118,29 @@ namespace Game.Editor
             // Unit Table Head
             GUILayout.EndHorizontal();
             GUILayout.BeginHorizontal();
-            GUILayout.Label("Lock", GUILayout.Width(32f));
-            GUILayout.Label("ID", GUILayout.Width(68f));
+            if (GUILayout.Button("Lock", GUILayout.Width(38f)))
+                EditorApplication.delayCall += () =>
+                {
+                    m_SelectedUnitSet.Clear();
+                };
+            GUILayout.Label("ID", GUILayout.Width(62f));
             GUILayout.Label("Name", GUILayout.Width(150f));
             GUILayout.Label("Annotation", GUILayout.Width(250f));
+            if (GUILayout.Button("FoldAll", GUILayout.Width(65f)))
+                EditorApplication.delayCall += () =>
+                {
+                    m_UnfoldSet.Clear();
+                };
             GUILayout.FlexibleSpace();
             GUILayout.EndHorizontal();
 
             // Unit Table Entries
-            m_ScrollPosition = GUILayout.BeginScrollView(m_ScrollPosition, GUILayout.MinHeight(300f));
+            m_ScrollPosition = GUILayout.BeginScrollView(m_ScrollPosition, GUILayout.MinHeight(300f), GUILayout.MaxHeight(800f));
             for (int i = 0; i < m_InShowList.Count; i++)
             {
                 PrintUnitEntry(m_InShowList[i]);
             }
+            GUILayout.Space(40f);
             GUILayout.EndScrollView();
 
             GUILayout.BeginHorizontal();
@@ -231,8 +242,14 @@ namespace Game.Editor
             GUILayout.Label("HP", GUILayout.MinWidth(30f));
             entry.HP = EditorGUILayout.IntField(entry.HP, GUILayout.Width(50f));
             GUILayout.Space(10f);
+            GUILayout.Label("HP2", GUILayout.MinWidth(30f));
+            entry.HP2 = EditorGUILayout.IntField(entry.HP2, GUILayout.Width(50f));
+            GUILayout.Space(10f);
             GUILayout.Label("Energy", GUILayout.MinWidth(40f));
             entry.Energy = EditorGUILayout.IntField(entry.Energy, GUILayout.Width(50f));
+            GUILayout.Space(10f);
+            GUILayout.Label("Texture", GUILayout.MinWidth(40f));
+            entry.Texture = EditorGUILayout.TextField(entry.Texture, GUILayout.Width(75f));
             GUILayout.FlexibleSpace();
             GUILayout.EndHorizontal();
 
@@ -265,10 +282,10 @@ namespace Game.Editor
             GUILayout.FlexibleSpace();
             GUILayout.EndHorizontal();
 
-            if (position.width > 829.9f)
+            if (position.width > 909.9f)
             {
                 GUILayout.BeginHorizontal();
-                GUILayout.BeginVertical(GUILayout.Width(445f));
+                GUILayout.BeginVertical(GUILayout.Width(475f));
                 PrintWeaponList(entry);
                 GUILayout.EndVertical();
                 GUILayout.BeginVertical(GUILayout.Width(380f));
@@ -291,10 +308,12 @@ namespace Game.Editor
             GUILayout.BeginHorizontal();
             GUILayout.Space(120f);
             GUILayout.Label("Attack", GUILayout.Width(50f));
-            GUILayout.Label("Label", GUILayout.Width(80f));
-            GUILayout.Label("Speed", GUILayout.Width(60f));
+            GUILayout.Label("Multiple", GUILayout.Width(60f));
+            GUILayout.Label("Label", GUILayout.Width(76f));
+            GUILayout.Label("Speed", GUILayout.Width(50f));
+            GUILayout.Label("Range", GUILayout.Width(50f));
             GUILayout.Label("Upgrade", GUILayout.Width(60f));
-            GUILayout.Label("Technology", GUILayout.Width(100f));
+            GUILayout.Label("Technology", GUILayout.Width(120f));
             GUILayout.FlexibleSpace();
             GUILayout.EndHorizontal();
             entry.Weapon0 = PrintWeapon("Weapon0", entry.Weapon0 as AttackWeaponWrapper);
@@ -307,7 +326,7 @@ namespace Game.Editor
             GUILayout.Space(120f);
             GUILayout.Label("Defence", GUILayout.Width(60f));
             GUILayout.Label("Upgrade", GUILayout.Width(60f));
-            GUILayout.Label("Technology", GUILayout.Width(100f));
+            GUILayout.Label("Technology", GUILayout.Width(120f));
             GUILayout.FlexibleSpace();
             GUILayout.EndHorizontal();
             entry.Guard = PrintGuard("Guard", entry.Guard as GuardWrapper);
@@ -329,10 +348,12 @@ namespace Game.Editor
             }
 
             weapon.Attack = EditorGUILayout.IntField(weapon.Attack, GUILayout.Width(50f));
+            weapon.Multiple = EditorGUILayout.IntField(weapon.Multiple, GUILayout.Width(60f));
             weapon.Label = (UnitLabel)EditorGUILayout.EnumFlagsField((UnitLabelWrapper)weapon.Label, GUILayout.Width(80f));
             weapon.Speed = EditorGUILayout.FloatField(weapon.Speed, GUILayout.Width(50f));
+            weapon.Range = EditorGUILayout.FloatField(weapon.Range, GUILayout.Width(50f));
             weapon.UpgradePreLevel = EditorGUILayout.IntField(weapon.UpgradePreLevel, GUILayout.Width(50f));
-            weapon.Technology = GUILayout.TextField(weapon.Technology, GUILayout.Width(100f));
+            weapon.Technology = GUILayout.TextField(weapon.Technology, GUILayout.Width(120f));
             GUILayout.FlexibleSpace();
             GUILayout.EndHorizontal();
             return weapon;
@@ -354,7 +375,7 @@ namespace Game.Editor
 
             guard.Defence = EditorGUILayout.IntField(guard.Defence, GUILayout.Width(60f));
             guard.UpgradePreLevel = EditorGUILayout.IntField(guard.UpgradePreLevel, GUILayout.Width(60f));
-            guard.Technology = GUILayout.TextField(guard.Technology, GUILayout.Width(100f));
+            guard.Technology = GUILayout.TextField(guard.Technology, GUILayout.Width(120f));
             GUILayout.FlexibleSpace();
             GUILayout.EndHorizontal();
             return guard;
@@ -447,7 +468,10 @@ namespace Game.Editor
                 Debug.LogError("Save failed");
                 return;
             }
-            string content = JSONMap.ToJSON(m_UnitTable).ToString();
+            JSONObject @table = JSONMap.ToJSON(m_UnitTable);
+            for (int i = 0; i < @table.list.Count; i++)
+                @table.list[i].Bake(true);
+            string content = @table.ToString(true);
             File.WriteAllText(m_UnitTablePath, content);
             string localUnitTablePath = $"{GameDefined.LocalResourceDirectory}/Tables/UnitTable.json";
             Directory.CreateDirectory(Path.GetDirectoryName(localUnitTablePath));

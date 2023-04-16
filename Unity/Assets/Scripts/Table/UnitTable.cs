@@ -91,6 +91,14 @@ namespace Table
             }
 
             [SerializeField]
+            protected int m_HP2;
+            public int HP2
+            {
+                get => m_HP2;
+                private set => m_HP2 = value;
+            }
+
+            [SerializeField]
             protected int m_Energy;
             public int Energy
             {
@@ -120,6 +128,14 @@ namespace Table
             {
                 get => m_StealthTechnology;
                 private set => m_StealthTechnology = value;
+            }
+
+            [SerializeField]
+            protected string m_Texture;
+            public string Texture
+            {
+                get => m_Texture;
+                private set => m_Texture = value;
             }
 
             [SerializeField]
@@ -169,6 +185,7 @@ namespace Table
 #endif
                 m_Name.Key = string.Empty;
                 m_StealthTechnology = string.Empty;
+                m_Texture = string.Empty;
             }
         }
 

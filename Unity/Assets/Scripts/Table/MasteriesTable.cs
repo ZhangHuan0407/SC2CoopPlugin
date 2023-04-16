@@ -52,6 +52,14 @@ namespace Table
                 get => m_ThirtyLevelValue;
                 private set => m_ThirtyLevelValue = value;
             }
+
+            [SerializeField]
+            private NumericalUnit m_UnitType;
+            public NumericalUnit UnitType
+            {
+                get => m_UnitType;
+                private set => m_UnitType = value;
+            }
         }
 
         [NonSerialized]

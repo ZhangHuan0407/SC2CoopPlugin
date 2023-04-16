@@ -13,6 +13,12 @@ namespace Game.Editor
             set => m_Attack = value;
         }
 
+        public new int Multiple
+        {
+            get => m_Multiple;
+            set => m_Multiple = value;
+        }
+
         public new UnitLabel Label
         {
             get => m_Label;
@@ -23,6 +29,12 @@ namespace Game.Editor
         {
             get => m_Speed;
             set => m_Speed = value;
+        }
+
+        public new float Range
+        {
+            get => m_Range;
+            set => m_Range = value;
         }
 
         public new int UpgradePreLevel
@@ -39,6 +51,7 @@ namespace Game.Editor
 
         public AttackWeaponWrapper() : base()
         {
+            m_Multiple = 1;
             m_Technology = string.Empty;
         }
 
@@ -48,6 +61,7 @@ namespace Game.Editor
                    m_Attack == wrapper.m_Attack &&
                    m_Label == wrapper.m_Label &&
                    m_Speed == wrapper.m_Speed &&
+                   m_Range == wrapper.m_Range &&
                    m_UpgradePreLevel == wrapper.m_UpgradePreLevel &&
                    m_Technology == wrapper.m_Technology;
         }
@@ -58,6 +72,7 @@ namespace Game.Editor
             hashCode = hashCode * -1521134295 + m_Attack.GetHashCode();
             hashCode = hashCode * -1521134295 + m_Label.GetHashCode();
             hashCode = hashCode * -1521134295 + m_Speed.GetHashCode();
+            hashCode = hashCode * -1521134295 + m_Range.GetHashCode();
             hashCode = hashCode * -1521134295 + m_UpgradePreLevel.GetHashCode();
             hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(m_Technology);
             return hashCode;

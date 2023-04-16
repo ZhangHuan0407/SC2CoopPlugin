@@ -14,6 +14,13 @@ namespace Table
             private set => m_Attack = value;
         }
 
+        protected int m_Multiple;
+        public int Multiple
+        {
+            get => m_Multiple;
+            private set => m_Multiple = value;
+        }
+
         [SerializeField]
         protected UnitLabel m_Label;
         public UnitLabel Label
@@ -28,6 +35,14 @@ namespace Table
         {
             get => m_Speed;
             private set => m_Speed = value;
+        }
+
+        [SerializeField]
+        protected float m_Range;
+        public float Range
+        {
+            get => m_Range;
+            private set => m_Range = value;
         }
 
         [SerializeField]

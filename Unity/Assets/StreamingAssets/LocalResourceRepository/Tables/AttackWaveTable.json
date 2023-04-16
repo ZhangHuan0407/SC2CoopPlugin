@@ -1,0 +1,772 @@
+[
+    {
+        "m_AI": "UnknownAI",
+        "m_Technology": 0,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "UnknownAI",
+        "m_Technology": 1,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "UnknownAI",
+        "m_Technology": 2,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "UnknownAI",
+        "m_Technology": 3,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "UnknownAI",
+        "m_Technology": 4,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "UnknownAI",
+        "m_Technology": 5,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "UnknownAI",
+        "m_Technology": 6,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "MastersAndMachines",
+        "m_Technology": 0,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "MastersAndMachines",
+        "m_Technology": 1,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "MastersAndMachines",
+        "m_Technology": 2,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "MastersAndMachines",
+        "m_Technology": 3,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "MastersAndMachines",
+        "m_Technology": 4,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "MastersAndMachines",
+        "m_Technology": 5,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "MastersAndMachines",
+        "m_Technology": 6,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "ToweringWalkers",
+        "m_Technology": 0,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "ToweringWalkers",
+        "m_Technology": 1,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "ToweringWalkers",
+        "m_Technology": 2,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "ToweringWalkers",
+        "m_Technology": 3,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "ToweringWalkers",
+        "m_Technology": 4,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "ToweringWalkers",
+        "m_Technology": 5,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "ToweringWalkers",
+        "m_Technology": 6,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "DisruptiveArtillery",
+        "m_Technology": 0,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "DisruptiveArtillery",
+        "m_Technology": 1,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "DisruptiveArtillery",
+        "m_Technology": 2,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "DisruptiveArtillery",
+        "m_Technology": 3,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "DisruptiveArtillery",
+        "m_Technology": 4,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "DisruptiveArtillery",
+        "m_Technology": 5,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "DisruptiveArtillery",
+        "m_Technology": 6,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "HopeOfTheKhalai",
+        "m_Technology": 0,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "HopeOfTheKhalai",
+        "m_Technology": 1,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "HopeOfTheKhalai",
+        "m_Technology": 2,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "HopeOfTheKhalai",
+        "m_Technology": 3,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "HopeOfTheKhalai",
+        "m_Technology": 4,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "HopeOfTheKhalai",
+        "m_Technology": 5,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "HopeOfTheKhalai",
+        "m_Technology": 6,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "SiegeOfStorms",
+        "m_Technology": 0,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "SiegeOfStorms",
+        "m_Technology": 1,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "SiegeOfStorms",
+        "m_Technology": 2,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "SiegeOfStorms",
+        "m_Technology": 3,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "SiegeOfStorms",
+        "m_Technology": 4,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "SiegeOfStorms",
+        "m_Technology": 5,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "SiegeOfStorms",
+        "m_Technology": 6,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "ShadowDisruption",
+        "m_Technology": 0,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "ShadowDisruption",
+        "m_Technology": 1,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "ShadowDisruption",
+        "m_Technology": 2,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "ShadowDisruption",
+        "m_Technology": 3,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "ShadowDisruption",
+        "m_Technology": 4,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "ShadowDisruption",
+        "m_Technology": 5,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "ShadowDisruption",
+        "m_Technology": 6,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "VanguardOfAiur",
+        "m_Technology": 0,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "VanguardOfAiur",
+        "m_Technology": 1,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "VanguardOfAiur",
+        "m_Technology": 2,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "VanguardOfAiur",
+        "m_Technology": 3,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "VanguardOfAiur",
+        "m_Technology": 4,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "VanguardOfAiur",
+        "m_Technology": 5,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "VanguardOfAiur",
+        "m_Technology": 6,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "FleetOfTheMatriarch",
+        "m_Technology": 0,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "FleetOfTheMatriarch",
+        "m_Technology": 1,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "FleetOfTheMatriarch",
+        "m_Technology": 2,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "FleetOfTheMatriarch",
+        "m_Technology": 3,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "FleetOfTheMatriarch",
+        "m_Technology": 4,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "FleetOfTheMatriarch",
+        "m_Technology": 5,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "FleetOfTheMatriarch",
+        "m_Technology": 6,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "RaidingParty",
+        "m_Technology": 0,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "RaidingParty",
+        "m_Technology": 1,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "RaidingParty",
+        "m_Technology": 2,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "RaidingParty",
+        "m_Technology": 3,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "RaidingParty",
+        "m_Technology": 4,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "RaidingParty",
+        "m_Technology": 5,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "RaidingParty",
+        "m_Technology": 6,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "MachinesOfWar",
+        "m_Technology": 0,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "MachinesOfWar",
+        "m_Technology": 1,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "MachinesOfWar",
+        "m_Technology": 2,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "MachinesOfWar",
+        "m_Technology": 3,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "MachinesOfWar",
+        "m_Technology": 4,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "MachinesOfWar",
+        "m_Technology": 5,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "MachinesOfWar",
+        "m_Technology": 6,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "ShadowTech",
+        "m_Technology": 0,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "ShadowTech",
+        "m_Technology": 1,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "ShadowTech",
+        "m_Technology": 2,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "ShadowTech",
+        "m_Technology": 3,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "ShadowTech",
+        "m_Technology": 4,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "ShadowTech",
+        "m_Technology": 5,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "ShadowTech",
+        "m_Technology": 6,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "DominionBattlegroup",
+        "m_Technology": 0,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "DominionBattlegroup",
+        "m_Technology": 1,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "DominionBattlegroup",
+        "m_Technology": 2,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "DominionBattlegroup",
+        "m_Technology": 3,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "DominionBattlegroup",
+        "m_Technology": 4,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "DominionBattlegroup",
+        "m_Technology": 5,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "DominionBattlegroup",
+        "m_Technology": 6,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "ClassicInfantry",
+        "m_Technology": 0,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "ClassicInfantry",
+        "m_Technology": 1,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "ClassicInfantry",
+        "m_Technology": 2,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "ClassicInfantry",
+        "m_Technology": 3,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "ClassicInfantry",
+        "m_Technology": 4,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "ClassicInfantry",
+        "m_Technology": 5,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "ClassicInfantry",
+        "m_Technology": 6,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "ClassicMech",
+        "m_Technology": 0,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "ClassicMech",
+        "m_Technology": 1,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "ClassicMech",
+        "m_Technology": 2,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "ClassicMech",
+        "m_Technology": 3,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "ClassicMech",
+        "m_Technology": 4,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "ClassicMech",
+        "m_Technology": 5,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "ClassicMech",
+        "m_Technology": 6,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "RavagingInfestation",
+        "m_Technology": 0,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "RavagingInfestation",
+        "m_Technology": 1,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "RavagingInfestation",
+        "m_Technology": 2,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "RavagingInfestation",
+        "m_Technology": 3,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "RavagingInfestation",
+        "m_Technology": 4,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "RavagingInfestation",
+        "m_Technology": 5,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "RavagingInfestation",
+        "m_Technology": 6,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "BroodlingCorruption",
+        "m_Technology": 0,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "BroodlingCorruption",
+        "m_Technology": 1,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "BroodlingCorruption",
+        "m_Technology": 2,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "BroodlingCorruption",
+        "m_Technology": 3,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "BroodlingCorruption",
+        "m_Technology": 4,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "BroodlingCorruption",
+        "m_Technology": 5,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "BroodlingCorruption",
+        "m_Technology": 6,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "ExplosiveThreats",
+        "m_Technology": 0,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "ExplosiveThreats",
+        "m_Technology": 1,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "ExplosiveThreats",
+        "m_Technology": 2,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "ExplosiveThreats",
+        "m_Technology": 3,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "ExplosiveThreats",
+        "m_Technology": 4,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "ExplosiveThreats",
+        "m_Technology": 5,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "ExplosiveThreats",
+        "m_Technology": 6,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "InvasionarySwarm",
+        "m_Technology": 0,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "InvasionarySwarm",
+        "m_Technology": 1,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "InvasionarySwarm",
+        "m_Technology": 2,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "InvasionarySwarm",
+        "m_Technology": 3,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "InvasionarySwarm",
+        "m_Technology": 4,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "InvasionarySwarm",
+        "m_Technology": 5,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "InvasionarySwarm",
+        "m_Technology": 6,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "DevouringScourge",
+        "m_Technology": 0,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "DevouringScourge",
+        "m_Technology": 1,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "DevouringScourge",
+        "m_Technology": 2,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "DevouringScourge",
+        "m_Technology": 3,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "DevouringScourge",
+        "m_Technology": 4,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "DevouringScourge",
+        "m_Technology": 5,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "DevouringScourge",
+        "m_Technology": 6,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "TheLightOfUmojan",
+        "m_Technology": 0,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "TheLightOfUmojan",
+        "m_Technology": 1,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "TheLightOfUmojan",
+        "m_Technology": 2,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "TheLightOfUmojan",
+        "m_Technology": 3,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "TheLightOfUmojan",
+        "m_Technology": 4,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "TheLightOfUmojan",
+        "m_Technology": 5,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "TheLightOfUmojan",
+        "m_Technology": 6,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "TheShieldOfUmojan",
+        "m_Technology": 0,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "TheShieldOfUmojan",
+        "m_Technology": 1,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "TheShieldOfUmojan",
+        "m_Technology": 2,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "TheShieldOfUmojan",
+        "m_Technology": 3,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "TheShieldOfUmojan",
+        "m_Technology": 4,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "TheShieldOfUmojan",
+        "m_Technology": 5,
+        "m_UnitID": []
+    },
+    {
+        "m_AI": "TheShieldOfUmojan",
+        "m_Technology": 6,
+        "m_UnitID": []
+    }
+]

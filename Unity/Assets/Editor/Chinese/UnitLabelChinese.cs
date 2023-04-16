@@ -5,7 +5,7 @@ namespace Game.Editor
 {
     [Flags]
     [Serializable]
-    public enum UnitLabelWrapper
+    public enum UnitLabelChinese
     {
         无 = 0,
         轻甲 = 0x0000_0001,
