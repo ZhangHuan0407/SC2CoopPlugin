@@ -66,6 +66,12 @@ namespace Game.Editor
             set => m_HP = value;
         }
 
+        public new int HP2
+        {
+            get => m_HP2;
+            set => m_HP2 = value;
+        }
+
         public new int Energy
         {
             get => m_Energy;
@@ -88,6 +94,12 @@ namespace Game.Editor
         {
             get => m_StealthTechnology;
             set => m_StealthTechnology = value;
+        }
+
+        public new string Texture
+        {
+            get => m_Texture;
+            set => m_Texture = value;
         }
 
         public new AttackWeapon Weapon0
@@ -122,21 +134,6 @@ namespace Game.Editor
 
         public UnitTableEntryWrapper() : base()
         {
-            Population = 1;
-        }
-
-        #region Serialized
-        public static JSONObject ToJSON(object instance) => JSONMap.FieldsToJSON(instance, null);
-        public static object ParseJSON(JSONObject @object)
-        {
-            UnitTableEntryWrapper entry = new UnitTableEntryWrapper();
-            JSONMap.FieldsParseJSON(entry, @object);
-            entry.m_Weapon0 = JSONMap.ParseJSON<AttackWeaponWrapper>(@object.GetField(nameof(m_Weapon0)));
-            entry.m_Weapon1 = JSONMap.ParseJSON<AttackWeaponWrapper>(@object.GetField(nameof(m_Weapon1)));
-            entry.m_Weapon2 = JSONMap.ParseJSON<AttackWeaponWrapper>(@object.GetField(nameof(m_Weapon2)));
-            entry.m_Guard = JSONMap.ParseJSON<Guard>(@object.GetField(nameof(m_Guard)));
-            entry.m_Shield = JSONMap.ParseJSON<Guard>(@object.GetField(nameof(m_Shield)));
-            return entry;
         }
 
         public override bool Equals(object obj)
@@ -206,6 +203,20 @@ namespace Game.Editor
             hashCode = hashCode * -1521134295 + m_Guard?.GetHashCode() ?? 10203;
             hashCode = hashCode * -1521134295 + m_Shield?.GetHashCode() ?? 10203;
             return hashCode;
+        }
+
+        #region Serialized
+        public static JSONObject ToJSON(object instance) => JSONMap.FieldsToJSON(instance, null);
+        public static object ParseJSON(JSONObject @object)
+        {
+            UnitTableEntryWrapper entry = new UnitTableEntryWrapper();
+            JSONMap.FieldsParseJSON(entry, @object);
+            entry.m_Weapon0 = JSONMap.ParseJSON<AttackWeaponWrapper>(@object.GetField(nameof(m_Weapon0)));
+            entry.m_Weapon1 = JSONMap.ParseJSON<AttackWeaponWrapper>(@object.GetField(nameof(m_Weapon1)));
+            entry.m_Weapon2 = JSONMap.ParseJSON<AttackWeaponWrapper>(@object.GetField(nameof(m_Weapon2)));
+            entry.m_Guard = JSONMap.ParseJSON<GuardWrapper>(@object.GetField(nameof(m_Guard)));
+            entry.m_Shield = JSONMap.ParseJSON<GuardWrapper>(@object.GetField(nameof(m_Shield)));
+            return entry;
         }
         #endregion
     }
