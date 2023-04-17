@@ -124,7 +124,7 @@ namespace GitRepository
         {
             RepositoryUri = repositoryUri;
             LocalDirectory = localDirectory;
-            IOLock = new ReaderWriterLockSlim();
+            IOLock = new ReaderWriterLockSlim(LockRecursionPolicy.SupportsRecursion);
             Branch = branch;
             if (repositoryUri.Contains("gitee.com/"))
                 m_Platform = Platform.Gitee;
