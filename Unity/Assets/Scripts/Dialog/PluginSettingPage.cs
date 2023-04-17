@@ -2,7 +2,6 @@
 using Table;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.UI.Extension;
 
 namespace Game.UI
 {

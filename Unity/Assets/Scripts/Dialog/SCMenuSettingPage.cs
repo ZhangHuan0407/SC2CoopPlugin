@@ -21,7 +21,14 @@ namespace Game.UI
         [SerializeField]
         private InputField m_CommanderNameRectInput;
 
-        private void Awake()
+        [SerializeField]
+        private Toggle m_MasteriesRectEdit;
+        [SerializeField]
+        private Text m_MasteriesRectText;
+        [SerializeField]
+        private InputField m_MasteriesRectInput;
+
+        private void Start()
         {
             RectAnchor rectAnchor = SettingDialog.UserSetting.RectPositions[RectAnchorKey.CoopMenu];
             m_CoopMenuRectText.text = rectAnchor.ToString();
@@ -34,6 +41,12 @@ namespace Game.UI
             m_CommanderNameRectInput.SetTextWithoutNotify(rectAnchor.ToString());
             m_CommanderNameRectEdit.SetIsOnWithoutNotify(false);
             m_CommanderNameRectEdit.onValueChanged.AddListener(OnClickCommanderNameRectEdit);
+
+            rectAnchor = SettingDialog.UserSetting.RectPositions[RectAnchorKey.Masteries];
+            m_MasteriesRectText.text = rectAnchor.ToString();
+            m_MasteriesRectInput.SetTextWithoutNotify(rectAnchor.ToString());
+            m_MasteriesRectEdit.SetIsOnWithoutNotify(false);
+            m_MasteriesRectEdit.onValueChanged.AddListener(OnClickMasteriesRectEdit);
         }
 
         private void OnClickCoopMenuRectEdit(bool enable)
@@ -50,6 +63,10 @@ namespace Game.UI
             }
         }
         private void OnClickCommanderNameRectEdit(bool enable)
+        {
+
+        }
+        private void OnClickMasteriesRectEdit(bool enable)
         {
 
         }

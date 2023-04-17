@@ -30,7 +30,6 @@ namespace Game.UI
             UserSetting = JSONMap.JSONDeepClone(Global.UserSetting);
             if (UserSetting.NewUser)
             {
-                m_CloseButton.gameObject.SetActive(false);
                 m_SaveButton.gameObject.SetActive(false);
             }
             DrawGizmos = CameraCanvas.PushDialog(GameDefined.DrawGizmosDialogPath) as DrawGizmosDialog;
