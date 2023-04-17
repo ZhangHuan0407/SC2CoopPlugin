@@ -83,8 +83,10 @@ namespace Game
                                 PlayerPrefs.SetInt(GameDefined.MaxClentVersionKey, Mathf.Max(tool.MaxClentVersion, maxClientVersion));
                             });
 
+#if !UNITY_EDITOR
             if (Directory.Exists(GameDefined.TempDirectory))
                 Directory.Delete(GameDefined.TempDirectory, true);
+#endif
 
             Global.MapTime = new MapTime(LittleNN.NeuralNetwork.LoadFrom(MapTimeParameter.NNModelFileName));
 #if UNITY_EDITOR
@@ -98,6 +100,8 @@ namespace Game
 #endif
 
             yield return new WaitUntil(() => jsonMapInitTask.IsCompleted);
+            if (jsonMapInitTask.Exception != null)
+                throw jsonMapInitTask.Exception;
 
             Global.UserSetting = UserSetting.LoadSetting();
             TableManager.LoadInnerTables();
@@ -105,6 +109,8 @@ namespace Game
             yield return null;
 
             yield return new WaitUntil(() => newOCRProcessTask.IsCompleted);
+            if (newOCRProcessTask.Exception != null)
+                throw newOCRProcessTask.Exception;
             SceneManager.LoadScene("MainScene", LoadSceneMode.Single);
             yield return null;
             Game.UI.CameraCanvas.PushDialog(GameDefined.MainManuDialog);

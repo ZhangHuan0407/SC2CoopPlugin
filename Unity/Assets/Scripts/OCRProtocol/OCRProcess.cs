@@ -41,6 +41,11 @@ namespace Game.OCR
 
         public static async Task StartNewOCRProcessAsync()
         {
+            // 非windows没有需要启动的进程，临时处理下
+#if !UNITY_STANDALONE_WIN
+            await Task.Delay(1);
+            return;
+#endif
             if (OCRConnector.Instance != null)
                 throw new Exception($"have another OCRConnector instance");
             await Task.Delay(1);
@@ -52,15 +57,15 @@ namespace Game.OCR
             }
             ProcessStartInfo processStartInfo = new ProcessStartInfo()
             {
-                FileName = OCRPricessPath,
+                FileName = new FileInfo(OCRPricessPath).FullName,
                 Arguments = $"-port={port} -mainprocess={currentProcessId}",
 #if !UNITY_EDITOR && !ALPHA
                 CreateNoWindow = true,
 #endif
             };
-            using (Process p = Process.Start(processStartInfo))
+            using (Process process = Process.Start(processStartInfo))
             {
-                LogService.System("OCRProcess", $"start ocr process {OCRPricessPath} {processStartInfo.Arguments}");
+                LogService.System("OCRProcess", $"start ocr process {OCRPricessPath} {processStartInfo.Arguments} id {process.Id}");
             }
 
             OCRConnector connector = new OCRConnector();
