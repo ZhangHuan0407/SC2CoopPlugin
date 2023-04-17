@@ -130,8 +130,8 @@ namespace GitRepository
             WebRequest downloadRequest = HttpWebRequest.Create(Config.HttpCloneUri);
             Debug.Log(downloadRequest.RequestUri);
             downloadRequest.Method = "GET";
-            Directory.CreateDirectory("Temp");
-            string zipFileName = $"Temp/download_{latestCommit1.commit}.zip";
+            Directory.CreateDirectory(GameDefined.TempDirectory);
+            string zipFileName = $"{GameDefined.TempDirectory}/download_{commit}.zip";
             using (WebResponse downloadResponse = downloadRequest.GetResponse())
             {
                 if (downloadResponse.ContentType.ToLowerInvariant().Contains("text/html"))

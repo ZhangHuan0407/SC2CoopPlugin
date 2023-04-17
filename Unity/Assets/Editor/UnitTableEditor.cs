@@ -407,6 +407,8 @@ namespace Game.Editor
                 randomID = UnityEngine.Random.Range(1, int.MaxValue);
             } while (m_UnitTable.Data.ContainsKey(randomID));
             UnitTable.Entry entry = m_InShowList.FirstOrDefault(e => e.ID == m_NewEntryCopyID) ?? m_UnitTable.Data[m_NewEntryCopyID];
+            if (entry is null)
+                Debug.LogError("not found " + m_NewEntryCopyID);
             UnitTableEntryWrapper newEntry = JSONMap.ParseJSON<UnitTableEntryWrapper>(JSONMap.ToJSON(entry));
             newEntry.ID = randomID;
             m_SelectedUnitSet.Add(newEntry.ID);
@@ -426,7 +428,7 @@ namespace Game.Editor
             }
             if (string.IsNullOrWhiteSpace(m_SearchText))
             {
-                for (int i = 0; i < entries.Length && i < 200; i++)
+                for (int i = 0; i < entries.Length; i++)
                     idSet.Add(entries[i].ID);
             }
             else
@@ -445,8 +447,14 @@ namespace Game.Editor
             }
             foreach (int id in idSet)
             {
-                JSONObject @object = JSONMap.ToJSON(m_UnitTable.Data[id]);
+                UnitTable.Entry entry = m_UnitTable.Data[id];
+                if (m_FilterCommander != Commander.None &&
+                    (entry.Commander & m_FilterCommander) == 0)
+                    continue;
+                JSONObject @object = JSONMap.ToJSON(entry);
                 m_InShowList.Add(JSONMap.ParseJSON<UnitTableEntryWrapper>(@object));
+                if (m_InShowList.Count > 150)
+                    break;
             }
             m_ScrollPosition = Vector2.zero;
         }

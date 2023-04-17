@@ -2,6 +2,7 @@
 {
     public enum CommanderChinese
     {
+        未指定,
         埃蒙,
         阿巴瑟,
         阿拉那克,

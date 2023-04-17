@@ -71,6 +71,8 @@ namespace Game
                     .CopyFilesTo(new DirectoryInfo(GameDefined.LocalResourceDirectory), true);
                 Global.ResourceRepositoryConfig.IOLock.ExitWriteLock();
             }
+            if (Directory.Exists(GameDefined.TempDirectory))
+                Directory.Delete(GameDefined.TempDirectory, true);
 
             Global.MapTime = new MapTime(LittleNN.NeuralNetwork.LoadFrom(MapTimeParameter.NNModelFileName));
 #if UNITY_EDITOR
