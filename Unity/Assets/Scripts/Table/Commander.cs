@@ -5,6 +5,7 @@ namespace Table
     [Serializable]
     public enum Commander
     {
+        None,
         Amon,
         Abathur,
         Alarak,

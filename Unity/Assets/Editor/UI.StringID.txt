@@ -1,0 +1,8 @@
+UI.GameStart
+UI.CommandEdit
+UI.UpdateResource
+UI.Setting
+UI.Exit
+UI.UpdateResource.Desc
+UI.UpdateResource.Desc1
+UI.UpdateResource.Desc2

@@ -58,9 +58,16 @@ namespace Game.Editor
                 stringIDSet.Add(entry.Describe.Key);
             }
 
-            Debug.Log($"total string id: {stringIDSet.Count}");
+            foreach (string line in File.ReadAllLines("Assets/Editor/UI.StringID.txt"))
+            {
+                stringIDSet.Add(line);
+            }
+
+            Debug.Log($"Total StringId Count: {stringIDSet.Count}");
             HashSet<string> needDeleteSet = new HashSet<string>();
             string submoduleLocalizationDirectory = $"{GameDefined.ResourceSubmoduleDirectory}/Localization";
+            int maxPreviousCount = 0;
+            int maxAfterEditCount = 0;
             foreach (string filePath in Directory.GetFiles(submoduleLocalizationDirectory, "*.json"))
             {
                 string languageName = Path.GetFileNameWithoutExtension(filePath);
@@ -68,11 +75,15 @@ namespace Game.Editor
                     continue;
                 JSONObject @object = JSONObject.Create(File.ReadAllText(filePath));
                 SortedDictionary<string, JSONObject> sortedDictionary = new SortedDictionary<string, JSONObject>(@object.dictionary);
+                if (maxPreviousCount < sortedDictionary.Count)
+                    maxPreviousCount = sortedDictionary.Count;
                 foreach (string stringID in stringIDSet)
                 {
                     if (!sortedDictionary.ContainsKey(stringID))
                         sortedDictionary.Add(stringID, JSONObject.CreateStringObject(string.Empty));
                 }
+                if (maxAfterEditCount < sortedDictionary.Count)
+                    maxAfterEditCount = sortedDictionary.Count;
                 @object.dictionary = new Dictionary<string, JSONObject>(sortedDictionary);
                 File.WriteAllText(filePath, @object.ToString(true));
                 foreach (string key in sortedDictionary.Keys)
@@ -86,8 +97,8 @@ namespace Game.Editor
                 Directory.Delete(localLocalizationDirectory, true);
             new DirectoryInfo(submoduleLocalizationDirectory).CopyFilesTo(new DirectoryInfo(localLocalizationDirectory), false, "*.json");
 
-            Debug.Log("need delete:\n" + string.Join("\n", needDeleteSet));
-            Debug.Log("finish");
+            Debug.Log($"PreviousMax {maxPreviousCount} Union {stringIDSet.Count} => After {maxAfterEditCount}");
+            Debug.Log("Need Delete:\n" + string.Join("\n", needDeleteSet));
 
             void AppendEnum<T>() where T : Enum
             {
@@ -117,5 +128,60 @@ namespace Game.Editor
             string content = JSONMap.ToJSON(table).ToString(false);
             Debug.Log(content);
         }
+
+        //[MenuItem("Tools/Unused/Fix Table")]
+        //public static void Fix()
+        //{
+        //    LoadInnerTables();
+        //    Dictionary<string, string> fixMap = new Dictionary<string, string>();
+        //    foreach (UnitTable.Entry entry in m_UnitTable.Data.Values)
+        //    {
+        //        string before, after;
+        //        if (entry.Label.HasFlag(UnitLabel.Building))
+        //        {
+        //            var a = entry.Name;
+        //            before = a.Key;
+        //            a.Key = $"Building.{a.Key}";
+        //            after = a.Key;
+        //            entry.Name = a;
+        //        }
+        //        else
+        //        {
+        //            var a = entry.Name;
+        //            before = a.Key;
+        //            a.Key = $"Unit.{a.Key}";
+        //            after = a.Key;
+        //            entry.Name = a;
+        //        }
+        //        fixMap[before] = after;
+        //    }
+
+        //    JSONObject @table = JSONMap.ToJSON(m_UnitTable);
+        //    for (int i = 0; i < @table.list.Count; i++)
+        //        @table.list[i].Bake(true);
+        //    string content = @table.ToString(true);
+        //    File.WriteAllText($"{GameDefined.ResourceSubmoduleDirectory}/Tables/UnitTable.json", content);
+
+        //    string submoduleLocalizationDirectory = $"{GameDefined.ResourceSubmoduleDirectory}/Localization";
+        //    foreach (string filePath in Directory.GetFiles(submoduleLocalizationDirectory, "*.json"))
+        //    {
+        //        string languageName = Path.GetFileNameWithoutExtension(filePath);
+        //        if (!Enum.TryParse<SystemLanguage>(languageName, out SystemLanguage language))
+        //            continue;
+        //        JSONObject @object = JSONObject.Create(File.ReadAllText(filePath));
+        //        SortedDictionary<string, JSONObject> sortedDictionary = new SortedDictionary<string, JSONObject>(@object.dictionary);
+        //        foreach (var pair in fixMap)
+        //        {
+        //            if (sortedDictionary.ContainsKey(pair.Key))
+        //            {
+        //                JSONObject str = sortedDictionary[pair.Key];
+        //                sortedDictionary.Remove(pair.Key);
+        //                sortedDictionary[pair.Value] = str;
+        //            }
+        //        }
+        //        @object.dictionary = new Dictionary<string, JSONObject>(sortedDictionary);
+        //        File.WriteAllText(filePath, @object.ToString(true));
+        //    }
+        //}
     }
 }

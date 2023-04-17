@@ -21,6 +21,7 @@ namespace Game
         public const string RemoteResourceRepository = "https://gitcode.net/qq_34919016/sc2coopplugin-resource";
         public const string LocalResourceDirectory = "LocalResourceRepository";
         public const string ResourceSubmoduleDirectory = "../sc2coopplugin-resource";
+        public const string TempDirectory = "Temp";
 
         public static readonly string UserSettingFilePath = $"{Application.persistentDataPath}/UserSetting.json";
 
