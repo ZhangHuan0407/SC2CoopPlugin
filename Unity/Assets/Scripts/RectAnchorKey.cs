@@ -7,6 +7,6 @@ namespace Game
     {
         CommanderName,
         CoopMenu,
-
+        Masteries,
     }
 }

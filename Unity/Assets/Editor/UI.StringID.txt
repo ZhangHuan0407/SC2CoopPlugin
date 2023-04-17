@@ -8,6 +8,9 @@ UI.Setting.NewUserHint
 UI.Setting.InterfaceLanguage
 UI.Setting.InGameLanguage
 UI.Setting.Programmer
+UI.Setting.PluginSetting
+UI.Setting.SCMenuSetting
+UI.Setting.SCMapSetting
 UI.Exit
 UI.UpdateResource.Desc
 UI.UpdateResource.Desc1

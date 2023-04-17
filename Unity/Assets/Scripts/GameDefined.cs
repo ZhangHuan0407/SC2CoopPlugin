@@ -30,6 +30,7 @@ namespace Game
         public const string OpenCommanderFileDialog = "Dialogs/OpenCommanderFileDialog";
         public const string MainManuDialog = "Dialogs/MainManuDialog";
         public const string TestDialog = "Dialogs/TestDialog";
+        public const string UpdateResourceDialog = "Dialogs/UpdateResourceDialog";
 
         public const string MaxClentVersionKey = "MaxClentVersion";
         public const string ClientNewVersionWebPage = "";

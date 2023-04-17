@@ -112,7 +112,7 @@ namespace Table
             string describeContent;
             try
             {
-                describeContent = File.ReadAllText($"{resourceRepositoryConfig.LocalDirectory}/Localization/{systemLanguage}");
+                describeContent = File.ReadAllText($"{resourceRepositoryConfig.LocalDirectory}/Localization/{systemLanguage}.json");
             }
             catch (Exception ex)
             {
