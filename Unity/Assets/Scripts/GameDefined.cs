@@ -7,7 +7,7 @@ namespace Game
 {
     public static class GameDefined
     {
-        public const int Version = 1;
+        public static int Version { get; private set; }
 
         public const int DialogSortingOrderPadding = 100;
 
@@ -31,10 +31,14 @@ namespace Game
         public const string MainManuDialog = "Dialogs/MainManuDialog";
         public const string TestDialog = "Dialogs/TestDialog";
 
+        public const string MaxClentVersionKey = "MaxClentVersion";
+        public const string ClientNewVersionWebPage = "";
+
         /* ctor */
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterAssembliesLoaded)]
         private static void Init()
         {
+            Version = int.Parse(Application.version.Split('.')[0]);
             Debug.Log(UserSettingFilePath);
         }
     }

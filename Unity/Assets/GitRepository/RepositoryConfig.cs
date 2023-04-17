@@ -66,6 +66,18 @@ namespace GitRepository
             }
         }
 
+        public string HttpCommitVersionCloneUri(string commit)
+        {
+            switch (m_Platform)
+            {
+                // CSDN的路径好诡异
+                case Platform.Gitcode:
+                    return $"{RepositoryUri}/-/archive/{commit}/{RepositoryName}-{commit}.zip";
+                default:
+                    throw new NotImplementedException(m_Platform.ToString());
+            }
+        }
+
         public string CommitPageUri
         {
             get
@@ -86,6 +98,27 @@ namespace GitRepository
         }
 
         public string LocalCommitVersion => $"{LocalDirectory}/Commit";
+        /// <summary>
+        /// ex: https://gitcode.net/qq_34919016/sc2coopplugin-resource/-/raw/master/VersionMap
+        /// <para>
+        /// 2,LatestCommit                               Version 2 的客户端，使用最新版本资源
+        /// 1,3b99cdbe04100f264d91fa4cdbd91be976963835   Version 1 的客户端，最后一个可用版本
+        /// </para>
+        /// </summary>
+        public string RemoteVersionMap
+        {
+            get
+            {
+                switch (m_Platform)
+                {
+                    case Platform.Gitcode:
+                        // https://gitcode.net/qq_34919016/sc2coopplugin-resource/-/raw/master/VersionMap
+                        return $"{RepositoryUri}/-/raw/{Branch}/VersionMap";
+                    default:
+                        throw new NotImplementedException();
+                }
+            }
+        }
 
         public RepositoryConfig(string repositoryUri, string localDirectory, string branch = MasterBranch)
         {
