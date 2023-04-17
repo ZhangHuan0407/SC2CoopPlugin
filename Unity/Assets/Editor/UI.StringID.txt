@@ -2,7 +2,15 @@ UI.GameStart
 UI.CommandEdit
 UI.UpdateResource
 UI.Setting
+UI.Setting.Save
+UI.Setting.Close
+UI.Setting.NewUserHint
+UI.Setting.InterfaceLanguage
+UI.Setting.InGameLanguage
+UI.Setting.Programmer
 UI.Exit
 UI.UpdateResource.Desc
 UI.UpdateResource.Desc1
 UI.UpdateResource.Desc2
+UI.UpdateResource.Finish
+UI.UpdateResource.NeedDownloadClient

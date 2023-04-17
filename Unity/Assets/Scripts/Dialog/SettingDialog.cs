@@ -23,6 +23,8 @@ namespace Game.UI
 
         public UserSetting UserSetting { get; private set; }
 
+        public DrawGizmosDialog DrawGizmos { get; private set; }
+
         private void Awake()
         {
             UserSetting = JSONMap.JSONDeepClone(Global.UserSetting);
@@ -31,6 +33,8 @@ namespace Game.UI
                 m_CloseButton.gameObject.SetActive(false);
                 m_SaveButton.gameObject.SetActive(false);
             }
+            DrawGizmos = CameraCanvas.PushDialog(GameDefined.DrawGizmosDialogPath) as DrawGizmosDialog;
+            DrawGizmos.Clear();
             for (int i = 0; i < m_SettingPageList.Length; i++)
             {
                 m_SettingPageList[i].gameObject.SetActive(true);
@@ -77,6 +81,11 @@ namespace Game.UI
             UserSetting.Save();
             if (newUser)
                 CameraCanvas.PopDialog(this);
+        }
+
+        private void OnDestroy()
+        {
+            CameraCanvas.Destroy(DrawGizmos);
         }
     }
 }

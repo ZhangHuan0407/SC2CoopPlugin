@@ -9,6 +9,9 @@ namespace Game
     public class UserSetting
     {
         [SerializeField]
+        private int m_Version;
+
+        [SerializeField]
         private bool m_NewUser;
         public bool NewUser
         {
@@ -41,8 +44,8 @@ namespace Game
         }
 
         [SerializeField]
-        private Dictionary<string, Game.OCR.RectAnchor> m_RectPositions;
-        public Dictionary<string, Game.OCR.RectAnchor> RectPositions => m_RectPositions;
+        private Dictionary<RectAnchorKey, Game.OCR.RectAnchor> m_RectPositions;
+        public Dictionary<RectAnchorKey, Game.OCR.RectAnchor> RectPositions => m_RectPositions;
 
         public static UserSetting LoadSetting()
         {
@@ -53,6 +56,7 @@ namespace Game
                 {
                     string content = File.ReadAllText(GameDefined.UserSettingFilePath);
                     userSetting = JSONMap.ParseJSON<UserSetting>(JSONObject.Create(content));
+                    userSetting.VersionFix();
                     return userSetting;
                 }
             }
@@ -63,10 +67,11 @@ namespace Game
 
             userSetting = new UserSetting()
             {
+                m_Version = GameDefined.Version,
                 m_NewUser = true,
                 m_InGameLanguage = string.Empty,
                 m_IsProgrammer = false,
-                m_RectPositions = new Dictionary<string, OCR.RectAnchor>(),
+                m_RectPositions = new Dictionary<RectAnchorKey, OCR.RectAnchor>(),
             };
             switch (Application.systemLanguage)
             {
@@ -87,6 +92,15 @@ namespace Game
             userSetting.NewUser = false;
              string content = JSONMap.ToJSON(userSetting).ToString();
             File.WriteAllText(GameDefined.UserSettingFilePath, content);
+        }
+        public void VersionFix()
+        {
+            if (m_Version >= GameDefined.Version)
+                return;
+
+
+
+            m_Version = GameDefined.Version;
         }
     }
 }
