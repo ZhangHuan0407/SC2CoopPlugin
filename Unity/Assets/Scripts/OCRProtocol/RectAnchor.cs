@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Text.RegularExpressions;
+using UnityEngine;
 
 namespace Game.OCR
 {
@@ -9,6 +10,8 @@ namespace Game.OCR
     [Serializable]
     public struct RectAnchor
     {
+        public static readonly Regex StrRegex = new Regex("L:(?<Left>\\-?[0-9]+),T:(?<Top>\\-?[0-9]+),W:(?<Width>[0-9]+),H:(?<Height>[0-9]+)");
+
         public int Left;
         public int Top;
         public int Width;
@@ -69,6 +72,23 @@ namespace Game.OCR
                    l.Height != r.Height;
         }
 
+        public static bool TryParse(string content, out RectAnchor rectAnchor)
+        {
+            if (StrRegex.Match(content) is Match match &&
+                match.Success)
+            {
+                rectAnchor.Left = int.Parse(match.Groups["Left"].Value);
+                rectAnchor.Top = int.Parse(match.Groups["Top"].Value);
+                rectAnchor.Width = int.Parse(match.Groups["Width"].Value);
+                rectAnchor.Height = int.Parse(match.Groups["Height"].Value);
+                return true;
+            }
+            else
+            {
+                rectAnchor = default;
+                return false;
+            }
+        }
         public override string ToString() => $"L:{Left},T:{Top},W:{Width},H:{Height}";
     }
 }

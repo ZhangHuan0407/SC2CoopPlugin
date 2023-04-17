@@ -40,6 +40,12 @@ namespace Game.UI
             m_TestButton.onClick.AddListener(OnClickTestButton);
         }
 
+        private void Start()
+        {
+            if (Global.UserSetting.NewUser)
+                OnClickSettingButton();
+        }
+
         public void Hide()
         {
             m_Canvas.enabled = false;

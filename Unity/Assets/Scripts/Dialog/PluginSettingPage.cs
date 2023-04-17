@@ -9,20 +9,20 @@ namespace Game.UI
     public class PluginSettingPage : SettingPage
     {
         [SerializeField]
-        private InputField m_InterfaceLanguage;
+        private Dropdown m_InterfaceLanguage;
         [SerializeField]
-        private Dropdown m_InGameLanguageDropDown;
+        private InputField m_InGameLanguageDropDown;
         [SerializeField]
         private Toggle m_IsProgrammer;
 
         private void Start()
         {
-            m_InterfaceLanguage.SetTextWithoutNotify(SettingDialog.UserSetting.InGameLanguage);
+            m_InGameLanguageDropDown.SetTextWithoutNotify(SettingDialog.UserSetting.InGameLanguage);
             string usedLanguage = SettingDialog.UserSetting.InterfaceLanguage.ToString();
-            m_InGameLanguageDropDown.SetValueWithoutNotify(m_InGameLanguageDropDown.options.FindIndex(data => data.text == usedLanguage));
-            m_InGameLanguageDropDown.onValueChanged.AddListener((int index) =>
+            m_InterfaceLanguage.SetValueWithoutNotify(m_InterfaceLanguage.options.FindIndex(data => data.text == usedLanguage));
+            m_InterfaceLanguage.onValueChanged.AddListener((int index) =>
             {
-                SystemLanguage language = (SystemLanguage)Enum.Parse(typeof(SystemLanguage), m_InGameLanguageDropDown.options[index].text);
+                SystemLanguage language = (SystemLanguage)Enum.Parse(typeof(SystemLanguage), m_InterfaceLanguage.options[index].text);
                 SettingDialog.UserSetting.InterfaceLanguage = language;
                 TableManager.LoadLocalizationTable(language);
             });

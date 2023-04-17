@@ -18,11 +18,16 @@ namespace Game.UI
         }
         private void Awake()
         {
+            TableManager.MainThread_ReloadLocalizeTable_Handle += LocalizationLabelRefresh;
             LocalizationLabelRefresh();
         }
         public void LocalizationLabelRefresh()
         {
             m_Text.text = TableManager.LocalizationTable[m_StringID];
+        }
+        private void OnDestroy()
+        {
+            TableManager.MainThread_ReloadLocalizeTable_Handle -= LocalizationLabelRefresh;
         }
     }
 }

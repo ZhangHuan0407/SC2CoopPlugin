@@ -104,16 +104,6 @@ namespace Game
             TableManager.LoadLocalizationTable(Global.UserSetting.InterfaceLanguage);
             yield return null;
 
-            if (Global.UserSetting.NewUser && false)
-            {
-                var dialog = Game.UI.CameraCanvas.PushDialog(GameDefined.SettingDialogPath);
-                while (dialog.gameObject)
-                {
-                    yield return null;
-                }
-                UserSetting.Save();
-            }
-
             yield return new WaitUntil(() => newOCRProcessTask.IsCompleted);
             SceneManager.LoadScene("MainScene", LoadSceneMode.Single);
             yield return null;
