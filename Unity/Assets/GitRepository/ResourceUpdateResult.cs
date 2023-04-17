@@ -7,7 +7,8 @@ namespace GitRepository
         Unknown,
         RegexError,
         NetworkError,
-        NeedUpdate,
+        NeedUpdateResource,
+        NeedUpdateClent,
         UnhandledException,
         Success,
     }

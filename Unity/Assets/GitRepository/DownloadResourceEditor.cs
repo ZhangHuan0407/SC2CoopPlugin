@@ -18,7 +18,8 @@ namespace GitRepository
             ResourceUpdateResult result;
             using (RepositoryConfig repositoryConfig = new RepositoryConfig(GameDefined.RemoteResourceRepository, GameDefined.LocalResourceDirectory))
             {
-                DownloadResourceTool tool = new DownloadResourceTool(repositoryConfig);
+                int version = int.Parse(Application.version.Split('.')[0]);
+                DownloadResourceTool tool = new DownloadResourceTool(repositoryConfig, version);
                 result = await tool.CheckUpdateAsync();
             }
             Debug.Log(result);
@@ -42,7 +43,8 @@ namespace GitRepository
             ResourceUpdateResult result;
             using (RepositoryConfig localRepositoryConfig = new RepositoryConfig(GameDefined.RemoteResourceRepository, GameDefined.LocalResourceDirectory, branch))
             {
-                DownloadResourceTool tool = new DownloadResourceTool(localRepositoryConfig);
+                int version = int.Parse(Application.version.Split('.')[0]);
+                DownloadResourceTool tool = new DownloadResourceTool(localRepositoryConfig, version);
                 result = await tool.DownloadUpdateAsync();
             }
             Debug.Log(result);

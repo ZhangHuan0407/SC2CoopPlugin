@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Game;
 using ICSharpCode.SharpZipLib.Zip;
 using UnityEngine;
 
@@ -14,17 +14,26 @@ namespace GitRepository
     public class DownloadResourceTool
     {
         public readonly RepositoryConfig Config;
-        private volatile string m_LatestCommit;
+        public readonly int CurrentVersion;
+        public volatile int MaxClentVersion;
 
-        public DownloadResourceTool(RepositoryConfig config)
+        public DownloadResourceTool(RepositoryConfig config, int currentVersion)
         {
             Config = config;
+            CurrentVersion = currentVersion;
         }
 
+        /// <returns>
+        /// <see cref="ResourceUpdateResult.Success"/>,
+        /// <see cref="ResourceUpdateResult.RegexError"/>
+        /// </returns>
         private (ResourceUpdateResult state, string commit) GetLatestCommitVersion()
         {
             WebRequest webRequest = HttpWebRequest.Create(Config.CommitPageUri);
             webRequest.Method = "GET";
+#if ALPHA
+            UnityEngine.Debug.Log("WebRequest: " + webRequest.RequestUri);
+#endif
             string webPageContent;
             using (WebResponse response = webRequest.GetResponse())
             {
@@ -53,83 +62,141 @@ namespace GitRepository
             else
                 return (ResourceUpdateResult.RegexError, string.Empty);
         }
+        /// <returns>
+        /// <see cref="ResourceUpdateResult.Success"/>,
+        /// <see cref="ResourceUpdateResult.RegexError"/>
+        /// </returns>
+        private (ResourceUpdateResult state, string availableCommit) GetLatestAvailableCommitVersion()
+        {
+            WebRequest webRequest = HttpWebRequest.Create(Config.RemoteVersionMap);
+            webRequest.Method = "GET";
+#if ALPHA
+            UnityEngine.Debug.Log("WebRequest: " + webRequest.RequestUri);
+#endif
+            string webPageContent;
+            using (WebResponse response = webRequest.GetResponse())
+            {
+                string characterSet = (response as HttpWebResponse).CharacterSet;
+                Encoding encoding = Encoding.GetEncoding(characterSet);
+                using (StreamReader reader = new StreamReader(response.GetResponseStream(), encoding))
+                {
+                    webPageContent = reader.ReadToEnd().ToString();
+                }
+            }
+#if UNITY_EDITOR || ALPHA
+            UnityEngine.Debug.Log("RemoteVersionMap:\n" + webPageContent);
+#endif
+
+            string[] lines = webPageContent.Split('\n');
+            if (lines.Length < 1)
+                return (ResourceUpdateResult.RegexError, string.Empty);
+            for (int i = 0; i < lines.Length; i++)
+            {
+                string line = lines[i];
+                if (string.IsNullOrWhiteSpace(line))
+                    continue;
+                line = line.Trim();
+                string[] contents = line.Split(',');
+                int.TryParse(contents[0], out int version);
+                if (version > MaxClentVersion)
+                    MaxClentVersion = version;
+                if (CurrentVersion != version)
+                    continue;
+                if (contents.Length < 2)
+                    return (ResourceUpdateResult.RegexError, string.Empty);
+                return (ResourceUpdateResult.Success, contents[1].Trim());
+            }
+            return (ResourceUpdateResult.RegexError, string.Empty);
+        }
+        /// <returns>
+        /// <paramref name="workTask"/>
+        /// +<see cref="ResourceUpdateResult.NetworkError"/>
+        /// </returns>
+        private Task<(ResourceUpdateResult, T)> Try<T>(Func<(ResourceUpdateResult, T)> workTask, int times)
+        {
+            var task = Task<ResourceUpdateResult>.Run(async () =>
+            {
+                (ResourceUpdateResult state, T content) result = default;
+                for (int i = 0; i < times; i++)
+                {
+                    try
+                    {
+                        result = workTask();
+                    }
+                    catch (Exception ex)
+                    {
+                        UnityEngine.Debug.LogError(nameof(DownloadResourceTool) + nameof(Try) + ex.ToString());
+                        result.state = ResourceUpdateResult.NetworkError;
+                        result.content = default;
+                    }
+                    if (result.state == ResourceUpdateResult.RegexError)
+                        return result;
+                    if (result.state == ResourceUpdateResult.Success)
+                        break;
+                    await Task.Delay(300);
+                }
+                return result;
+            });
+            return task;
+        }
+
         public Task<ResourceUpdateResult> CheckUpdateAsync()
         {
             var task = Task<ResourceUpdateResult>.Run(async () =>
             {
-                (ResourceUpdateResult state, string commit) latestCommit = default;
-                for (int i = 0; i < 3; i++)
-                {
-                    try
-                    {
-                        latestCommit = GetLatestCommitVersion();
-                    }
-                    catch (Exception ex)
-                    {
-                        UnityEngine.Debug.LogError(nameof(DownloadResourceTool) + nameof(CheckUpdateAsync) + ex.ToString());
-                        latestCommit.state = ResourceUpdateResult.NetworkError;
-                        latestCommit.commit = string.Empty;
-                    }
+                (ResourceUpdateResult state, string commit) latestAvailableCommit = await Try(GetLatestAvailableCommitVersion, 3);
+                if (latestAvailableCommit.state != ResourceUpdateResult.Success)
+                    return latestAvailableCommit.state;
 
-                    if (latestCommit.state == ResourceUpdateResult.Success)
-                    {
-                        string localCommit = string.Empty;
-                        Config.IOLock.EnterReadLock();
-                        if (File.Exists(Config.LocalCommitVersion))
-                            localCommit = File.ReadAllText(Config.LocalCommitVersion);
-                        Config.IOLock.ExitReadLock();
-                        if (latestCommit.commit == localCommit)
-                            return ResourceUpdateResult.Success;
-                        else
-                            return ResourceUpdateResult.NeedUpdate;
-                    }
-                    else if (latestCommit.state == ResourceUpdateResult.RegexError)
-                        return ResourceUpdateResult.RegexError;
-                    await Task.Delay(500);
-                }
-                return latestCommit.state;
+                (ResourceUpdateResult state, string commit) latestCommit = default;
+                if (latestAvailableCommit.commit == "LatestCommit")
+                    latestCommit = await Try(GetLatestCommitVersion, 3);
+                else
+                    latestCommit = (ResourceUpdateResult.Success, latestAvailableCommit.commit);
+                if (latestCommit.state != ResourceUpdateResult.Success)
+                    return latestCommit.state;
+                string localCommit = string.Empty;
+                Config.IOLock.EnterReadLock();
+                if (File.Exists(Config.LocalCommitVersion))
+                    localCommit = File.ReadAllText(Config.LocalCommitVersion);
+                Config.IOLock.ExitReadLock();
+                if (latestAvailableCommit.commit != "LatestCommit")
+                    return ResourceUpdateResult.NeedUpdateClent;
+                else if(latestCommit.commit == localCommit)
+                    return ResourceUpdateResult.Success;
+                else
+                    return ResourceUpdateResult.NeedUpdateResource;
             });
             return task;
         }
 
         public Task<ResourceUpdateResult> DownloadUpdateAsync()
         {
-            m_LatestCommit = null;
-            var task = Task<ResourceUpdateResult>.Run(() =>
+            var task = Task<ResourceUpdateResult>.Run(async () =>
             {
-                ResourceUpdateResult result = default;
-                for (int i = 0; i < 3; i++)
-                {
-                    result = ResourceUpdateResult.NetworkError;
-                    try
-                    {
-                        result = DownloadUpdate_Internal();
-                    }
-                    catch (Exception ex)
-                    {
-                        result = ResourceUpdateResult.NetworkError;
-                        UnityEngine.Debug.LogError(ex);
-                    }
-                    if (result == ResourceUpdateResult.Success)
-                        break;
-                    else if (result != ResourceUpdateResult.NetworkError)
-                        break;
-                }
-                return result;
+                (ResourceUpdateResult state, string commit) latestAvailableCommit = await Try(GetLatestAvailableCommitVersion, 3);
+                if (latestAvailableCommit.state != ResourceUpdateResult.Success)
+                    return latestAvailableCommit.state;
+
+                (ResourceUpdateResult state, string commit) latestCommit = default;
+                if (latestAvailableCommit.commit == "LatestCommit")
+                    latestCommit = await Try(GetLatestCommitVersion, 3);
+                else
+                    latestCommit = (ResourceUpdateResult.Success, latestAvailableCommit.commit);
+
+                (ResourceUpdateResult state, bool _) downloadResult = await Try(() => (DownloadUpdate_Internal(latestCommit.commit), true), 3);
+                return downloadResult.state;
             });
             return task;
         }
-        private ResourceUpdateResult DownloadUpdate_Internal()
+        private ResourceUpdateResult DownloadUpdate_Internal(string commit)
         {
-            (ResourceUpdateResult state, string commit) latestCommit1 = GetLatestCommitVersion();
-            if (latestCommit1.state != ResourceUpdateResult.Success)
-                return latestCommit1.state;
-            m_LatestCommit = latestCommit1.commit;
-
             // download zip
-            WebRequest downloadRequest = HttpWebRequest.Create(Config.HttpCloneUri);
-            Debug.Log(downloadRequest.RequestUri);
+            WebRequest downloadRequest = HttpWebRequest.Create(Config.HttpCommitVersionCloneUri(commit));
             downloadRequest.Method = "GET";
+#if ALPHA
+            UnityEngine.Debug.Log("WebRequest: " + downloadRequest.RequestUri);
+#endif
             Directory.CreateDirectory(GameDefined.TempDirectory);
             string zipFileName = $"{GameDefined.TempDirectory}/download_{commit}.zip";
             using (WebResponse downloadResponse = downloadRequest.GetResponse())
@@ -156,28 +223,6 @@ namespace GitRepository
                 }
             }
 
-            (ResourceUpdateResult state, string commit) latestCommit2 = default;
-            for (int i = 0; i < 3; i++)
-            {
-                try
-                {
-                    latestCommit2 = GetLatestCommitVersion();
-                }
-                catch (Exception ex)
-                {
-                    UnityEngine.Debug.LogError(ex);
-                }
-                if (latestCommit2.state == ResourceUpdateResult.Success)
-                    break;
-            }
-            if (latestCommit2.state != ResourceUpdateResult.Success)
-                return latestCommit2.state;
-            if (latestCommit1.commit != latestCommit2.commit)
-            {
-                m_LatestCommit = latestCommit2.commit;
-                return ResourceUpdateResult.NeedUpdate;
-            }
-
             // delete old files and unzip
             Config.IOLock.EnterWriteLock();
             try
@@ -186,7 +231,7 @@ namespace GitRepository
                     Directory.Delete(Config.LocalDirectory, true);
                 Directory.CreateDirectory(Config.LocalDirectory);
                 UnZip(zipFileName, Config.LocalDirectory);
-                File.WriteAllText(Config.LocalCommitVersion, latestCommit2.commit);
+                File.WriteAllText(Config.LocalCommitVersion, commit);
             }
             catch (Exception ex)
             {

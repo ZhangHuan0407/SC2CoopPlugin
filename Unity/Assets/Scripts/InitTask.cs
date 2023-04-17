@@ -52,6 +52,8 @@ namespace Game
                     JSONMap.RegisterType(serialized);
             });
 
+            Global.BackThread = BackThread.CreateNew("BackThread");
+
             Task newOCRProcessTask = OCRProcess.StartNewOCRProcessAsync();
 #if UNITY_EDITOR
             EditorApplication.playModeStateChanged += (i) =>
@@ -71,6 +73,16 @@ namespace Game
                     .CopyFilesTo(new DirectoryInfo(GameDefined.LocalResourceDirectory), true);
                 Global.ResourceRepositoryConfig.IOLock.ExitWriteLock();
             }
+            DownloadResourceTool tool = new DownloadResourceTool(Global.ResourceRepositoryConfig, GameDefined.Version);
+
+            Task<ResourceUpdateResult> checkUpdateTask = tool.CheckUpdateAsync();
+            Tween.WaitTween.WaitUntil(() => checkUpdateTask.IsCompleted)
+                            .OnComplete(() =>
+                            {
+                                int maxClientVersion = PlayerPrefs.GetInt(GameDefined.MaxClentVersionKey);
+                                PlayerPrefs.SetInt(GameDefined.MaxClentVersionKey, Mathf.Max(tool.MaxClentVersion, maxClientVersion));
+                            });
+
             if (Directory.Exists(GameDefined.TempDirectory))
                 Directory.Delete(GameDefined.TempDirectory, true);
 
