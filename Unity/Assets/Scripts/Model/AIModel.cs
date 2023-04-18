@@ -8,8 +8,9 @@ namespace Game.Model
     {
         public AmonAIName AIName;
 
-        //public AttackWaveTable.Entry[] NextAttackWave()
-        //{
-        //}
+        public static AIModel CreateDebug()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

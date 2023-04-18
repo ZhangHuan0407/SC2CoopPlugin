@@ -30,7 +30,7 @@ namespace Game.Editor
         private string m_UnitTablePath;
 
         private string m_SearchText;
-        private Commander m_FilterCommander;
+        private CommanderName m_FilterCommander;
         private UnitLabel m_FilterLabel;
         private HashSet<int> m_SelectedUnitSet;
         private List<UnitTableEntryWrapper> m_InShowList;
@@ -94,7 +94,7 @@ namespace Game.Editor
             GUILayout.BeginHorizontal();
             GUILayout.Label("Regex", GUILayout.Width(80f));
             m_SearchText = GUILayout.TextField(m_SearchText, GUILayout.MinWidth(150f), GUILayout.MaxWidth(300f));
-            m_FilterCommander = (Commander)EditorGUILayout.EnumFlagsField((CommanderWrapper)m_FilterCommander, GUILayout.Width(100f));
+            m_FilterCommander = (CommanderName)EditorGUILayout.EnumFlagsField((CommanderWrapper)m_FilterCommander, GUILayout.Width(100f));
             m_FilterLabel = (UnitLabel)EditorGUILayout.EnumFlagsField((UnitLabelWrapper)m_FilterLabel, GUILayout.Width(80f));
             if (GUILayout.Button("Search", GUILayout.Width(60f)))
             {
@@ -234,7 +234,7 @@ namespace Game.Editor
             GUILayout.BeginHorizontal();
             GUILayout.Space(20f);
             GUILayout.Label("Commander", GUILayout.MinWidth(80f));
-            entry.Commander = (Commander)EditorGUILayout.EnumPopup((CommanderWrapper)entry.Commander, GUILayout.Width(100f));
+            entry.Commander = (CommanderName)EditorGUILayout.EnumPopup((CommanderWrapper)entry.Commander, GUILayout.Width(100f));
             GUILayout.Space(10f);
             GUILayout.Label("UnlockLevel", GUILayout.MinWidth(80f));
             entry.UnlockLevel = EditorGUILayout.IntField(entry.UnlockLevel, GUILayout.Width(50f));
@@ -448,7 +448,7 @@ namespace Game.Editor
             foreach (int id in idSet)
             {
                 UnitTable.Entry entry = m_UnitTable.Data[id];
-                if (m_FilterCommander != Commander.None &&
+                if (m_FilterCommander != CommanderName.None &&
                     (entry.Commander & m_FilterCommander) == 0)
                     continue;
                 JSONObject @object = JSONMap.ToJSON(entry);

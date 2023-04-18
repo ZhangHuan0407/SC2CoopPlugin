@@ -33,7 +33,7 @@ namespace Game.Editor
             LoadInnerTables();
             HashSet<string> stringIDSet = new HashSet<string>();
             AppendEnum<AmonAIName>();
-            AppendEnum<Commander>();
+            AppendEnum<CommanderName>();
             AppendEnum<MapName>();
             AppendEnum<UnitLabel>();
 

@@ -7,5 +7,10 @@ namespace Game.Model
     public class MapModel
     {
         public MapName MapName;
+
+        public static MapModel CreateDebug()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -13,8 +13,8 @@ namespace Table
         public class Entry
         {
             [SerializeField]
-            private Commander m_Commander;
-            public Commander Commander
+            private CommanderName m_Commander;
+            public CommanderName Commander
             {
                 get => m_Commander;
                 private set => m_Commander = value;
@@ -62,12 +62,12 @@ namespace Table
         }
 
         [NonSerialized]
-        private Dictionary<Commander, Entry[]> m_Data;
-        public IReadOnlyDictionary<Commander, Entry[]> Data => m_Data;
+        private Dictionary<CommanderName, Entry[]> m_Data;
+        public IReadOnlyDictionary<CommanderName, Entry[]> Data => m_Data;
 
         public MasteriesTable()
         {
-            m_Data = new Dictionary<Commander, Entry[]>();
+            m_Data = new Dictionary<CommanderName, Entry[]>();
         }
 
         #region Serialized
