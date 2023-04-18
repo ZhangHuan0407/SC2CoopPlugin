@@ -25,7 +25,7 @@ namespace Game
         public const string ResourceSubmoduleDirectory = "../sc2coopplugin-resource";
         public const string TempDirectory = "Temp";
 
-        public static readonly string UserSettingFilePath = $"{Application.persistentDataPath}/UserSetting.json";
+        public static string UserSettingFilePath { get; private set; }
 
         public const string DrawGizmosDialogPath = "Dialogs/DrawGizmosDialog";
         public static string SettingDialogPath => "Dialogs/SettingDialog";
@@ -42,6 +42,7 @@ namespace Game
             Version = int.Parse(Application.version.Split('.')[0]);
             ScreenWidth = Screen.width;
             ScreenHeight = Screen.height;
+            UserSettingFilePath = $"{Application.persistentDataPath}/UserSetting.json";
             Debug.Log(UserSettingFilePath);
         }
     }
