@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using RectAnchor = Game.OCR.RectAnchor;
 
 namespace Game
 {
@@ -47,6 +48,94 @@ namespace Game
         private Dictionary<RectAnchorKey, Game.OCR.RectAnchor> m_RectPositions;
         public Dictionary<RectAnchorKey, Game.OCR.RectAnchor> RectPositions => m_RectPositions;
 
+        public UserSetting()
+        {
+            m_Version = GameDefined.Version;
+            m_NewUser = true;
+            m_InGameLanguage = string.Empty;
+            m_IsProgrammer = false;
+            m_RectPositions = new Dictionary<RectAnchorKey, RectAnchor>();
+        }
+        /// <summary>
+        /// LoadingThread invoke only
+        /// </summary>
+        internal void AppendDefaultField()
+        {
+            int screenWidth = Screen.width;
+            int screenHeight = Screen.height;
+            if (!m_RectPositions.ContainsKey(RectAnchorKey.CommanderName))
+            {
+                RectAnchor rectAnchor = new RectAnchor();
+                rectAnchor.Left = Mathf.FloorToInt(screenWidth * 0.1558f - 202f);
+                rectAnchor.Top = Mathf.FloorToInt(screenHeight * 0.4667f - 33f);
+                rectAnchor.Width = 250;
+                rectAnchor.Height = 53;
+                m_RectPositions[RectAnchorKey.CommanderName] = rectAnchor;
+            }
+            if (!m_RectPositions.ContainsKey(RectAnchorKey.CoopMenu))
+            {
+                RectAnchor rectAnchor = new RectAnchor();
+                rectAnchor.Left = Mathf.FloorToInt(screenWidth * 0.0634f + 42.2f);
+                rectAnchor.Top = Mathf.FloorToInt(12f);
+                rectAnchor.Width = Mathf.FloorToInt(screenWidth * 0.0635f);
+                rectAnchor.Height = Mathf.FloorToInt(screenHeight * 0.0333f + 24f);
+                m_RectPositions[RectAnchorKey.CoopMenu] = rectAnchor;
+            }
+            if (!m_RectPositions.ContainsKey(RectAnchorKey.Masteries))
+            {
+                RectAnchor rectAnchor = new RectAnchor();
+                rectAnchor.Left = 15;
+                rectAnchor.Top = Mathf.FloorToInt(screenHeight * 0.3f);
+                rectAnchor.Width = Mathf.FloorToInt(screenWidth * 0.3f);
+                rectAnchor.Height = Mathf.FloorToInt(screenHeight * 0.4f);
+                m_RectPositions[RectAnchorKey.Masteries] = rectAnchor;
+            }
+            //if (!m_RectPositions.ContainsKey(RectAnchorKey.LoadingMapName))
+            //{
+            //    RectAnchor rectAnchor = new RectAnchor();
+            //    //rectAnchor.Left = 15;
+            //    //rectAnchor.Top = Mathf.FloorToInt(screenHeight * 0.3f);
+            //    //rectAnchor.Width = Mathf.FloorToInt(screenWidth * 0.3f);
+            //    //rectAnchor.Height = Mathf.FloorToInt(screenHeight * 0.4f);
+            //    m_RectPositions[RectAnchorKey.LoadingMapName] = rectAnchor;
+            //}
+            if (!m_RectPositions.ContainsKey(RectAnchorKey.MapTime))
+            {
+                RectAnchor rectAnchor = new RectAnchor();
+                rectAnchor.Left = Mathf.FloorToInt(screenWidth * 0.0057f + 252f);
+                rectAnchor.Top = Mathf.FloorToInt(screenHeight * 0.4333f + 299f);
+                rectAnchor.Width = 80;
+                rectAnchor.Height = 32;
+                m_RectPositions[RectAnchorKey.MapTime] = rectAnchor;
+            }
+            if (!m_RectPositions.ContainsKey(RectAnchorKey.MapTask))
+            {
+                RectAnchor rectAnchor = new RectAnchor();
+                rectAnchor.Left = 0;
+                rectAnchor.Top = 0;
+                rectAnchor.Width = Mathf.FloorToInt(screenWidth * 0.0423f + 172.8f);
+                rectAnchor.Height = Mathf.FloorToInt(screenHeight * 0.05f + 250f);
+                m_RectPositions[RectAnchorKey.MapTask] = rectAnchor;
+            }
+            /*
+             * 
+            TryParse("AnchoredMin:0.0057,0.4333,AnchoredMax:0.0057,0.4333,AnchoredPosition:282,320,SizeDelta:58,36", out InMapTime);
+
+LoadingMapName
+X 605, Y 59, Width 193, Height 44
+InMapTime
+X 263, Y 753, Width 48, Height 31
+LoadingMapName
+X 864, Y 63, Width 203, Height 51
+InMapTime
+X 266, Y 766, Width 52, Height 32
+             */
+
+        }
+
+        /// <summary>
+        /// LoadingThread invoke only
+        /// </summary>
         public static UserSetting LoadSetting()
         {
             UserSetting userSetting;
@@ -56,6 +145,7 @@ namespace Game
                 {
                     string content = File.ReadAllText(GameDefined.UserSettingFilePath);
                     userSetting = JSONMap.ParseJSON<UserSetting>(JSONObject.Create(content));
+                    userSetting.AppendDefaultField();
                     userSetting.VersionFix();
                     return userSetting;
                 }
@@ -65,14 +155,8 @@ namespace Game
                 LogService.Error(nameof(LoadSetting), ex.ToString());
             }
 
-            userSetting = new UserSetting()
-            {
-                m_Version = GameDefined.Version,
-                m_NewUser = true,
-                m_InGameLanguage = string.Empty,
-                m_IsProgrammer = false,
-                m_RectPositions = new Dictionary<RectAnchorKey, OCR.RectAnchor>(),
-            };
+            userSetting = new UserSetting();
+            userSetting.AppendDefaultField();
             switch (Application.systemLanguage)
             {
                 case SystemLanguage.ChineseSimplified:
