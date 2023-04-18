@@ -8,5 +8,17 @@ namespace Game.Model
     {
         public CommanderName Commander;
 
+        public PlayerOperatorEventModel[] EventModels;
+
+        public static CommanderModel CreateDebug()
+        {
+            CommanderModel model = new CommanderModel();
+            model.Commander = CommanderName.Zagara;
+            model.EventModels = new PlayerOperatorEventModel[]
+            {
+
+            };
+            return model;
+        }
     }
 }

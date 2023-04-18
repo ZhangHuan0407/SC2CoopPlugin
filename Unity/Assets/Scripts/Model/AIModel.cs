@@ -7,10 +7,17 @@ namespace Game.Model
     public class AIModel
     {
         public AmonAIName AIName;
+        public AttackWaveEventModel[] EventModels;
 
         public static AIModel CreateDebug()
         {
-            throw new NotImplementedException();
+            AIModel model = new AIModel();
+            model.AIName = AmonAIName.RaidingParty;
+            model.EventModels = new AttackWaveEventModel[]
+            {
+
+            };
+            return model;
         }
     }
 }
