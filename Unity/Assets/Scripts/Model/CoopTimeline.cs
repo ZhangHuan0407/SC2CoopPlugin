@@ -10,7 +10,7 @@ namespace Game.Model
         public AIModel AI;
         public MapModel Map;
         public CommanderModel Commander;
-        public float Time;
+        public float MapTime;
 
         public void Update(TestDialog testDialog)
         {
@@ -22,8 +22,8 @@ namespace Game.Model
             for (int i = 0; i < allEventModels.Count; i++)
             {
                 IEventModel eventModel = allEventModels[i];
-                if (eventModel.EndTime < Time ||
-                    eventModel.StartTime > Time)
+                if (eventModel.EndTime < MapTime ||
+                    eventModel.StartTime > MapTime)
                     continue;
                 if (eventModel.SkipEvent(this))
                     continue;
@@ -35,7 +35,7 @@ namespace Game.Model
                 // if compare == 0, compare with guid
                 return compare;
             });
-            testDialog.ShowModelView(eventModels.ToArray());
+            testDialog.UpdateModelView(eventModels.ToArray(), MapTime);
         }
     }
 }

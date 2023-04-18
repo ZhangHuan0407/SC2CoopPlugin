@@ -27,6 +27,7 @@ namespace Game
             yield return null;
 
             JSONMap.CallFromLoadingThread();
+            GameDefined.CallFromLoadingThread();
 
             Application.logMessageReceived += (string condition, string stackTrace, LogType logType) => 
             {
