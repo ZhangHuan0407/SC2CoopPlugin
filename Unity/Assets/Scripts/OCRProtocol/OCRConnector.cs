@@ -54,7 +54,7 @@ namespace Game.OCR
                 if (protocolId == ProtocolId.RecognizeWindowArea && NeedSyncParameters)
                 {
                     InitParameters_Request request = new InitParameters_Request(Global.UserSetting.InGameLanguage, 
-                                                                                screenSize: new RectAnchor(0, 0, Screen.width, Screen.height));
+                                                                                screenSize: new RectAnchor(0, 0, GameDefined.ScreenWidth, GameDefined.ScreenHeight));
                     (HeadData head, InitParameters_Response package) response = SendRequest_Internal<InitParameters_Response>(ProtocolId.InitParameters, request);
                     NeedSyncParameters = response.head.StatusCode == ErrorCode.OK && response.package.OcrInitSuccess;
                     if (NeedSyncParameters)

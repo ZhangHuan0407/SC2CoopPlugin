@@ -56,13 +56,10 @@ namespace Game
             m_IsProgrammer = false;
             m_RectPositions = new Dictionary<RectAnchorKey, RectAnchor>();
         }
-        /// <summary>
-        /// LoadingThread invoke only
-        /// </summary>
         internal void AppendDefaultField()
         {
-            int screenWidth = Screen.width;
-            int screenHeight = Screen.height;
+            int screenWidth = GameDefined.ScreenWidth;
+            int screenHeight = GameDefined.ScreenHeight;
             if (!m_RectPositions.ContainsKey(RectAnchorKey.CommanderName))
             {
                 RectAnchor rectAnchor = new RectAnchor();
@@ -117,25 +114,8 @@ namespace Game
                 rectAnchor.Height = Mathf.FloorToInt(screenHeight * 0.05f + 250f);
                 m_RectPositions[RectAnchorKey.MapTask] = rectAnchor;
             }
-            /*
-             * 
-            TryParse("AnchoredMin:0.0057,0.4333,AnchoredMax:0.0057,0.4333,AnchoredPosition:282,320,SizeDelta:58,36", out InMapTime);
-
-LoadingMapName
-X 605, Y 59, Width 193, Height 44
-InMapTime
-X 263, Y 753, Width 48, Height 31
-LoadingMapName
-X 864, Y 63, Width 203, Height 51
-InMapTime
-X 266, Y 766, Width 52, Height 32
-             */
-
         }
 
-        /// <summary>
-        /// LoadingThread invoke only
-        /// </summary>
         public static UserSetting LoadSetting()
         {
             UserSetting userSetting;

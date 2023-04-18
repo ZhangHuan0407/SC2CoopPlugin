@@ -8,6 +8,8 @@ namespace Game
     public static class GameDefined
     {
         public static int Version { get; private set; }
+        public static int ScreenWidth { get; private set; }
+        public static int ScreenHeight { get; private set; }
 
         public const int DialogSortingOrderPadding = 100;
 
@@ -40,6 +42,8 @@ namespace Game
         private static void Init()
         {
             Version = int.Parse(Application.version.Split('.')[0]);
+            ScreenWidth = Screen.width;
+            ScreenHeight = Screen.height;
             Debug.Log(UserSettingFilePath);
         }
     }
