@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using Tween;
 
 namespace Game.UI
 {
@@ -59,10 +60,14 @@ namespace Game.UI
         public void OnClickSettingButton()
         {
             IDialog dialog = CameraCanvas.PushDialog(GameDefined.SettingDialogPath);
-            HideUntilDialogClose(dialog, () =>
-            {
-                Camera.main.GetComponent<TransparentWindow>().SetWindowState(WindowState.Normal);
-            });
+            Hide();
+            WaitTween.WaitUntil(() => !(UnityEngine.Object)dialog)
+                .OnComplete(() =>
+                {
+                    Show();
+                    Camera.main.GetComponent<TransparentWindow>().SetWindowState(WindowState.Normal);
+                })
+                .DoIt();
         }
         public void OnClickGameStartButton()
         {
@@ -72,11 +77,24 @@ namespace Game.UI
         public void OnClickCommanderEditorButton()
         {
             IDialog dialog = CameraCanvas.PushDialog(GameDefined.OpenCommanderFileDialog);
-            HideUntilDialogClose(dialog);
+            Hide();
+            WaitTween.WaitUntil(() => !(UnityEngine.Object)dialog)
+                .OnComplete(() =>
+                {
+                    Show();
+                })
+                .DoIt();
         }
         public void OnClickUpdateResourceButton()
         {
-
+            IDialog dialog = CameraCanvas.PushDialog(GameDefined.UpdateResourceDialog);
+            Hide();
+            WaitTween.WaitUntil(() => !(UnityEngine.Object)dialog)
+                .OnComplete(() =>
+                {
+                    Show();
+                })
+                .DoIt();
         }
         public void OnClickExitButton()
         {

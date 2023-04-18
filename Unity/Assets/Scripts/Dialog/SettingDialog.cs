@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -20,6 +21,8 @@ namespace Game.UI
         private SettingPage[] m_SettingPageList;
         [SerializeField]
         private Transform m_TabList;
+        [SerializeField]
+        private Text m_SaveFinishTips;
 
         public UserSetting UserSetting { get; private set; }
 
@@ -27,6 +30,9 @@ namespace Game.UI
 
         private void Awake()
         {
+            m_SaveButton.onClick.AddListener(OnClickSaveButton);
+            m_CloseButton.onClick.AddListener(OnClickCloseButton);
+
             UserSetting = JSONMap.JSONDeepClone(Global.UserSetting);
             if (UserSetting.NewUser)
             {
@@ -36,10 +42,14 @@ namespace Game.UI
             DrawGizmos.Clear();
             for (int i = 0; i < m_SettingPageList.Length; i++)
             {
-                m_SettingPageList[i].gameObject.SetActive(false);
-                m_SettingPageList[i].gameObject.SetActive(true);
+                SettingPage settingPage = m_SettingPageList[i];
+                settingPage.SettingDialog = this;
+                settingPage.gameObject.SetActive(false);
+                settingPage.gameObject.SetActive(true);
             }
             SelectPage(m_SettingPageList[0]);
+
+            m_SaveFinishTips.gameObject.SetActive(false);
         }
 
         public void Hide()
@@ -82,11 +92,19 @@ namespace Game.UI
             UserSetting.Save();
             if (newUser)
                 CameraCanvas.PopDialog(this);
+            StopCoroutine(nameof(SaveFinishTips));
+            StartCoroutine(nameof(SaveFinishTips));
+        }
+        private IEnumerator SaveFinishTips()
+        {
+            m_SaveFinishTips.gameObject.SetActive(true);
+            yield return new WaitForSeconds(2f);
+            m_SaveFinishTips.gameObject.SetActive(false);
         }
 
         private void OnDestroy()
         {
-            CameraCanvas.Destroy(DrawGizmos);
+            CameraCanvas.PopDialog(DrawGizmos);
         }
     }
 }

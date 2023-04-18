@@ -50,7 +50,7 @@ namespace Game
 
         public UserSetting()
         {
-            m_Version = GameDefined.Version;
+            m_Version = 0;
             m_NewUser = true;
             m_InGameLanguage = string.Empty;
             m_IsProgrammer = false;
@@ -58,6 +58,8 @@ namespace Game
         }
         internal void AppendDefaultField()
         {
+            if (m_Version == 0)
+                m_Version = GameDefined.Version;
             int screenWidth = GameDefined.ScreenWidth;
             int screenHeight = GameDefined.ScreenHeight;
             if (!m_RectPositions.ContainsKey(RectAnchorKey.CommanderName))
@@ -113,6 +115,15 @@ namespace Game
                 rectAnchor.Width = Mathf.FloorToInt(screenWidth * 0.0423f + 172.8f);
                 rectAnchor.Height = Mathf.FloorToInt(screenHeight * 0.05f + 250f);
                 m_RectPositions[RectAnchorKey.MapTask] = rectAnchor;
+            }
+            if (!m_RectPositions.ContainsKey(RectAnchorKey.PluginDialog))
+            {
+                RectAnchor rectAnchor = new RectAnchor();
+                rectAnchor.Left = 10;
+                rectAnchor.Top = Mathf.FloorToInt(screenHeight * 0.5f - 250f);
+                rectAnchor.Width = 250;
+                rectAnchor.Height = 500;
+                m_RectPositions[RectAnchorKey.PluginDialog] = rectAnchor;
             }
         }
 
