@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace Tween
 {
@@ -63,7 +62,7 @@ namespace Tween
         }
         public static Tweener DoFrame(int count)
         {
-            if (count <= 0f)
+            if (count < 0)
                 throw new ArgumentException(nameof(count));
 
             ProgressTweener tweener = new ProgressTweener()
