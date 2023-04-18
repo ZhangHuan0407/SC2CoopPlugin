@@ -118,5 +118,25 @@ namespace Game.UI
                 m_MasteriesRectInput.gameObject.SetActive(false);
             }
         }
+
+        private void Update()
+        {
+            InputField input = null;
+            if (m_CoopMenuRectEdit.isOn)
+                input = m_CoopMenuRectInput;
+            else if (m_CommanderNameRectEdit.isOn)
+                input = m_CommanderNameRectInput;
+            else if (m_MasteriesRectEdit.isOn)
+                input = m_MasteriesRectInput;
+            if (input)
+            {
+                if (RectAnchor.TryParse(input.text, out RectAnchor rectAnchor))
+                    SettingDialog.DrawGizmos.DrawRectAnchor(rectAnchor);
+            }
+            else
+            {
+                SettingDialog.DrawGizmos.Clear();
+            }
+        }
     }
 }

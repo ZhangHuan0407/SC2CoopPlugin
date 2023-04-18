@@ -12,5 +12,6 @@ namespace Game
         LoadingMapName,
         MapTime,
         MapTask,
+        PluginDialog,
     }
 }
