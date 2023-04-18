@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Game.OCR;
@@ -25,11 +26,12 @@ namespace Game.UI
         private volatile float m_MapTimeSeconds;
 
         private DrawGizmosDialog GizmosDialog;
-        private CacheObject<GameObject> m_CacheObject;
+
         private GameObject m_AttackWaveTemplate;
         private GameObject m_HintItemTemplate;
 
         private CoopTimeline m_CoopTimeline;
+        private Dictionary<Guid, IEventView> m_ViewReference;
 
         private void Awake()
         {
@@ -37,23 +39,14 @@ namespace Game.UI
             Camera.main.GetComponent<TransparentWindow>().SetWindowState(WindowState.TopMostAndRaycastIgnore);
             GizmosDialog = CameraCanvas.PushDialog(GameDefined.DrawGizmosDialogPath) as DrawGizmosDialog;
             GizmosDialog.DrawRectAnchor(Global.UserSetting.RectPositions[RectAnchorKey.MapTime]);
-            m_CacheObject = new CacheObject<GameObject>()
-            {
-                { m_AttackWaveTemplate },
-                { m_HintItemTemplate },
-            };
-            m_CacheObject.OnPopItem += (GameObject go) =>
-            {
-                go.SetActive(true);
-            };
-            m_CacheObject.OnPushItem += (GameObject go) =>
-            {
-                go.SetActive(false);
-            };
 
+            m_MapTimeSeconds = 0f;
             m_CoopTimeline = new CoopTimeline();
             m_CoopTimeline.AI = AIModel.CreateDebug();
             m_CoopTimeline.Map = MapModel.CreateDebug();
+            m_CoopTimeline.Commander = CommanderModel.CreateDebug();
+            m_ViewReference = new Dictionary<Guid, IEventView>();
+            RebuildView();
         }
 
         public void Hide()
@@ -114,6 +107,54 @@ namespace Game.UI
         {
             m_CoopTimeline.Time = m_MapTimeSeconds;
             m_CoopTimeline.Update(this);
+        }
+        public void UpdateModelView(IEventModel[] eventModels, float time)
+        {
+            HashSet<Guid> set = new HashSet<Guid>();
+            for (int i = 0; i < eventModels.Length; i++)
+            {
+                IEventModel eventModel = eventModels[i];
+                if (!m_ViewReference.TryGetValue(eventModel.Guid, out _))
+                    m_ViewReference.Add(eventModel.Guid, CreateView(eventModel));
+                set.Add(eventModel.Guid);
+            }
+            List<Guid> deleteGuidList = new List<Guid>();
+            foreach (Guid guid in m_ViewReference.Keys)
+            {
+                if (!set.Contains(guid))
+                    deleteGuidList.Add(guid);
+            }
+            for (int i = 0; i < deleteGuidList.Count; i++)
+            {
+                IEventView eventView = m_ViewReference[deleteGuidList[i]];
+                UnityEngine.Object.Destroy(eventView.gameObject);
+                m_ViewReference.Remove(deleteGuidList[i]);
+            }
+            for (int i = 0; i < eventModels.Length; i++)
+            {
+                IEventModel eventModel = eventModels[i];
+                IEventView eventView = m_ViewReference[eventModel.Guid];
+                eventView.Update(time);
+            }
+        }
+        private IEventView CreateView(IEventModel eventModel)
+        {
+            GameObject template = null;
+            switch (eventModel)
+            {
+                case AttackWaveEventModel attackWaveEventModel:
+                    template = m_AttackWaveTemplate;
+                    break;
+                case PlayerOperatorEventModel playerOperatorEventModel:
+                    template = m_HintItemTemplate;
+                    break;
+                default:
+                    break;
+            }
+            GameObject go = Instantiate(m_AttackWaveTemplate);
+            IEventView eventView = go.GetComponent<AttackWaveEventView>();
+            eventView.SetModel(eventModel);
+            return eventView;
         }
 
         private void OnDestroy()

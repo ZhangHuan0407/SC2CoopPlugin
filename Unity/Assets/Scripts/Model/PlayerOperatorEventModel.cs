@@ -11,7 +11,15 @@ namespace Game.Model
         public int UnitID
         {
             get => m_UnitID;
-            private set => m_UnitID = value;
+            set => m_UnitID = value;
+        }
+
+        [SerializeField]
+        private Guid m_Guid;
+        public Guid Guid
+        {
+            get => m_Guid;
+            set => m_Guid = value;
         }
 
         [SerializeField]
@@ -19,7 +27,15 @@ namespace Game.Model
         public float StartTime
         {
             get => m_StartTime;
-            private set => m_StartTime = value;
+            set => m_StartTime = value;
+        }
+
+        [SerializeField]
+        private float m_TriggerTime;
+        public float TriggerTime
+        {
+            get => m_TriggerTime;
+            set => m_TriggerTime = value;
         }
 
         [SerializeField]
@@ -27,16 +43,21 @@ namespace Game.Model
         public float EndTime
         {
             get => m_EndTime;
-            private set => m_EndTime = value;
+            set => m_EndTime = value;
+        }
+
+        [SerializeField]
+        private bool m_Hide;
+        public bool Hide
+        {
+            get => m_Hide;
+            set => m_Hide = value;
         }
 
         public PlayerOperatorEventModel()
         {
         }
 
-        public bool NeedShowView(float time)
-        {
-            throw new NotImplementedException();
-        }
+        public bool SkipEvent(CoopTimeline timeline) => false;
     }
 }

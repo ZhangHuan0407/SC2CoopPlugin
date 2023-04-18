@@ -4,9 +4,11 @@ namespace Game.Model
 {
     public interface IEventModel
     {
+        Guid Guid { get; }
         float StartTime { get; }
+        float TriggerTime { get; }
         float EndTime { get; }
 
-        bool NeedShowView(float time);
+        bool SkipEvent(CoopTimeline timeline);
     }
 }
