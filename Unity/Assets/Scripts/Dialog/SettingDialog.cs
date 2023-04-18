@@ -36,6 +36,7 @@ namespace Game.UI
             DrawGizmos.Clear();
             for (int i = 0; i < m_SettingPageList.Length; i++)
             {
+                m_SettingPageList[i].gameObject.SetActive(false);
                 m_SettingPageList[i].gameObject.SetActive(true);
             }
             SelectPage(m_SettingPageList[0]);
@@ -67,6 +68,7 @@ namespace Game.UI
             {
                 m_SaveButton.gameObject.SetActive(true);
             }
+            DrawGizmos.Hide();
         }
 
         private void OnClickCloseButton()

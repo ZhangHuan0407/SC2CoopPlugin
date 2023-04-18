@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using RectAnchor = Game.OCR.RectAnchor;
 
 namespace Game.UI
 {
@@ -25,6 +26,11 @@ namespace Game.UI
         private void OnClickTabButton()
         {
             SettingDialog.SelectPage(this);
+        }
+        protected void OnRectInputFieldChanged(string input, InputField inputField)
+        {
+            bool parse = RectAnchor.TryParse(input, out RectAnchor rectAnchor);
+            inputField.textComponent.color = parse ? Color.black : Color.red;
         }
     }
 }
