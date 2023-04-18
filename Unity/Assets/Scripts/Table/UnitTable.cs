@@ -35,8 +35,8 @@ namespace Table
             }
 
             [SerializeField]
-            protected Commander m_Commander;
-            public Commander Commander
+            protected CommanderName m_Commander;
+            public CommanderName Commander
             {
                 get => m_Commander;
                 private set => m_Commander = value;

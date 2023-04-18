@@ -5,6 +5,7 @@ using Game.OCR;
 using Tween;
 using UnityEngine;
 using UnityEngine.UI;
+using Game.Model;
 
 namespace Game.UI
 {
@@ -15,25 +16,44 @@ namespace Game.UI
         public Canvas Canvas => m_Canvas;
 
         [SerializeField]
-        private Text m_Text;
-        [SerializeField]
-        private InputField m_Rect;
-
-        private RectAnchor rect;
+        private Image m_DebugImage;
 
         public string PrefabPath { get; set; }
 
+        private Tweener m_MapTimeRecognizeTweener;
         private float m_LastParseTime = 0f;
+        private volatile float m_MapTimeSeconds;
 
         private DrawGizmosDialog GizmosDialog;
+        private CacheObject<GameObject> m_CacheObject;
+        private GameObject m_AttackWaveTemplate;
+        private GameObject m_HintItemTemplate;
+
+        private CoopTimeline m_CoopTimeline;
 
         private void Awake()
         {
+            Application.targetFrameRate = 10;
             Camera.main.GetComponent<TransparentWindow>().SetWindowState(WindowState.TopMostAndRaycastIgnore);
-            //GizmosDialog = CameraCanvas.PushDialog(GameDefined.DrawGizmosDialogPath) as DrawGizmosDialog;
-            rect = new RectAnchor(264, 770, 80, 36);
-            m_Rect.text = rect.ToString();
-            Application.targetFrameRate = 5;
+            GizmosDialog = CameraCanvas.PushDialog(GameDefined.DrawGizmosDialogPath) as DrawGizmosDialog;
+            GizmosDialog.DrawRectAnchor(Global.UserSetting.RectPositions[RectAnchorKey.MapTime]);
+            m_CacheObject = new CacheObject<GameObject>()
+            {
+                { m_AttackWaveTemplate },
+                { m_HintItemTemplate },
+            };
+            m_CacheObject.OnPopItem += (GameObject go) =>
+            {
+                go.SetActive(true);
+            };
+            m_CacheObject.OnPushItem += (GameObject go) =>
+            {
+                go.SetActive(false);
+            };
+
+            m_CoopTimeline = new CoopTimeline();
+            m_CoopTimeline.AI = AIModel.CreateDebug();
+            m_CoopTimeline.Map = MapModel.CreateDebug();
         }
 
         public void Hide()
@@ -49,54 +69,56 @@ namespace Game.UI
         private void Update()
         {
             m_LastParseTime += Time.deltaTime;
+            m_MapTimeSeconds += Time.deltaTime / 1.4f;
             if (m_LastParseTime > 0.5f)
             {
                 m_LastParseTime = 0f;
                 int seconds = -1;
-                object obj = new object();
                 MapTimeParseResult result = MapTimeParseResult.Unknown;
-                Global.MapTime.UpdateScreenShot();
-                result = Global.MapTime.TryParse(false, rect, out seconds);
-                m_Text.text = $"{result}\n{seconds}\n{1f / Time.deltaTime}";
-                //Tweener tweener = Global.BackThread.WaitingBackThreadTweener(() =>
-                //{
-                //    lock (obj)
-                //    {
-                //        result = Global.MapTime.TryParse(false, rect, out seconds);
-                //    }
-                //})
-                //    .OnComplete(() =>
-                //    {
-                //        lock (obj)
-                //        {
-                //            m_Text.text = $"{result}\n{seconds}";
-                //        }
-                //    })
-                //    .DoIt();
+                m_MapTimeRecognizeTweener = Global.BackThread.WaitingBackThreadTweener(() =>
+                {
+                    RectAnchor rectAnchor = Global.UserSetting.RectPositions[RectAnchorKey.MapTime];
+                    Global.MapTime.UpdateScreenShot();
+                    result = Global.MapTime.TryParse(false, rectAnchor, out seconds);
+                    if (result == MapTimeParseResult.WellDone)
+                    {
+                        if (Mathf.Abs(m_MapTimeSeconds - seconds) > 0.5f)
+                            m_MapTimeSeconds = seconds;
+                    }
+                    else
+                        LogService.Error("MapTimeRecognize MapTimeParseResult: ", result);
+                })
+                    .DoIt();
             }
-            var aa = Camera.main.GetComponent<TransparentWindow>();
+
+            RebuildView();
+
+            TransparentWindow transparentWindow = Camera.main.GetComponent<TransparentWindow>();
             if (Input.GetKey(KeyCode.Escape))
-                m_Text.color = Color.red;
-            else if (aa.WindowState == WindowState.TopMostAndBlockRaycast)
-                m_Text.color = Color.green;
+                m_DebugImage.color = Color.red;
+            else if (transparentWindow.WindowState == WindowState.TopMostAndBlockRaycast)
+                m_DebugImage.color = Color.green;
             else
-                m_Text.color = Color.blue;
+                m_DebugImage.color = Color.blue;
+
             if (Input.GetKeyDown(KeyCode.Escape))
             {
-                if (aa.WindowState == WindowState.TopMostAndRaycastIgnore)
-                    aa.SetWindowState(WindowState.TopMostAndBlockRaycast);
+                if (transparentWindow.WindowState == WindowState.TopMostAndRaycastIgnore)
+                    transparentWindow.SetWindowState(WindowState.TopMostAndBlockRaycast);
                 else
-                    aa.SetWindowState(WindowState.TopMostAndRaycastIgnore);
+                    transparentWindow.SetWindowState(WindowState.TopMostAndRaycastIgnore);
             }
-            string rectStr = m_Rect.text;
-            Match match = Regex.Match(rectStr, "L:(?<Left>[0-9]+),T:(?<Top>[0-9]+),W:(?<Width>[0-9]+),H:(?<Height>[0-9]+)");
-            if (match.Success)
-            {
-                rect.Left = int.Parse(match.Groups["Left"].Value);
-                rect.Top = int.Parse(match.Groups["Top"].Value);
-                rect.Width = int.Parse(match.Groups["Width"].Value);
-                rect.Height = int.Parse(match.Groups["Height"].Value);
-            }
+        }
+
+        private void RebuildView()
+        {
+            m_CoopTimeline.Time = m_MapTimeSeconds;
+            m_CoopTimeline.Update(this);
+        }
+
+        private void OnDestroy()
+        {
+            CameraCanvas.PopDialog(GizmosDialog);
         }
     }
 }

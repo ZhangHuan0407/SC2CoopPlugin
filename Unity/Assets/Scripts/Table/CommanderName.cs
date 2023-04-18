@@ -3,7 +3,7 @@
 namespace Table
 {
     [Serializable]
-    public enum Commander
+    public enum CommanderName
     {
         None,
         Amon,

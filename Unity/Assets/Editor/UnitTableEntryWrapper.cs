@@ -24,7 +24,7 @@ namespace Game.Editor
             set => m_Name = value;
         }
 
-        public new Commander Commander
+        public new CommanderName Commander
         {
             get => m_Commander;
             set => m_Commander = value;
