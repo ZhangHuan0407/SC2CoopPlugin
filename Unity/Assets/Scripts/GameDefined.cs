@@ -28,7 +28,7 @@ namespace Game
         public static readonly string UserSettingFilePath = $"{Application.persistentDataPath}/UserSetting.json";
 
         public const string DrawGizmosDialogPath = "Dialogs/DrawGizmosDialog";
-        public const string SettingDialogPath = "Dialogs/SettingDialog";
+        public static string SettingDialogPath => "Dialogs/SettingDialog";
         public const string OpenCommanderFileDialog = "Dialogs/OpenCommanderFileDialog";
         public const string MainManuDialog = "Dialogs/MainManuDialog";
         public const string TestDialog = "Dialogs/TestDialog";
@@ -37,9 +37,7 @@ namespace Game
         public const string MaxClentVersionKey = "MaxClentVersion";
         public const string ClientNewVersionWebPage = "";
 
-        /* ctor */
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterAssembliesLoaded)]
-        private static void Init()
+        public static void CallFromLoadingThread()
         {
             Version = int.Parse(Application.version.Split('.')[0]);
             ScreenWidth = Screen.width;

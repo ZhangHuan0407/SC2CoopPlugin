@@ -105,7 +105,7 @@ namespace Game.UI
 
         private void RebuildView()
         {
-            m_CoopTimeline.Time = m_MapTimeSeconds;
+            m_CoopTimeline.MapTime = m_MapTimeSeconds;
             m_CoopTimeline.Update(this);
         }
         public void UpdateModelView(IEventModel[] eventModels, float time)
@@ -134,7 +134,7 @@ namespace Game.UI
             {
                 IEventModel eventModel = eventModels[i];
                 IEventView eventView = m_ViewReference[eventModel.Guid];
-                eventView.Update(time);
+                eventView.UpdateView(time);
             }
         }
         private IEventView CreateView(IEventModel eventModel)

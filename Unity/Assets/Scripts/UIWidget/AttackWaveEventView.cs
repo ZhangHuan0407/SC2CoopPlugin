@@ -16,7 +16,7 @@ namespace Game.UI
         private AttackWaveEventModel m_Model;
         public Guid Guid => m_Model.Guid;
 
-        public void Update(float time)
+        public void UpdateView(float time)
         {
             m_Progress.fillAmount = Mathf.Clamp01((time - m_Model.StartTime) / (m_Model.TriggerTime - m_Model.StartTime));
             int countdown = Mathf.FloorToInt((m_Model.TriggerTime - time) * 10f);

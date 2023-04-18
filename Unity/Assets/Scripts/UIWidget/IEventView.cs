@@ -8,7 +8,7 @@ namespace Game.UI
     {
         GameObject gameObject { get; }
         Guid Guid { get; }
-        void Update(float time);
+        void UpdateView(float time);
         void SetModel(IEventModel eventModel);
     }
 }

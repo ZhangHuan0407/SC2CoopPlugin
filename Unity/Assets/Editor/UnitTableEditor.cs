@@ -4,7 +4,7 @@ using AmonAINameWrapper = Game.Editor.AmonAINameChinese;
 using MapNameWrapper = Game.Editor.MapNameChinese;
 using UnitLabelWrapper = Game.Editor.UnitLabelChinese;
 #else
-using CommanderWrapper = Table.Commander;
+using CommanderWrapper = Table.CommanderName;
 using AmonAINameWrapper = Table.AmonAIName;
 using MapNameWrapper = Table.MapName;
 using UnitLabelWrapper = Table.UnitLabel;
