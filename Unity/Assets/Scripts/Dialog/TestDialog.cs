@@ -19,6 +19,7 @@ namespace Game.UI
         [SerializeField]
         private Image m_DebugImage;
 
+        public bool DestroyFlag { get; set; }
         public string PrefabPath { get; set; }
 
         private Tweener m_MapTimeRecognizeTweener;

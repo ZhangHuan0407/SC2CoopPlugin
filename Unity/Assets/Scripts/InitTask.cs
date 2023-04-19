@@ -77,7 +77,7 @@ namespace Game
             DownloadResourceTool tool = new DownloadResourceTool(Global.ResourceRepositoryConfig, GameDefined.Version);
 
             Task<ResourceUpdateResult> checkUpdateTask = tool.CheckUpdateAsync();
-            Tween.WaitTween.WaitUntil(() => checkUpdateTask.IsCompleted)
+            Tween.LogicTween.WaitUntil(() => checkUpdateTask.IsCompleted)
                             .OnComplete(() =>
                             {
                                 int maxClientVersion = PlayerPrefs.GetInt(GameDefined.MaxClentVersionKey);
