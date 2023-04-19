@@ -34,7 +34,7 @@ namespace Tween
             get
             {
                 if (CumulativeTime > DurationTime || DurationTime == 0f)
-                    return 1;
+                    return 2f;
                 else
                     return CumulativeTime / DurationTime;
             }

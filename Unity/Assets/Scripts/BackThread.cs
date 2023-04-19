@@ -159,7 +159,7 @@ namespace Game
                 m_BackTasks.Enqueue(task);
                 m_ResetEvent.Set();
             }
-            return WaitTween.WaitUntil(() => task.IsCompleted);
+            return LogicTween.WaitUntil(() => task.IsCompleted);
         }
 
         private void BackThreadUpdate()

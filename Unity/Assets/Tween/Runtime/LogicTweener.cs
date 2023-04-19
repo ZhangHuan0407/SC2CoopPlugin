@@ -9,7 +9,7 @@ namespace Tween
         /* field */
 
         /* inter */
-        public override float Normalized => State == TweenerState.Finish ? 1 : 0;
+        public override float Normalized => State == TweenerState.Finish ? 2f : 0;
 
         /* ctor */
         public LogicTweener() : base()
