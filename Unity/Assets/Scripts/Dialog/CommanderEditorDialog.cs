@@ -121,13 +121,13 @@ namespace Game.UI
             }
         }
 
-        private CommanderContentDialog GetTopMostCCDialog()
+        private CommanderContentDialog GetFocusCCDialog()
         {
             foreach (CommanderContentDialog commanderContentDialog in CameraCanvas.GetDialogs<CommanderContentDialog>())
             {
                 if (!commanderContentDialog.DestroyFlag &&
                     commanderContentDialog.CommanderEditorDialog == this &&
-                    commanderContentDialog.InShow)
+                    commanderContentDialog.Focus)
                 {
                     return commanderContentDialog;
                 }
@@ -147,15 +147,16 @@ namespace Game.UI
             m_MouseIgnoreFrame = Time.frameCount;
             CommanderContentDialog commanderContentDialog = CameraCanvas.PushDialog(GameDefined.CommanderContentDialogPath) as CommanderContentDialog;
             CommanderContentDialogs.Add(commanderContentDialog);
+            commanderContentDialog.SetCommanderModel(CommanderModel.CreateDebug());
         }
 
         private void OnClickSaveFileMenuButton()
         {
-            CommanderContentDialog topMostCommanderContentDialog = GetTopMostCCDialog();
-            if (topMostCommanderContentDialog)
+            CommanderContentDialog dialog = GetFocusCCDialog();
+            if (dialog)
             {
-                CameraCanvas.SetTopMost(topMostCommanderContentDialog);
-                topMostCommanderContentDialog.PlayerWannaSave();
+                CameraCanvas.SetTopMost(dialog);
+                dialog.PlayerWannaSave();
             }
         }
 
@@ -170,9 +171,13 @@ namespace Game.UI
                             tweener.FromHeadToEndIfNeedStop(out _);
                         else
                         {
+                            JSONObject @object = JSONObject.Create(File.ReadAllText(dialog.FilePath));
+                            CommanderModel model = JSONMap.ParseJSON<CommanderModel>(@object);
+
                             CommanderContentDialog commanderContentDialog = CameraCanvas.PushDialog(GameDefined.CommanderContentDialogPath) as CommanderContentDialog;
                             CommanderContentDialogs.Add(commanderContentDialog);
                             commanderContentDialog.FilePath = dialog.FilePath;
+                            commanderContentDialog.SetCommanderModel(model);
                         }
                     }))
                       .DoIt();
@@ -180,11 +185,11 @@ namespace Game.UI
 
         private void OnClickCloseButton()
         {
-            CommanderContentDialog topMostCommanderContentDialog = GetTopMostCCDialog();
-            if (topMostCommanderContentDialog)
+            CommanderContentDialog dialog = GetFocusCCDialog();
+            if (dialog)
             {
-                CameraCanvas.SetTopMost(topMostCommanderContentDialog);
-                topMostCommanderContentDialog.PlayerWannaClose();
+                CameraCanvas.SetTopMost(dialog);
+                dialog.PlayerWannaClose();
             }
         }
 
@@ -204,20 +209,20 @@ namespace Game.UI
         }
         private void OnClickUndoButton()
         {
-            CommanderContentDialog topMostCommanderContentDialog = GetTopMostCCDialog();
-            if (topMostCommanderContentDialog)
+            CommanderContentDialog dialog = GetFocusCCDialog();
+            if (dialog)
             {
-                CameraCanvas.SetTopMost(topMostCommanderContentDialog);
-                topMostCommanderContentDialog.Undo();
+                CameraCanvas.SetTopMost(dialog);
+                dialog.Undo();
             }
         }
         private void OnClickRedoButton()
         {
-            CommanderContentDialog topMostCommanderContentDialog = GetTopMostCCDialog();
-            if (topMostCommanderContentDialog)
+            CommanderContentDialog dialog = GetFocusCCDialog();
+            if (dialog)
             {
-                CameraCanvas.SetTopMost(topMostCommanderContentDialog);
-                topMostCommanderContentDialog.Redo();
+                CameraCanvas.SetTopMost(dialog);
+                dialog.Redo();
             }
         }
         #endregion
@@ -227,6 +232,26 @@ namespace Game.UI
         {
             m_CommanderContentDropdown.SetActive(true);
             m_MouseIgnoreFrame = Time.frameCount;
+            foreach (Transform child in m_CommanderContentDropdown.transform)
+            {
+                UnityEngine.Object.Destroy(child);
+            }
+            for (int i = 0; i < CommanderContentDialogs.Count; i++)
+            {
+                CommanderContentDialog dialog = CommanderContentDialogs[i];
+                Button button = Instantiate(m_CommanderContentTemplate);
+                string fileName;
+                if (string.IsNullOrWhiteSpace(dialog.FilePath))
+                    fileName = "new.json";
+                else
+                    fileName = Path.GetFileName(dialog.FilePath);
+                button.GetComponentInChildren<Text>().text = fileName;
+                button.onClick.AddListener(() =>
+                {
+                    dialog.Show();
+                    CameraCanvas.SetTopMost(dialog);
+                });
+            }
         }
         #endregion
     }

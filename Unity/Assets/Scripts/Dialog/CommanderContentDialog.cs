@@ -1,5 +1,6 @@
 ﻿using Game.Model;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using Tween;
 using UnityEngine;
@@ -7,6 +8,12 @@ using UnityEngine.UI;
 
 namespace Game.UI
 {
+    public struct OperatingRecord
+    {
+        public Action<CommanderContentDialog> Redo;
+        public Action<CommanderContentDialog> Undo;
+    }
+
     public class CommanderContentDialog : MonoBehaviour, IDialog
     {
         [SerializeField]
@@ -17,10 +24,18 @@ namespace Game.UI
         public string PrefabPath { get; set; }
 
         public CommanderEditorDialog CommanderEditorDialog { get; set; }
-        public bool InShow => enabled;
+        public bool Focus { get; private set; }
 
-        public CommanderModel CommanderModel { get; set; }
+        public CommanderModel CommanderModel { get; private set; }
         public string FilePath { get; set; }
+
+        [SerializeField]
+        private CommanderInfoEditView m_InfoEditView;
+        [SerializeField]
+        private LocalizationEditView m_LocalizationEditView;
+
+        private List<OperatingRecord> m_OperatingRecordList;
+        private int m_OperatingRecordPoint;
 
         public void Hide()
         {
@@ -36,11 +51,21 @@ namespace Game.UI
 
         private void Awake()
         {
-
+            m_InfoEditView.CommanderContentDialog = this;
+            m_LocalizationEditView.CommanderContentDialog = this;
+            m_OperatingRecordList = new List<OperatingRecord>();
+            m_OperatingRecordPoint = -1;
         }
         private void OnDestroy()
         {
             CommanderEditorDialog.CommanderContentDialogs.Remove(this);
+        }
+
+        public void SetCommanderModel(CommanderModel model)
+        {
+            CommanderModel = model;
+            m_InfoEditView.SetCommanderModel(model);
+            m_LocalizationEditView.SetCommanderModel(model);
         }
 
         private void Update()
@@ -109,11 +134,11 @@ namespace Game.UI
         }
         public void Undo()
         {
-
+            throw new NotImplementedException();
         }
         public void Redo()
         {
-
+            throw new NotImplementedException();
         }
     }
 }
