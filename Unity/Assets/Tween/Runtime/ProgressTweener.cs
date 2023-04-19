@@ -18,8 +18,8 @@ namespace Tween
         {
             get
             {
-                if (Progress > Target)
-                    return 1;
+                if (Progress >= Target)
+                    return 2f;
                 else
                     return Progress / Target;
             }

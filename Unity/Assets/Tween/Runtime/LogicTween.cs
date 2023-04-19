@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Tween
 {
-    public class WaitTween
+    public class LogicTween
     {
         internal static IEnumerator<Tweener> DoWaitUntil_Internal(ProgressTweener tweener, Func<bool> waitUntil)
         {
@@ -77,8 +77,9 @@ namespace Tween
         {
             if (tweeners == null)
                 throw new ArgumentNullException(nameof(tweeners));
-            foreach (Tweener tweener in tweeners)
+            for (int i = 0; i < tweeners.Length; i++)
             {
+                Tweener tweener = tweeners[i];
                 if (tweener == null)
                     throw new ArgumentException(nameof(tweeners));
             }
@@ -90,6 +91,27 @@ namespace Tween
             };
             result.Enumerator = DoBothAreFinish_Internal(result, tweeners);
             return result;
+        }
+
+        internal static IEnumerator<Tweener> YieldBreakTweener()
+        {
+            yield break;
+        }
+        public static Tweener AppendCallback(Action action)
+        {
+            ProgressTweener tweener = new ProgressTweener()
+            {
+                Progress = 2f,
+                Target = 1f,
+            };
+            tweener.OnComplete(action);
+            tweener.Enumerator = YieldBreakTweener();
+            tweener.OnComplete(() =>
+            {
+                if (tweener.NextTweener != null)
+                    TweenService.AddImmediately(tweener.NextTweener);
+            });
+            return tweener;
         }
     }
 }
