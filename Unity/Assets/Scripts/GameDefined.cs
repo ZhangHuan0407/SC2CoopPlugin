@@ -27,10 +27,14 @@ namespace Game
 
         public static string UserSettingFilePath { get; private set; }
 
+        
+        public const string CommanderContentDialogPath = "Dialogs/CommanderContentDialog";
+        public const string CommanderEditorDialogPath = "Dialogs/CommanderEditorDialog";
         public const string DrawGizmosDialogPath = "Dialogs/DrawGizmosDialog";
-        public static string SettingDialogPath => "Dialogs/SettingDialog";
-        public const string OpenCommanderFileDialog = "Dialogs/OpenCommanderFileDialog";
         public const string MainManuDialog = "Dialogs/MainManuDialog";
+        public const string OpenCommanderFileDialog = "Dialogs/OpenCommanderFileDialog";
+        public const string SaveCommanderFileDialog = "Dialogs/SaveCommanderFileDialog";
+        public const string SettingDialogPath = "Dialogs/SettingDialog";
         public const string TestDialog = "Dialogs/TestDialog";
         public const string UpdateResourceDialog = "Dialogs/UpdateResourceDialog";
 

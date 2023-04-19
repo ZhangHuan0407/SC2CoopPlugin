@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Game.UI
 {
-    public class BugReportDialog : MonoBehaviour, IDialog
+    public class OpenCommanderFileDialog : MonoBehaviour, IDialog
     {
         [SerializeField]
         private Canvas m_Canvas;
@@ -11,6 +11,9 @@ namespace Game.UI
 
         public bool DestroyFlag { get; set; }
         public string PrefabPath { get; set; }
+
+        public DialogResult DialogResult { get; set; }
+        public string FilePath { get; set; }
 
         public void Hide()
         {
@@ -20,6 +23,11 @@ namespace Game.UI
         public void Show()
         {
             m_Canvas.enabled = true;
+        }
+
+        private void Awake()
+        {
+            
         }
     }
 }

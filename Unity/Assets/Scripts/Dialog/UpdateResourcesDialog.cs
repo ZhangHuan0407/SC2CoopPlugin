@@ -14,6 +14,7 @@ namespace Game.UI
         private Canvas m_Canvas;
         public Canvas Canvas => m_Canvas;
 
+        public bool DestroyFlag { get; set; }
         public string PrefabPath { get; set; }
 
         [SerializeField]

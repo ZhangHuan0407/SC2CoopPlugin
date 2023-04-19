@@ -66,6 +66,9 @@ namespace Game.UI
         public static void PopDialog(IDialog dialog)
         {
             m_Instance.m_DialogList.Remove(dialog);
+            if (dialog.DestroyFlag)
+                Debug.LogError("dialog.DestroyFlag is true");
+            dialog.DestroyFlag = true;
             UnityEngine.Object.Destroy(dialog.gameObject);
         }
         public static void AppendExistsDialog(IDialog dialog)
@@ -100,7 +103,7 @@ namespace Game.UI
         public static IDialog GetTopMost()
         {
             List<IDialog> list = m_Instance.m_DialogList;
-            return list.Count > 0 ? list[0] : null;
+            return list.Count > 0 ? list[list.Count - 1] : null;
         }
 
         /// <summary>

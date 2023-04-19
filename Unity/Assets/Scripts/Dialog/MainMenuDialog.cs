@@ -12,6 +12,7 @@ namespace Game.UI
         private Canvas m_Canvas;
         public Canvas Canvas => m_Canvas;
 
+        public bool DestroyFlag { get; set; }
         public string PrefabPath { get; set; }
 
         [SerializeField]
@@ -61,7 +62,7 @@ namespace Game.UI
         {
             IDialog dialog = CameraCanvas.PushDialog(GameDefined.SettingDialogPath);
             Hide();
-            WaitTween.WaitUntil(() => !(UnityEngine.Object)dialog)
+            LogicTween.WaitUntil(() => dialog.DestroyFlag)
                 .OnComplete(() =>
                 {
                     Show();
@@ -76,20 +77,14 @@ namespace Game.UI
         }
         public void OnClickCommanderEditorButton()
         {
-            IDialog dialog = CameraCanvas.PushDialog(GameDefined.OpenCommanderFileDialog);
-            Hide();
-            WaitTween.WaitUntil(() => !(UnityEngine.Object)dialog)
-                .OnComplete(() =>
-                {
-                    Show();
-                })
-                .DoIt();
+            IDialog dialog = CameraCanvas.PushDialog(GameDefined.CommanderEditorDialogPath);
+            CameraCanvas.PopDialog(this);
         }
         public void OnClickUpdateResourceButton()
         {
             IDialog dialog = CameraCanvas.PushDialog(GameDefined.UpdateResourceDialog);
             Hide();
-            WaitTween.WaitUntil(() => !(UnityEngine.Object)dialog)
+            LogicTween.WaitUntil(() => dialog.DestroyFlag)
                 .OnComplete(() =>
                 {
                     Show();
