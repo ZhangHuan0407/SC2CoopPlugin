@@ -16,6 +16,12 @@ namespace Game
     public class InitTask : MonoBehaviour
     {
         /* ctor */
+        private void Awake()
+        {
+            Camera.main.GetComponent<TransparentWindow>().SetWindowState(WindowState.TopMostAndBlockRaycast);
+            DontDestroyOnLoad(Camera.main);
+        }
+
         private IEnumerator Start()
         {
             Stopwatch stopwatch = Stopwatch.StartNew();

@@ -97,7 +97,6 @@ namespace Game
                     break;
                 case WindowState.TopMostAndRaycastIgnore:
                     SetWindowLong(_hwnd, GWL_EXSTYLE, WS_EX_TOPMOST | WS_EX_LAYERED | WS_EX_TRANSPARENT);
-                    fWidth = fWidth / 2;
                     break;
                 default:
                     throw new NotImplementedException(windowState.ToString());
