@@ -1,11 +1,9 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
+using Game.Model;
+using Tween;
 using UnityEngine;
 using UnityEngine.UI;
-using Game.Model;
-using System.Collections.Generic;
-using Tween;
 
 namespace Game.UI
 {
@@ -53,7 +51,7 @@ namespace Game.UI
 
         [Header("Help Menu")]
         [SerializeField]
-        private Text m_HelpMenuButton;
+        private Button m_HelpMenuButton;
         [SerializeField]
         private GameObject m_HelpMenuDropdown;
         [SerializeField]
@@ -95,6 +93,10 @@ namespace Game.UI
             m_CommanderContentTemplate.gameObject.SetActive(false);
 
             // Help Menu
+            m_HelpMenuButton.onClick.AddListener(OnClickHelpMenuButton);
+            m_HelpMenuDropdown.SetActive(false);
+            m_HowToShareButton.onClick.AddListener(OnClickHowToShareButtonButton);
+            m_HowToUseButton.onClick.AddListener(OnClickHowToUseButtonButton);
 
             Camera.main.GetComponent<TransparentWindow>().SetWindowState(WindowState.TopMostAndBlockRaycast);
             Application.targetFrameRate = 20;
@@ -126,10 +128,12 @@ namespace Game.UI
             foreach (CommanderContentDialog commanderContentDialog in CameraCanvas.GetDialogs<CommanderContentDialog>())
             {
                 if (!commanderContentDialog.DestroyFlag &&
-                    commanderContentDialog.CommanderEditorDialog == this &&
-                    commanderContentDialog.Focus)
+                    commanderContentDialog.CommanderEditorDialog == this)
                 {
-                    return commanderContentDialog;
+                    if (commanderContentDialog.enabled)
+                        return commanderContentDialog;
+                    else
+                        return null;
                 }
             }
             return null;
@@ -200,7 +204,6 @@ namespace Game.UI
         }
         #endregion
 
-
         #region Edit Menu
         private void OnClickEditMenuButton()
         {
@@ -252,6 +255,22 @@ namespace Game.UI
                     CameraCanvas.SetTopMost(dialog);
                 });
             }
+        }
+        #endregion
+
+        #region Help Menu
+        private void OnClickHelpMenuButton()
+        {
+            m_HelpMenuDropdown.SetActive(true);
+            m_MouseIgnoreFrame = Time.frameCount;
+        }
+        private void OnClickHowToShareButtonButton()
+        {
+            Application.OpenURL(GameDefined.HowToShareWebPage);
+        }
+        private void OnClickHowToUseButtonButton()
+        {
+            Application.OpenURL(GameDefined.HowToUseWebPage);
         }
         #endregion
     }

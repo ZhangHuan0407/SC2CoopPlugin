@@ -11,6 +11,11 @@ namespace Game.UI
         public CommanderContentDialog CommanderContentDialog { get; set; }
         private CommanderModel m_CommanderModel;
 
+        private void Awake()
+        {
+            
+        }
+
         public void SetCommanderModel(CommanderModel model)
         {
             m_CommanderModel = model;
