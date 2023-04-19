@@ -60,7 +60,7 @@ namespace Game.OCR
                 FileName = new FileInfo(OCRPricessPath).FullName,
                 Arguments = $"-port={port} -mainprocess={currentProcessId}",
 #if !UNITY_EDITOR && !ALPHA
-                CreateNoWindow = true,
+                WindowStyle = ProcessWindowStyle.Hidden,
 #endif
             };
             using (Process process = Process.Start(processStartInfo))
