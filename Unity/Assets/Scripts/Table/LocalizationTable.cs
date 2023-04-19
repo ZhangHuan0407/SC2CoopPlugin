@@ -70,6 +70,8 @@ namespace Table
             }
         }
 
+        public string this[Enum e] => this[$"{e.GetType().Name}.{e}"];
+
         /* func */
         public string Format(string ID, params string[] values) => string.Format(this[ID], values);
 

@@ -1,19 +1,11 @@
-﻿using Game.Model;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.IO;
+using Game.Model;
 using Tween;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace Game.UI
 {
-    public struct OperatingRecord
-    {
-        public Action<CommanderContentDialog> Redo;
-        public Action<CommanderContentDialog> Undo;
-    }
-
     public class CommanderContentDialog : MonoBehaviour, IDialog
     {
         [SerializeField]
@@ -24,18 +16,20 @@ namespace Game.UI
         public string PrefabPath { get; set; }
 
         public CommanderEditorDialog CommanderEditorDialog { get; set; }
-        public bool Focus { get; private set; }
+        //public bool Focus { get; private set; }
 
         public CommanderModel CommanderModel { get; private set; }
         public string FilePath { get; set; }
 
         [SerializeField]
         private CommanderInfoEditView m_InfoEditView;
+        public CommanderInfoEditView InfoEditView => m_InfoEditView;
         [SerializeField]
         private LocalizationEditView m_LocalizationEditView;
+        public LocalizationEditView LocalizationEditView => m_LocalizationEditView;
 
-        private List<OperatingRecord> m_OperatingRecordList;
-        private int m_OperatingRecordPoint;
+        private OpRecord<CommanderContentDialog> m_OpRecord;
+        private bool m_NeedSave;
 
         public void Hide()
         {
@@ -53,8 +47,8 @@ namespace Game.UI
         {
             m_InfoEditView.CommanderContentDialog = this;
             m_LocalizationEditView.CommanderContentDialog = this;
-            m_OperatingRecordList = new List<OperatingRecord>();
-            m_OperatingRecordPoint = -1;
+
+            m_OpRecord = new OpRecord<CommanderContentDialog>();
         }
         private void OnDestroy()
         {
@@ -66,6 +60,7 @@ namespace Game.UI
             CommanderModel = model;
             m_InfoEditView.SetCommanderModel(model);
             m_LocalizationEditView.SetCommanderModel(model);
+            m_NeedSave = false;
         }
 
         private void Update()
@@ -109,6 +104,7 @@ namespace Game.UI
 
         public void PlayerWannaSave()
         {
+            m_NeedSave = false;
             Tweener tweener = LogicTween.AppendCallback(() =>
                                         {
                                             LogService.System(nameof(CommanderContentDialog), nameof(PlayerWannaSave));
@@ -132,13 +128,27 @@ namespace Game.UI
                                     }));
             tweener.DoIt();
         }
+
         public void Undo()
         {
-            throw new NotImplementedException();
+            m_NeedSave = true;
+            m_OpRecord.Undo(this);
         }
         public void Redo()
         {
-            throw new NotImplementedException();
+            m_NeedSave = true;
+            m_OpRecord.Redo(this);
+        }
+        public void AppendRecord(string debug,
+                                 Action<CommanderContentDialog> redo,
+                                 Action<CommanderContentDialog> undo)
+        {
+            m_OpRecord.AppendRecord(new OpRecordEntry<CommanderContentDialog>()
+            {
+                Debug = debug,
+                Redo = redo,
+                Undo = undo,
+            });
         }
     }
 }

@@ -41,6 +41,9 @@ namespace Game
         public const string MaxClentVersionKey = "MaxClentVersion";
         public const string ClientNewVersionWebPage = "";
 
+        public const string HowToShareWebPage = "";
+        public const string HowToUseWebPage = "";
+
         public static void CallFromLoadingThread()
         {
             Version = int.Parse(Application.version.Split('.')[0]);
