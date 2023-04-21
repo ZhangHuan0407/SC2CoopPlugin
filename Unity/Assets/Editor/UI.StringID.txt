@@ -1,8 +1,10 @@
 UI.GameStart
 UI.CommandEdit
 UI.CommanderEditor.CreateFile
+UI.CommanderEditor.Close
 UI.CommanderEditor.CommanderContentMenu
 UI.CommanderEditor.EditMenu
+UI.CommanderEditor.Exit
 UI.CommanderEditor.FileMenu
 UI.CommanderEditor.HelpMenu
 UI.CommanderEditor.HowToShare

@@ -31,7 +31,6 @@ namespace Game.UI
         private void Awake()
         {
             Application.targetFrameRate = 30;
-            Camera.main.GetComponent<TransparentWindow>().SetWindowState(WindowState.Normal);
 
             m_SettingButton.onClick.AddListener(OnClickSettingButton);
             m_GameStartButton.onClick.AddListener(OnClickGameStartButton);
@@ -66,7 +65,6 @@ namespace Game.UI
                 .OnComplete(() =>
                 {
                     Show();
-                    Camera.main.GetComponent<TransparentWindow>().SetWindowState(WindowState.Normal);
                 })
                 .DoIt();
         }
