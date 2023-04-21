@@ -1,10 +1,12 @@
-﻿using System;
+﻿using Game.UI;
+using System;
 using System.IO;
 using System.Runtime.InteropServices;
 using UnityEngine;
 
 namespace Game
 {
+    [RequireComponent(typeof(Camera))]
     public class TransparentWindow : MonoBehaviour
     {
         [SerializeField]
@@ -86,24 +88,52 @@ namespace Game
             LogService.System(nameof(SetWindowState), windowState.ToString());
             int fWidth = Screen.width;
             int fHeight = Screen.height;
-#if !UNITY_EDITOR
+            Canvas canvas = null;
+            if (CameraCanvas.Instance)
+                canvas = CameraCanvas.Instance.GetComponent<Canvas>();
             switch (windowState)
             {
-                case WindowState.Normal:
-                    SetWindowLong(_hwnd, GWL_EXSTYLE, WS_EX_LAYERED);
-                    break;
                 case WindowState.TopMostAndBlockRaycast:
+                    if (canvas)
+                        canvas.enabled = true;
+#if !UNITY_EDITOR
                     SetWindowLong(_hwnd, GWL_EXSTYLE, WS_EX_TOPMOST | WS_EX_LAYERED);
+#endif
+                    break;
+                case WindowState.HideAllAndRaycastIgnore:
+                    if (canvas)
+                        canvas.enabled = false;
+#if !UNITY_EDITOR
+                    SetWindowLong(_hwnd, GWL_EXSTYLE, WS_EX_TOPMOST | WS_EX_LAYERED | WS_EX_TRANSPARENT);
+#endif
                     break;
                 case WindowState.TopMostAndRaycastIgnore:
+                    if (canvas)
+                        canvas.enabled = true;
+#if !UNITY_EDITOR
                     SetWindowLong(_hwnd, GWL_EXSTYLE, WS_EX_TOPMOST | WS_EX_LAYERED | WS_EX_TRANSPARENT);
+#endif
                     break;
                 default:
                     throw new NotImplementedException(windowState.ToString());
             }
+#if !UNITY_EDITOR
             SetWindowPos(_hwnd, HWND_TOPMOST, 0, 0, fWidth, fHeight, SWP_FRAMECHANGED | SWP_SHOWWINDOW);
 #endif
             // WS_EX_LAYERED 去除标记后，据说要 UpdateLayeredWindow 窗体才能正常渲染
+        }
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                if (WindowState == WindowState.TopMostAndRaycastIgnore)
+                    SetWindowState(WindowState.HideAllAndRaycastIgnore);
+                else if (WindowState == WindowState.HideAllAndRaycastIgnore)
+                    SetWindowState(WindowState.TopMostAndBlockRaycast);
+                else if (WindowState == WindowState.TopMostAndBlockRaycast)
+                    SetWindowState(WindowState.TopMostAndRaycastIgnore);
+            }
         }
     }
 }

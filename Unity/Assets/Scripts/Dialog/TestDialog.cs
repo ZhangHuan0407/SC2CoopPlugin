@@ -94,14 +94,6 @@ namespace Game.UI
                 m_DebugImage.color = Color.green;
             else
                 m_DebugImage.color = Color.blue;
-
-            if (Input.GetKeyDown(KeyCode.Escape))
-            {
-                if (transparentWindow.WindowState == WindowState.TopMostAndRaycastIgnore)
-                    transparentWindow.SetWindowState(WindowState.TopMostAndBlockRaycast);
-                else
-                    transparentWindow.SetWindowState(WindowState.TopMostAndRaycastIgnore);
-            }
         }
 
         private void RebuildView()

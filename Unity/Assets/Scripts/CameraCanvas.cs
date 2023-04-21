@@ -13,6 +13,7 @@ namespace Game.UI
     {
         /* field */
         private static CameraCanvas m_Instance;
+        public static CameraCanvas Instance => m_Instance;
 
         private List<IDialog> m_DialogList;
 
@@ -45,6 +46,7 @@ namespace Game.UI
         {
             m_Instance = this;
             m_DialogList = new List<IDialog>();
+            GetComponent<Canvas>().worldCamera = Camera.main;
         }
 
         /* func */

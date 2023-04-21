@@ -27,6 +27,10 @@ namespace Game.UI
         private Button m_SaveFileButton;
         [SerializeField]
         private Button m_OpenFileButton;
+        [SerializeField]
+        private Button m_CloseButton;
+        [SerializeField]
+        private Button m_ExitButton;
 
         [Header("Edit Menu")]
         [SerializeField]
@@ -80,6 +84,8 @@ namespace Game.UI
             m_CreateFileButton.onClick.AddListener(OnClickCreateFileButton);
             m_SaveFileButton.onClick.AddListener(OnClickSaveFileMenuButton);
             m_OpenFileButton.onClick.AddListener(OnClickOpenFileButton);
+            m_CloseButton.onClick.AddListener(OnClickCloseButton);
+            m_ExitButton.onClick.AddListener(OnClickExitButton);
 
             // Edit Menu
             m_EditMenuButton.onClick.AddListener(OnClickEditMenuButton);
@@ -98,7 +104,6 @@ namespace Game.UI
             m_HowToShareButton.onClick.AddListener(OnClickHowToShareButtonButton);
             m_HowToUseButton.onClick.AddListener(OnClickHowToUseButtonButton);
 
-            Camera.main.GetComponent<TransparentWindow>().SetWindowState(WindowState.TopMostAndBlockRaycast);
             Application.targetFrameRate = 20;
         }
         private void OnDestroy()
@@ -109,7 +114,6 @@ namespace Game.UI
                     continue;
                 CameraCanvas.PopDialog(CommanderContentDialogs[i]);
             }
-            IDialog dialog = CameraCanvas.PushDialog(GameDefined.MainManuDialog);
         }
 
         private void Update()
