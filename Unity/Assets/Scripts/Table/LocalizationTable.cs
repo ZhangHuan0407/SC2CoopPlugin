@@ -65,8 +65,9 @@ namespace Table
                 Entry entry = new Entry()
                 {
                     ID = ID,
-                    StringValue = WebUtility.HtmlDecode(value),
+                    StringValue = WebUtility.HtmlDecode(value).Replace("\\n", "\n"),
                 };
+                Data[ID] = entry;
             }
         }
 
