@@ -85,14 +85,13 @@ namespace Game.UI
         private void OnClickCloseButton()
         {
             CameraCanvas.PopDialog(this);
+            CameraCanvas.PopDialog(DrawGizmos);
         }
         private void OnClickSaveButton()
         {
             bool newUser = UserSetting.NewUser;
             Global.UserSetting = UserSetting;
             UserSetting.Save();
-            if (newUser)
-                CameraCanvas.PopDialog(this);
             StopCoroutine(nameof(SaveFinishTips));
             StartCoroutine(nameof(SaveFinishTips));
         }
@@ -105,7 +104,6 @@ namespace Game.UI
 
         private void OnDestroy()
         {
-            CameraCanvas.PopDialog(DrawGizmos);
         }
     }
 }

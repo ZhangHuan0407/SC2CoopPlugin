@@ -24,6 +24,7 @@ namespace Game.UI
         private Text m_PercentageText;
         [SerializeField]
         private Button m_ForceQuitButton;
+        [SerializeField]
         private Text m_DescribeUpdateText;
 
         public void Hide()
@@ -42,7 +43,8 @@ namespace Game.UI
             m_RemoteRepositoryText.text = Global.ResourceRepositoryConfig.RepositoryUri;
             m_PercentageText.text = "0%";
             bool needUpdateClient = PlayerPrefs.GetInt(GameDefined.MaxClentVersionKey) > GameDefined.Version;
-            m_DescribeUpdateText.text = TableManager.LocalizationTable[(needUpdateClient ? "UI.UpdateResource.NeedDownloadClient" : "UI.UpdateResource.Desc2")];
+            string strKey = needUpdateClient ? "UI.UpdateResource.NeedDownloadClient" : "UI.UpdateResource.Desc2";
+            m_DescribeUpdateText.text = TableManager.LocalizationTable[strKey];
         }
 
         private IEnumerator Start()
@@ -51,8 +53,8 @@ namespace Game.UI
             var task = tool.DownloadUpdateAsync();
             while (!task.IsCompleted)
             {
-                m_Percentage += Mathf.Max(Mathf.Sin(Time.time), 0f);
-                m_PercentageText.text = $"{Mathf.FloorToInt(m_Percentage * 10f)}%";
+                m_Percentage += Mathf.Max(Mathf.Sin(Time.time) / 2f, 0.1f) * Time.deltaTime;
+                m_PercentageText.text = $"{m_Percentage * 5f:0.0}%";
                 yield return null;
             }
             if (task.Result == ResourceUpdateResult.Success)

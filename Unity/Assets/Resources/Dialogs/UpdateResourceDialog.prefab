@@ -10564,6 +10564,7 @@ MonoBehaviour:
   m_RemoteRepositoryText: {fileID: 7620985625651228662}
   m_PercentageText: {fileID: 8288551580456758526}
   m_ForceQuitButton: {fileID: 7883062105372993154}
+  m_DescribeUpdateText: {fileID: 629742731973140621}
 --- !u!1 &3220589574454349312
 GameObject:
   m_ObjectHideFlags: 0
@@ -21211,7 +21212,6 @@ GameObject:
   - component: {fileID: 6832516553090038995}
   - component: {fileID: 8968270879564854304}
   - component: {fileID: 629742731973140621}
-  - component: {fileID: 3761731940879762014}
   m_Layer: 5
   m_Name: SmallDesc2
   m_TagString: Untagged
@@ -21279,20 +21279,6 @@ MonoBehaviour:
     m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: UI.UpdateResource.Desc2
---- !u!114 &3761731940879762014
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6538753276926595103}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f1f952b89fe5541c2b2fe01bfae8fa2b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Text: {fileID: 629742731973140621}
-  m_StringID: UI.UpdateResource.Desc2
 --- !u!1 &6545180660848241137
 GameObject:
   m_ObjectHideFlags: 0
