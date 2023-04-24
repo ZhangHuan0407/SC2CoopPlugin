@@ -28,6 +28,10 @@ namespace Game.UI
         private LocalizationEditView m_LocalizationEditView;
         public LocalizationEditView LocalizationEditView => m_LocalizationEditView;
 
+        [SerializeField]
+        private EventModelEditView m_PlayerOperatorTemplateView;
+        public EventModelEditView PlayerOperatorTemplateView => m_PlayerOperatorTemplateView;
+
         private OpRecord<CommanderContentDialog> m_OpRecord;
         private bool m_NeedSave;
 
@@ -47,6 +51,7 @@ namespace Game.UI
         {
             m_InfoEditView.CommanderContentDialog = this;
             m_LocalizationEditView.CommanderContentDialog = this;
+            m_PlayerOperatorTemplateView.gameObject.SetActive(false);
 
             m_OpRecord = new OpRecord<CommanderContentDialog>();
         }
