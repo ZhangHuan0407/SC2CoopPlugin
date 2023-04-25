@@ -22,6 +22,7 @@ namespace Game.UI
         private void Awake()
         {
             m_Group = new List<Image>();
+            m_LineImage.gameObject.SetActive(false);
         }
 
         public void Hide()
@@ -36,47 +37,41 @@ namespace Game.UI
 
         public void DrawRectAnchor(RectAnchor rectAnchor)
         {
-            Rect cameraRect = Camera.main.rect;
+            Vector2 canvasSize = CameraCanvas.CanvasSize;
             Rect rect = default;
-            rect.xMin = Mathf.LerpUnclamped(cameraRect.xMin, cameraRect.xMax, rectAnchor.Left / GameDefined.ScreenWidth);
-            rect.yMin = Mathf.LerpUnclamped(cameraRect.yMax, cameraRect.yMin, rectAnchor.Top / GameDefined.ScreenWidth);
-            rect.width = Mathf.LerpUnclamped(0f, cameraRect.width, rectAnchor.Width / GameDefined.ScreenWidth);
-            rect.height = Mathf.LerpUnclamped(0f, cameraRect.height, rectAnchor.Height / GameDefined.ScreenWidth);
-            DrawRect(rect);
-        }
-        public void DrawRect(Rect rect)
-        {
+            rect.xMin = Mathf.LerpUnclamped(-canvasSize.x / 2f, canvasSize.x / 2f, (float)rectAnchor.Left / GameDefined.ScreenWidth);
+            rect.yMin = Mathf.LerpUnclamped(canvasSize.y / 2f, -canvasSize.y / 2f, (float)(rectAnchor.Top + rectAnchor.Height) / GameDefined.ScreenHeight);
+            rect.width = Mathf.LerpUnclamped(0f, canvasSize.x, (float)rectAnchor.Width / GameDefined.ScreenWidth);
+            rect.height = Mathf.LerpUnclamped(0f, canvasSize.y, (float)rectAnchor.Height / GameDefined.ScreenHeight);
+
             while (m_Group.Count < 4)
             {
-                m_Group.Add(Instantiate(m_LineImage));
+                m_Group.Add(Instantiate(m_LineImage, m_LineImage.transform.parent));
             } 
             Image topLine = m_Group[0];
             topLine.gameObject.SetActive(true);
             RectTransform imageRectTrans = (topLine.transform as RectTransform);
-            imageRectTrans.position = new Vector3(rect.x, rect.yMin, 0f);
-            float length = imageRectTrans.InverseTransformVector(rect.width, 0f, 0f).x;
-            imageRectTrans.sizeDelta = new Vector2(length, 1f);
+            Vector2 center = rect.center;
+            imageRectTrans.localPosition = new Vector3(center.x, rect.yMax, 0f);
+            imageRectTrans.sizeDelta = new Vector2(rect.width, 2f);
 
             Image bottomLine = m_Group[1];
             bottomLine.gameObject.SetActive(true);
             imageRectTrans = (bottomLine.transform as RectTransform);
-            imageRectTrans.position = new Vector3(rect.x, rect.yMax, 0f);
-            length = imageRectTrans.InverseTransformVector(rect.width, 0f, 0f).x;
-            imageRectTrans.sizeDelta = new Vector2(length, 1f);
+            imageRectTrans.localPosition = new Vector3(center.x, rect.yMin, 0f);
+            imageRectTrans.sizeDelta = new Vector2(rect.width, 2f);
 
             Image leftLine = m_Group[2];
             leftLine.gameObject.SetActive(true);
             imageRectTrans = (leftLine.transform as RectTransform);
-            imageRectTrans.position = new Vector3(rect.xMin, rect.y, 0f);
-            length = imageRectTrans.InverseTransformVector(0f, rect.height, 0f).y;
-            imageRectTrans.sizeDelta = new Vector2(1f, length);
+            imageRectTrans.localPosition = new Vector3(rect.xMin, center.y, 0f);
+            imageRectTrans.sizeDelta = new Vector2(2f, rect.height);
 
             Image rightLine = m_Group[3];
             rightLine.gameObject.SetActive(true);
             imageRectTrans = (rightLine.transform as RectTransform);
-            imageRectTrans.position = new Vector3(rect.xMax, rect.y, 0f);
-            length = imageRectTrans.InverseTransformVector(0f, rect.height, 0f).y;
-            imageRectTrans.sizeDelta = new Vector2(1f, length);
+            imageRectTrans.localPosition = new Vector3(rect.xMax, center.y, 0f);
+            imageRectTrans.sizeDelta = new Vector2(2f, rect.height);
         }
 
         public void Clear()

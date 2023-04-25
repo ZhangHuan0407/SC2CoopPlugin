@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 using RectAnchor = Game.OCR.RectAnchor;
@@ -34,6 +35,7 @@ namespace Game.UI
             m_MapTimeRectText.text = rectAnchor.ToString();
             m_MapTimeRectInput.SetTextWithoutNotify(rectAnchor.ToString());
             m_MapTimeRectInput.onValueChanged.AddListener((string input) => OnRectInputFieldChanged(input, m_MapTimeRectInput));
+            m_MapTimeRectInput.gameObject.SetActive(false);
             m_MapTimeRectEdit.SetIsOnWithoutNotify(false);
             m_MapTimeRectEdit.onValueChanged.AddListener(OnClickMapTimeRectEdit);
 
@@ -41,6 +43,7 @@ namespace Game.UI
             m_MapTaskRectText.text = rectAnchor.ToString();
             m_MapTaskRectInput.SetTextWithoutNotify(rectAnchor.ToString());
             m_MapTaskRectInput.onValueChanged.AddListener((string input) => OnRectInputFieldChanged(input, m_MapTaskRectInput));
+            m_MapTaskRectInput.gameObject.SetActive(false);
             m_MapTaskRectEdit.SetIsOnWithoutNotify(false);
             m_MapTaskRectEdit.onValueChanged.AddListener(OnClickMapTaskRectEdit);
 
@@ -48,6 +51,7 @@ namespace Game.UI
             m_PluginDialogRectText.text = rectAnchor.ToString();
             m_PluginDialogRectInput.SetTextWithoutNotify(rectAnchor.ToString());
             m_PluginDialogRectInput.onValueChanged.AddListener((string input) => OnRectInputFieldChanged(input, m_PluginDialogRectInput));
+            m_PluginDialogRectInput.gameObject.SetActive(false);
             m_PluginDialogRectEdit.SetIsOnWithoutNotify(false);
             m_PluginDialogRectEdit.onValueChanged.AddListener(OnClickPluginDialogRectEdit);
         }
@@ -132,10 +136,12 @@ namespace Game.UI
             {
                 if (RectAnchor.TryParse(input.text, out RectAnchor rectAnchor))
                     SettingDialog.DrawGizmos.DrawRectAnchor(rectAnchor);
+                SettingDialog.DrawGizmos.Show();
             }
             else
             {
                 SettingDialog.DrawGizmos.Clear();
+                SettingDialog.DrawGizmos.Hide();
             }
         }
     }
