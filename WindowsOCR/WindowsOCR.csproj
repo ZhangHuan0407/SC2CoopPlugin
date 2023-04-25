@@ -1,0 +1,37 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <OutputType>Exe</OutputType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\Unity\Assets\JSON\JSONExtension\BasicValueJSONSerialized.cs" Link="JSON\BasicValueJSONSerialized.cs" />
+    <Compile Include="..\Unity\Assets\JSON\JSONExtension\EnumJSONSerialized.cs" Link="JSON\EnumJSONSerialized.cs" />
+    <Compile Include="..\Unity\Assets\JSON\JSONExtension\ICollectionJSONSerialized.cs" Link="JSON\ICollectionJSONSerialized.cs" />
+    <Compile Include="..\Unity\Assets\JSON\JSONExtension\IDictionaryJSONSerialied.cs" Link="JSON\IDictionaryJSONSerialied.cs" />
+    <Compile Include="..\Unity\Assets\JSON\JSONExtension\IListJSONSerialized.cs" Link="JSON\IListJSONSerialized.cs" />
+    <Compile Include="..\Unity\Assets\JSON\JSONExtension\JSONMap.cs" Link="JSON\JSONMap.cs" />
+    <Compile Include="..\Unity\Assets\JSON\JSONExtension\JSONObjectExtension.cs" Link="JSON\JSONObjectExtension.cs" />
+    <Compile Include="..\Unity\Assets\JSON\JSONExtension\JSONSerialized.cs" Link="JSON\JSONSerialized.cs" />
+    <Compile Include="..\Unity\Assets\JSON\JSONExtension\JSONSerializedUnitTest.cs" Link="JSON\JSONSerializedUnitTest.cs" />
+    <Compile Include="..\Unity\Assets\JSON\JSONExtension\ObjectSerialized.cs" Link="JSON\ObjectSerialized.cs" />
+    <Compile Include="..\Unity\Assets\JSON\JSONExtension\ValueTypeJSONSerialized.cs" Link="JSON\ValueTypeJSONSerialized.cs" />
+    <Compile Include="..\Unity\Assets\JSON\JSONObject.cs" Link="JSON\JSONObject.cs" />
+    <Compile Include="..\Unity\Assets\Scripts\OCRProtocol\OCRAdapterBase.cs" Link="OCRProtocol\OCRAdapterBase.cs" />
+    <Compile Include="..\Unity\Assets\Scripts\OCRProtocol\ProtocolData.cs" Link="OCRProtocol\ProtocolData.cs" />
+    <Compile Include="..\Unity\Assets\Scripts\OCRProtocol\RectAnchor.cs" Link="OCRProtocol\RectAnchor.cs" />
+    <Compile Include="..\Unity\Assets\Scripts\OCRProtocol\ServiceConnector.cs" Link="OCRProtocol\ServiceConnector.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Drawing.Common" Version="5.0.3" />
+    <PackageReference Include="WindowsContracts.Net.Foundation.FoundationContract" Version="5.19041.4.1" />
+    <PackageReference Include="WindowsContracts.Net.Foundation.UniversalApiContract" Version="5.19041.10" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="OCRProtocol\" />
+  </ItemGroup>
+
+</Project>
