@@ -30,8 +30,5 @@
     <PackageReference Include="WindowsContracts.Net.Foundation.UniversalApiContract" Version="5.19041.10" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="OCRProtocol\" />
-  </ItemGroup>
 
 </Project>
