@@ -69,16 +69,18 @@ namespace Game.OCR
             }
 
             OCRConnector connector = new OCRConnector();
-            connector.ConnectServiceSync(port);
-
-            Ping_Request request = new Ping_Request(new Random().Next());
-            (HeadData, Ping_Response) response = await connector.SendRequestAsync<Ping_Response>(ProtocolId.Ping, request);
-            if (OCRConnector.Instance != null)
-            {
-                connector.Dispose();
-                throw new Exception($"have another OCRConnector instance");
-            }
             OCRConnector.Instance = connector;
+            _ = Task.Run(async () => 
+            {
+                connector.ConnectServiceSync(port);
+                Ping_Request request = new Ping_Request(new Random().Next());
+                (HeadData, Ping_Response) response = await connector.SendRequestAsync<Ping_Response>(ProtocolId.Ping, request);
+                if (OCRConnector.Instance != null)
+                {
+                    connector.Dispose();
+                    throw new Exception($"have another OCRConnector instance");
+                }
+            });
         }
     }
 }
