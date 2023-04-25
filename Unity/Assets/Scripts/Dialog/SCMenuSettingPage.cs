@@ -34,6 +34,7 @@ namespace Game.UI
             m_CoopMenuRectText.text = rectAnchor.ToString();
             m_CoopMenuRectInput.SetTextWithoutNotify(rectAnchor.ToString());
             m_CoopMenuRectInput.onValueChanged.AddListener((string input) => OnRectInputFieldChanged(input, m_CoopMenuRectInput));
+            m_CoopMenuRectInput.gameObject.SetActive(false);
             m_CoopMenuRectEdit.SetIsOnWithoutNotify(false);
             m_CoopMenuRectEdit.onValueChanged.AddListener(OnClickCoopMenuRectEdit);
 
@@ -41,6 +42,7 @@ namespace Game.UI
             m_CommanderNameRectText.text = rectAnchor.ToString();
             m_CommanderNameRectInput.SetTextWithoutNotify(rectAnchor.ToString());
             m_CommanderNameRectInput.onValueChanged.AddListener((string input) => OnRectInputFieldChanged(input, m_CommanderNameRectInput));
+            m_CommanderNameRectInput.gameObject.SetActive(false);
             m_CommanderNameRectEdit.SetIsOnWithoutNotify(false);
             m_CommanderNameRectEdit.onValueChanged.AddListener(OnClickCommanderNameRectEdit);
 
@@ -48,6 +50,7 @@ namespace Game.UI
             m_MasteriesRectText.text = rectAnchor.ToString();
             m_MasteriesRectInput.SetTextWithoutNotify(rectAnchor.ToString());
             m_MasteriesRectInput.onValueChanged.AddListener((string input) => OnRectInputFieldChanged(input, m_MasteriesRectInput));
+            m_MasteriesRectInput.gameObject.SetActive(false);
             m_MasteriesRectEdit.SetIsOnWithoutNotify(false);
             m_MasteriesRectEdit.onValueChanged.AddListener(OnClickMasteriesRectEdit);
         }
@@ -132,10 +135,12 @@ namespace Game.UI
             {
                 if (RectAnchor.TryParse(input.text, out RectAnchor rectAnchor))
                     SettingDialog.DrawGizmos.DrawRectAnchor(rectAnchor);
+                SettingDialog.DrawGizmos.Show();
             }
             else
             {
                 SettingDialog.DrawGizmos.Clear();
+                SettingDialog.DrawGizmos.Hide();
             }
         }
     }

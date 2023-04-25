@@ -97,7 +97,7 @@ namespace Game.Editor
                 Directory.Delete(localLocalizationDirectory, true);
             new DirectoryInfo(submoduleLocalizationDirectory).CopyFilesTo(new DirectoryInfo(localLocalizationDirectory), false, "*.json");
 
-            Debug.Log($"PreviousMax {maxPreviousCount} Union {stringIDSet.Count} => After {maxAfterEditCount}");
+            Debug.Log($"(PreviousMax {maxPreviousCount} Union {stringIDSet.Count}) => {maxAfterEditCount}");
             Debug.Log("Need Delete:\n" + string.Join("\n", needDeleteSet));
 
             void AppendEnum<T>() where T : Enum
