@@ -157,7 +157,6 @@ namespace Game
         {
             RefreshMousePos();
             MouseKeyDownEvent?.Invoke(mouseKey, MousePos);
-            // Log.Instance.ShowLog(string.Format("按下：" + mouseKey + "  "+MousePos));
 
             return MousePos;
         }
@@ -165,7 +164,6 @@ namespace Game
         {
             RefreshMousePos();
             MouseKeyUpEvent?.Invoke(mouseKey, MousePos);
-            // Log.Instance.ShowLog(string.Format("抬起：" + mouseKey + "  " + MousePos));
 
             return MousePos;
         }
@@ -174,7 +172,6 @@ namespace Game
         {
             RefreshMousePos();
             MouseDragEvent?.Invoke(mouseKey, MousePos);
-            // Log.Instance.ShowLog(string.Format("拖动：" + mouseKey + "  " + MousePos));
 
             return MousePos;
         }
@@ -182,7 +179,6 @@ namespace Game
         private void MouseKeyClick(MouseKey mouseKey)
         {
             MouseKeyClickEvent?.Invoke(mouseKey);
-            // Log.Instance.ShowLog(string.Format("点击：" + mouseKey + "  " + MousePos));
         }
 
         private Vector3 RefreshMousePos()
