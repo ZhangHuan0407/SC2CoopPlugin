@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Game.OCR;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
-using OCRProtocol;
 
 namespace WindowsOCR
 {

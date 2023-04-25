@@ -7,8 +7,8 @@ using System.Linq;
 using Windows.Globalization;
 using Windows.Graphics.Imaging;
 using Windows.Media.Ocr;
-using OCRProtocol;
 using System.Threading.Tasks;
+using Game.OCR;
 
 namespace WindowsOCR
 {

@@ -31,11 +31,18 @@ namespace Game.OCR
             m_TcpClient = new TcpClient(new IPEndPoint(IPAddress.Loopback, 0));
             for (int i = 0; i < 20; i++)
             {
-                m_TcpClient.Connect(new IPEndPoint(IPAddress.Loopback, port));
+                try
+                {
+                    m_TcpClient.Connect(new IPEndPoint(IPAddress.Loopback, port));
+                }
+                catch (Exception e)
+                {
+                    LogService.Error(nameof(ConnectServiceSync), e);
+                }
                 if (m_TcpClient.Client.Connected)
                     break;
                 else
-                    Thread.Sleep(100);
+                    Thread.Sleep(3000);
             }
 
             if (!m_TcpClient.Client.Connected)
@@ -51,6 +58,8 @@ namespace Game.OCR
                 System.Diagnostics.Process starCraftProcess = Global.StarCraftProcess;
                 if (starCraftProcess == null || starCraftProcess.HasExited)
                     return (new HeadData() { ProtocolId = protocolId, StatusCode = ErrorCode.StarCraftProcessHasExited }, default);
+                if (!m_TcpClient.Client.Connected)
+                    return (new HeadData() { ProtocolId = protocolId, StatusCode = ErrorCode.OcrNotInit }, default);
                 if (protocolId == ProtocolId.RecognizeWindowArea && NeedSyncParameters)
                 {
                     InitParameters_Request request = new InitParameters_Request(Global.UserSetting.InGameLanguage, 
