@@ -22,6 +22,7 @@ namespace Game
             RecordLimit = recordLimit;
         }
 
+        public bool UndoUseable => m_LatestOperatingRecordNode != null;
         public void Undo(T t)
         {
             if (m_LatestOperatingRecordNode != null)
@@ -30,6 +31,8 @@ namespace Game
                 m_LatestOperatingRecordNode = m_LatestOperatingRecordNode.Previous;
             }
         }
+        public bool RedoUseable => m_LatestOperatingRecordNode == null && m_OperatingRecordList.Count > 0 ||
+                                   m_LatestOperatingRecordNode?.Next != null;
         public void Redo(T t)
         {
             if (m_LatestOperatingRecordNode == null && m_OperatingRecordList.Count > 0)
