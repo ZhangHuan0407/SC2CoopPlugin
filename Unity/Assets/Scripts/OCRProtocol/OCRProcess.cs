@@ -11,26 +11,6 @@ namespace Game.OCR
 {
     public static class OCRProcess
     {
-        private static int GetRandomUnusedPort()
-        {
-            IPGlobalProperties properties = IPGlobalProperties.GetIPGlobalProperties();
-            HashSet<int> usedPort = new HashSet<int>();
-            foreach (IPEndPoint endPoint in properties.GetActiveTcpListeners())
-                usedPort.Add(endPoint.Port);
-            Random random = new Random();
-            int i = 0;
-            while (true)
-            {
-                if (i++ > 500)
-                    throw new Exception("Can not get unused tcp port.");
-                int port = random.Next(1001, 60000);
-                if (usedPort.Contains(port))
-                    continue;
-                else
-                    return port;
-            }
-        }
-
 #if UNITY_EDITOR
         public const string OCRPricessPath = "../WindowsOCR/bin/Debug/net5.0/WindowsOCR.exe";
 #elif UNITY_STANDALONE_WIN
@@ -46,10 +26,24 @@ namespace Game.OCR
             await Task.Delay(1);
             return;
 #endif
-            if (OCRConnector.Instance != null)
+            if (OCRConnectorA.Instance != null)
                 throw new Exception($"have another OCRConnector instance");
             await Task.Delay(1);
-            int port = GetRandomUnusedPort();
+
+            OCRConnectorA connector = new OCRConnectorA();
+            OCRConnectorA.Instance = connector;
+            _ = Task.Run(async () =>
+            {
+                connector.AcceptTCPSync();
+                Ping_Request request = new Ping_Request(new Random().Next());
+                (HeadData, Ping_Response) response = await connector.SendRequestAsync<Ping_Response>(ProtocolId.Ping, request);
+                if (OCRConnectorA.Instance != null)
+                {
+                    connector.Dispose();
+                    throw new Exception($"have another OCRConnector instance");
+                }
+            });
+
             int currentProcessId;
             using (Process currentProcess = Process.GetCurrentProcess())
             {
@@ -58,7 +52,7 @@ namespace Game.OCR
             ProcessStartInfo processStartInfo = new ProcessStartInfo()
             {
                 FileName = new FileInfo(OCRPricessPath).FullName,
-                Arguments = $"-port={port} -mainprocess={currentProcessId}",
+                Arguments = $"-port={connector.Port} -mainprocess={currentProcessId}",
 #if !UNITY_EDITOR && !ALPHA
                 WindowStyle = ProcessWindowStyle.Hidden,
 #endif
@@ -67,20 +61,6 @@ namespace Game.OCR
             {
                 LogService.System("OCRProcess", $"start ocr process {OCRPricessPath} {processStartInfo.Arguments} id {process.Id}");
             }
-
-            OCRConnector connector = new OCRConnector();
-            OCRConnector.Instance = connector;
-            _ = Task.Run(async () => 
-            {
-                connector.ConnectServiceSync(port);
-                Ping_Request request = new Ping_Request(new Random().Next());
-                (HeadData, Ping_Response) response = await connector.SendRequestAsync<Ping_Response>(ProtocolId.Ping, request);
-                if (OCRConnector.Instance != null)
-                {
-                    connector.Dispose();
-                    throw new Exception($"have another OCRConnector instance");
-                }
-            });
         }
     }
 }

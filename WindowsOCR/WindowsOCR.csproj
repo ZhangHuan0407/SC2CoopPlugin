@@ -21,7 +21,7 @@
     <Compile Include="..\Unity\Assets\Scripts\OCRProtocol\OCRAdapterBase.cs" Link="OCRProtocol\OCRAdapterBase.cs" />
     <Compile Include="..\Unity\Assets\Scripts\OCRProtocol\ProtocolData.cs" Link="OCRProtocol\ProtocolData.cs" />
     <Compile Include="..\Unity\Assets\Scripts\OCRProtocol\RectAnchor.cs" Link="OCRProtocol\RectAnchor.cs" />
-    <Compile Include="..\Unity\Assets\Scripts\OCRProtocol\ServiceConnector.cs" Link="OCRProtocol\ServiceConnector.cs" />
+    <Compile Include="..\Unity\Assets\Scripts\OCRProtocol\OCRConnectorB.cs" Link="OCRProtocol\OCRConnectorB.cs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -10,40 +10,32 @@ using UnityEngine;
 
 namespace Game.OCR
 {
-    public class OCRConnector : IDisposable
+    public class OCRConnectorA : IDisposable
     {
-        public static OCRConnector Instance;
+        public static OCRConnectorA Instance;
 
+        private TcpListener m_TcpListener;
+        public int Port => (m_TcpListener.LocalEndpoint as IPEndPoint).Port;
         private TcpClient m_TcpClient;
         public bool Connected => m_TcpClient?.Connected ?? false;
         private NetworkStream m_NetworkStream;
         private static volatile int m_SequenceId;
         public volatile bool NeedSyncParameters;
 
-        public OCRConnector()
+        public OCRConnectorA()
         {
             NeedSyncParameters = true;
+            m_TcpListener = new TcpListener(new IPEndPoint(IPAddress.Loopback, 0));
+            m_TcpListener.Start();
         }
 
-        public void ConnectServiceSync(int port)
+        public void AcceptTCPSync()
         {
-            
-            m_TcpClient = new TcpClient(new IPEndPoint(IPAddress.Loopback, 0));
-            for (int i = 0; i < 20; i++)
-            {
-                try
-                {
-                    m_TcpClient.Connect(new IPEndPoint(IPAddress.Loopback, port));
-                }
-                catch (Exception e)
-                {
-                    LogService.Error(nameof(ConnectServiceSync), e);
-                }
-                if (m_TcpClient.Client.Connected)
-                    break;
-                else
-                    Thread.Sleep(3000);
-            }
+            if (m_TcpClient != null)
+                throw new Exception("AcceptTCPSync TcpClient is not null");
+            Console.WriteLine("Wait for connect...");
+            m_TcpClient = m_TcpListener.AcceptTcpClient();
+            Console.WriteLine($"connect success, RemoteEndPoint: {m_TcpClient.Client.RemoteEndPoint}");
 
             if (!m_TcpClient.Client.Connected)
                 throw new Exception("Can not connect to Ocr process.");
@@ -140,6 +132,7 @@ namespace Game.OCR
         public void Dispose()
         {
             Debug.Log("OCRConnector Dispose");
+            m_TcpListener?.Stop();
             if (m_TcpClient != null && m_TcpClient.Connected)
             {
                 Task task = Task.Run(() =>
