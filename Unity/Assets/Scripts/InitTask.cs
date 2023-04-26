@@ -67,7 +67,7 @@ namespace Game
             {
                 if (i == PlayModeStateChange.ExitingPlayMode)
                 {
-                    OCRConnector.Instance?.Dispose();
+                    OCRConnectorA.Instance?.Dispose();
                 }
             };
 #endif

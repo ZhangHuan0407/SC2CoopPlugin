@@ -44,24 +44,22 @@ namespace WindowsOCR
                 return;
             }
 
-            // todo kill last WindowsOCR process
-
-            ServiceConnector.Instance = new ServiceConnector()
+            OCRConnectorB.Instance = new OCRConnectorB()
             {
                 OCRAdapter = new OCRAdapter(),
             };
-            ServiceConnector.Instance.StartRecieveSync(port);
+            OCRConnectorB.Instance.ConnectServiceSync(port);
 
             // 主线程进入摸鱼状态
             while (!mainProcess.HasExited &&
-                ServiceConnector.Instance.Connected)
+                OCRConnectorB.Instance.Connected)
             {
                 Thread.Sleep(5000);
 #if DEBUG
-                Console.WriteLine($"MainProcess HasExited: {mainProcess.HasExited}, Connected: {ServiceConnector.Instance.Connected}");
+                Console.WriteLine($"MainProcess HasExited: {mainProcess.HasExited}, Connected: {OCRConnectorB.Instance.Connected}");
 #endif
             }
-            ServiceConnector.Instance.Dispose();
+            OCRConnectorB.Instance.Dispose();
         }
     }
 }

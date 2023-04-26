@@ -8,12 +8,11 @@ using System.Threading;
 
 namespace Game.OCR
 {
-    public class ServiceConnector : IDisposable
+    public class OCRConnectorB : IDisposable
     {
-        public static ServiceConnector Instance;
+        public static OCRConnectorB Instance;
 
         private TcpClient m_TcpClient;
-        private TcpListener m_TcpListener;
         private NetworkStream m_NetworkStream;
         public bool Connected => m_TcpClient.Connected;
         private Stopwatch m_ProcessingStopwatch;
@@ -22,19 +21,31 @@ namespace Game.OCR
 
         private Thread m_Thread;
 
-        public ServiceConnector()
+        public OCRConnectorB()
         {
             Processing_Handle = new Dictionary<ProtocolId, AdapterAction>();
             m_ProcessingStopwatch = new Stopwatch();
         }
 
-        public void StartRecieveSync(int port)
+        public void ConnectServiceSync(int port)
         {
-            m_TcpListener = new TcpListener(new IPEndPoint(IPAddress.Loopback, port));
-            m_TcpListener.Start();
-            Console.WriteLine("Wait for connect...");
-            m_TcpClient = m_TcpListener.AcceptTcpClient();
-            Console.WriteLine($"connect success, RemoteEndPoint: {m_TcpClient.Client.RemoteEndPoint}");
+            m_TcpClient = new TcpClient(new IPEndPoint(IPAddress.Loopback, 0));
+            for (int i = 0; i < 4; i++)
+            {
+                try
+                {
+                    m_TcpClient.Connect(new IPEndPoint(IPAddress.Loopback, port));
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(nameof(ConnectServiceSync) + e);
+                }
+                if (m_TcpClient.Client.Connected)
+                    break;
+                else
+                    Thread.Sleep(2000);
+            }
+
             m_TcpClient.SendTimeout = 300;
             m_NetworkStream = m_TcpClient.GetStream();
             OCRAdapter.BindListener(Processing_Handle);
@@ -119,7 +130,6 @@ namespace Game.OCR
 
         public void Dispose()
         {
-            m_TcpListener?.Stop();
             m_TcpClient?.Dispose();
             m_Thread?.Join();
             OCRAdapter?.Dispose();
