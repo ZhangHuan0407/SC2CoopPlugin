@@ -44,6 +44,9 @@ namespace Game.Editor
         [MenuItem("Tools/Unit Table Edit")]
         public static UnitTableWindow OpenWindow()
         {
+            for (int i = 0; i < GameDefined.JSONSerializedRegisterTypes.Length; i++)
+                JSONMap.RegisterType(GameDefined.JSONSerializedRegisterTypes[i]);
+
             UnitTableWindow editorWindow = GetWindow<UnitTableWindow>();
             var rect = editorWindow.position;
             rect.width = 830f;

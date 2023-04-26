@@ -5,16 +5,8 @@ using UnityEngine;
 namespace Game.Model
 {
     [Serializable]
-    public class AttackWaveEventModel : IEventModel
+    public class MapTriggerEventModel : IEventModel
     {
-        [SerializeField]
-        private int m_Technology;
-        public int Technology
-        {
-            get => m_Technology;
-            set => m_Technology = value;
-        }
-
         [SerializeField]
         private Guid m_Guid;
         public Guid Guid
@@ -48,14 +40,6 @@ namespace Game.Model
         }
 
         [SerializeField]
-        private bool m_Hide;
-        public bool Hide
-        {
-            get => m_Hide;
-            set => m_Hide = value;
-        }
-
-        [SerializeField]
         private MapSubType m_MapSubType;
         public MapSubType MapSubType
         {
@@ -63,10 +47,26 @@ namespace Game.Model
             set => m_MapSubType = value;
         }
 
-        public AttackWaveEventModel()
+        [SerializeField]
+        private string m_Texture;
+        public string Texture
+        {
+            get => m_Texture;
+            set => m_Texture = value;
+        }
+
+        [SerializeField]
+        private string m_Desc;
+        public string Desc
+        {
+            get => m_Desc;
+            set => m_Desc = value;
+        }
+
+        public MapTriggerEventModel()
         {
         }
 
-        public bool SkipEvent(CoopTimeline timeline) => Hide || (timeline.Map.MapSubType & MapSubType) == 0;
+        public bool SkipEvent(CoopTimeline timeline) => (timeline.Map.MapSubType & MapSubType) == 0;
     }
 }

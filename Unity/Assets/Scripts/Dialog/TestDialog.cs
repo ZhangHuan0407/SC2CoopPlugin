@@ -146,7 +146,7 @@ namespace Game.UI
             }
             GameObject go = Instantiate(m_AttackWaveTemplate);
             IEventView eventView = go.GetComponent<AttackWaveEventView>();
-            eventView.SetModel(eventModel);
+            eventView.SetModel(eventModel, m_CoopTimeline);
             return eventView;
         }
 

@@ -1,3 +1,4 @@
+using Game.Model;
 using System;
 using System.Collections.Generic;
 using Table;
@@ -18,6 +19,7 @@ namespace Game
         /// </summary>
         public static readonly JSONSerialized[] JSONSerializedRegisterTypes = new JSONSerialized[]
         {
+            EventModelFactory.EventModelSerialized,
         };
 
         public const string RemoteResourceRepository = "https://gitcode.net/qq_34919016/sc2coopplugin-resource";

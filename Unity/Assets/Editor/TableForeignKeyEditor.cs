@@ -16,6 +16,9 @@ namespace Game.Editor
 
         private static void LoadInnerTables()
         {
+            for (int i = 0; i < GameDefined.JSONSerializedRegisterTypes.Length; i++)
+                JSONMap.RegisterType(GameDefined.JSONSerializedRegisterTypes[i]);
+
             m_AttackWaveTable = LoadTable<AttackWaveTable>("AttackWaveTable.json");
             m_MasteriesTable = LoadTable<MasteriesTable>("MasteriesTable.json");
             m_UnitTable = LoadTable<UnitTable>("UnitTable.json");
