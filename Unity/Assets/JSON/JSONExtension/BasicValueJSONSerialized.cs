@@ -105,4 +105,21 @@ public static class BasicValueJSONSerialized
             return null;
         return TimeSpan.Parse(@object.str);
     }
+
+    public static JSONSerialized GuidSerialized => new JSONSerialized(typeof(Guid), GuidToJSON, GuidParseJSON);
+    public static JSONObject GuidToJSON(object guid)
+    {
+        Guid value = guid is Guid ? (Guid)guid : default;
+        JSONObject @object = new JSONObject(JSONObject.Type.STRING)
+        {
+            str = value.ToString(),
+        };
+        return @object;
+    }
+    public static object GuidParseJSON(JSONObject @object)
+    {
+        if (@object is null || @object.IsNull)
+            return default;
+        return Guid.Parse(@object.str);
+    }
 }

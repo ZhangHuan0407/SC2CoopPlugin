@@ -54,6 +54,8 @@ public static class JSONMap
         RegisterType(BasicValueJSONSerialized.LongSerialized);
         RegisterType(BasicValueJSONSerialized.StringSerialized);
         RegisterType(BasicValueJSONSerialized.DateTimeSerialized);
+        RegisterType(BasicValueJSONSerialized.TimeSpanSerialized);
+        RegisterType(BasicValueJSONSerialized.GuidSerialized);
 #if UNITY_STANDALONE
         RegisterType(VectorJSONSerialized.Vector4Serialized);
         RegisterType(VectorJSONSerialized.Vector3IntSerialized);
