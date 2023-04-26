@@ -148,6 +148,9 @@ namespace Game.UI
         {
             m_FileMenuDropdown.SetActive(true);
             m_MouseIgnoreFrame = Time.frameCount;
+            bool containsAny = GetFocusCCDialog() != null;
+            m_SaveFileButton.interactable = containsAny;
+            m_CloseButton.interactable = containsAny;
         }
 
         private void OnClickCreateFileButton()
@@ -155,7 +158,7 @@ namespace Game.UI
             m_MouseIgnoreFrame = Time.frameCount;
             CommanderContentDialog commanderContentDialog = CameraCanvas.PushDialog(GameDefined.CommanderContentDialogPath) as CommanderContentDialog;
             CommanderContentDialogs.Add(commanderContentDialog);
-            commanderContentDialog.SetCommanderModel(CommanderModel.CreateDebug());
+            commanderContentDialog.SetCommanderPipeline(CommanderPipeline.CreateDebug());
         }
 
         private void OnClickSaveFileMenuButton()
@@ -180,12 +183,12 @@ namespace Game.UI
                         else
                         {
                             JSONObject @object = JSONObject.Create(File.ReadAllText(dialog.FilePath));
-                            CommanderModel model = JSONMap.ParseJSON<CommanderModel>(@object);
+                            CommanderPipeline model = JSONMap.ParseJSON<CommanderPipeline>(@object);
 
                             CommanderContentDialog commanderContentDialog = CameraCanvas.PushDialog(GameDefined.CommanderContentDialogPath) as CommanderContentDialog;
                             CommanderContentDialogs.Add(commanderContentDialog);
                             commanderContentDialog.FilePath = dialog.FilePath;
-                            commanderContentDialog.SetCommanderModel(model);
+                            commanderContentDialog.SetCommanderPipeline(model);
                         }
                     }))
                       .DoIt();
@@ -198,6 +201,10 @@ namespace Game.UI
             {
                 CameraCanvas.SetTopMost(dialog);
                 dialog.PlayerWannaClose();
+
+                bool containsAny = GetFocusCCDialog() != null;
+                m_SaveFileButton.interactable = containsAny;
+                m_CloseButton.interactable = containsAny;
             }
         }
 
@@ -213,6 +220,17 @@ namespace Game.UI
         {
             m_EditMenuDropdown.SetActive(true);
             m_MouseIgnoreFrame = Time.frameCount;
+            CommanderContentDialog commanderContentDialog = GetFocusCCDialog();
+            if (commanderContentDialog)
+            {
+                m_RedoButton.interactable = commanderContentDialog.RedoUseable;
+                m_UndoButton.interactable = commanderContentDialog.UndoUseable;
+            }
+            else
+            {
+                m_RedoButton.interactable = false;
+                m_UndoButton.interactable = false;
+            }
         }
         private void OnClickUndoButton()
         {

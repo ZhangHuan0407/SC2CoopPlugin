@@ -9,16 +9,16 @@ namespace Game.UI
     public class LocalizationEditView : MonoBehaviour
     {
         public CommanderContentDialog CommanderContentDialog { get; set; }
-        private CommanderModel m_CommanderModel;
+        private CommanderPipeline m_CommanderPipeline;
 
         private void Awake()
         {
             
         }
 
-        public void SetCommanderModel(CommanderModel model)
+        public void SetCommanderPipeline(CommanderPipeline pipeline)
         {
-            m_CommanderModel = model;
+            m_CommanderPipeline = pipeline;
         }
     }
 }

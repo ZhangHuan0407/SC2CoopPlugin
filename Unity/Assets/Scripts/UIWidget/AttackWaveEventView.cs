@@ -23,10 +23,10 @@ namespace Game.UI
             m_Progress.color = time >= m_Model.TriggerTime ? Color.red : Color.green;
         }
 
-        public void SetModel(IEventModel eventModel)
+        public void SetModel(IEventModel eventModel, CoopTimeline coopTimeline)
         {
             m_Model = eventModel as AttackWaveEventModel;
-            AttackWaveTable.Entry attackWaveEntry = TableManager.AttackWaveTable[m_Model.AIName, m_Model.Technology];
+            AttackWaveTable.Entry attackWaveEntry = TableManager.AttackWaveTable[coopTimeline.AI.AIName, m_Model.Technology];
             string[] iconList = new string[attackWaveEntry.UnitID.Length];
             for (int i = 0; i < attackWaveEntry.UnitID.Length; i++)
             {

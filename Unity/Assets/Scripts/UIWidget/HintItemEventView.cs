@@ -25,7 +25,7 @@ namespace Game.UI
             m_Progress.color = time >= m_Model.TriggerTime ? Color.red : Color.green;
         }
 
-        public void SetModel(IEventModel eventModel)
+        public void SetModel(IEventModel eventModel, CoopTimeline coopTimeline)
         {
             m_Model = eventModel as PlayerOperatorEventModel;
             int unitID = m_Model.UnitID;

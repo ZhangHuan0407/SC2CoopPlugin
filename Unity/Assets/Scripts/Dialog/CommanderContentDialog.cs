@@ -18,7 +18,7 @@ namespace Game.UI
         public CommanderEditorDialog CommanderEditorDialog { get; set; }
         //public bool Focus { get; private set; }
 
-        public CommanderModel CommanderModel { get; private set; }
+        public CommanderPipeline CommanderPipeline { get; private set; }
         public string FilePath { get; set; }
 
         [SerializeField]
@@ -26,13 +26,16 @@ namespace Game.UI
         public CommanderInfoEditView InfoEditView => m_InfoEditView;
         [SerializeField]
         private LocalizationEditView m_LocalizationEditView;
-        public LocalizationEditView LocalizationEditView => m_LocalizationEditView;
+        //public LocalizationEditView LocalizationEditView => m_LocalizationEditView;
 
         [SerializeField]
         private EventModelEditView m_PlayerOperatorTemplateView;
         public EventModelEditView PlayerOperatorTemplateView => m_PlayerOperatorTemplateView;
 
         private OpRecord<CommanderContentDialog> m_OpRecord;
+        public bool UndoUseable => m_OpRecord.UndoUseable;
+        public bool RedoUseable => m_OpRecord.RedoUseable;
+
         private bool m_NeedSave;
 
         public void Hide()
@@ -60,11 +63,11 @@ namespace Game.UI
             CommanderEditorDialog.CommanderContentDialogs.Remove(this);
         }
 
-        public void SetCommanderModel(CommanderModel model)
+        public void SetCommanderPipeline(CommanderPipeline pipeline)
         {
-            CommanderModel = model;
-            m_InfoEditView.SetCommanderModel(model);
-            m_LocalizationEditView.SetCommanderModel(model);
+            CommanderPipeline = pipeline;
+            m_InfoEditView.SetCommanderPipeline(pipeline);
+            m_LocalizationEditView.SetCommanderPipeline(pipeline);
             m_NeedSave = false;
         }
 
@@ -125,8 +128,8 @@ namespace Game.UI
             }
             tweener.Then(LogicTween.AppendCallback(() =>
                                     {
-                                        JSONObject @object = JSONMap.ToJSON(CommanderModel);
-                                        JSONObject @eventModels = @object[nameof(CommanderModel.EventModels)];
+                                        JSONObject @object = JSONMap.ToJSON(CommanderPipeline);
+                                        JSONObject @eventModels = @object[nameof(CommanderPipeline.EventModels)];
                                         for (int i = 0; i < @eventModels.list.Count; i++)
                                             @eventModels.list[i].Bake(true);
                                         File.WriteAllText(FilePath, @object.ToString(true));
