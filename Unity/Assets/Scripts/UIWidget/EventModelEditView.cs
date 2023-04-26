@@ -9,7 +9,7 @@ namespace Game.UI
     public class EventModelEditView : MonoBehaviour
     {
         public CommanderContentDialog CommanderContentDialog { get; set; }
-        private CommanderModel m_CommanderModel;
+        private CommanderPipeline m_CommanderPipeline;
         private Guid m_Guid;
 
         [SerializeField]
@@ -24,9 +24,9 @@ namespace Game.UI
             
         }
 
-        public void SetCommanderModel(CommanderModel model, IEventModel eventModel)
+        public void SetCommanderModel(CommanderPipeline pipeline, IEventModel eventModel)
         {
-            m_CommanderModel = model;
+            m_CommanderPipeline = pipeline;
             m_Guid = eventModel.Guid;
         }
 
@@ -37,21 +37,21 @@ namespace Game.UI
         public void EventModel_Delete()
         {
             int dataIndex = transform.GetSiblingIndex();
-            var eventModel = m_CommanderModel.EventModels.First(m => m.Guid == m_Guid);
+            var eventModel = m_CommanderPipeline.EventModels.First(m => m.Guid == m_Guid);
             string modelString = JSONMap.ToJSON(eventModel).ToString();
             CommanderContentDialog.AppendRecord(nameof(EventModel_Delete),
                                                 (dialog) =>
                                                 {
                                                     transform.SetParent(null);
                                                     Destroy(gameObject);
-                                                    m_CommanderModel.EventModels.RemoveAt(dataIndex);
+                                                    m_CommanderPipeline.EventModels.RemoveAt(dataIndex);
                                                 },
                                                 (dialog) =>
                                                 {
                                                     var template = CommanderContentDialog.PlayerOperatorTemplateView;
                                                     var view = UnityEngine.Object.Instantiate(template, template.transform.parent);
                                                     PlayerOperatorEventModel eventModel2 = JSONMap.ParseJSON<PlayerOperatorEventModel>(JSONObject.Create(modelString));
-                                                    view.SetCommanderModel(m_CommanderModel, eventModel2);
+                                                    view.SetCommanderModel(m_CommanderPipeline, eventModel2);
                                                     view.transform.SetSiblingIndex(dataIndex);
                                                 });
         }

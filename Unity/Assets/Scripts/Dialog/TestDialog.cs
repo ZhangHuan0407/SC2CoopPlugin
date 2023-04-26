@@ -45,7 +45,7 @@ namespace Game.UI
             m_CoopTimeline = new CoopTimeline();
             m_CoopTimeline.AI = AIModel.CreateDebug();
             m_CoopTimeline.Map = MapModel.CreateDebug();
-            m_CoopTimeline.Commander = CommanderModel.CreateDebug();
+            m_CoopTimeline.Commander = CommanderPipeline.CreateDebug();
             m_ViewReference = new Dictionary<Guid, IEventView>();
             RebuildView();
         }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Table;
 
 namespace Game.Model
@@ -8,6 +9,7 @@ namespace Game.Model
     {
         public MapName MapName;
         public AttackWaveEventModel[] EventModels;
+        public MapSubType MapSubType;
 
         public static MapModel CreateDebug()
         {
@@ -16,7 +18,15 @@ namespace Game.Model
             model.EventModels = new AttackWaveEventModel[]
             {
             };
+            model.MapSubType = MapSubType.AorB;
             return model;
+        }
+
+        public IList<IEventModel> BuildEventModels(CoopTimeline coopTimeline)
+        {
+            List<IEventModel> eventModels = new List<IEventModel>();
+            eventModels.AddRange(EventModels);
+            return eventModels;
         }
     }
 }

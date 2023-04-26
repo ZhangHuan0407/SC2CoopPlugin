@@ -9,6 +9,6 @@ namespace Game.UI
         GameObject gameObject { get; }
         Guid Guid { get; }
         void UpdateView(float time);
-        void SetModel(IEventModel eventModel);
+        void SetModel(IEventModel eventModel, CoopTimeline coopTimeline);
     }
 }

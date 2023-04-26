@@ -8,14 +8,6 @@ namespace Game.Model
     public class AttackWaveEventModel : IEventModel
     {
         [SerializeField]
-        private AmonAIName m_AIName;
-        public AmonAIName AIName
-        {
-            get => m_AIName;
-            set => m_AIName = value;
-        }
-
-        [SerializeField]
         private int m_Technology;
         public int Technology
         {
@@ -63,10 +55,18 @@ namespace Game.Model
             set => m_Hide = value;
         }
 
+        [SerializeField]
+        private MapSubType m_MapSubType;
+        public MapSubType MapSubType
+        {
+            get => m_MapSubType;
+            set => m_MapSubType = value;
+        }
+
         public AttackWaveEventModel()
         {
         }
 
-        public bool SkipEvent(CoopTimeline timeline) => false;
+        public bool SkipEvent(CoopTimeline timeline) => (timeline.Map.MapSubType & MapSubType) == 0;
     }
 }

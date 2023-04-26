@@ -12,7 +12,7 @@ namespace Game.UI
     public class CommanderInfoEditView : MonoBehaviour
     {
         public CommanderContentDialog CommanderContentDialog { get; set; }
-        private CommanderModel m_CommanderModel;
+        private CommanderPipeline m_CommanderPipeline;
 
         private static List<(CommanderName name, int dropdownIndex)> m_DropdownValues;
 
@@ -64,10 +64,10 @@ namespace Game.UI
             m_DescInput.onEndEdit.AddListener(OnDescInput_EndEdit);
         }
 
-        public void SetCommanderModel(CommanderModel model)
+        public void SetCommanderPipeline(CommanderPipeline pipeline)
         {
-            m_CommanderModel = model;
-            string commanderPrefix = ((int)m_CommanderModel.Commander).ToString();
+            m_CommanderPipeline = pipeline;
+            string commanderPrefix = ((int)m_CommanderPipeline.Commander).ToString();
             int index = -1;
             for (int i = 0; i < m_CommanderNameDropDown.options.Count; i++)
             {
@@ -78,15 +78,15 @@ namespace Game.UI
                 }
             }
             m_CommanderNameDropDown.SetValueWithoutNotify(index);
-            for (int i = 0; i < model.Masteries.Length; i++)
-                m_MasteriesSliders[i].SetValueWithoutNotify(model.Masteries[i] * 30.49f);
-            m_PrestigesToggles[model.Prestige].SetIsOnWithoutNotify(true);
+            for (int i = 0; i < pipeline.Masteries.Length; i++)
+                m_MasteriesSliders[i].SetValueWithoutNotify(pipeline.Masteries[i] * 30.49f);
+            m_PrestigesToggles[pipeline.Prestige].SetIsOnWithoutNotify(true);
         }
 
         private void OnCommanderNameDropDown_ValueChanged(int newIndex)
         {
             CommanderName newCommanderName = CommanderName.None;
-            CommanderName oldCommanderName = m_CommanderModel.Commander;
+            CommanderName oldCommanderName = m_CommanderPipeline.Commander;
             int oldIndex = 0;
             foreach ((CommanderName name, int dropdownIndex) pair in m_DropdownValues)
             {
@@ -98,29 +98,29 @@ namespace Game.UI
             CommanderContentDialog.AppendRecord(nameof(OnCommanderNameDropDown_ValueChanged),
                                                 (dialog) =>
                                                 {
-                                                    dialog.CommanderModel.Commander = newCommanderName;
+                                                    dialog.CommanderPipeline.Commander = newCommanderName;
                                                     m_CommanderNameDropDown.SetValueWithoutNotify(newIndex);
                                                 },
                                                 (dialog) =>
                                                 {
-                                                    dialog.CommanderModel.Commander = oldCommanderName;
+                                                    dialog.CommanderPipeline.Commander = oldCommanderName;
                                                     m_CommanderNameDropDown.SetValueWithoutNotify(oldIndex);
                                                 });
         }
         private void OnMasteriySlider_EndEdit(Slider sender, float newValue)
         {
             int index = Array.IndexOf(m_MasteriesSliders, sender);
-            int oldMastery = m_CommanderModel.Masteries[index];
+            int oldMastery = m_CommanderPipeline.Masteries[index];
             int newMastety = Mathf.RoundToInt(newValue * 30.49f);
             CommanderContentDialog.AppendRecord(nameof(OnMasteriySlider_EndEdit),
                                                 (dialog) =>
                                                 {
-                                                    dialog.CommanderModel.Masteries[index] = newMastety;
+                                                    dialog.CommanderPipeline.Masteries[index] = newMastety;
                                                     m_MasteriesSliders[index].SetValueWithoutNotify(newValue);
                                                 },
                                                 (dialog) =>
                                                 {
-                                                    dialog.CommanderModel.Masteries[index] = oldMastery;
+                                                    dialog.CommanderPipeline.Masteries[index] = oldMastery;
                                                     m_MasteriesSliders[index].SetValueWithoutNotify(oldMastery / 30.49f);
                                                 });
         }
@@ -130,46 +130,46 @@ namespace Game.UI
                 return;
 
             int newPrestige = Array.IndexOf(m_PrestigesToggles, sender);
-            int oldPrestige = m_CommanderModel.Prestige;
+            int oldPrestige = m_CommanderPipeline.Prestige;
             CommanderContentDialog.AppendRecord(nameof(OnPrestigeToggle_ValueChanged),
                                                 (dialog) =>
                                                 {
-                                                    dialog.CommanderModel.Prestige = newPrestige;
+                                                    dialog.CommanderPipeline.Prestige = newPrestige;
                                                     m_PrestigesToggles[newPrestige].SetIsOnWithoutNotify(true);
                                                 },
                                                 (dialog) =>
                                                 {
-                                                    dialog.CommanderModel.Prestige = oldPrestige;
+                                                    dialog.CommanderPipeline.Prestige = oldPrestige;
                                                     m_PrestigesToggles[oldPrestige].SetIsOnWithoutNotify(true);
                                                 });
         }
         private void OnTitleInput_EndEdit(string input)
         {
-            string oldContent = m_CommanderModel.Title;
+            string oldContent = m_CommanderPipeline.Title;
             CommanderContentDialog.AppendRecord(nameof(OnTitleInput_EndEdit),
                                                 (dialog) =>
                                                 {
-                                                    dialog.CommanderModel.Title = input;
+                                                    dialog.CommanderPipeline.Title = input;
                                                     m_TitleInput.SetTextWithoutNotify(input);
                                                 },
                                                 (dialog) =>
                                                 {
-                                                    dialog.CommanderModel.Title = oldContent;
+                                                    dialog.CommanderPipeline.Title = oldContent;
                                                     m_TitleInput.SetTextWithoutNotify(oldContent);
                                                 });
         }
         private void OnDescInput_EndEdit(string input)
         {
-            string oldContent = m_CommanderModel.Desc;
+            string oldContent = m_CommanderPipeline.Desc;
             CommanderContentDialog.AppendRecord(nameof(OnDescInput_EndEdit),
                                                 (dialog) =>
                                                 {
-                                                    dialog.CommanderModel.Desc = input;
+                                                    dialog.CommanderPipeline.Desc = input;
                                                     m_DescInput.SetTextWithoutNotify(input);
                                                 },
                                                 (dialog) =>
                                                 {
-                                                    dialog.CommanderModel.Desc = oldContent;
+                                                    dialog.CommanderPipeline.Desc = oldContent;
                                                     m_DescInput.SetTextWithoutNotify(oldContent);
                                                 });
         }

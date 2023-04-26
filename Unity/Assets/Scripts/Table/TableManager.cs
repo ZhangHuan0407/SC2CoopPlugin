@@ -66,6 +66,13 @@ namespace Table
             private set => m_ModelTable = value;
         }
 
+        private static CommanderPipelineTable m_CommanderPipelineTable;
+        public static CommanderPipelineTable CommanderPipelineTable
+        {
+            get => m_CommanderPipelineTable;
+            private set => m_CommanderPipelineTable = value;
+        }
+
         /* ctor */
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterAssembliesLoaded)]
         private static void Init()
@@ -86,6 +93,8 @@ namespace Table
                 TechnologyTable = LoadTable<TechnologyTable>("TechnologyTable.json");
                 ModelTable = new ModelTable();
                 ModelTable.SearchAllModelFrom(resourceRepositoryConfig);
+                CommanderPipelineTable = new CommanderPipelineTable();
+                CommanderPipelineTable.SearchAllModelFrom(resourceRepositoryConfig);
             }
             catch (Exception ex)
             {
