@@ -1,6 +1,7 @@
 using Game.Model;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using Table;
 using UnityEngine;
 
@@ -28,8 +29,8 @@ namespace Game
         public const string TempDirectory = "Temp";
 
         public static string UserSettingFilePath { get; private set; }
+        public static string CustomCommanderPipelineDirectoryPath { get; private set; }
 
-        
         public const string CommanderContentDialogPath = "Dialogs/CommanderContentDialog";
         public const string CommanderEditorDialogPath = "Dialogs/CommanderEditorDialog";
         public const string DrawGizmosDialogPath = "Dialogs/DrawGizmosDialog";
@@ -41,6 +42,7 @@ namespace Game
         public const string UpdateResourceDialog = "Dialogs/UpdateResourceDialog";
 
         public const string MaxClentVersionKey = "MaxClentVersion";
+        public const string CommanderPreferenceLanguage = "CommanderPreferenceLanguage";
         public const string ClientNewVersionWebPage = "";
 
         public const string HowToShareWebPage = "";
@@ -52,6 +54,8 @@ namespace Game
             ScreenWidth = Screen.width;
             ScreenHeight = Screen.height;
             UserSettingFilePath = $"{Application.persistentDataPath}/UserSetting.json";
+            CustomCommanderPipelineDirectoryPath = $"{Application.persistentDataPath}/CCP";
+            Directory.CreateDirectory(CustomCommanderPipelineDirectoryPath);
             Debug.Log(UserSettingFilePath);
         }
     }

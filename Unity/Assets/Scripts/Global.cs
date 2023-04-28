@@ -1,9 +1,7 @@
-using System.Collections.Generic;
 using System.Diagnostics;
-using UnityEngine;
-using GitRepository;
-using System;
 using Game.OCR;
+using GitRepository;
+using Table;
 
 namespace Game
 {
@@ -23,5 +21,6 @@ namespace Game
         public static RepositoryConfig ResourceRepositoryConfig { get; internal set; }
 
         public static MapTime MapTime { get; internal set; }
+        public static CommanderName CurrentUsedCommander { get; internal set; }
     }
 }

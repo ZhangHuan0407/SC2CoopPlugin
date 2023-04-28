@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using Game.Model;
+using Table;
 using Tween;
 using UnityEngine;
 using UnityEngine.UI;
@@ -178,16 +179,17 @@ namespace Game.UI
             tweener.Then(LogicTween.AppendCallback(() =>
                     {
                         if (dialog.DialogResult != DialogResult.OK ||
-                            !File.Exists(dialog.FilePath))
+                            !File.Exists(dialog.CommanderPipelineId))
                             tweener.FromHeadToEndIfNeedStop(out _);
                         else
                         {
-                            JSONObject @object = JSONObject.Create(File.ReadAllText(dialog.FilePath));
+                            FileInfo fileInfo = TableManager.CommanderPipelineTable[dialog.CommanderPipelineId];
+                            JSONObject @object = JSONObject.Create(File.ReadAllText(fileInfo.FullName));
                             CommanderPipeline model = JSONMap.ParseJSON<CommanderPipeline>(@object);
 
                             CommanderContentDialog commanderContentDialog = CameraCanvas.PushDialog(GameDefined.CommanderContentDialogPath) as CommanderContentDialog;
                             CommanderContentDialogs.Add(commanderContentDialog);
-                            commanderContentDialog.FilePath = dialog.FilePath;
+                            commanderContentDialog.FilePath = fileInfo.FullName;
                             commanderContentDialog.SetCommanderPipeline(model);
                         }
                     }))

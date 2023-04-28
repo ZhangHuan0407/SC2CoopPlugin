@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using GitRepository;
 using Game.Model;
+using Game;
 
 namespace Table
 {
@@ -29,6 +30,11 @@ namespace Table
 
         public Dictionary<string, Entry> IdToEntries;
         public List<Entry> AllEntries;
+
+        public FileInfo this[string id]
+        {
+            get => IdToEntries[id].Fileinfo;
+        }
 
         public CommanderPipelineTable()
         {
@@ -55,6 +61,10 @@ namespace Table
                     for (int i = 0; i < files.Length; i++)
                         LoadAndRecord(files[i], subDirectoryPath);
                 }
+                directoryPath = GameDefined.CustomCommanderPipelineDirectoryPath;
+                files = Directory.GetFiles(directoryPath, "*.json");
+                for (int i = 0; i < files.Length; i++)
+                    LoadAndRecord(files[i], new DirectoryInfo(directoryPath).Parent.FullName.Replace("\\", "/"));
 
                 void LoadAndRecord(string filePath, string path)
                 {
@@ -99,16 +109,21 @@ namespace Table
             }
         }
 
-        public List<Entry> Filter(string str, SystemLanguage? language, int level)
+        public List<Entry> Filter(string str, SystemLanguage? language, CommanderName? commanderName, int level)
         {
             List<Entry> allEntries = AllEntries;
             List<Entry> result = new List<Entry>();
-            for (int i = 0; i < allEntries.Count; i++)
+            for (int i = 0; i < allEntries.Count && result.Count < 40; i++)
             {
                 Entry entry = allEntries[i];
                 if (language != null)
                 {
                     if (entry.Language != language)
+                        continue;
+                }
+                if (commanderName != null)
+                {
+                    if (entry.CommanderName != commanderName)
                         continue;
                 }
                 if (entry.Level > level)
