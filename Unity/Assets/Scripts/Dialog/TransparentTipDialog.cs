@@ -13,6 +13,8 @@ namespace Game.UI
         [SerializeField]
         private Image m_Image;
         [SerializeField]
+        private Image m_Background;
+        [SerializeField]
         private Sprite m_HideAllAndRaycastIgnore;
         [SerializeField]
         private Sprite m_TopMostAndBlockRaycast;
@@ -33,6 +35,7 @@ namespace Game.UI
         private void Update()
         {
             m_Image.enabled = m_FadeOut > 0f;
+            m_Background.enabled = m_FadeOut > 0f;
             m_FadeOut -= Time.deltaTime;
             if (m_OldWindowState == m_TransparentWindow.WindowState)
                 return;

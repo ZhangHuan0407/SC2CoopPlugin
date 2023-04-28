@@ -26,6 +26,9 @@ namespace Game.UI
         [SerializeField]
         private Button m_ExitButton;
         [SerializeField]
+        private Text m_VersionLabel;
+
+        [SerializeField]
         private Button m_TestButton;
 
         private void Awake()
@@ -37,6 +40,11 @@ namespace Game.UI
             m_CommanderEditorButton.onClick.AddListener(OnClickCommanderEditorButton);
             m_UpdateResourceButton.onClick.AddListener(OnClickUpdateResourceButton);
             m_ExitButton.onClick.AddListener(OnClickExitButton);
+#if ALPHA
+            m_VersionLabel.text = Application.version + " alpha";
+#else
+            m_VersionLabel.text = Application.version;
+#endif
 
             m_TestButton.onClick.AddListener(OnClickTestButton);
         }

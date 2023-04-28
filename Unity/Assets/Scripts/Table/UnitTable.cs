@@ -187,6 +187,13 @@ namespace Table
                 m_StealthTechnology = string.Empty;
                 m_Texture = string.Empty;
             }
+
+            public Sprite LoadTexture()
+            {
+                if (string.IsNullOrWhiteSpace(Texture))
+                    return null;
+                return Resources.Load<Sprite>($"Texturess/{Texture}");
+            }
         }
 
         [NonSerialized]
