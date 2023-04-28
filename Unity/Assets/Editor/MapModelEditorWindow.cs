@@ -19,7 +19,6 @@ using System.Text.RegularExpressions;
 using Table;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.Experimental.TerrainAPI;
 
 namespace Game.Editor
 {

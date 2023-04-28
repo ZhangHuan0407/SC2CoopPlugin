@@ -37,7 +37,7 @@ namespace Game.OCR
                 connector.AcceptTCPSync();
                 Ping_Request request = new Ping_Request(new Random().Next());
                 (HeadData, Ping_Response) response = await connector.SendRequestAsync<Ping_Response>(ProtocolId.Ping, request);
-                if (OCRConnectorA.Instance != null)
+                if (OCRConnectorA.Instance != connector)
                 {
                     connector.Dispose();
                     throw new Exception($"have another OCRConnector instance");
