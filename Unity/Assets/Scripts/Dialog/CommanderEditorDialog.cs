@@ -5,6 +5,7 @@ using Table;
 using Tween;
 using UnityEngine;
 using UnityEngine.UI;
+using Guid = System.Guid;
 
 namespace Game.UI
 {
@@ -107,15 +108,6 @@ namespace Game.UI
 
             Application.targetFrameRate = 20;
         }
-        private void OnDestroy()
-        {
-            for (int i = 0; i < CommanderContentDialogs.Count; i++)
-            {
-                if (CommanderContentDialogs[i].DestroyFlag)
-                    continue;
-                CameraCanvas.PopDialog(CommanderContentDialogs[i]);
-            }
-        }
 
         private void Update()
         {
@@ -158,8 +150,18 @@ namespace Game.UI
         {
             m_MouseIgnoreFrame = Time.frameCount;
             CommanderContentDialog commanderContentDialog = CameraCanvas.PushDialog(GameDefined.CommanderContentDialogPath) as CommanderContentDialog;
+            commanderContentDialog.CommanderEditorDialog = this;
             CommanderContentDialogs.Add(commanderContentDialog);
-            commanderContentDialog.SetCommanderPipeline(CommanderPipeline.CreateDebug());
+            CommanderPipeline commanderPipeline = TableManager.ModelTable.InstantiateModel<CommanderPipeline>("CommanderPipeline_Template");
+            commanderPipeline.Language = Global.UserSetting.InterfaceLanguage;
+            commanderPipeline.EventModels.Add(new PlayerOperatorEventModel()
+            {
+                Guid = Guid.NewGuid(),
+                StartTime = 1,
+                TriggerTime = 1,
+                EndTime = 5,
+            });
+            commanderContentDialog.SetCommanderPipeline(commanderPipeline);
         }
 
         private void OnClickSaveFileMenuButton()
@@ -188,6 +190,7 @@ namespace Game.UI
                             CommanderPipeline model = JSONMap.ParseJSON<CommanderPipeline>(@object);
 
                             CommanderContentDialog commanderContentDialog = CameraCanvas.PushDialog(GameDefined.CommanderContentDialogPath) as CommanderContentDialog;
+                            commanderContentDialog.CommanderEditorDialog = this;
                             CommanderContentDialogs.Add(commanderContentDialog);
                             commanderContentDialog.FilePath = fileInfo.FullName;
                             commanderContentDialog.SetCommanderPipeline(model);
@@ -213,6 +216,12 @@ namespace Game.UI
         private void OnClickExitButton()
         {
             CameraCanvas.PopDialog(this);
+            for (int i = 0; i < CommanderContentDialogs.Count; i++)
+            {
+                if (CommanderContentDialogs[i].DestroyFlag)
+                    continue;
+                CameraCanvas.PopDialog(CommanderContentDialogs[i]);
+            }
             IDialog dialog = CameraCanvas.PushDialog(GameDefined.MainManuDialog);
         }
         #endregion
@@ -261,12 +270,12 @@ namespace Game.UI
             m_MouseIgnoreFrame = Time.frameCount;
             foreach (Transform child in m_CommanderContentDropdown.transform)
             {
-                UnityEngine.Object.Destroy(child);
+                UnityEngine.Object.Destroy(child.gameObject);
             }
             for (int i = 0; i < CommanderContentDialogs.Count; i++)
             {
                 CommanderContentDialog dialog = CommanderContentDialogs[i];
-                Button button = Instantiate(m_CommanderContentTemplate);
+                Button button = Instantiate(m_CommanderContentTemplate, m_CommanderContentDropdown.transform);
                 string fileName;
                 if (string.IsNullOrWhiteSpace(dialog.FilePath))
                     fileName = "new.json";

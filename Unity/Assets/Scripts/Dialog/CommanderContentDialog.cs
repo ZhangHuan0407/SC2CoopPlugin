@@ -31,6 +31,12 @@ namespace Game.UI
         [SerializeField]
         private EventModelEditView m_PlayerOperatorTemplateView;
         public EventModelEditView PlayerOperatorTemplateView => m_PlayerOperatorTemplateView;
+        [SerializeField]
+        private RectTransform m_EventModelsRectTrans;
+        public Transform EventModelsRectTrans => m_EventModelsRectTrans;
+
+        [SerializeField]
+        private RectTransform m_ScrollContent;
 
         private OpRecord<CommanderContentDialog> m_OpRecord;
         public bool UndoUseable => m_OpRecord.UndoUseable;
@@ -60,7 +66,8 @@ namespace Game.UI
         }
         private void OnDestroy()
         {
-            CommanderEditorDialog.CommanderContentDialogs.Remove(this);
+            if (!CommanderEditorDialog.DestroyFlag)
+                CommanderEditorDialog.CommanderContentDialogs.Remove(this);
         }
 
         public void SetCommanderPipeline(CommanderPipeline pipeline)
@@ -77,6 +84,29 @@ namespace Game.UI
             {
                 HotkeyTrigger();
             }
+            float height = 0f;
+            if (m_InfoEditView.gameObject.activeSelf)
+            {
+                Vector3 localPosition = m_InfoEditView.transform.localPosition;
+                localPosition.y = height;
+                m_InfoEditView.transform.localPosition = localPosition;
+                height += (m_InfoEditView.transform as RectTransform).rect.height;
+            }
+            if (m_LocalizationEditView.gameObject.activeSelf)
+            {
+                Vector3 localPosition = m_LocalizationEditView.transform.localPosition;
+                localPosition.y = height;
+                m_LocalizationEditView.transform.localPosition = localPosition;
+                height += (m_LocalizationEditView.transform as RectTransform).rect.height;
+            }
+            if (m_EventModelsRectTrans.gameObject.activeSelf)
+            {
+                Vector3 localPosition = m_EventModelsRectTrans.transform.localPosition;
+                localPosition.y = height;
+                m_EventModelsRectTrans.transform.localPosition = localPosition;
+                height += (m_EventModelsRectTrans.transform as RectTransform).rect.height;
+            }
+            m_ScrollContent.sizeDelta = new Vector2(m_ScrollContent.sizeDelta.x, height);
         }
         private void HotkeyTrigger()
         {

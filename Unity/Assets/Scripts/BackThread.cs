@@ -77,7 +77,8 @@ namespace Game
                 if (m_Thread != null)
                 {
                     ThreadState threadState = m_Thread.ThreadState;
-                    if (threadState == ThreadState.Aborted || threadState == ThreadState.StopRequested || threadState == ThreadState.Stopped)
+                    if (threadState == ThreadState.AbortRequested || threadState == ThreadState.Aborted ||
+                        threadState == ThreadState.StopRequested || threadState == ThreadState.Stopped)
                         return;
                     if (threadState != ThreadState.Aborted)
                         m_Thread.Abort();

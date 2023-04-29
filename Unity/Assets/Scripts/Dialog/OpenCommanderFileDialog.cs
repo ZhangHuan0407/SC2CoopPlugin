@@ -137,6 +137,8 @@ namespace Game.UI
             m_OKButton.gameObject.SetActive(false);
             m_CloseButton.onClick.AddListener(OnClickClose);
             m_CloseButton.gameObject.SetActive(false);
+
+            m_Template.gameObject.SetActive(false);
         }
 
         private void Start()
@@ -172,7 +174,7 @@ namespace Game.UI
             yield return new WaitForEndOfFrame();
             for (int i = 0; i < m_Entries.Length; i++)
             {
-                GameObject commanderPipelineGo = Instantiate(m_Template, m_Template.transform.parent);
+                GameObject commanderPipelineGo = Instantiate(m_Template, m_ContentTrans);
                 commanderPipelineGo.GetComponent<CommanderPipelineEntryView>().SetEntry(m_Entries[i]);
                 if (i % 20 == 19)
                     yield return null;

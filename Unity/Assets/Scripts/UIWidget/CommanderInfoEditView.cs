@@ -19,9 +19,13 @@ namespace Game.UI
         [SerializeField]
         private Dropdown m_CommanderNameDropDown;
         [SerializeField]
+        private Text[] m_MasteriesNameTexts;
+        [SerializeField]
         private Slider[] m_MasteriesSliders;
         [SerializeField]
-        private Toggle[] m_PrestigesToggles;
+        private Text[] m_PrestigeNameTexts;
+        [SerializeField]
+        private Toggle[] m_PrestigeToggles;
         [SerializeField]
         private InputField m_TitleInput;
         [SerializeField]
@@ -51,9 +55,9 @@ namespace Game.UI
                                                                                OnMasteriySlider_EndEdit(slider, value);
                                                                            });
             }
-            for (int i = 0; i < m_PrestigesToggles.Length; i++)
+            for (int i = 0; i < m_PrestigeToggles.Length; i++)
             {
-                Toggle toggle = m_PrestigesToggles[i];
+                Toggle toggle = m_PrestigeToggles[i];
                 toggle.onValueChanged.AddListener((bool value) =>
                                                  {
                                                      OnPrestigeToggle_ValueChanged(toggle, value);
@@ -80,7 +84,27 @@ namespace Game.UI
             m_CommanderNameDropDown.SetValueWithoutNotify(index);
             for (int i = 0; i < pipeline.Masteries.Length; i++)
                 m_MasteriesSliders[i].SetValueWithoutNotify(pipeline.Masteries[i] * 30.49f);
-            m_PrestigesToggles[pipeline.Prestige].SetIsOnWithoutNotify(true);
+            m_PrestigeToggles[pipeline.Prestige].SetIsOnWithoutNotify(true);
+            OnChangeCommanderName(m_CommanderPipeline.Commander);
+        }
+        private void OnChangeCommanderName(CommanderName commanderName)
+        {
+            int index = m_CommanderNameDropDown.value;
+            for (int i = 0; i < m_DropdownValues.Count; i++)
+            {
+                if (m_DropdownValues[i].dropdownIndex == index)
+                {
+                    Debug.Log(m_DropdownValues[i].name);
+                }
+            }
+
+            if (TableManager.MasteriesTable.Data.TryGetValue(commanderName, out MasteriesTable.Entry[] entries))
+            {
+
+            }
+            for (int i = 0; i < m_MasteriesNameTexts.Length; i++)
+            {
+            }
         }
 
         private void OnCommanderNameDropDown_ValueChanged(int newIndex)
@@ -100,12 +124,15 @@ namespace Game.UI
                                                 {
                                                     dialog.CommanderPipeline.Commander = newCommanderName;
                                                     m_CommanderNameDropDown.SetValueWithoutNotify(newIndex);
+                                                    OnChangeCommanderName(newCommanderName);
                                                 },
                                                 (dialog) =>
                                                 {
                                                     dialog.CommanderPipeline.Commander = oldCommanderName;
                                                     m_CommanderNameDropDown.SetValueWithoutNotify(oldIndex);
+                                                    OnChangeCommanderName(oldCommanderName);
                                                 });
+            CommanderContentDialog.Redo();
         }
         private void OnMasteriySlider_EndEdit(Slider sender, float newValue)
         {
@@ -123,25 +150,27 @@ namespace Game.UI
                                                     dialog.CommanderPipeline.Masteries[index] = oldMastery;
                                                     m_MasteriesSliders[index].SetValueWithoutNotify(oldMastery / 30.49f);
                                                 });
+            CommanderContentDialog.Redo();
         }
         private void OnPrestigeToggle_ValueChanged(Toggle sender, bool newValue)
         {
             if (!newValue)
                 return;
 
-            int newPrestige = Array.IndexOf(m_PrestigesToggles, sender);
+            int newPrestige = Array.IndexOf(m_PrestigeToggles, sender);
             int oldPrestige = m_CommanderPipeline.Prestige;
             CommanderContentDialog.AppendRecord(nameof(OnPrestigeToggle_ValueChanged),
                                                 (dialog) =>
                                                 {
                                                     dialog.CommanderPipeline.Prestige = newPrestige;
-                                                    m_PrestigesToggles[newPrestige].SetIsOnWithoutNotify(true);
+                                                    m_PrestigeToggles[newPrestige].SetIsOnWithoutNotify(true);
                                                 },
                                                 (dialog) =>
                                                 {
                                                     dialog.CommanderPipeline.Prestige = oldPrestige;
-                                                    m_PrestigesToggles[oldPrestige].SetIsOnWithoutNotify(true);
+                                                    m_PrestigeToggles[oldPrestige].SetIsOnWithoutNotify(true);
                                                 });
+            CommanderContentDialog.Redo();
         }
         private void OnTitleInput_EndEdit(string input)
         {
@@ -157,6 +186,7 @@ namespace Game.UI
                                                     dialog.CommanderPipeline.Title = oldContent;
                                                     m_TitleInput.SetTextWithoutNotify(oldContent);
                                                 });
+            CommanderContentDialog.Redo();
         }
         private void OnDescInput_EndEdit(string input)
         {
@@ -172,6 +202,7 @@ namespace Game.UI
                                                     dialog.CommanderPipeline.Desc = oldContent;
                                                     m_DescInput.SetTextWithoutNotify(oldContent);
                                                 });
+            CommanderContentDialog.Redo();
         }
     }
 }

@@ -18,6 +18,8 @@ UI.CommanderInfo.Masteries
 UI.CommanderInfo.Prestiges
 UI.CommanderInfo.Title
 UI.CommanderInfo.Desc
+UI.EventModelEditView.Copy
+UI.EventModelEditView.Delete
 UI.UpdateResource
 UI.Setting
 UI.Setting.Save

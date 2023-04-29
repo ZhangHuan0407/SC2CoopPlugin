@@ -21,10 +21,10 @@ namespace Table
             m_ModelDictionary = new Dictionary<string, Entry>();
         }
 
-        public TModel InstantiateModel<TModel>(object modelName) where TModel : struct
+        public TModel InstantiateModel<TModel>(object modelName)
         {
             JSONObject @object = TryGet(modelName.ToString());
-            return JSONMap.ParseJSON<TModel>(@object);
+            return (TModel)JSONMap.ParseJSON(typeof(TModel), @object);
         }
         private JSONObject TryGet(string key)
         {
@@ -59,11 +59,14 @@ namespace Table
             {
                 string[] files = Directory.GetFiles($"{repositoryConfig.LocalDirectory}/Models", "*.json");
                 for (int i = 0; i < files.Length; i++)
-                    m_ModelDictionary[files[i]] = new Entry()
+                {
+                    FileInfo fileInfo = new FileInfo(files[i]);
+                    m_ModelDictionary[Path.GetFileNameWithoutExtension(files[i])] = new Entry()
                     {
-                        FileInfo = new FileInfo(files[i]),
+                        FileInfo = fileInfo,
                         Cache = null,
                     };
+                }
             }
             catch (Exception ex)
             {

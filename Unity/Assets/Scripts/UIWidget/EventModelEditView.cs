@@ -49,7 +49,7 @@ namespace Game.UI
                                                 (dialog) =>
                                                 {
                                                     var template = CommanderContentDialog.PlayerOperatorTemplateView;
-                                                    var view = UnityEngine.Object.Instantiate(template, template.transform.parent);
+                                                    var view = UnityEngine.Object.Instantiate(template, CommanderContentDialog.EventModelsRectTrans);
                                                     PlayerOperatorEventModel eventModel2 = JSONMap.ParseJSON<PlayerOperatorEventModel>(JSONObject.Create(modelString));
                                                     view.SetCommanderModel(m_CommanderPipeline, eventModel2);
                                                     view.transform.SetSiblingIndex(dataIndex);

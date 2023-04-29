@@ -8,14 +8,70 @@ namespace Game.Model
     [Serializable]
     public class CommanderPipeline
     {
-        public CommanderName Commander;
-        public SystemLanguage Language;
-        public int Level;
-        public int[] Masteries;
-        public int Prestige;
-        public string Title;
-        public string Desc;
-        public List<PlayerOperatorEventModel> EventModels;
+        [SerializeField]
+        private CommanderName m_Commander;
+        public CommanderName Commander
+        {
+            get => m_Commander;
+            set => m_Commander = value;
+        }
+
+        [SerializeField]
+        private SystemLanguage m_Language;
+        public SystemLanguage Language
+        {
+            get => m_Language;
+            set => m_Language = value;
+        }
+
+        [SerializeField]
+        private int m_Level;
+        public int Level
+        {
+            get => m_Level;
+            set => m_Level = value;
+        }
+
+        [SerializeField]
+        private int[] m_Masteries;
+        public int[] Masteries
+        {
+            get => m_Masteries;
+            set => m_Masteries = value;
+        }
+
+        [SerializeField]
+        private int m_Prestige;
+        public int Prestige
+        {
+            get => m_Prestige;
+            set => m_Prestige = value;
+        }
+
+        [SerializeField]
+        private string m_Title;
+        public string Title
+        {
+            get => m_Title;
+            set => m_Title = value;
+        }
+
+        [SerializeField]
+        private string m_Desc;
+        public string Desc
+        {
+            get => m_Desc;
+            set => m_Desc = value;
+        }
+
+        [SerializeField]
+        private List<PlayerOperatorEventModel> m_EventModels;
+        public List<PlayerOperatorEventModel> EventModels
+        {
+            get => m_EventModels;
+            set => m_EventModels = value;
+        }
+
         //public Dictionary<StringID, string> LocalizationTable;
 
         protected CommanderPipeline()
