@@ -63,8 +63,43 @@ namespace Game.Model
             set => m_Desc = value;
         }
 
+        [SerializeField]
+        private int m_BigHybrid;
+        public int BigHybrid
+        {
+            get => m_BigHybrid;
+            set => m_BigHybrid = value;
+        }
+
+        [SerializeField]
+        private int m_SmallHybrid;
+        public int SmallHybrid
+        {
+            get => m_SmallHybrid;
+            set => m_SmallHybrid = value;
+        }
+
+        [SerializeField]
+        private int m_Technology;
+        public int Technology
+        {
+            get => m_Technology;
+            set => m_Technology = value;
+        }
+
+#if UNITY_EDITOR
+        [SerializeField]
+        private string m_Annotation;
+        public string Annotation
+        {
+            get => m_Annotation;
+            set => m_Annotation = value;
+        }
+#endif
+
         public MapTriggerEventModel()
         {
+            m_Technology = -1;
         }
 
         public bool SkipEvent(CoopTimeline timeline) => (timeline.Map.MapSubType & MapSubType) == 0;

@@ -96,7 +96,7 @@ namespace Table
                     entries = new Entry[7];
                     table.m_Data.Add(entry.AI, entries);
                 }
-                entries[entry.Technology] = entry;
+                entries[entry.Technology - 1] = entry;
             }
             return table;
         }

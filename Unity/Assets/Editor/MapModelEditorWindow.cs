@@ -32,9 +32,6 @@ namespace Game.Editor
         [MenuItem("Tools/Map Model Edit")]
         public static MapModelEditorWindow OpenWindow()
         {
-            for (int i = 0; i < GameDefined.JSONSerializedRegisterTypes.Length; i++)
-                JSONMap.RegisterType(GameDefined.JSONSerializedRegisterTypes[i]);
-
             MapModelEditorWindow editorWindow = GetWindow<MapModelEditorWindow>();
             var rect = editorWindow.position;
             rect.width = 830f;
@@ -44,9 +41,14 @@ namespace Game.Editor
 
         private void OnEnable()
         {
+            for (int i = 0; i < GameDefined.JSONSerializedRegisterTypes.Length; i++)
+                JSONMap.RegisterType(GameDefined.JSONSerializedRegisterTypes[i]);
+
             titleContent = new GUIContent("Map Model Edit");
             minSize = new Vector2(550f, 400f);
             m_ScrollPosition = Vector2.zero;
+            m_MapModelPath = null;
+            m_MapModel = null;
         }
 
         private void OnInspectorUpdate()
@@ -121,6 +123,24 @@ namespace Game.Editor
                 };
             if (GUILayout.Button("Save", GUILayout.Width(80f)))
             {
+                for (int i = 0; i < m_MapModel.EventModels.Length; i++)
+                {
+                    IEventModel eventModel = m_MapModel.EventModels[i];
+                    if (eventModel is AttackWaveEventModel attackWaveEventModel)
+                    {
+                        if (attackWaveEventModel.TriggerTime != 0 && attackWaveEventModel.StartTime == 0)
+                            attackWaveEventModel.StartTime = attackWaveEventModel.TriggerTime - 15;
+                        if (attackWaveEventModel.TriggerTime != 0 && attackWaveEventModel.EndTime == 0)
+                            attackWaveEventModel.EndTime = attackWaveEventModel.TriggerTime + 5;
+                    }
+                    else if (eventModel is MapTriggerEventModel mapTriggerEventModel)
+                    {
+                        if (mapTriggerEventModel.TriggerTime != 0 && mapTriggerEventModel.StartTime == 0)
+                            mapTriggerEventModel.StartTime = mapTriggerEventModel.TriggerTime - 60;
+                        if (mapTriggerEventModel.TriggerTime != 0 && mapTriggerEventModel.EndTime == 0)
+                            mapTriggerEventModel.EndTime = mapTriggerEventModel.TriggerTime + 3;
+                    }
+                }
                 string content = JSONMap.ToJSON(m_MapModel).ToString(true);
                 File.WriteAllText(m_MapModelPath, content);
             }
@@ -148,7 +168,11 @@ namespace Game.Editor
         }
         private void PrintContent(AttackWaveEventModel attackWaveEventModel)
         {
-            GUILayout.Label(nameof(AttackWaveEventModel));
+            GUILayout.BeginHorizontal();
+            GUILayout.Label(nameof(AttackWaveEventModel), GUILayout.Width(250f));
+            attackWaveEventModel.Annotation = GUILayout.TextField(attackWaveEventModel.Annotation, GUILayout.MinWidth(100f));
+            GUILayout.FlexibleSpace();
+            GUILayout.EndHorizontal();
             GUILayout.BeginHorizontal();
             GUILayout.Space(20f);
             GUILayout.Label("MapSubType", GUILayout.Width(100f));
@@ -163,15 +187,21 @@ namespace Game.Editor
             GUILayout.BeginHorizontal();
             GUILayout.Space(20f);
             GUILayout.Label("Hide", GUILayout.Width(60f));
-            attackWaveEventModel.Hide = EditorGUILayout.Toggle(attackWaveEventModel.Hide, string.Empty, GUILayout.Width(20f));
+            attackWaveEventModel.Hide = EditorGUILayout.Toggle(attackWaveEventModel.Hide, GUILayout.Width(20f));
             GUILayout.Label("Technology", GUILayout.Width(120f));
             attackWaveEventModel.Technology = EditorGUILayout.IntField(attackWaveEventModel.Technology, GUILayout.Width(50f));
+            GUILayout.Label("IncreasedScale", GUILayout.Width(120f));
+            attackWaveEventModel.IncreasedScale = EditorGUILayout.Toggle(attackWaveEventModel.IncreasedScale, GUILayout.Width(20f));
             GUILayout.EndHorizontal();
             GUILayout.Space(5f);
         }
         private void PrintContent(MapTriggerEventModel mapTriggerEventModel)
         {
-            GUILayout.Label(nameof(MapTriggerEventModel));
+            GUILayout.BeginHorizontal();
+            GUILayout.Label(nameof(MapTriggerEventModel), GUILayout.Width(250f));
+            mapTriggerEventModel.Annotation = GUILayout.TextField(mapTriggerEventModel.Annotation, GUILayout.MinWidth(100f));
+            GUILayout.FlexibleSpace();
+            GUILayout.EndHorizontal();
             GUILayout.BeginHorizontal();
             GUILayout.Space(20f);
             GUILayout.Label("MapSubType", GUILayout.Width(100f));
@@ -189,6 +219,15 @@ namespace Game.Editor
             mapTriggerEventModel.Texture = GUILayout.TextField(mapTriggerEventModel.Texture, GUILayout.Width(170f));
             GUILayout.Label("Desc", GUILayout.Width(60f));
             mapTriggerEventModel.Desc = GUILayout.TextField(mapTriggerEventModel.Desc, GUILayout.Width(280f));
+            GUILayout.EndHorizontal();
+            GUILayout.BeginHorizontal();
+            GUILayout.Space(20f);
+            GUILayout.Label("BigHybrid", GUILayout.Width(70f));
+            mapTriggerEventModel.BigHybrid = EditorGUILayout.IntField(mapTriggerEventModel.BigHybrid, GUILayout.Width(60f));
+            GUILayout.Label("SmallHybrid", GUILayout.Width(70f));
+            mapTriggerEventModel.SmallHybrid = EditorGUILayout.IntField(mapTriggerEventModel.SmallHybrid, GUILayout.Width(60f));
+            GUILayout.Label("Technology", GUILayout.Width(70f));
+            mapTriggerEventModel.Technology = EditorGUILayout.IntField(mapTriggerEventModel.Technology, GUILayout.Width(60f));
             GUILayout.EndHorizontal();
             GUILayout.Space(5f);
         }

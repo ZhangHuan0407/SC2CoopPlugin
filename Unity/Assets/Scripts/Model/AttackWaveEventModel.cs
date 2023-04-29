@@ -63,6 +63,22 @@ namespace Game.Model
             set => m_MapSubType = value;
         }
 
+        [SerializeField]
+        private string m_Annotation;
+        public string Annotation
+        {
+            get => m_Annotation;
+            set => m_Annotation = value;
+        }
+
+        [SerializeField]
+        private bool m_IncreasedScale;
+        public bool IncreasedScale
+        {
+            get => m_IncreasedScale;
+            set => m_IncreasedScale = value;
+        }
+
         public AttackWaveEventModel()
         {
         }

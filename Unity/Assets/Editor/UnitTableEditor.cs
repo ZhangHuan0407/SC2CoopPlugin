@@ -23,6 +23,9 @@ namespace Game.Editor
 {
     public class UnitTableWindow : EditorWindow
     {
+        private static Dictionary<string, Texture> m_UnitTextureCache = new Dictionary<string, Texture>();
+        private static List<string> m_TryLoadList = new List<string>();
+
         private UnitTable m_UnitTable;
         public UnitTable UnitTable => m_UnitTable;
 
@@ -44,9 +47,6 @@ namespace Game.Editor
         [MenuItem("Tools/Unit Table Edit")]
         public static UnitTableWindow OpenWindow()
         {
-            for (int i = 0; i < GameDefined.JSONSerializedRegisterTypes.Length; i++)
-                JSONMap.RegisterType(GameDefined.JSONSerializedRegisterTypes[i]);
-
             UnitTableWindow editorWindow = GetWindow<UnitTableWindow>();
             var rect = editorWindow.position;
             rect.width = 830f;
@@ -56,6 +56,9 @@ namespace Game.Editor
 
         private void OnEnable()
         {
+            for (int i = 0; i < GameDefined.JSONSerializedRegisterTypes.Length; i++)
+                JSONMap.RegisterType(GameDefined.JSONSerializedRegisterTypes[i]);
+
             titleContent = new GUIContent("Unit Table Edit");
             minSize = new Vector2(550f, 400f);
 
@@ -83,6 +86,14 @@ namespace Game.Editor
                 SaveUnitTable();
             }
             Repaint();
+            if (m_TryLoadList.Count > 0)
+            {
+                string textureName = m_TryLoadList[0];
+                Texture2D texture = AssetDatabase.LoadAssetAtPath<Texture2D>($"Assets/Resources/Textures/{textureName}.png");
+                if (texture != null)
+                    m_UnitTextureCache[textureName] = texture;
+                m_TryLoadList.RemoveAll((str) => str == textureName);
+            }
         }
         private void OnGUI()
         {
@@ -253,6 +264,13 @@ namespace Game.Editor
             GUILayout.Space(10f);
             GUILayout.Label("Texture", GUILayout.MinWidth(40f));
             entry.Texture = EditorGUILayout.TextField(entry.Texture, GUILayout.Width(75f));
+            if (!string.IsNullOrWhiteSpace(entry.Texture))
+            {
+                m_UnitTextureCache.TryGetValue(entry.Texture, out Texture texture);
+                if (texture == null)
+                    m_TryLoadList.Add(entry.Texture);
+                GUILayout.Label(texture, GUILayout.Width(43f), GUILayout.Height(43f));
+            }
             GUILayout.FlexibleSpace();
             GUILayout.EndHorizontal();
 

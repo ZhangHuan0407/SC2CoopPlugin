@@ -38,6 +38,7 @@ namespace Game.Editor
             AppendEnum<AmonAIName>();
             AppendEnum<CommanderName>();
             AppendEnum<MapName>();
+            AppendEnum<SystemLanguage>();
             AppendEnum<UnitLabel>();
 
             foreach (MasteriesTable.Entry[] entries in m_MasteriesTable.Data.Values)
@@ -123,7 +124,7 @@ namespace Game.Editor
                 for (int t = 0; t < 7; t++)
                 {
                     @entry.SetField("m_AI", AIName.ToString());
-                    @entry.SetField("m_Technology", t);
+                    @entry.SetField("m_Technology", t + 1);
                     @entry.SetField("m_UnitID", new JSONObject(JSONObject.Type.ARRAY));
                     dictionary[AIName][t] = JSONMap.ParseJSON<AttackWaveTable.Entry>(@entry);
                 }
