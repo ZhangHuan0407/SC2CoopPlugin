@@ -1,0 +1,77 @@
+{
+	"m_MapName":"ChainOfAscension",
+	"m_EventModels":[
+		{
+			"m_Technology":2,
+			"m_Guid":"370090e8-2110-4969-96b8-7073e7269265",
+			"m_StartTime":180,
+			"m_TriggerTime":240,
+			"m_EndTime":243,
+			"m_Hide":false,
+			"m_MapSubType":"AorB",
+			"class":"Game.Model.AttackWaveEventModel"
+		},
+		{
+			"m_Technology":2,
+			"m_Guid":"aa524071-0c04-432f-b752-df7f1c595553",
+			"m_StartTime":180,
+			"m_TriggerTime":240,
+			"m_EndTime":243,
+			"m_Hide":false,
+			"m_MapSubType":"AorB",
+			"class":"Game.Model.AttackWaveEventModel"
+		},
+		{
+			"m_Technology":4,
+			"m_Guid":"0d6181fa-388a-4e39-8089-317bddabeede",
+			"m_StartTime":360,
+			"m_TriggerTime":420,
+			"m_EndTime":423,
+			"m_Hide":false,
+			"m_MapSubType":"AorB",
+			"class":"Game.Model.AttackWaveEventModel"
+		},
+		{
+			"m_Technology":1,
+			"m_Guid":"abd9f8bb-6ac8-455b-bfb6-c757e8a3dbdc",
+			"m_StartTime":480,
+			"m_TriggerTime":510,
+			"m_EndTime":513,
+			"m_Hide":false,
+			"m_MapSubType":"AorB",
+			"class":"Game.Model.AttackWaveEventModel"
+		},
+		{
+			"m_Guid": "4ff33339-d42f-46d3-96d9-e17f56415b53",
+			"m_StartTime": 480,
+			"m_TriggerTime": 540,
+			"m_EndTime": 543,
+			"m_MapSubType": "AorB",
+			"m_Texture": "ChainOfAscension.A",
+			"m_Desc": null,
+			"m_UnitID": [],
+			"class": "Game.Model.MapTriggerEventModel"
+		},
+		{
+			"m_Technology":3,
+			"m_Guid":"7f35f068-8088-4bfd-a3d4-3350802c69b4",
+			"m_StartTime":840,
+			"m_TriggerTime":870,
+			"m_EndTime":873,
+			"m_Hide":false,
+			"m_MapSubType":"AorB",
+			"class":"Game.Model.AttackWaveEventModel"
+		},
+		{
+			"m_Guid":"00c6ec1f-c047-4827-b533-213fc229c727",
+			"m_StartTime":840,
+			"m_TriggerTime":900,
+			"m_EndTime":903,
+			"m_MapSubType":"AorB",
+			"m_Texture":"ChainOfAscension.B",
+			"m_Desc":null,
+			"m_UnitID": [],
+			"class":"Game.Model.MapTriggerEventModel"
+		}
+	]
+}
