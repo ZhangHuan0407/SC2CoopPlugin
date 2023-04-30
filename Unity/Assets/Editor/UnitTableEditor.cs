@@ -197,7 +197,13 @@ namespace Game.Editor
                         m_SelectedUnitSet.Remove(entry.ID);
                 };
             }
-            GUILayout.Label(entry.ID.ToString(), GUILayout.Width(80f));
+            if (m_UnfoldSet.Contains(entry.ID))
+            {
+                if (GUILayout.Button(entry.ID.ToString(), GUILayout.Width(80f)))
+                    m_NewEntryCopyID = entry.ID;
+            }
+            else
+                GUILayout.Label(entry.ID.ToString(), GUILayout.Width(80f));
             float spaceLength = position.width - 270f - 10f - 30f;
             float annotationLength = Mathf.Min(spaceLength, 400f);
             spaceLength -= annotationLength;
@@ -261,16 +267,6 @@ namespace Game.Editor
             GUILayout.Space(10f);
             GUILayout.Label("Energy", GUILayout.MinWidth(40f));
             entry.Energy = EditorGUILayout.IntField(entry.Energy, GUILayout.Width(50f));
-            GUILayout.Space(10f);
-            GUILayout.Label("Texture", GUILayout.MinWidth(40f));
-            entry.Texture = EditorGUILayout.TextField(entry.Texture, GUILayout.Width(75f));
-            if (!string.IsNullOrWhiteSpace(entry.Texture))
-            {
-                m_UnitTextureCache.TryGetValue(entry.Texture, out Texture texture);
-                if (texture == null)
-                    m_TryLoadList.Add(entry.Texture);
-                GUILayout.Label(texture, GUILayout.Width(43f), GUILayout.Height(43f));
-            }
             GUILayout.FlexibleSpace();
             GUILayout.EndHorizontal();
 
@@ -287,6 +283,16 @@ namespace Game.Editor
             GUILayout.Space(10f);
             GUILayout.Label("BuildDuration", GUILayout.Width(80f));
             entry.BuildDuration = EditorGUILayout.IntField(entry.BuildDuration, GUILayout.Width(50f));
+            GUILayout.Space(10f);
+            GUILayout.Label("Texture", GUILayout.MinWidth(40f));
+            entry.Texture = EditorGUILayout.TextField(entry.Texture, GUILayout.Width(75f));
+            if (!string.IsNullOrWhiteSpace(entry.Texture))
+            {
+                m_UnitTextureCache.TryGetValue(entry.Texture, out Texture texture);
+                if (texture == null)
+                    m_TryLoadList.Add(entry.Texture);
+                GUILayout.Label(texture, GUILayout.Width(80f), GUILayout.Height(80f));
+            }
             GUILayout.FlexibleSpace();
             GUILayout.EndHorizontal();
 
@@ -374,7 +380,7 @@ namespace Game.Editor
             weapon.Speed = EditorGUILayout.FloatField(weapon.Speed, GUILayout.Width(50f));
             weapon.Range = EditorGUILayout.FloatField(weapon.Range, GUILayout.Width(50f));
             weapon.UpgradePreLevel = EditorGUILayout.IntField(weapon.UpgradePreLevel, GUILayout.Width(50f));
-            weapon.Technology = GUILayout.TextField(weapon.Technology, GUILayout.Width(120f));
+            weapon.Technology = GUILayout.TextField(weapon.Technology, GUILayout.Width(200f));
             GUILayout.FlexibleSpace();
             GUILayout.EndHorizontal();
             return weapon;
@@ -396,7 +402,7 @@ namespace Game.Editor
 
             guard.Defence = EditorGUILayout.IntField(guard.Defence, GUILayout.Width(60f));
             guard.UpgradePreLevel = EditorGUILayout.IntField(guard.UpgradePreLevel, GUILayout.Width(60f));
-            guard.Technology = GUILayout.TextField(guard.Technology, GUILayout.Width(120f));
+            guard.Technology = GUILayout.TextField(guard.Technology, GUILayout.Width(200f));
             GUILayout.FlexibleSpace();
             GUILayout.EndHorizontal();
             return guard;

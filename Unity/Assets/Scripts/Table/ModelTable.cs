@@ -24,7 +24,10 @@ namespace Table
         public TModel InstantiateModel<TModel>(object modelName)
         {
             JSONObject @object = TryGet(modelName.ToString());
-            return (TModel)JSONMap.ParseJSON(typeof(TModel), @object);
+            object instance = JSONMap.ParseJSON(typeof(TModel), @object);
+            if (instance == null)
+                Debug.LogError($"{nameof(InstantiateModel)} instantiate failed, TModel: {typeof(TModel).Name}, modelName: {modelName}");
+            return (TModel)instance;
         }
         private JSONObject TryGet(string key)
         {

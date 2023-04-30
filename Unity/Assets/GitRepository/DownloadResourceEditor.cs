@@ -57,7 +57,7 @@ namespace GitRepository
             Debug.Log("finish");
         }
 
-        [MenuItem("Tools/Copy Submodule")]
+        [MenuItem("Tools/GitRepository/Copy Submodule(Disk)")]
         public static void CopySubmodule()
         {
             Debug.Log($"CopySubmodule");
