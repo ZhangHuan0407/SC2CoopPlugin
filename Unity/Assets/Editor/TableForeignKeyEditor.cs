@@ -11,6 +11,7 @@ namespace Game.Editor
     {
         private static AttackWaveTable m_AttackWaveTable;
         private static MasteriesTable m_MasteriesTable;
+        private static PrestigeTable m_PrestigeTable;
         private static UnitTable m_UnitTable;
         private static TechnologyTable m_TechnologyTable;
 
@@ -21,6 +22,7 @@ namespace Game.Editor
 
             m_AttackWaveTable = LoadTable<AttackWaveTable>("AttackWaveTable.json");
             m_MasteriesTable = LoadTable<MasteriesTable>("MasteriesTable.json");
+            m_PrestigeTable = LoadTable<PrestigeTable>("PrestigeTable.json");
             m_UnitTable = LoadTable<UnitTable>("UnitTable.json");
             m_TechnologyTable = LoadTable<TechnologyTable>("TechnologyTable.json");
 
@@ -46,6 +48,16 @@ namespace Game.Editor
                 for (int i = 0; i < entries.Length; i++)
                 {
                     MasteriesTable.Entry entry = entries[i];
+                    stringIDSet.Add(entry.Name.Key);
+                    stringIDSet.Add(entry.Describe.Key);
+                }
+            }
+
+            foreach (PrestigeTable.Entry[] entries in m_PrestigeTable.Data.Values)
+            {
+                for (int i = 0; i < entries.Length; i++)
+                {
+                    PrestigeTable.Entry entry = entries[i];
                     stringIDSet.Add(entry.Name.Key);
                     stringIDSet.Add(entry.Describe.Key);
                 }
@@ -110,6 +122,28 @@ namespace Game.Editor
                 for (int i = 0; i < names.Length; i++)
                     stringIDSet.Add($"{typeof(T).Name}.{names[i]}");
             }
+        }
+
+        [MenuItem("Tools/Unused/Create Prestige Table")]
+        public static void CreatePrestigeTable()
+        {
+            PrestigeTable table = new PrestigeTable();
+            Dictionary<CommanderName, PrestigeTable.Entry[]> dictionary = table.Data as Dictionary<CommanderName, PrestigeTable.Entry[]>;
+            foreach (CommanderName commanderName in Enum.GetValues(typeof(CommanderName)))
+            {
+                dictionary[commanderName] = new PrestigeTable.Entry[4];
+                JSONObject @entry = JSONMap.ToJSON(new PrestigeTable.Entry());
+                for (int t = 0; t < 4; t++)
+                {
+                    @entry.SetField("m_Commander", commanderName.ToString());
+                    @entry.SetField("m_Name", $"{commanderName}_Prestige_{t}_Name");
+                    @entry.SetField("m_Describe", $"{commanderName}_Prestige_{t}_Desc");
+                    @entry.SetField("m_Index", t);
+                    dictionary[commanderName][t] = JSONMap.ParseJSON<PrestigeTable.Entry>(@entry);
+                }
+            }
+            string content = JSONMap.ToJSON(table).ToString(false);
+            Debug.Log(content);
         }
 
         [MenuItem("Tools/Unused/Create Attack Wave Table")]

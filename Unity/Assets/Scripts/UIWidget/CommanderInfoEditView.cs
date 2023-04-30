@@ -92,10 +92,31 @@ namespace Game.UI
             LogService.System(nameof(OnChangeCommanderName), commanderName.ToString());
             if (TableManager.MasteriesTable.Data.TryGetValue(commanderName, out MasteriesTable.Entry[] entries))
             {
-
+                for (int i = 0; i < m_MasteriesNameTexts.Length; i++)
+                {
+                    MasteriesTable.Entry entry = entries[i];
+                    m_MasteriesNameTexts[i].text = entry.Name.Localization;
+                }
             }
-            for (int i = 0; i < m_MasteriesNameTexts.Length; i++)
+            else
             {
+                string content = TableManager.LocalizationTable["UI.CommanderEditor.UnknownMasteries"];
+                for (int i = 0; i < m_MasteriesNameTexts.Length; i++)
+                    m_MasteriesNameTexts[i].text = string.Format(content, i + 1);
+            }
+            if (TableManager.PrestigeTable.Data.TryGetValue(commanderName, out PrestigeTable.Entry[] entries2))
+            {
+                for (int i = 0; i < m_PrestigeNameTexts.Length; i++)
+                {
+                    PrestigeTable.Entry entry = entries2[i];
+                    m_PrestigeNameTexts[i].text = entry.Name.Localization;
+                }
+            }
+            else
+            {
+                string content = TableManager.LocalizationTable["UI.CommanderEditor.UnknownPrestige"];
+                for (int i = 0; i < m_PrestigeNameTexts.Length; i++)
+                    m_PrestigeNameTexts[i].text = string.Format(content, i + 1);
             }
         }
 

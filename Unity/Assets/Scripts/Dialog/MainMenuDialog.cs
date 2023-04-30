@@ -45,7 +45,7 @@ namespace Game.UI
 #else
             m_VersionLabel.text = Application.version;
 #endif
-
+            m_TestButton.gameObject.SetActive(Global.UserSetting.IsProgrammer);
             m_TestButton.onClick.AddListener(OnClickTestButton);
         }
 

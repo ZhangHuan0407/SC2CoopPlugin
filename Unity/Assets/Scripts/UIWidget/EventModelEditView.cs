@@ -21,7 +21,8 @@ namespace Game.UI
 
         private void Awake()
         {
-            
+            m_DeleteButton.onClick.AddListener(EventModel_Delete);
+            m_CopyButton.onClick.AddListener(EventModel_Copy);
         }
 
         public void SetCommanderModel(CommanderPipeline pipeline, IEventModel eventModel)
@@ -32,14 +33,17 @@ namespace Game.UI
 
         public void EventModel_Copy()
         {
-
             LogService.System(nameof(EventModel_Copy), string.Empty);
+            int dataIndex = transform.GetSiblingIndex();
+            PlayerOperatorEventModel eventModel = m_CommanderPipeline.EventModels.First(m => m.Guid == m_Guid);
+            string modelString = JSONMap.ToJSON(eventModel).ToString();
+            throw new NotImplementedException();
         }
         public void EventModel_Delete()
         {
             LogService.System(nameof(EventModel_Delete), string.Empty);
             int dataIndex = transform.GetSiblingIndex();
-            var eventModel = m_CommanderPipeline.EventModels.First(m => m.Guid == m_Guid);
+            PlayerOperatorEventModel eventModel = m_CommanderPipeline.EventModels.First(m => m.Guid == m_Guid);
             string modelString = JSONMap.ToJSON(eventModel).ToString();
             CommanderContentDialog.AppendRecord(nameof(EventModel_Delete),
                                                 (dialog) =>

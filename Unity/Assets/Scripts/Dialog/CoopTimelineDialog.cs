@@ -19,10 +19,15 @@ namespace Game.UI
         [SerializeField]
         private GameObject m_AttackWaveTemplate;
         [SerializeField]
-        private GameObject m_HintItemTemplate;
+        private GameObject m_MapTriggerTemplate;
+        [SerializeField]
+        private GameObject m_PlayerOperatorTemplate;
+
+        [SerializeField]
+        private Button m_BackButton;
 
         private Tweener m_MapTimeRecognizeTweener;
-        private float m_LastParseTime = 0f;
+        private float m_LastParseTime;
         private volatile float m_MapTimeSeconds;
 
         private CoopTimeline m_CoopTimeline;
@@ -31,6 +36,16 @@ namespace Game.UI
         private void Awake()
         {
             Application.targetFrameRate = 10;
+
+            m_AttackWaveTemplate.SetActive(false);
+            m_MapTriggerTemplate.SetActive(false);
+            m_PlayerOperatorTemplate.SetActive(false);
+
+            m_MapTimeRecognizeTweener = null;
+            m_LastParseTime = 0f;
+            m_MapTimeSeconds = 0f;
+
+            m_ViewReference = new Dictionary<Guid, IEventView>();
         }
 
         public void Hide()
@@ -46,8 +61,12 @@ namespace Game.UI
         public void SetCoopTimeline(CoopTimeline coopTimeline)
         {
             LogService.System(nameof(SetCoopTimeline), coopTimeline.Commander.Title);
+            m_CoopTimeline = coopTimeline;
         }
 
-
+        private void Update()
+        {
+            
+        }
     }
 }

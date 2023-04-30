@@ -13,6 +13,8 @@ UI.CommanderEditor.OpenFile
 UI.CommanderEditor.Redo
 UI.CommanderEditor.SaveFile
 UI.CommanderEditor.Undo
+UI.CommanderEditor.UnknownMasteries
+UI.CommanderEditor.UnknownPrestige
 UI.CommanderInfo.CommanderName
 UI.CommanderInfo.Masteries
 UI.CommanderInfo.Prestiges
