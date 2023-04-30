@@ -1,0 +1,11 @@
+{
+    "m_Commander": "None",
+    "m_Language": "ChineseSimplified",
+    "m_Level": 15,
+    "m_Masteries": [0, 0, 0, 0, 0, 0],
+    "m_Prestige": 0,
+    "m_Title": "New Commander Pipeline",
+    "m_Desc": "Input describe here\nCharacter limit is 500",
+    "m_EventModels":[
+    ]
+}
