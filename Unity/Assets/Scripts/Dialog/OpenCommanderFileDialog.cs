@@ -148,6 +148,7 @@ namespace Game.UI
 
         private void FilterCommanderPipelines()
         {
+            LogService.System(nameof(FilterCommanderPipelines), string.Empty);
             string languageOption = m_RawLanguageOptions[m_Language.value];
             SystemLanguage? languageValue = StrToLanguage[languageOption];
             string commanderOption = m_RawCommanderOptions[m_Commander.value];
@@ -183,11 +184,13 @@ namespace Game.UI
 
         private void OnClickClose()
         {
+            LogService.System(nameof(OnClickClose), string.Empty);
             DialogResult = DialogResult.Cancel;
             CameraCanvas.PopDialog(this);
         }
         private void OnSelectFile()
         {
+            LogService.System(nameof(OnSelectFile), string.Empty);
             DialogResult = DialogResult.OK;
             CameraCanvas.PopDialog(this);
         }

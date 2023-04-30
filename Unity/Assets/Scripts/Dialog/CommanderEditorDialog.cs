@@ -139,6 +139,7 @@ namespace Game.UI
         #region File Menu
         private void OnClickFileMenuButton()
         {
+            LogService.System(nameof(OnClickFileMenuButton), string.Empty);
             m_FileMenuDropdown.SetActive(true);
             m_MouseIgnoreFrame = Time.frameCount;
             bool containsAny = GetFocusCCDialog() != null;
@@ -148,6 +149,7 @@ namespace Game.UI
 
         private void OnClickCreateFileButton()
         {
+            LogService.System(nameof(OnClickCreateFileButton), string.Empty);
             m_MouseIgnoreFrame = Time.frameCount;
             CommanderContentDialog commanderContentDialog = CameraCanvas.PushDialog(GameDefined.CommanderContentDialogPath) as CommanderContentDialog;
             commanderContentDialog.CommanderEditorDialog = this;
@@ -166,6 +168,7 @@ namespace Game.UI
 
         private void OnClickSaveFileMenuButton()
         {
+            LogService.System(nameof(OnClickSaveFileMenuButton), string.Empty);
             CommanderContentDialog dialog = GetFocusCCDialog();
             if (dialog)
             {
@@ -176,6 +179,7 @@ namespace Game.UI
 
         private void OnClickOpenFileButton()
         {
+            LogService.System(nameof(OnClickOpenFileButton), string.Empty);
             OpenCommanderFileDialog dialog = CameraCanvas.PushDialog(GameDefined.OpenCommanderFileDialog) as OpenCommanderFileDialog;
             Tweener tweener = LogicTween.WaitUntil(() => dialog.DestroyFlag);
             tweener.Then(LogicTween.AppendCallback(() =>
@@ -201,6 +205,7 @@ namespace Game.UI
 
         private void OnClickCloseButton()
         {
+            LogService.System(nameof(OnClickCloseButton), string.Empty);
             CommanderContentDialog dialog = GetFocusCCDialog();
             if (dialog)
             {
@@ -215,6 +220,7 @@ namespace Game.UI
 
         private void OnClickExitButton()
         {
+            LogService.System(nameof(OnClickExitButton), string.Empty);
             CameraCanvas.PopDialog(this);
             for (int i = 0; i < CommanderContentDialogs.Count; i++)
             {
@@ -229,6 +235,7 @@ namespace Game.UI
         #region Edit Menu
         private void OnClickEditMenuButton()
         {
+            LogService.System(nameof(OnClickEditMenuButton), string.Empty);
             m_EditMenuDropdown.SetActive(true);
             m_MouseIgnoreFrame = Time.frameCount;
             CommanderContentDialog commanderContentDialog = GetFocusCCDialog();
@@ -245,6 +252,7 @@ namespace Game.UI
         }
         private void OnClickUndoButton()
         {
+            LogService.System(nameof(OnClickUndoButton), string.Empty);
             CommanderContentDialog dialog = GetFocusCCDialog();
             if (dialog)
             {
@@ -254,6 +262,7 @@ namespace Game.UI
         }
         private void OnClickRedoButton()
         {
+            LogService.System(nameof(OnClickRedoButton), string.Empty);
             CommanderContentDialog dialog = GetFocusCCDialog();
             if (dialog)
             {
@@ -266,6 +275,7 @@ namespace Game.UI
         #region Commander Content Menu
         private void OnClickCommanderContentMenuButton()
         {
+            LogService.System(nameof(OnClickCommanderContentMenuButton), string.Empty);
             m_CommanderContentDropdown.SetActive(true);
             m_MouseIgnoreFrame = Time.frameCount;
             foreach (Transform child in m_CommanderContentDropdown.transform)
@@ -294,15 +304,18 @@ namespace Game.UI
         #region Help Menu
         private void OnClickHelpMenuButton()
         {
+            LogService.System(nameof(OnClickHelpMenuButton), string.Empty);
             m_HelpMenuDropdown.SetActive(true);
             m_MouseIgnoreFrame = Time.frameCount;
         }
         private void OnClickHowToShareButtonButton()
         {
+            LogService.System(nameof(OnClickHowToShareButtonButton), string.Empty);
             Application.OpenURL(GameDefined.HowToShareWebPage);
         }
         private void OnClickHowToUseButtonButton()
         {
+            LogService.System(nameof(OnClickHowToUseButtonButton), string.Empty);
             Application.OpenURL(GameDefined.HowToUseWebPage);
         }
         #endregion

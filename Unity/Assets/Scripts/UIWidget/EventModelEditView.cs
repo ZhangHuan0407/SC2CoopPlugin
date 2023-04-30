@@ -33,9 +33,11 @@ namespace Game.UI
         public void EventModel_Copy()
         {
 
+            LogService.System(nameof(EventModel_Copy), string.Empty);
         }
         public void EventModel_Delete()
         {
+            LogService.System(nameof(EventModel_Delete), string.Empty);
             int dataIndex = transform.GetSiblingIndex();
             var eventModel = m_CommanderPipeline.EventModels.First(m => m.Guid == m_Guid);
             string modelString = JSONMap.ToJSON(eventModel).ToString();

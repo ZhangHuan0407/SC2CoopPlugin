@@ -43,6 +43,10 @@ namespace Game.UI
             m_Canvas.enabled = true;
         }
 
+        public void SetCoopTimeline(CoopTimeline coopTimeline)
+        {
+            LogService.System(nameof(SetCoopTimeline), coopTimeline.Commander.Title);
+        }
 
 
     }

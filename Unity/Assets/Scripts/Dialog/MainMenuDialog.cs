@@ -67,6 +67,7 @@ namespace Game.UI
 
         public void OnClickSettingButton()
         {
+            LogService.System(nameof(OnClickSettingButton), string.Empty);
             IDialog dialog = CameraCanvas.PushDialog(GameDefined.SettingDialogPath);
             Hide();
             LogicTween.WaitUntil(() => dialog.DestroyFlag)
@@ -78,11 +79,13 @@ namespace Game.UI
         }
         public void OnClickGameStartButton()
         {
+            LogService.System(nameof(OnClickGameStartButton), string.Empty);
             throw new NotImplementedException();
             CameraCanvas.PopDialog(this);
         }
         public void OnClickCommanderEditorButton()
         {
+            LogService.System(nameof(OnClickCommanderEditorButton), string.Empty);
             IDialog dialog = CameraCanvas.PushDialog(GameDefined.CommanderEditorDialogPath);
             CameraCanvas.PopDialog(this);
         }
@@ -99,10 +102,12 @@ namespace Game.UI
         }
         public void OnClickExitButton()
         {
+            LogService.System(nameof(OnClickExitButton), string.Empty);
             Application.Quit();
         }
         public void OnClickTestButton()
         {
+            LogService.System(nameof(OnClickTestButton), string.Empty);
             CameraCanvas.PushDialog(GameDefined.TestDialog);
             CameraCanvas.PopDialog(this);
         }

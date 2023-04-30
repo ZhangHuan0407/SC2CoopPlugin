@@ -89,15 +89,7 @@ namespace Game.UI
         }
         private void OnChangeCommanderName(CommanderName commanderName)
         {
-            int index = m_CommanderNameDropDown.value;
-            for (int i = 0; i < m_DropdownValues.Count; i++)
-            {
-                if (m_DropdownValues[i].dropdownIndex == index)
-                {
-                    Debug.Log(m_DropdownValues[i].name);
-                }
-            }
-
+            LogService.System(nameof(OnChangeCommanderName), commanderName.ToString());
             if (TableManager.MasteriesTable.Data.TryGetValue(commanderName, out MasteriesTable.Entry[] entries))
             {
 
@@ -109,6 +101,7 @@ namespace Game.UI
 
         private void OnCommanderNameDropDown_ValueChanged(int newIndex)
         {
+            LogService.System(nameof(OnCommanderNameDropDown_ValueChanged), newIndex.ToString());
             CommanderName newCommanderName = CommanderName.None;
             CommanderName oldCommanderName = m_CommanderPipeline.Commander;
             int oldIndex = 0;
