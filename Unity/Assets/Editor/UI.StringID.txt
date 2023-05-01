@@ -20,6 +20,8 @@ UI.CommanderInfo.Masteries
 UI.CommanderInfo.Prestiges
 UI.CommanderInfo.Title
 UI.CommanderInfo.Desc
+UI.Dialog.OK
+UI.Dialog.Cancel
 UI.EventModelEditView.Copy
 UI.EventModelEditView.Delete
 UI.UpdateResource

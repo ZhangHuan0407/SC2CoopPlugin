@@ -1,775 +1,775 @@
 [
     {
         "m_Commander": "Abathur",
-        "m_Name": "Abathur_Prestige_0",
-        "m_Describe": "Abathur_Prestige_0_Desc",
+        "m_Name": "Abathur_Masteries_0",
+        "m_Describe": "Abathur_Masteries_0_Desc",
         "m_Index": 0,
         "m_ThirtyLevelValue": 60,
         "m_UnitType": "Percentage"
     },
     {
         "m_Commander": "Abathur",
-        "m_Name": "Abathur_Prestige_1",
-        "m_Describe": "Abathur_Prestige_1_Desc",
+        "m_Name": "Abathur_Masteries_1",
+        "m_Describe": "Abathur_Masteries_1_Desc",
         "m_Index": 1,
         "m_ThirtyLevelValue": 300,
         "m_UnitType": "Percentage"
     },
     {
         "m_Commander": "Abathur",
-        "m_Name": "Abathur_Prestige_2",
-        "m_Describe": "Abathur_Prestige_2_Desc",
+        "m_Name": "Abathur_Masteries_2",
+        "m_Describe": "Abathur_Masteries_2_Desc",
         "m_Index": 2,
         "m_ThirtyLevelValue": 99.99,
         "m_UnitType": "Percentage"
     },
     {
         "m_Commander": "Abathur",
-        "m_Name": "Abathur_Prestige_3",
-        "m_Describe": "Abathur_Prestige_3_Desc",
+        "m_Name": "Abathur_Masteries_3",
+        "m_Describe": "Abathur_Masteries_3_Desc",
         "m_Index": 3,
         "m_ThirtyLevelValue": 45,
         "m_UnitType": "Percentage"
     },
     {
         "m_Commander": "Abathur",
-        "m_Name": "Abathur_Prestige_4",
-        "m_Describe": "Abathur_Prestige_4_Desc",
+        "m_Name": "Abathur_Masteries_4",
+        "m_Describe": "Abathur_Masteries_4_Desc",
         "m_Index": 4,
         "m_ThirtyLevelValue": 30,
         "m_UnitType": "Percentage"
     },
     {
         "m_Commander": "Abathur",
-        "m_Name": "Abathur_Prestige_5",
-        "m_Describe": "Abathur_Prestige_5_Desc",
+        "m_Name": "Abathur_Masteries_5",
+        "m_Describe": "Abathur_Masteries_5_Desc",
         "m_Index": 5,
         "m_ThirtyLevelValue": 60,
         "m_UnitType": "Percentage"
     },
     {
         "m_Commander": "Alarak",
-        "m_Name": "Alarak_Prestige_0",
-        "m_Describe": "Alarak_Prestige_0_Desc",
+        "m_Name": "Alarak_Masteries_0",
+        "m_Describe": "Alarak_Masteries_0_Desc",
         "m_Index": 0,
         "m_ThirtyLevelValue": 0,
         "m_UnitType": "Unit1"
     },
     {
         "m_Commander": "Alarak",
-        "m_Name": "Alarak_Prestige_1",
-        "m_Describe": "Alarak_Prestige_1_Desc",
+        "m_Name": "Alarak_Masteries_1",
+        "m_Describe": "Alarak_Masteries_1_Desc",
         "m_Index": 1,
         "m_ThirtyLevelValue": 15,
         "m_UnitType": "Percentage"
     },
     {
         "m_Commander": "Alarak",
-        "m_Name": "Alarak_Prestige_2",
-        "m_Describe": "Alarak_Prestige_2_Desc",
+        "m_Name": "Alarak_Masteries_2",
+        "m_Describe": "Alarak_Masteries_2_Desc",
         "m_Index": 2,
         "m_ThirtyLevelValue": 30,
         "m_UnitType": "Second"
     },
     {
         "m_Commander": "Alarak",
-        "m_Name": "Alarak_Prestige_3",
-        "m_Describe": "Alarak_Prestige_3_Desc",
+        "m_Name": "Alarak_Masteries_3",
+        "m_Describe": "Alarak_Masteries_3_Desc",
         "m_Index": 3,
         "m_ThirtyLevelValue": 120,
         "m_UnitType": "Second"
     },
     {
         "m_Commander": "Alarak",
-        "m_Name": "Alarak_Prestige_4",
-        "m_Describe": "Alarak_Prestige_4_Desc",
+        "m_Name": "Alarak_Masteries_4",
+        "m_Describe": "Alarak_Masteries_4_Desc",
         "m_Index": 4,
         "m_ThirtyLevelValue": 60,
         "m_UnitType": "Percentage"
     },
     {
         "m_Commander": "Alarak",
-        "m_Name": "Alarak_Prestige_5",
-        "m_Describe": "Alarak_Prestige_5_Desc",
+        "m_Name": "Alarak_Masteries_5",
+        "m_Describe": "Alarak_Masteries_5_Desc",
         "m_Index": 5,
         "m_ThirtyLevelValue": 30,
         "m_UnitType": "Percentage"
     },
     {
         "m_Commander": "Artanis",
-        "m_Name": "Artanis_Prestige_0",
-        "m_Describe": "Artanis_Prestige_0_Desc",
+        "m_Name": "Artanis_Masteries_0",
+        "m_Describe": "Artanis_Masteries_0_Desc",
         "m_Index": 0,
         "m_ThirtyLevelValue": 0
     },
     {
         "m_Commander": "Artanis",
-        "m_Name": "Artanis_Prestige_1",
-        "m_Describe": "Artanis_Prestige_1_Desc",
+        "m_Name": "Artanis_Masteries_1",
+        "m_Describe": "Artanis_Masteries_1_Desc",
         "m_Index": 1,
         "m_ThirtyLevelValue": 0
     },
     {
         "m_Commander": "Artanis",
-        "m_Name": "Artanis_Prestige_2",
-        "m_Describe": "Artanis_Prestige_2_Desc",
+        "m_Name": "Artanis_Masteries_2",
+        "m_Describe": "Artanis_Masteries_2_Desc",
         "m_Index": 2,
         "m_ThirtyLevelValue": 0
     },
     {
         "m_Commander": "Artanis",
-        "m_Name": "Artanis_Prestige_3",
-        "m_Describe": "Artanis_Prestige_3_Desc",
+        "m_Name": "Artanis_Masteries_3",
+        "m_Describe": "Artanis_Masteries_3_Desc",
         "m_Index": 3,
         "m_ThirtyLevelValue": 0
     },
     {
         "m_Commander": "Artanis",
-        "m_Name": "Artanis_Prestige_4",
-        "m_Describe": "Artanis_Prestige_4_Desc",
+        "m_Name": "Artanis_Masteries_4",
+        "m_Describe": "Artanis_Masteries_4_Desc",
         "m_Index": 4,
         "m_ThirtyLevelValue": 0
     },
     {
         "m_Commander": "Artanis",
-        "m_Name": "Artanis_Prestige_5",
-        "m_Describe": "Artanis_Prestige_5_Desc",
+        "m_Name": "Artanis_Masteries_5",
+        "m_Describe": "Artanis_Masteries_5_Desc",
         "m_Index": 5,
         "m_ThirtyLevelValue": 0
     },
     {
         "m_Commander": "Dehaka",
-        "m_Name": "Dehaka_Prestige_0",
-        "m_Describe": "Dehaka_Prestige_0_Desc",
+        "m_Name": "Dehaka_Masteries_0",
+        "m_Describe": "Dehaka_Masteries_0_Desc",
         "m_Index": 0,
         "m_ThirtyLevelValue": 0
     },
     {
         "m_Commander": "Dehaka",
-        "m_Name": "Dehaka_Prestige_1",
-        "m_Describe": "Dehaka_Prestige_1_Desc",
+        "m_Name": "Dehaka_Masteries_1",
+        "m_Describe": "Dehaka_Masteries_1_Desc",
         "m_Index": 1,
         "m_ThirtyLevelValue": 0
     },
     {
         "m_Commander": "Dehaka",
-        "m_Name": "Dehaka_Prestige_2",
-        "m_Describe": "Dehaka_Prestige_2_Desc",
+        "m_Name": "Dehaka_Masteries_2",
+        "m_Describe": "Dehaka_Masteries_2_Desc",
         "m_Index": 2,
         "m_ThirtyLevelValue": 0
     },
     {
         "m_Commander": "Dehaka",
-        "m_Name": "Dehaka_Prestige_3",
-        "m_Describe": "Dehaka_Prestige_3_Desc",
+        "m_Name": "Dehaka_Masteries_3",
+        "m_Describe": "Dehaka_Masteries_3_Desc",
         "m_Index": 3,
         "m_ThirtyLevelValue": 0
     },
     {
         "m_Commander": "Dehaka",
-        "m_Name": "Dehaka_Prestige_4",
-        "m_Describe": "Dehaka_Prestige_4_Desc",
+        "m_Name": "Dehaka_Masteries_4",
+        "m_Describe": "Dehaka_Masteries_4_Desc",
         "m_Index": 4,
         "m_ThirtyLevelValue": 0
     },
     {
         "m_Commander": "Dehaka",
-        "m_Name": "Dehaka_Prestige_5",
-        "m_Describe": "Dehaka_Prestige_5_Desc",
+        "m_Name": "Dehaka_Masteries_5",
+        "m_Describe": "Dehaka_Masteries_5_Desc",
         "m_Index": 5,
         "m_ThirtyLevelValue": 0
     },
     {
         "m_Commander": "Fenix",
-        "m_Name": "Fenix_Prestige_0",
-        "m_Describe": "Fenix_Prestige_0_Desc",
+        "m_Name": "Fenix_Masteries_0",
+        "m_Describe": "Fenix_Masteries_0_Desc",
         "m_Index": 0,
         "m_ThirtyLevelValue": 0
     },
     {
         "m_Commander": "Fenix",
-        "m_Name": "Fenix_Prestige_1",
-        "m_Describe": "Fenix_Prestige_1_Desc",
+        "m_Name": "Fenix_Masteries_1",
+        "m_Describe": "Fenix_Masteries_1_Desc",
         "m_Index": 1,
         "m_ThirtyLevelValue": 0
     },
     {
         "m_Commander": "Fenix",
-        "m_Name": "Fenix_Prestige_2",
-        "m_Describe": "Fenix_Prestige_2_Desc",
+        "m_Name": "Fenix_Masteries_2",
+        "m_Describe": "Fenix_Masteries_2_Desc",
         "m_Index": 2,
         "m_ThirtyLevelValue": 0
     },
     {
         "m_Commander": "Fenix",
-        "m_Name": "Fenix_Prestige_3",
-        "m_Describe": "Fenix_Prestige_3_Desc",
+        "m_Name": "Fenix_Masteries_3",
+        "m_Describe": "Fenix_Masteries_3_Desc",
         "m_Index": 3,
         "m_ThirtyLevelValue": 0
     },
     {
         "m_Commander": "Fenix",
-        "m_Name": "Fenix_Prestige_4",
-        "m_Describe": "Fenix_Prestige_4_Desc",
+        "m_Name": "Fenix_Masteries_4",
+        "m_Describe": "Fenix_Masteries_4_Desc",
         "m_Index": 4,
         "m_ThirtyLevelValue": 0
     },
     {
         "m_Commander": "Fenix",
-        "m_Name": "Fenix_Prestige_5",
-        "m_Describe": "Fenix_Prestige_5_Desc",
+        "m_Name": "Fenix_Masteries_5",
+        "m_Describe": "Fenix_Masteries_5_Desc",
         "m_Index": 5,
         "m_ThirtyLevelValue": 0
     },
     {
         "m_Commander": "HanAndHorner",
-        "m_Name": "HanAndHorner_Prestige_0",
-        "m_Describe": "HanAndHorner_Prestige_0_Desc",
+        "m_Name": "HanAndHorner_Masteries_0",
+        "m_Describe": "HanAndHorner_Masteries_0_Desc",
         "m_Index": 0,
         "m_ThirtyLevelValue": 0
     },
     {
         "m_Commander": "HanAndHorner",
-        "m_Name": "HanAndHorner_Prestige_1",
-        "m_Describe": "HanAndHorner_Prestige_1_Desc",
+        "m_Name": "HanAndHorner_Masteries_1",
+        "m_Describe": "HanAndHorner_Masteries_1_Desc",
         "m_Index": 1,
         "m_ThirtyLevelValue": 0
     },
     {
         "m_Commander": "HanAndHorner",
-        "m_Name": "HanAndHorner_Prestige_2",
-        "m_Describe": "HanAndHorner_Prestige_2_Desc",
+        "m_Name": "HanAndHorner_Masteries_2",
+        "m_Describe": "HanAndHorner_Masteries_2_Desc",
         "m_Index": 2,
         "m_ThirtyLevelValue": 0
     },
     {
         "m_Commander": "HanAndHorner",
-        "m_Name": "HanAndHorner_Prestige_3",
-        "m_Describe": "HanAndHorner_Prestige_3_Desc",
+        "m_Name": "HanAndHorner_Masteries_3",
+        "m_Describe": "HanAndHorner_Masteries_3_Desc",
         "m_Index": 3,
         "m_ThirtyLevelValue": 0
     },
     {
         "m_Commander": "HanAndHorner",
-        "m_Name": "HanAndHorner_Prestige_4",
-        "m_Describe": "HanAndHorner_Prestige_4_Desc",
+        "m_Name": "HanAndHorner_Masteries_4",
+        "m_Describe": "HanAndHorner_Masteries_4_Desc",
         "m_Index": 4,
         "m_ThirtyLevelValue": 0
     },
     {
         "m_Commander": "HanAndHorner",
-        "m_Name": "HanAndHorner_Prestige_5",
-        "m_Describe": "HanAndHorner_Prestige_5_Desc",
+        "m_Name": "HanAndHorner_Masteries_5",
+        "m_Describe": "HanAndHorner_Masteries_5_Desc",
         "m_Index": 5,
         "m_ThirtyLevelValue": 0
     },
     {
         "m_Commander": "Karax",
-        "m_Name": "Karax_Prestige_0",
-        "m_Describe": "Karax_Prestige_0_Desc",
+        "m_Name": "Karax_Masteries_0",
+        "m_Describe": "Karax_Masteries_0_Desc",
         "m_Index": 0,
         "m_ThirtyLevelValue": 0
     },
     {
         "m_Commander": "Karax",
-        "m_Name": "Karax_Prestige_1",
-        "m_Describe": "Karax_Prestige_1_Desc",
+        "m_Name": "Karax_Masteries_1",
+        "m_Describe": "Karax_Masteries_1_Desc",
         "m_Index": 1,
         "m_ThirtyLevelValue": 0
     },
     {
         "m_Commander": "Karax",
-        "m_Name": "Karax_Prestige_2",
-        "m_Describe": "Karax_Prestige_2_Desc",
+        "m_Name": "Karax_Masteries_2",
+        "m_Describe": "Karax_Masteries_2_Desc",
         "m_Index": 2,
         "m_ThirtyLevelValue": 0
     },
     {
         "m_Commander": "Karax",
-        "m_Name": "Karax_Prestige_3",
-        "m_Describe": "Karax_Prestige_3_Desc",
+        "m_Name": "Karax_Masteries_3",
+        "m_Describe": "Karax_Masteries_3_Desc",
         "m_Index": 3,
         "m_ThirtyLevelValue": 0
     },
     {
         "m_Commander": "Karax",
-        "m_Name": "Karax_Prestige_4",
-        "m_Describe": "Karax_Prestige_4_Desc",
+        "m_Name": "Karax_Masteries_4",
+        "m_Describe": "Karax_Masteries_4_Desc",
         "m_Index": 4,
         "m_ThirtyLevelValue": 0
     },
     {
         "m_Commander": "Karax",
-        "m_Name": "Karax_Prestige_5",
-        "m_Describe": "Karax_Prestige_5_Desc",
+        "m_Name": "Karax_Masteries_5",
+        "m_Describe": "Karax_Masteries_5_Desc",
         "m_Index": 5,
         "m_ThirtyLevelValue": 0
     },
     {
         "m_Commander": "Kerrigan",
-        "m_Name": "Kerrigan_Prestige_0",
-        "m_Describe": "Kerrigan_Prestige_0_Desc",
+        "m_Name": "Kerrigan_Masteries_0",
+        "m_Describe": "Kerrigan_Masteries_0_Desc",
         "m_Index": 0,
         "m_ThirtyLevelValue": 0
     },
     {
         "m_Commander": "Kerrigan",
-        "m_Name": "Kerrigan_Prestige_1",
-        "m_Describe": "Kerrigan_Prestige_1_Desc",
+        "m_Name": "Kerrigan_Masteries_1",
+        "m_Describe": "Kerrigan_Masteries_1_Desc",
         "m_Index": 1,
         "m_ThirtyLevelValue": 0
     },
     {
         "m_Commander": "Kerrigan",
-        "m_Name": "Kerrigan_Prestige_2",
-        "m_Describe": "Kerrigan_Prestige_2_Desc",
+        "m_Name": "Kerrigan_Masteries_2",
+        "m_Describe": "Kerrigan_Masteries_2_Desc",
         "m_Index": 2,
         "m_ThirtyLevelValue": 0
     },
     {
         "m_Commander": "Kerrigan",
-        "m_Name": "Kerrigan_Prestige_3",
-        "m_Describe": "Kerrigan_Prestige_3_Desc",
+        "m_Name": "Kerrigan_Masteries_3",
+        "m_Describe": "Kerrigan_Masteries_3_Desc",
         "m_Index": 3,
         "m_ThirtyLevelValue": 0
     },
     {
         "m_Commander": "Kerrigan",
-        "m_Name": "Kerrigan_Prestige_4",
-        "m_Describe": "Kerrigan_Prestige_4_Desc",
+        "m_Name": "Kerrigan_Masteries_4",
+        "m_Describe": "Kerrigan_Masteries_4_Desc",
         "m_Index": 4,
         "m_ThirtyLevelValue": 0
     },
     {
         "m_Commander": "Kerrigan",
-        "m_Name": "Kerrigan_Prestige_5",
-        "m_Describe": "Kerrigan_Prestige_5_Desc",
+        "m_Name": "Kerrigan_Masteries_5",
+        "m_Describe": "Kerrigan_Masteries_5_Desc",
         "m_Index": 5,
         "m_ThirtyLevelValue": 0
     },
     {
         "m_Commander": "Mengsk",
-        "m_Name": "Mengsk_Prestige_0",
-        "m_Describe": "Mengsk_Prestige_0_Desc",
+        "m_Name": "Mengsk_Masteries_0",
+        "m_Describe": "Mengsk_Masteries_0_Desc",
         "m_Index": 0,
         "m_ThirtyLevelValue": 0
     },
     {
         "m_Commander": "Mengsk",
-        "m_Name": "Mengsk_Prestige_1",
-        "m_Describe": "Mengsk_Prestige_1_Desc",
+        "m_Name": "Mengsk_Masteries_1",
+        "m_Describe": "Mengsk_Masteries_1_Desc",
         "m_Index": 1,
         "m_ThirtyLevelValue": 0
     },
     {
         "m_Commander": "Mengsk",
-        "m_Name": "Mengsk_Prestige_2",
-        "m_Describe": "Mengsk_Prestige_2_Desc",
+        "m_Name": "Mengsk_Masteries_2",
+        "m_Describe": "Mengsk_Masteries_2_Desc",
         "m_Index": 2,
         "m_ThirtyLevelValue": 0
     },
     {
         "m_Commander": "Mengsk",
-        "m_Name": "Mengsk_Prestige_3",
-        "m_Describe": "Mengsk_Prestige_3_Desc",
+        "m_Name": "Mengsk_Masteries_3",
+        "m_Describe": "Mengsk_Masteries_3_Desc",
         "m_Index": 3,
         "m_ThirtyLevelValue": 0
     },
     {
         "m_Commander": "Mengsk",
-        "m_Name": "Mengsk_Prestige_4",
-        "m_Describe": "Mengsk_Prestige_4_Desc",
+        "m_Name": "Mengsk_Masteries_4",
+        "m_Describe": "Mengsk_Masteries_4_Desc",
         "m_Index": 4,
         "m_ThirtyLevelValue": 0
     },
     {
         "m_Commander": "Mengsk",
-        "m_Name": "Mengsk_Prestige_5",
-        "m_Describe": "Mengsk_Prestige_5_Desc",
+        "m_Name": "Mengsk_Masteries_5",
+        "m_Describe": "Mengsk_Masteries_5_Desc",
         "m_Index": 5,
         "m_ThirtyLevelValue": 0
     },
     {
         "m_Commander": "Nova",
-        "m_Name": "Nova_Prestige_0",
-        "m_Describe": "Nova_Prestige_0_Desc",
+        "m_Name": "Nova_Masteries_0",
+        "m_Describe": "Nova_Masteries_0_Desc",
         "m_Index": 0,
         "m_ThirtyLevelValue": 0
     },
     {
         "m_Commander": "Nova",
-        "m_Name": "Nova_Prestige_1",
-        "m_Describe": "Nova_Prestige_1_Desc",
+        "m_Name": "Nova_Masteries_1",
+        "m_Describe": "Nova_Masteries_1_Desc",
         "m_Index": 1,
         "m_ThirtyLevelValue": 0
     },
     {
         "m_Commander": "Nova",
-        "m_Name": "Nova_Prestige_2",
-        "m_Describe": "Nova_Prestige_2_Desc",
+        "m_Name": "Nova_Masteries_2",
+        "m_Describe": "Nova_Masteries_2_Desc",
         "m_Index": 2,
         "m_ThirtyLevelValue": 0
     },
     {
         "m_Commander": "Nova",
-        "m_Name": "Nova_Prestige_3",
-        "m_Describe": "Nova_Prestige_3_Desc",
+        "m_Name": "Nova_Masteries_3",
+        "m_Describe": "Nova_Masteries_3_Desc",
         "m_Index": 3,
         "m_ThirtyLevelValue": 0
     },
     {
         "m_Commander": "Nova",
-        "m_Name": "Nova_Prestige_4",
-        "m_Describe": "Nova_Prestige_4_Desc",
+        "m_Name": "Nova_Masteries_4",
+        "m_Describe": "Nova_Masteries_4_Desc",
         "m_Index": 4,
         "m_ThirtyLevelValue": 0
     },
     {
         "m_Commander": "Nova",
-        "m_Name": "Nova_Prestige_5",
-        "m_Describe": "Nova_Prestige_5_Desc",
+        "m_Name": "Nova_Masteries_5",
+        "m_Describe": "Nova_Masteries_5_Desc",
         "m_Index": 5,
         "m_ThirtyLevelValue": 0
     },
     {
         "m_Commander": "Raynor",
-        "m_Name": "Raynor_Prestige_0",
-        "m_Describe": "Raynor_Prestige_0_Desc",
+        "m_Name": "Raynor_Masteries_0",
+        "m_Describe": "Raynor_Masteries_0_Desc",
         "m_Index": 0,
         "m_ThirtyLevelValue": -60,
         "m_UnitType": "Percentage"
     },
     {
         "m_Commander": "Raynor",
-        "m_Name": "Raynor_Prestige_1",
-        "m_Describe": "Raynor_Prestige_1_Desc",
+        "m_Name": "Raynor_Masteries_1",
+        "m_Describe": "Raynor_Masteries_1_Desc",
         "m_Index": 1,
         "m_ThirtyLevelValue": 60,
         "m_UnitType": "Percentage"
     },
     {
         "m_Commander": "Raynor",
-        "m_Name": "Raynor_Prestige_2",
-        "m_Describe": "Raynor_Prestige_2_Desc",
+        "m_Name": "Raynor_Masteries_2",
+        "m_Describe": "Raynor_Masteries_2_Desc",
         "m_Index": 2,
         "m_ThirtyLevelValue": -120,
         "m_UnitType": "Second"
     },
     {
         "m_Commander": "Raynor",
-        "m_Name": "Raynor_Prestige_3",
-        "m_Describe": "Raynor_Prestige_3_Desc",
+        "m_Name": "Raynor_Masteries_3",
+        "m_Describe": "Raynor_Masteries_3_Desc",
         "m_Index": 3,
         "m_ThirtyLevelValue": -120,
         "m_UnitType": "Second"
     },
     {
         "m_Commander": "Raynor",
-        "m_Name": "Raynor_Prestige_4",
-        "m_Describe": "Raynor_Prestige_4_Desc",
+        "m_Name": "Raynor_Masteries_4",
+        "m_Describe": "Raynor_Masteries_4_Desc",
         "m_Index": 4,
         "m_ThirtyLevelValue": 90,
         "m_UnitType": "Percentage"
     },
     {
         "m_Commander": "Raynor",
-        "m_Name": "Raynor_Prestige_5",
-        "m_Describe": "Raynor_Prestige_5_Desc",
+        "m_Name": "Raynor_Masteries_5",
+        "m_Describe": "Raynor_Masteries_5_Desc",
         "m_Index": 5,
         "m_ThirtyLevelValue": 30,
         "m_UnitType": "Percentage"
     },
     {
         "m_Commander": "Stetmann",
-        "m_Name": "Stetmann_Prestige_0",
-        "m_Describe": "Stetmann_Prestige_0_Desc",
+        "m_Name": "Stetmann_Masteries_0",
+        "m_Describe": "Stetmann_Masteries_0_Desc",
         "m_Index": 0,
         "m_ThirtyLevelValue": 0
     },
     {
         "m_Commander": "Stetmann",
-        "m_Name": "Stetmann_Prestige_1",
-        "m_Describe": "Stetmann_Prestige_1_Desc",
+        "m_Name": "Stetmann_Masteries_1",
+        "m_Describe": "Stetmann_Masteries_1_Desc",
         "m_Index": 1,
         "m_ThirtyLevelValue": 0
     },
     {
         "m_Commander": "Stetmann",
-        "m_Name": "Stetmann_Prestige_2",
-        "m_Describe": "Stetmann_Prestige_2_Desc",
+        "m_Name": "Stetmann_Masteries_2",
+        "m_Describe": "Stetmann_Masteries_2_Desc",
         "m_Index": 2,
         "m_ThirtyLevelValue": 0
     },
     {
         "m_Commander": "Stetmann",
-        "m_Name": "Stetmann_Prestige_3",
-        "m_Describe": "Stetmann_Prestige_3_Desc",
+        "m_Name": "Stetmann_Masteries_3",
+        "m_Describe": "Stetmann_Masteries_3_Desc",
         "m_Index": 3,
         "m_ThirtyLevelValue": 0
     },
     {
         "m_Commander": "Stetmann",
-        "m_Name": "Stetmann_Prestige_4",
-        "m_Describe": "Stetmann_Prestige_4_Desc",
+        "m_Name": "Stetmann_Masteries_4",
+        "m_Describe": "Stetmann_Masteries_4_Desc",
         "m_Index": 4,
         "m_ThirtyLevelValue": 0
     },
     {
         "m_Commander": "Stetmann",
-        "m_Name": "Stetmann_Prestige_5",
-        "m_Describe": "Stetmann_Prestige_5_Desc",
+        "m_Name": "Stetmann_Masteries_5",
+        "m_Describe": "Stetmann_Masteries_5_Desc",
         "m_Index": 5,
         "m_ThirtyLevelValue": 0
     },
     {
         "m_Commander": "Stukov",
-        "m_Name": "Stukov_Prestige_0",
-        "m_Describe": "Stukov_Prestige_0_Desc",
+        "m_Name": "Stukov_Masteries_0",
+        "m_Describe": "Stukov_Masteries_0_Desc",
         "m_Index": 0,
         "m_ThirtyLevelValue": 0
     },
     {
         "m_Commander": "Stukov",
-        "m_Name": "Stukov_Prestige_1",
-        "m_Describe": "Stukov_Prestige_1_Desc",
+        "m_Name": "Stukov_Masteries_1",
+        "m_Describe": "Stukov_Masteries_1_Desc",
         "m_Index": 1,
         "m_ThirtyLevelValue": 0
     },
     {
         "m_Commander": "Stukov",
-        "m_Name": "Stukov_Prestige_2",
-        "m_Describe": "Stukov_Prestige_2_Desc",
+        "m_Name": "Stukov_Masteries_2",
+        "m_Describe": "Stukov_Masteries_2_Desc",
         "m_Index": 2,
         "m_ThirtyLevelValue": 0
     },
     {
         "m_Commander": "Stukov",
-        "m_Name": "Stukov_Prestige_3",
-        "m_Describe": "Stukov_Prestige_3_Desc",
+        "m_Name": "Stukov_Masteries_3",
+        "m_Describe": "Stukov_Masteries_3_Desc",
         "m_Index": 3,
         "m_ThirtyLevelValue": 0
     },
     {
         "m_Commander": "Stukov",
-        "m_Name": "Stukov_Prestige_4",
-        "m_Describe": "Stukov_Prestige_4_Desc",
+        "m_Name": "Stukov_Masteries_4",
+        "m_Describe": "Stukov_Masteries_4_Desc",
         "m_Index": 4,
         "m_ThirtyLevelValue": 0
     },
     {
         "m_Commander": "Stukov",
-        "m_Name": "Stukov_Prestige_5",
-        "m_Describe": "Stukov_Prestige_5_Desc",
+        "m_Name": "Stukov_Masteries_5",
+        "m_Describe": "Stukov_Masteries_5_Desc",
         "m_Index": 5,
         "m_ThirtyLevelValue": 0
     },
     {
         "m_Commander": "Swann",
-        "m_Name": "Swann_Prestige_0",
-        "m_Describe": "Swann_Prestige_0_Desc",
+        "m_Name": "Swann_Masteries_0",
+        "m_Describe": "Swann_Masteries_0_Desc",
         "m_Index": 0,
         "m_ThirtyLevelValue": 0
     },
     {
         "m_Commander": "Swann",
-        "m_Name": "Swann_Prestige_1",
-        "m_Describe": "Swann_Prestige_1_Desc",
+        "m_Name": "Swann_Masteries_1",
+        "m_Describe": "Swann_Masteries_1_Desc",
         "m_Index": 1,
         "m_ThirtyLevelValue": 0
     },
     {
         "m_Commander": "Swann",
-        "m_Name": "Swann_Prestige_2",
-        "m_Describe": "Swann_Prestige_2_Desc",
+        "m_Name": "Swann_Masteries_2",
+        "m_Describe": "Swann_Masteries_2_Desc",
         "m_Index": 2,
         "m_ThirtyLevelValue": 0
     },
     {
         "m_Commander": "Swann",
-        "m_Name": "Swann_Prestige_3",
-        "m_Describe": "Swann_Prestige_3_Desc",
+        "m_Name": "Swann_Masteries_3",
+        "m_Describe": "Swann_Masteries_3_Desc",
         "m_Index": 3,
         "m_ThirtyLevelValue": 0
     },
     {
         "m_Commander": "Swann",
-        "m_Name": "Swann_Prestige_4",
-        "m_Describe": "Swann_Prestige_4_Desc",
+        "m_Name": "Swann_Masteries_4",
+        "m_Describe": "Swann_Masteries_4_Desc",
         "m_Index": 4,
         "m_ThirtyLevelValue": 0
     },
     {
         "m_Commander": "Swann",
-        "m_Name": "Swann_Prestige_5",
-        "m_Describe": "Swann_Prestige_5_Desc",
+        "m_Name": "Swann_Masteries_5",
+        "m_Describe": "Swann_Masteries_5_Desc",
         "m_Index": 5,
         "m_ThirtyLevelValue": 0
     },
     {
         "m_Commander": "Tychus",
-        "m_Name": "Tychus_Prestige_0",
-        "m_Describe": "Tychus_Prestige_0_Desc",
+        "m_Name": "Tychus_Masteries_0",
+        "m_Describe": "Tychus_Masteries_0_Desc",
         "m_Index": 0,
         "m_ThirtyLevelValue": 0
     },
     {
         "m_Commander": "Tychus",
-        "m_Name": "Tychus_Prestige_1",
-        "m_Describe": "Tychus_Prestige_1_Desc",
+        "m_Name": "Tychus_Masteries_1",
+        "m_Describe": "Tychus_Masteries_1_Desc",
         "m_Index": 1,
         "m_ThirtyLevelValue": 0
     },
     {
         "m_Commander": "Tychus",
-        "m_Name": "Tychus_Prestige_2",
-        "m_Describe": "Tychus_Prestige_2_Desc",
+        "m_Name": "Tychus_Masteries_2",
+        "m_Describe": "Tychus_Masteries_2_Desc",
         "m_Index": 2,
         "m_ThirtyLevelValue": 0
     },
     {
         "m_Commander": "Tychus",
-        "m_Name": "Tychus_Prestige_3",
-        "m_Describe": "Tychus_Prestige_3_Desc",
+        "m_Name": "Tychus_Masteries_3",
+        "m_Describe": "Tychus_Masteries_3_Desc",
         "m_Index": 3,
         "m_ThirtyLevelValue": 0
     },
     {
         "m_Commander": "Tychus",
-        "m_Name": "Tychus_Prestige_4",
-        "m_Describe": "Tychus_Prestige_4_Desc",
+        "m_Name": "Tychus_Masteries_4",
+        "m_Describe": "Tychus_Masteries_4_Desc",
         "m_Index": 4,
         "m_ThirtyLevelValue": 0
     },
     {
         "m_Commander": "Tychus",
-        "m_Name": "Tychus_Prestige_5",
-        "m_Describe": "Tychus_Prestige_5_Desc",
+        "m_Name": "Tychus_Masteries_5",
+        "m_Describe": "Tychus_Masteries_5_Desc",
         "m_Index": 5,
         "m_ThirtyLevelValue": 0
     },
     {
         "m_Commander": "Vorazun",
-        "m_Name": "Vorazun_Prestige_0",
-        "m_Describe": "Vorazun_Prestige_0_Desc",
+        "m_Name": "Vorazun_Masteries_0",
+        "m_Describe": "Vorazun_Masteries_0_Desc",
         "m_Index": 0,
         "m_ThirtyLevelValue": 0
     },
     {
         "m_Commander": "Vorazun",
-        "m_Name": "Vorazun_Prestige_1",
-        "m_Describe": "Vorazun_Prestige_1_Desc",
+        "m_Name": "Vorazun_Masteries_1",
+        "m_Describe": "Vorazun_Masteries_1_Desc",
         "m_Index": 1,
         "m_ThirtyLevelValue": 0
     },
     {
         "m_Commander": "Vorazun",
-        "m_Name": "Vorazun_Prestige_2",
-        "m_Describe": "Vorazun_Prestige_2_Desc",
+        "m_Name": "Vorazun_Masteries_2",
+        "m_Describe": "Vorazun_Masteries_2_Desc",
         "m_Index": 2,
         "m_ThirtyLevelValue": 0
     },
     {
         "m_Commander": "Vorazun",
-        "m_Name": "Vorazun_Prestige_3",
-        "m_Describe": "Vorazun_Prestige_3_Desc",
+        "m_Name": "Vorazun_Masteries_3",
+        "m_Describe": "Vorazun_Masteries_3_Desc",
         "m_Index": 3,
         "m_ThirtyLevelValue": 0
     },
     {
         "m_Commander": "Vorazun",
-        "m_Name": "Vorazun_Prestige_4",
-        "m_Describe": "Vorazun_Prestige_4_Desc",
+        "m_Name": "Vorazun_Masteries_4",
+        "m_Describe": "Vorazun_Masteries_4_Desc",
         "m_Index": 4,
         "m_ThirtyLevelValue": 0
     },
     {
         "m_Commander": "Vorazun",
-        "m_Name": "Vorazun_Prestige_5",
-        "m_Describe": "Vorazun_Prestige_5_Desc",
+        "m_Name": "Vorazun_Masteries_5",
+        "m_Describe": "Vorazun_Masteries_5_Desc",
         "m_Index": 5,
         "m_ThirtyLevelValue": 0
     },
     {
         "m_Commander": "Zagara",
-        "m_Name": "Zagara_Prestige_0",
-        "m_Describe": "Zagara_Prestige_0_Desc",
+        "m_Name": "Zagara_Masteries_0",
+        "m_Describe": "Zagara_Masteries_0_Desc",
         "m_Index": 0,
         "m_ThirtyLevelValue": 0
     },
     {
         "m_Commander": "Zagara",
-        "m_Name": "Zagara_Prestige_1",
-        "m_Describe": "Zagara_Prestige_1_Desc",
+        "m_Name": "Zagara_Masteries_1",
+        "m_Describe": "Zagara_Masteries_1_Desc",
         "m_Index": 1,
         "m_ThirtyLevelValue": 0
     },
     {
         "m_Commander": "Zagara",
-        "m_Name": "Zagara_Prestige_2",
-        "m_Describe": "Zagara_Prestige_2_Desc",
+        "m_Name": "Zagara_Masteries_2",
+        "m_Describe": "Zagara_Masteries_2_Desc",
         "m_Index": 2,
         "m_ThirtyLevelValue": 0
     },
     {
         "m_Commander": "Zagara",
-        "m_Name": "Zagara_Prestige_3",
-        "m_Describe": "Zagara_Prestige_3_Desc",
+        "m_Name": "Zagara_Masteries_3",
+        "m_Describe": "Zagara_Masteries_3_Desc",
         "m_Index": 3,
         "m_ThirtyLevelValue": 0
     },
     {
         "m_Commander": "Zagara",
-        "m_Name": "Zagara_Prestige_4",
-        "m_Describe": "Zagara_Prestige_4_Desc",
+        "m_Name": "Zagara_Masteries_4",
+        "m_Describe": "Zagara_Masteries_4_Desc",
         "m_Index": 4,
         "m_ThirtyLevelValue": 0
     },
     {
         "m_Commander": "Zagara",
-        "m_Name": "Zagara_Prestige_5",
-        "m_Describe": "Zagara_Prestige_5_Desc",
+        "m_Name": "Zagara_Masteries_5",
+        "m_Describe": "Zagara_Masteries_5_Desc",
         "m_Index": 5,
         "m_ThirtyLevelValue": 0
     },
     {
         "m_Commander": "Zeratul",
-        "m_Name": "Zeratul_Prestige_0",
-        "m_Describe": "Zeratul_Prestige_0_Desc",
+        "m_Name": "Zeratul_Masteries_0",
+        "m_Describe": "Zeratul_Masteries_0_Desc",
         "m_Index": 0,
         "m_ThirtyLevelValue": 0
     },
     {
         "m_Commander": "Zeratul",
-        "m_Name": "Zeratul_Prestige_1",
-        "m_Describe": "Zeratul_Prestige_1_Desc",
+        "m_Name": "Zeratul_Masteries_1",
+        "m_Describe": "Zeratul_Masteries_1_Desc",
         "m_Index": 1,
         "m_ThirtyLevelValue": 0
     },
     {
         "m_Commander": "Zeratul",
-        "m_Name": "Zeratul_Prestige_2",
-        "m_Describe": "Zeratul_Prestige_2_Desc",
+        "m_Name": "Zeratul_Masteries_2",
+        "m_Describe": "Zeratul_Masteries_2_Desc",
         "m_Index": 2,
         "m_ThirtyLevelValue": 0
     },
     {
         "m_Commander": "Zeratul",
-        "m_Name": "Zeratul_Prestige_3",
-        "m_Describe": "Zeratul_Prestige_3_Desc",
+        "m_Name": "Zeratul_Masteries_3",
+        "m_Describe": "Zeratul_Masteries_3_Desc",
         "m_Index": 3,
         "m_ThirtyLevelValue": 0
     },
     {
         "m_Commander": "Zeratul",
-        "m_Name": "Zeratul_Prestige_4",
-        "m_Describe": "Zeratul_Prestige_4_Desc",
+        "m_Name": "Zeratul_Masteries_4",
+        "m_Describe": "Zeratul_Masteries_4_Desc",
         "m_Index": 4,
         "m_ThirtyLevelValue": 0
     },
     {
         "m_Commander": "Zeratul",
-        "m_Name": "Zeratul_Prestige_5",
-        "m_Describe": "Zeratul_Prestige_5_Desc",
+        "m_Name": "Zeratul_Masteries_5",
+        "m_Describe": "Zeratul_Masteries_5_Desc",
         "m_Index": 5,
         "m_ThirtyLevelValue": 0
     }
