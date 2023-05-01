@@ -33,6 +33,7 @@ namespace Game
 
         public const string CommanderContentDialogPath = "Dialogs/CommanderContentDialog";
         public const string CommanderEditorDialogPath = "Dialogs/CommanderEditorDialog";
+        public const string CoopTimelineDialogPath = "Dialogs/CoopTimelineDialog";
         public const string DrawGizmosDialogPath = "Dialogs/DrawGizmosDialog";
         public const string MainManuDialog = "Dialogs/MainManuDialog";
         public const string OpenCommanderFileDialog = "Dialogs/OpenCommanderFileDialog";

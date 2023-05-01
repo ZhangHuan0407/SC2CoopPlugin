@@ -74,6 +74,8 @@ namespace Game.UI
                 Debug.LogError("dialog.DestroyFlag is true");
             dialog.DestroyFlag = true;
             UnityEngine.Object.Destroy(dialog.gameObject);
+            if (m_Instance.m_DialogList.Count > 0)
+                SetTopMost(m_Instance.m_DialogList[m_Instance.m_DialogList.Count - 1]);
         }
         public static void AppendExistsDialog(IDialog dialog)
         {

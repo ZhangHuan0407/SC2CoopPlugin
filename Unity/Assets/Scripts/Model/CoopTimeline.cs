@@ -11,13 +11,13 @@ namespace Game.Model
         public MapModel Map;
         public CommanderPipeline Commander;
         public float MapTime;
-        public List<IEventModel> allEventModels;
-        public bool RebuildEventModels;
+        private List<IEventModel> m_AllEventModels;
+        public bool RebuildEventModels { get; set; }
 
         public CoopTimeline()
         {
             MapTime = 0f;
-            allEventModels = new List<IEventModel>(100);
+            m_AllEventModels = new List<IEventModel>(100);
             RebuildEventModels = true;
         }
 
@@ -26,11 +26,11 @@ namespace Game.Model
             if (RebuildEventModels)
             {
                 RebuildEventModels = false;
-                allEventModels.Clear();
-                allEventModels.AddRange(AI.EventModels);
-                allEventModels.AddRange(Map.BuildEventModels(this));
-                allEventModels.AddRange(Commander.EventModels);
-                allEventModels.Sort((l, r) =>
+                m_AllEventModels.Clear();
+                m_AllEventModels.AddRange(AI.EventModels);
+                m_AllEventModels.AddRange(Map.BuildEventModels(this));
+                m_AllEventModels.AddRange(Commander.EventModels);
+                m_AllEventModels.Sort((l, r) =>
                 {
                     int compare = l.StartTime.CompareTo(r.StartTime);
                     if (compare == 0)
@@ -39,9 +39,9 @@ namespace Game.Model
                 });
             }
             List<IEventModel> eventModels = new List<IEventModel>();
-            for (int i = 0; i < allEventModels.Count; i++)
+            for (int i = 0; i < m_AllEventModels.Count; i++)
             {
-                IEventModel eventModel = allEventModels[i];
+                IEventModel eventModel = m_AllEventModels[i];
                 if (eventModel.EndTime < MapTime ||
                     eventModel.StartTime > MapTime)
                     continue;

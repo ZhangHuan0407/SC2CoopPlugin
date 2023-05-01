@@ -135,5 +135,12 @@ namespace Table
             }
             return result;
         }
+        
+        public CommanderPipeline Instantiate(string id)
+        {
+            FileInfo fileInfo = IdToEntries[id].Fileinfo;
+            JSONObject @object = JSONObject.Create(File.ReadAllText(fileInfo.FullName));
+            return JSONMap.ParseJSON<CommanderPipeline>(@object);
+        }
     }
 }

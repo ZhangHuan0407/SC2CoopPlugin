@@ -80,8 +80,8 @@ namespace Game.UI
         public void OnClickGameStartButton()
         {
             LogService.System(nameof(OnClickGameStartButton), string.Empty);
-            throw new NotImplementedException();
             CameraCanvas.PopDialog(this);
+            IDialog dialog = CameraCanvas.PushDialog(GameDefined.CoopTimelineDialogPath);
         }
         public void OnClickCommanderEditorButton()
         {

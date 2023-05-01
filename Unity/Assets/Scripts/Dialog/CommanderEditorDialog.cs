@@ -188,14 +188,12 @@ namespace Game.UI
                             tweener.FromHeadToEndIfNeedStop(out _);
                         else
                         {
-                            FileInfo fileInfo = TableManager.CommanderPipelineTable[dialog.CommanderPipelineId];
-                            JSONObject @object = JSONObject.Create(File.ReadAllText(fileInfo.FullName));
-                            CommanderPipeline model = JSONMap.ParseJSON<CommanderPipeline>(@object);
-
                             CommanderContentDialog commanderContentDialog = CameraCanvas.PushDialog(GameDefined.CommanderContentDialogPath) as CommanderContentDialog;
                             commanderContentDialog.CommanderEditorDialog = this;
                             CommanderContentDialogs.Add(commanderContentDialog);
+                            FileInfo fileInfo = TableManager.CommanderPipelineTable[dialog.CommanderPipelineId];
                             commanderContentDialog.FilePath = fileInfo.FullName;
+                            CommanderPipeline model = TableManager.CommanderPipelineTable.Instantiate(dialog.CommanderPipelineId);
                             commanderContentDialog.SetCommanderPipeline(model);
                         }
                     }))
