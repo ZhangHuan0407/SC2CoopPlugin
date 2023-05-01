@@ -7,6 +7,7 @@ using Tween;
 using UnityEngine;
 using UnityEngine.UI;
 using Game.Model;
+using Table;
 
 namespace Game.UI
 {
@@ -45,7 +46,7 @@ namespace Game.UI
             m_CoopTimeline = new CoopTimeline();
             m_CoopTimeline.AI = AIModel.CreateDebug();
             m_CoopTimeline.Map = MapModel.CreateDebug();
-            m_CoopTimeline.Commander = CommanderPipeline.CreateDebug();
+            m_CoopTimeline.Commander = TableManager.ModelTable.InstantiateModel<CommanderPipeline>("CommanderPipeline_Template");
             m_ViewReference = new Dictionary<Guid, IEventView>();
             RebuildView();
         }

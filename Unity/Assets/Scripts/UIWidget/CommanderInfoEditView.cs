@@ -23,6 +23,8 @@ namespace Game.UI
         [SerializeField]
         private Slider[] m_MasteriesSliders;
         [SerializeField]
+        private Text[] m_MasteriesValueTexts;
+        [SerializeField]
         private Text[] m_PrestigeNameTexts;
         [SerializeField]
         private Toggle[] m_PrestigeToggles;
@@ -50,9 +52,10 @@ namespace Game.UI
             for (int i = 0; i < m_MasteriesSliders.Length; i++)
             {
                 Slider slider = m_MasteriesSliders[i];
+                Text text = m_MasteriesValueTexts[i];
                (slider.GetComponent<SliderEndEdit>()).onEndEdit.AddListener((float value) =>
                                                                            {
-                                                                               OnMasteriySlider_EndEdit(slider, value);
+                                                                               OnMasteriySlider_EndEdit(slider, text, value);
                                                                            });
             }
             for (int i = 0; i < m_PrestigeToggles.Length; i++)
@@ -83,9 +86,11 @@ namespace Game.UI
             }
             m_CommanderNameDropDown.SetValueWithoutNotify(index);
             for (int i = 0; i < pipeline.Masteries.Length; i++)
-                m_MasteriesSliders[i].SetValueWithoutNotify(pipeline.Masteries[i] * 30.49f);
+                m_MasteriesSliders[i].SetValueWithoutNotify(pipeline.Masteries[i]);
             m_PrestigeToggles[pipeline.Prestige].SetIsOnWithoutNotify(true);
             OnChangeCommanderName(m_CommanderPipeline.Commander);
+            m_TitleInput.SetTextWithoutNotify(m_CommanderPipeline.Title);
+            m_DescInput.SetTextWithoutNotify(m_CommanderPipeline.Desc);
         }
         private void OnChangeCommanderName(CommanderName commanderName)
         {
@@ -148,21 +153,23 @@ namespace Game.UI
                                                 });
             CommanderContentDialog.Redo();
         }
-        private void OnMasteriySlider_EndEdit(Slider sender, float newValue)
+        private void OnMasteriySlider_EndEdit(Slider sender, Text text, float newValue)
         {
             int index = Array.IndexOf(m_MasteriesSliders, sender);
             int oldMastery = m_CommanderPipeline.Masteries[index];
-            int newMastety = Mathf.RoundToInt(newValue * 30.49f);
+            int newMastety = Mathf.RoundToInt(newValue);
             CommanderContentDialog.AppendRecord(nameof(OnMasteriySlider_EndEdit),
                                                 (dialog) =>
                                                 {
                                                     dialog.CommanderPipeline.Masteries[index] = newMastety;
-                                                    m_MasteriesSliders[index].SetValueWithoutNotify(newValue);
+                                                    text.text = newMastety.ToString();
+                                                    m_MasteriesSliders[index].SetValueWithoutNotify(newMastety);
                                                 },
                                                 (dialog) =>
                                                 {
                                                     dialog.CommanderPipeline.Masteries[index] = oldMastery;
-                                                    m_MasteriesSliders[index].SetValueWithoutNotify(oldMastery / 30.49f);
+                                                    text.text = oldMastery.ToString();
+                                                    m_MasteriesSliders[index].SetValueWithoutNotify(oldMastery);
                                                 });
             CommanderContentDialog.Redo();
         }

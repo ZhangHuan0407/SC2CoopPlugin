@@ -63,6 +63,8 @@ namespace Game.UI
             IDialog dialog = Instantiate(prefab, m_Instance.transform).GetComponent<IDialog>();
             dialog.PrefabPath = prefabPath;
             m_Instance.m_DialogList.Add(dialog);
+            dialog.Canvas.overrideSorting = true;
+            SetTopMost(dialog);
             return dialog;
         }
         public static void PopDialog(IDialog dialog)

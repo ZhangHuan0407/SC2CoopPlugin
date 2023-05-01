@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.UI;
@@ -18,11 +19,17 @@ namespace Game.UI
         public string FilePath { get; set; }
 
         [SerializeField]
+        private Transform m_ContentTrans;
+        [SerializeField]
+        private Text m_LabelTemplate;
+        [SerializeField]
         private InputField m_FileNameInput;
         [SerializeField]
         private Button m_CancelButton;
         [SerializeField]
         private Button m_OKButton;
+
+        public string FileName { get; set; }
 
         public void Hide()
         {
@@ -41,9 +48,21 @@ namespace Game.UI
             m_CancelButton.onClick.AddListener(OnClickCancelButton);
             m_OKButton.onClick.AddListener(OnClickOKButton);
             m_OKButton.interactable = false;
+            m_LabelTemplate.gameObject.SetActive(false);
+        }
+        private void Start()
+        {
+            m_FileNameInput.text = FileName;
+            foreach (string filePath in Directory.GetFiles(GameDefined.CustomCommanderPipelineDirectoryPath, "*.json"))
+            {
+                Text label = Instantiate(m_LabelTemplate, m_ContentTrans);
+                label.gameObject.SetActive(true);
+                FileInfo fileInfo = new FileInfo(filePath);
+                label.text = $"{fileInfo.Name.PadRight(45)}, {fileInfo.LastWriteTime}";
+            }
         }
 
-        private static bool IsValid(string fileName) => Regex.IsMatch(fileName, "\\A[\\w\\s_-\\.]+\\Z");
+        private static bool IsValid(string fileName) => Regex.IsMatch(fileName, "\\A[\\w\\s_\\-\\.]+\\Z");
 
         private void OnFileNameInput_ValueChanged(string input)
         {
@@ -59,11 +78,14 @@ namespace Game.UI
         }
         private void OnClickCancelButton()
         {
+            LogService.System(nameof(SaveCommanderFileDialog), nameof(OnClickCancelButton));
             DialogResult = DialogResult.Cancel;
             CameraCanvas.PopDialog(this);
         }
         private void OnClickOKButton()
         {
+            LogService.System(nameof(SaveCommanderFileDialog), nameof(OnClickOKButton));
+            FileName = m_FileNameInput.text;
             DialogResult = DialogResult.OK;
             CameraCanvas.PopDialog(this);
         }

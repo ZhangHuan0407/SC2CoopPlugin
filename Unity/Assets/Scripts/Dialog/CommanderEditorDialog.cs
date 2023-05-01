@@ -150,7 +150,6 @@ namespace Game.UI
         private void OnClickCreateFileButton()
         {
             LogService.System(nameof(OnClickCreateFileButton), string.Empty);
-            m_MouseIgnoreFrame = Time.frameCount;
             CommanderContentDialog commanderContentDialog = CameraCanvas.PushDialog(GameDefined.CommanderContentDialogPath) as CommanderContentDialog;
             commanderContentDialog.CommanderEditorDialog = this;
             CommanderContentDialogs.Add(commanderContentDialog);
@@ -286,9 +285,10 @@ namespace Game.UI
             {
                 CommanderContentDialog dialog = CommanderContentDialogs[i];
                 Button button = Instantiate(m_CommanderContentTemplate, m_CommanderContentDropdown.transform);
+                button.gameObject.SetActive(true);
                 string fileName;
                 if (string.IsNullOrWhiteSpace(dialog.FilePath))
-                    fileName = "new.json";
+                    fileName = "new file.json";
                 else
                     fileName = Path.GetFileName(dialog.FilePath);
                 button.GetComponentInChildren<Text>().text = fileName;

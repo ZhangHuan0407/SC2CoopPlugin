@@ -153,13 +153,17 @@ namespace Game.UI
                 tweener = tweener.Then(LogicTween.WaitUntil(() => dialog.DestroyFlag))
                                 .OnComplete(() =>
                                 {
-                                    tweener.FromHeadToEndIfNeedStop(out _);
+                                    if (dialog.DialogResult == DialogResult.OK)
+                                        FilePath = $"{GameDefined.CustomCommanderPipelineDirectoryPath}/{dialog.FileName}";
+                                    else
+                                        tweener.FromHeadToEndIfNeedStop(out _);
                                 });
             }
             tweener.Then(LogicTween.AppendCallback(() =>
                                     {
+                                        Debug.Log(FilePath);
                                         JSONObject @object = JSONMap.ToJSON(CommanderPipeline);
-                                        JSONObject @eventModels = @object[nameof(CommanderPipeline.EventModels)];
+                                        JSONObject @eventModels = @object["m_EventModels"];
                                         for (int i = 0; i < @eventModels.list.Count; i++)
                                             @eventModels.list[i].Bake(true);
                                         File.WriteAllText(FilePath, @object.ToString(true));

@@ -65,8 +65,8 @@ namespace Game.Model
         }
 
         [SerializeField]
-        private List<PlayerOperatorEventModel> m_EventModels;
-        public List<PlayerOperatorEventModel> EventModels
+        private List<IEventModel> m_EventModels;
+        public List<IEventModel> EventModels
         {
             get => m_EventModels;
             set => m_EventModels = value;
@@ -78,19 +78,27 @@ namespace Game.Model
         {
         }
 
-        public static CommanderPipeline CreateDebug()
+        #region Serialized
+        public static JSONObject ToJSON(object instance)
         {
-            CommanderPipeline pipeline = new CommanderPipeline();
-            pipeline.Commander = CommanderName.Zagara;
-            pipeline.Language = SystemLanguage.ChineseSimplified;
-            pipeline.Level = 15;
-            pipeline.Masteries = new int[6];
-            pipeline.Prestige = 0;
-            pipeline.Title = "Title";
-            pipeline.Desc = "Desc";
-            pipeline.EventModels = new List<PlayerOperatorEventModel>();
-            //model.LocalizationTable = new Dictionary<StringID, string>();
-            return pipeline;
+            if (instance is CommanderPipeline commanderPipeline)
+            {
+                JSONObject @object = JSONMap.FieldsToJSON(commanderPipeline, null);
+                JSONObject @descField = @object.GetField(nameof(m_Desc));
+                @descField.str = @descField.str.Replace("\n", "\\n");
+                return @object;
+            }
+            return new JSONObject(JSONObject.Type.NULL);
         }
+        public static object ParseJSON(JSONObject @object)
+        {
+            if (@object == null || @object.IsNull)
+                return null;
+            CommanderPipeline commanderPipeline = new CommanderPipeline();
+            JSONMap.FieldsParseJSON<CommanderPipeline>(commanderPipeline, @object);
+            commanderPipeline.Desc = commanderPipeline.Desc.Replace("\\n", "\n");
+            return commanderPipeline;
+        }
+        #endregion
     }
 }
