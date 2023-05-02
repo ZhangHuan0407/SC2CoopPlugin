@@ -23,6 +23,9 @@ UI.CommanderInfo.Masteries
 UI.CommanderInfo.Prestiges
 UI.CommanderInfo.Title
 UI.CommanderInfo.Desc
+UI.EventModel.EndTime
+UI.EventModel.StartTime
+UI.EventModel.TriggerTime
 UI.Dialog.OK
 UI.Dialog.Cancel
 UI.EventModelEditView.Copy
