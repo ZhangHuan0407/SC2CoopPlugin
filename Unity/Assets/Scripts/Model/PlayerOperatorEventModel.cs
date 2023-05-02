@@ -7,11 +7,11 @@ namespace Game.Model
     public class PlayerOperatorEventModel : IEventModel
     {
         [SerializeField]
-        private int m_UnitID;
-        public int UnitID
+        private int[] m_UnitIDList;
+        public int[] UnitIDList
         {
-            get => m_UnitID;
-            set => m_UnitID = value;
+            get => m_UnitIDList;
+            set => m_UnitIDList = value;
         }
 
         [SerializeField]
@@ -56,6 +56,7 @@ namespace Game.Model
 
         public PlayerOperatorEventModel()
         {
+            m_UnitIDList = Array.Empty<int>();
         }
 
         public bool SkipEvent(CoopTimeline timeline) => false;

@@ -192,13 +192,22 @@ namespace Table
             {
                 if (string.IsNullOrWhiteSpace(Texture))
                     return null;
-                return Resources.Load<Sprite>($"Texturess/{Texture}");
+                return Resources.Load<Sprite>($"Textures/{Texture}");
             }
         }
 
         [NonSerialized]
         private Dictionary<int, Entry> m_Data;
         public IReadOnlyDictionary<int, Entry> Data => m_Data;
+
+        public Entry this[int id]
+        {
+            get
+            {
+                Data.TryGetValue(id, out Entry entry);
+                return entry;
+            }
+        }
 
         public UnitTable()
         {

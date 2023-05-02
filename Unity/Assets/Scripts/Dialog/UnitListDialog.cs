@@ -62,6 +62,8 @@ namespace Game.UI
         private Transform m_ContentTrans;
         [SerializeField]
         private Button m_UnitTemplate;
+        [SerializeField]
+        private Text m_UnitLabel;
 
         [SerializeField]
         private Button m_OKButton;
@@ -81,10 +83,13 @@ namespace Game.UI
             m_CommanderDropdown.value = 0;
             m_CommanderDropdown.onValueChanged.AddListener((_) =>
             {
+                m_OKButton.interactable = false;
+                m_UnitLabel.text = string.Empty;
                 StopCoroutine(nameof(DelayFilter));
                 StartCoroutine(nameof(DelayFilter), 0.1f);
             });
             m_UnitTemplate.gameObject.SetActive(false);
+            m_UnitLabel.text = string.Empty;
 
             m_OKButton.onClick.AddListener(OnClickOKButton);
             m_OKButton.interactable = false;
@@ -135,6 +140,8 @@ namespace Game.UI
                 unitButton.onClick.AddListener(() =>
                 {
                     UnitID = unitID;
+                    UnitTable.Entry entry = TableManager.UnitTable[unitID];
+                    m_UnitLabel.text = $"{entry.ID}, {entry.Name.Localization}";
                     m_OKButton.interactable = true;
                 });
                 if (i % 100 == 99)

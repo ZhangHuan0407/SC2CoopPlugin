@@ -1,5 +1,7 @@
+CommanderName.All
 UI.GameStart
 UI.CommandEdit
+UI.CommanderEditor.AppendEventModel
 UI.CommanderEditor.CreateFile
 UI.CommanderEditor.Close
 UI.CommanderEditor.CommanderContentMenu

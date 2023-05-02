@@ -43,6 +43,8 @@ namespace Game.UI
         private Button m_UndoButton;
         [SerializeField]
         private Button m_RedoButton;
+        [SerializeField]
+        private Button m_AppendModelEventButton;
 
         [Header("Commander Content Menu")]
         [SerializeField]
@@ -93,6 +95,7 @@ namespace Game.UI
             m_EditMenuButton.onClick.AddListener(OnClickEditMenuButton);
             m_UndoButton.onClick.AddListener(OnClickUndoButton);
             m_RedoButton.onClick.AddListener(OnClickRedoButton);
+            m_AppendModelEventButton.onClick.AddListener(OnClickAppendModelEventButton);
             m_EditMenuDropdown.SetActive(false);
 
             // Commander Content Menu
@@ -117,6 +120,7 @@ namespace Game.UI
                 m_FileMenuDropdown.SetActive(false);
                 m_EditMenuDropdown.SetActive(false);
                 m_CommanderContentDropdown.SetActive(false);
+                m_HelpMenuDropdown.SetActive(false);
             }
         }
 
@@ -265,6 +269,16 @@ namespace Game.UI
             {
                 CameraCanvas.SetTopMost(dialog);
                 dialog.Redo();
+            }
+        }
+        private void OnClickAppendModelEventButton()
+        {
+            LogService.System(nameof(OnClickAppendModelEventButton), string.Empty);
+            CommanderContentDialog dialog = GetFocusCCDialog();
+            if (dialog)
+            {
+                CameraCanvas.SetTopMost(dialog);
+                dialog.AppendModelEvent();
             }
         }
         #endregion

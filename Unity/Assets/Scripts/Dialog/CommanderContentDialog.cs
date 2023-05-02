@@ -2,6 +2,7 @@
 using System.IO;
 using Game.Model;
 using Tween;
+using UnityEditor;
 using UnityEngine;
 
 namespace Game.UI
@@ -88,21 +89,21 @@ namespace Game.UI
             if (m_InfoEditView.gameObject.activeSelf)
             {
                 Vector3 localPosition = m_InfoEditView.transform.localPosition;
-                localPosition.y = height;
+                localPosition.y = -height;
                 m_InfoEditView.transform.localPosition = localPosition;
                 height += (m_InfoEditView.transform as RectTransform).rect.height;
             }
             if (m_LocalizationEditView.gameObject.activeSelf)
             {
                 Vector3 localPosition = m_LocalizationEditView.transform.localPosition;
-                localPosition.y = height;
+                localPosition.y = -height;
                 m_LocalizationEditView.transform.localPosition = localPosition;
                 height += (m_LocalizationEditView.transform as RectTransform).rect.height;
             }
             if (m_EventModelsRectTrans.gameObject.activeSelf)
             {
                 Vector3 localPosition = m_EventModelsRectTrans.transform.localPosition;
-                localPosition.y = height;
+                localPosition.y = -height;
                 m_EventModelsRectTrans.transform.localPosition = localPosition;
                 height += (m_EventModelsRectTrans.transform as RectTransform).rect.height;
             }
@@ -133,10 +134,10 @@ namespace Game.UI
                                             LogService.System(nameof(CommanderContentDialog), nameof(PlayerWannaClose));
                                         });
             // double check if need save
-            tweener.Then(LogicTween.AppendCallback(() =>
-                                    {
-                                        CameraCanvas.PopDialog(this);
-                                    }));
+            tweener = tweener.Then(LogicTween.AppendCallback(() =>
+                                  {
+                                      CameraCanvas.PopDialog(this);
+                                  }));
             tweener.DoIt();
         }
 
@@ -159,15 +160,15 @@ namespace Game.UI
                                         tweener.FromHeadToEndIfNeedStop(out _);
                                 });
             }
-            tweener.Then(LogicTween.AppendCallback(() =>
-                                    {
-                                        Debug.Log(FilePath);
-                                        JSONObject @object = JSONMap.ToJSON(CommanderPipeline);
-                                        JSONObject @eventModels = @object["m_EventModels"];
-                                        for (int i = 0; i < @eventModels.list.Count; i++)
-                                            @eventModels.list[i].Bake(true);
-                                        File.WriteAllText(FilePath, @object.ToString(true));
-                                    }));
+            tweener = tweener.Then(LogicTween.AppendCallback(() =>
+                                            {
+                                                Debug.Log(FilePath);
+                                                JSONObject @object = JSONMap.ToJSON(CommanderPipeline);
+                                                JSONObject @eventModels = @object["m_EventModels"];
+                                                for (int i = 0; i < @eventModels.list.Count; i++)
+                                                    @eventModels.list[i].Bake(true);
+                                                File.WriteAllText(FilePath, @object.ToString(true));
+                                            }));
             tweener.DoIt();
         }
 
@@ -191,6 +192,36 @@ namespace Game.UI
                 Redo = redo,
                 Undo = undo,
             });
+        }
+
+        public void AppendModelEvent()
+        {
+            int dataIndex = EventModelsRectTrans.childCount;
+            LogService.System(nameof(AppendModelEvent), $"dataIndex: {dataIndex}");
+            IEventModel eventModel = new PlayerOperatorEventModel()
+            {
+                Guid = Guid.NewGuid(),
+            };
+            string modelString = JSONMap.ToJSON(typeof(IEventModel), eventModel).ToString();
+            AppendRecord(nameof(AppendModelEvent),
+                        (dialog) =>
+                        {
+                            EventModelEditView template = PlayerOperatorTemplateView;
+                            EventModelEditView view = UnityEngine.Object.Instantiate(template, EventModelsRectTrans);
+                            view.gameObject.SetActive(true);
+                            IEventModel eventModel2 = JSONMap.ParseJSON<IEventModel>(JSONObject.Create(modelString));
+                            CommanderPipeline.EventModels.Insert(dataIndex + 1, eventModel);
+                            view.SetCommanderModel(CommanderPipeline, eventModel2);
+                            view.transform.SetSiblingIndex(dataIndex);
+                        },
+                        (dialog) =>
+                        {
+                            CommanderPipeline.EventModels.RemoveAt(dataIndex);
+                            Transform cloneView = EventModelsRectTrans.GetChild(dataIndex);
+                            cloneView.SetParent(null);
+                            Destroy(cloneView.gameObject);
+                        });
+            Redo();
         }
     }
 }

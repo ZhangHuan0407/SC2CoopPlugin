@@ -100,7 +100,10 @@ namespace Game.UI
                     haveTargetDialog = true;
                 }
                 if (haveTargetDialog && i < dialogList.Count - 1)
+                {
                     dialogList[i] = dialogList[i + 1];
+                    dialog = dialogList[i];
+                }
                 dialog.Canvas.sortingOrder = i * GameDefined.DialogSortingOrderPadding;
             }
             dialogList[dialogList.Count - 1] = topDialog;
