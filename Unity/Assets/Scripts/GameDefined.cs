@@ -41,6 +41,7 @@ namespace Game
         public const string SettingDialogPath = "Dialogs/SettingDialog";
         public const string TestDialog = "Dialogs/TestDialog";
         public const string UpdateResourceDialog = "Dialogs/UpdateResourceDialog";
+        public const string UnitListDialog = "Dialogs/UnitListDialog";
 
         public const string MaxClentVersionKey = "MaxClentVersion";
         public const string CommanderPreferenceLanguage = "CommanderPreferenceLanguage";
