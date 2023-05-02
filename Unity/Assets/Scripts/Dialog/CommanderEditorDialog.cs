@@ -187,16 +187,24 @@ namespace Game.UI
             Tweener tweener = LogicTween.WaitUntil(() => dialog.DestroyFlag);
             tweener.Then(LogicTween.AppendCallback(() =>
                     {
-                        if (dialog.DialogResult != DialogResult.OK ||
-                            !File.Exists(dialog.CommanderPipelineId))
+                        if (dialog.DialogResult != DialogResult.OK)
+                        {
                             tweener.FromHeadToEndIfNeedStop(out _);
+                            return;
+                        }
+                        string fullName = TableManager.CommanderPipelineTable[dialog.CommanderPipelineId].FullName;
+                        if (!File.Exists(fullName))
+                        {
+                            LogService.Error($"CommanderEditor OpenFile, file is not exists", fullName);
+                            tweener.FromHeadToEndIfNeedStop(out _);
+                            return;
+                        }
                         else
                         {
                             CommanderContentDialog commanderContentDialog = CameraCanvas.PushDialog(GameDefined.CommanderContentDialogPath) as CommanderContentDialog;
                             commanderContentDialog.CommanderEditorDialog = this;
                             CommanderContentDialogs.Add(commanderContentDialog);
-                            FileInfo fileInfo = TableManager.CommanderPipelineTable[dialog.CommanderPipelineId];
-                            commanderContentDialog.FilePath = fileInfo.FullName;
+                            commanderContentDialog.FilePath = fullName;
                             CommanderPipeline model = TableManager.CommanderPipelineTable.Instantiate(dialog.CommanderPipelineId);
                             commanderContentDialog.SetCommanderPipeline(model);
                         }

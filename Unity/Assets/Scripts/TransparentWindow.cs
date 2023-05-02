@@ -88,28 +88,28 @@ namespace Game
             LogService.System(nameof(SetWindowState), windowState.ToString());
             int fWidth = Screen.width;
             int fHeight = Screen.height;
-            Canvas canvas = null;
+            CanvasGroup canvasGroup = null;
             if (CameraCanvas.Instance)
-                canvas = CameraCanvas.Instance.GetComponent<Canvas>();
+                canvasGroup = CameraCanvas.Instance.GetComponent<CanvasGroup>();
             switch (windowState)
             {
                 case WindowState.TopMostAndBlockRaycast:
-                    if (canvas)
-                        canvas.enabled = true;
+                    if (canvasGroup)
+                        canvasGroup.alpha = 1f;
 #if !UNITY_EDITOR
                     SetWindowLong(_hwnd, GWL_EXSTYLE, WS_EX_TOPMOST | WS_EX_LAYERED);
 #endif
                     break;
                 case WindowState.HideAllAndRaycastIgnore:
-                    if (canvas)
-                        canvas.enabled = false;
+                    if (canvasGroup)
+                        canvasGroup.alpha = 0f;
 #if !UNITY_EDITOR
                     SetWindowLong(_hwnd, GWL_EXSTYLE, WS_EX_TOPMOST | WS_EX_LAYERED | WS_EX_TRANSPARENT);
 #endif
                     break;
                 case WindowState.TopMostAndRaycastIgnore:
-                    if (canvas)
-                        canvas.enabled = true;
+                    if (canvasGroup)
+                        canvasGroup.alpha = 1f;
 #if !UNITY_EDITOR
                     SetWindowLong(_hwnd, GWL_EXSTYLE, WS_EX_TOPMOST | WS_EX_LAYERED | WS_EX_TRANSPARENT);
 #endif

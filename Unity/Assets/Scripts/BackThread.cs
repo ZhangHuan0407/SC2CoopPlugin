@@ -80,10 +80,10 @@ namespace Game
                     if (threadState == ThreadState.AbortRequested || threadState == ThreadState.Aborted ||
                         threadState == ThreadState.StopRequested || threadState == ThreadState.Stopped)
                         return;
-                    if (threadState != ThreadState.Aborted)
-                        m_Thread.Abort();
                     LogService.System($"{nameof(BackThread)}.{nameof(OnDestroy)}",
                               $"{nameof(Thread.ManagedThreadId)}: {m_Thread.ManagedThreadId}, {nameof(Thread.IsBackground)}: {m_Thread.IsBackground}, {nameof(Thread.ThreadState)}: {m_Thread.ThreadState}");
+                    if (threadState != ThreadState.Aborted)
+                        m_Thread.Abort();
                     m_Thread = null;
                 }
             }

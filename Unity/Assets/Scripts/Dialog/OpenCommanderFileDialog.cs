@@ -67,7 +67,7 @@ namespace Game.UI
         [SerializeField]
         private Button m_OKButton;
         [SerializeField]
-        private Button m_CloseButton;
+        private Button m_CancelButton;
 
         [SerializeField]
         private ScrollRect m_ScrollRect;
@@ -133,10 +133,9 @@ namespace Game.UI
             m_LevelSlider.onValueChanged.AddListener((float value) => m_LevelText.text = Mathf.RoundToInt(value).ToString());
             m_LevelSlider.value = 15.49f;
 
-            m_OKButton.onClick.AddListener(OnSelectFile);
-            m_OKButton.gameObject.SetActive(false);
-            m_CloseButton.onClick.AddListener(OnClickClose);
-            m_CloseButton.gameObject.SetActive(false);
+            m_OKButton.onClick.AddListener(OnClickOKButton);
+            m_OKButton.interactable = false;
+            m_CancelButton.onClick.AddListener(OnClickCancelButton);
 
             m_Template.gameObject.SetActive(false);
         }
@@ -176,21 +175,30 @@ namespace Game.UI
             for (int i = 0; i < m_Entries.Length; i++)
             {
                 GameObject commanderPipelineGo = Instantiate(m_Template, m_ContentTrans);
-                commanderPipelineGo.GetComponent<CommanderPipelineEntryView>().SetEntry(m_Entries[i]);
+                commanderPipelineGo.SetActive(true);
+                CommanderPipelineEntryView commanderPipelineView = commanderPipelineGo.GetComponent<CommanderPipelineEntryView>();
+                CommanderPipelineTable.Entry entry = m_Entries[i];
+                commanderPipelineView.SetEntry(entry);
+                commanderPipelineView.SelectButton.onClick.RemoveAllListeners();
+                commanderPipelineView.SelectButton.onClick.AddListener(() =>
+                {
+                    CommanderPipelineId = entry.Id;
+                    m_OKButton.interactable = true;
+                });
                 if (i % 20 == 19)
                     yield return null;
             }
         }
 
-        private void OnClickClose()
+        private void OnClickCancelButton()
         {
-            LogService.System(nameof(OnClickClose), string.Empty);
+            LogService.System(nameof(OnClickCancelButton), string.Empty);
             DialogResult = DialogResult.Cancel;
             CameraCanvas.PopDialog(this);
         }
-        private void OnSelectFile()
+        private void OnClickOKButton()
         {
-            LogService.System(nameof(OnSelectFile), string.Empty);
+            LogService.System(nameof(OnClickOKButton), string.Empty);
             DialogResult = DialogResult.OK;
             CameraCanvas.PopDialog(this);
         }

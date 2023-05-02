@@ -76,7 +76,16 @@ namespace Game.UI
             CommanderPipeline = pipeline;
             m_InfoEditView.SetCommanderPipeline(pipeline);
             m_LocalizationEditView.SetCommanderPipeline(pipeline);
-            m_NeedSave = false;
+            for (int i = 0; i < pipeline.EventModels.Count; i++)
+            {
+                IEventModel eventModel = pipeline.EventModels[i];
+                EventModelEditView view = UnityEngine.Object.Instantiate(PlayerOperatorTemplateView, EventModelsRectTrans);
+                view.gameObject.SetActive(true);
+                view.CommanderContentDialog = this;
+                view.SetCommanderModel(CommanderPipeline, eventModel);
+                view.transform.SetSiblingIndex(i);
+            }
+            m_NeedSave = true;
         }
 
         private void Update()
@@ -211,6 +220,7 @@ namespace Game.UI
                             view.gameObject.SetActive(true);
                             IEventModel eventModel2 = JSONMap.ParseJSON<IEventModel>(JSONObject.Create(modelString));
                             CommanderPipeline.EventModels.Insert(dataIndex + 1, eventModel);
+                            view.CommanderContentDialog = this;
                             view.SetCommanderModel(CommanderPipeline, eventModel2);
                             view.transform.SetSiblingIndex(dataIndex);
                         },

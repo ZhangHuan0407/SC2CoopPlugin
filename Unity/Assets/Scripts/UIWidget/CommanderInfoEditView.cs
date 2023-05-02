@@ -43,16 +43,18 @@ namespace Game.UI
             }
 
             m_CommanderNameDropDown.ClearOptions();
-            List<string> commanderNames = new List<string>();
             for (int i = 0; i < m_DropdownValues.Count; i++)
-                commanderNames.Add(TableManager.LocalizationTable[m_DropdownValues[i].name]);
-            m_CommanderNameDropDown.AddOptions(commanderNames);
+            {
+                string name = TableManager.LocalizationTable[m_DropdownValues[i].name];
+                m_CommanderNameDropDown.options.Add(new Dropdown.OptionData(name));
+            }
             m_CommanderNameDropDown.onValueChanged.AddListener(OnCommanderNameDropDown_ValueChanged);
 
             for (int i = 0; i < m_MasteriesSliders.Length; i++)
             {
                 Slider slider = m_MasteriesSliders[i];
                 Text text = m_MasteriesValueTexts[i];
+                slider.onValueChanged.AddListener((float value) => text.text = Mathf.RoundToInt(value).ToString());
                (slider.GetComponent<SliderEndEdit>()).onEndEdit.AddListener((float value) =>
                                                                            {
                                                                                OnMasteriySlider_EndEdit(slider, text, value);
@@ -74,11 +76,10 @@ namespace Game.UI
         public void SetCommanderPipeline(CommanderPipeline pipeline)
         {
             m_CommanderPipeline = pipeline;
-            string commanderPrefix = ((int)m_CommanderPipeline.Commander).ToString();
-            int index = -1;
-            for (int i = 0; i < m_CommanderNameDropDown.options.Count; i++)
+            int index = 0;
+            for (int i = 0; i < m_DropdownValues.Count; i++)
             {
-                if (m_CommanderNameDropDown.options[i].text.StartsWith(commanderPrefix))
+                if (m_DropdownValues[i].name == pipeline.Commander)
                 {
                     index = i;
                     break;
@@ -86,7 +87,10 @@ namespace Game.UI
             }
             m_CommanderNameDropDown.SetValueWithoutNotify(index);
             for (int i = 0; i < pipeline.Masteries.Length; i++)
+            {
                 m_MasteriesSliders[i].SetValueWithoutNotify(pipeline.Masteries[i]);
+                m_MasteriesValueTexts[i].text = pipeline.Masteries[i].ToString();
+            }
             m_PrestigeToggles[pipeline.Prestige].SetIsOnWithoutNotify(true);
             OnChangeCommanderName(m_CommanderPipeline.Commander);
             m_TitleInput.SetTextWithoutNotify(m_CommanderPipeline.Title);

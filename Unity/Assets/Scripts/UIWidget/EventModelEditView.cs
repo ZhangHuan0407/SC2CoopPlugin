@@ -11,7 +11,11 @@ namespace Game.UI
 {
     public class EventModelEditView : MonoBehaviour
     {
-        public CommanderContentDialog CommanderContentDialog { get; set; }
+        public CommanderContentDialog CommanderContentDialog 
+        {
+            get; 
+            set;
+        }
         private CommanderPipeline m_CommanderPipeline;
         private Guid m_Guid;
 
@@ -62,7 +66,7 @@ namespace Game.UI
             for (int i = 0; i < m_UnitButtonList.Length; i++)
             {
                 int index = i;
-                m_UnitButtonList[i].onClick.AddListener(() => OnClickUnitButton(i));
+                m_UnitButtonList[i].onClick.AddListener(() => OnClickUnitButton(index));
             }
         }
 
@@ -73,9 +77,10 @@ namespace Game.UI
             m_Guid = eventModel.Guid;
             m_GuidLabel.text = m_Guid.ToString();
 
-            m_StartTimeInput.text = eventModel.StartTime.ToString();
-            m_TriggerTimeInput.text = eventModel.TriggerTime.ToString();
-            m_EndTimeInput.text = eventModel.EndTime.ToString();
+            m_TimeTrans.gameObject.SetActive(true);
+            m_StartTimeInput.SetTextWithoutNotify(eventModel.StartTime.ToString());
+            m_TriggerTimeInput.SetTextWithoutNotify(eventModel.TriggerTime.ToString());
+            m_EndTimeInput.SetTextWithoutNotify(eventModel.EndTime.ToString());
             if (eventModel is PlayerOperatorEventModel playerOperatorEventModel)
             {
                 m_UnitTrans.gameObject.SetActive(true);
@@ -86,7 +91,12 @@ namespace Game.UI
                         TableManager.UnitTable[playerOperatorEventModel.UnitIDList[i]] is UnitTable.Entry entry)
                         (button.targetGraphic as Image).sprite = entry.LoadTexture();
                     else
+                    {
                         (button.targetGraphic as Image).sprite = Resources.Load<Sprite>("Textures/plus");
+                        // 自定义或高版本不兼容数据
+                        if (i < playerOperatorEventModel.UnitIDList.Length)
+                            playerOperatorEventModel.UnitIDList[i] = 0;
+                    }
                 }
             }
             else
@@ -107,9 +117,11 @@ namespace Game.UI
                                                 {
                                                     EventModelEditView template = CommanderContentDialog.PlayerOperatorTemplateView;
                                                     EventModelEditView view = UnityEngine.Object.Instantiate(template, CommanderContentDialog.EventModelsRectTrans);
+                                                    view.gameObject.SetActive(true);
                                                     IEventModel eventModel2 = JSONMap.ParseJSON<IEventModel>(JSONObject.Create(modelString));
                                                     eventModel2.Guid = newGuid;
-                                                    m_CommanderPipeline.EventModels.Insert(dataIndex + 1, eventModel);
+                                                    m_CommanderPipeline.EventModels.Insert(dataIndex + 1, eventModel2);
+                                                    view.CommanderContentDialog = dialog;
                                                     view.SetCommanderModel(m_CommanderPipeline, eventModel2);
                                                     view.transform.SetSiblingIndex(dataIndex + 1);
                                                 },
@@ -140,8 +152,10 @@ namespace Game.UI
                                                 {
                                                     var template = CommanderContentDialog.PlayerOperatorTemplateView;
                                                     var view = UnityEngine.Object.Instantiate(template, CommanderContentDialog.EventModelsRectTrans);
+                                                    view.CommanderContentDialog = dialog;
+                                                    view.gameObject.SetActive(true);
                                                     IEventModel eventModel2 = JSONMap.ParseJSON<IEventModel>(JSONObject.Create(modelString));
-                                                    m_CommanderPipeline.EventModels.Insert(dataIndex, eventModel);
+                                                    m_CommanderPipeline.EventModels.Insert(dataIndex, eventModel2);
                                                     view.SetCommanderModel(m_CommanderPipeline, eventModel2);
                                                     view.transform.SetSiblingIndex(dataIndex);
                                                 });
@@ -313,10 +327,10 @@ namespace Game.UI
         }
         private static void OnClickUnitButton_Redo(CommanderContentDialog dialog, int dataIndex, int index, int[] newUnitID)
         {
-            IEventModel eventModel2 = dialog.CommanderPipeline.EventModels[dataIndex];
-            if (eventModel2 is PlayerOperatorEventModel playerOperatorEventModel)
+            IEventModel eventModel = dialog.CommanderPipeline.EventModels[dataIndex];
+            if (eventModel is PlayerOperatorEventModel playerOperatorEventModel)
             {
-                if (playerOperatorEventModel.UnitIDList.Length < index)
+                if (playerOperatorEventModel.UnitIDList.Length <= index)
                 {
                     int[] newList = new int[index + 1];
                     Array.Copy(playerOperatorEventModel.UnitIDList, newList, playerOperatorEventModel.UnitIDList.Length);
@@ -341,9 +355,14 @@ namespace Game.UI
                 }
                 playerOperatorEventModel.UnitIDList[index] = oldUnitID[0];
             }
-            UnitTable.Entry unitEntry = TableManager.UnitTable[oldUnitID[0]];
+            Sprite unitSprite;
+            if (oldUnitID[0] != 0 &&
+                TableManager.UnitTable[oldUnitID[0]] is UnitTable.Entry unitEntry)
+                unitSprite = unitEntry.LoadTexture();
+            else
+                unitSprite = Resources.Load<Sprite>("Textures/plus");
             EventModelEditView view = dialog.EventModelsRectTrans.GetChild(dataIndex).GetComponent<EventModelEditView>();
-            (view.m_UnitButtonList[index].targetGraphic as Image).sprite = unitEntry.LoadTexture();
+            (view.m_UnitButtonList[index].targetGraphic as Image).sprite = unitSprite;
         }
     }
 }

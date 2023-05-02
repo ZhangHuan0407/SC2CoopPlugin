@@ -1,4 +1,5 @@
 CommanderName.All
+SystemLanguage.All
 UI.GameStart
 UI.CommandEdit
 UI.CommanderEditor.AppendEventModel
