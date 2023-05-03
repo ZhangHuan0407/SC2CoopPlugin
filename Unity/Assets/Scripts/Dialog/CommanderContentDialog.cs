@@ -219,7 +219,7 @@ namespace Game.UI
                             EventModelEditView view = UnityEngine.Object.Instantiate(template, EventModelsRectTrans);
                             view.gameObject.SetActive(true);
                             IEventModel eventModel2 = JSONMap.ParseJSON<IEventModel>(JSONObject.Create(modelString));
-                            CommanderPipeline.EventModels.Insert(dataIndex + 1, eventModel);
+                            CommanderPipeline.EventModels.Insert(dataIndex, eventModel);
                             view.CommanderContentDialog = this;
                             view.SetCommanderModel(CommanderPipeline, eventModel2);
                             view.transform.SetSiblingIndex(dataIndex);
