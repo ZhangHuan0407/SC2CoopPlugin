@@ -1454,6 +1454,7 @@ MonoBehaviour:
   m_SelectCommanderButton: {fileID: 8628153532029205151}
   m_MapDropdown: {fileID: 3028871826136628979}
   m_SubTypeDropdown: {fileID: 7201581435259106032}
+  m_DebugText: {fileID: 4004682389075538191}
   HaveSyncMapTime: 0
 --- !u!1 &3253422612129292925
 GameObject:

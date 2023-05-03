@@ -44,6 +44,7 @@ namespace Game.UI
         private List<(MapSubType, string)> m_SubTypeDataList;
 
         [Header("Debug")]
+        [SerializeField]
         private Text m_DebugText;
 
         public bool HaveSyncMapTime;
@@ -146,9 +147,9 @@ namespace Game.UI
                 m_LastParseTime = 0f;
                 int seconds = -1;
                 MapTimeParseResult result = MapTimeParseResult.Unknown;
+                RectAnchor rectAnchor = Global.UserSetting.RectPositions[RectAnchorKey.MapTime];
                 m_MapTimeRecognizeTweener = Global.BackThread.WaitingBackThreadTweener(() =>
                 {
-                    RectAnchor rectAnchor = Global.UserSetting.RectPositions[RectAnchorKey.MapTime];
                     Global.MapTime.UpdateScreenShot();
                     result = Global.MapTime.TryParse(m_CoopTimeline.Commander.Commander == CommanderName.Mengsk, rectAnchor, out seconds);
                     if (result == MapTimeParseResult.WellDone)
@@ -156,14 +157,13 @@ namespace Game.UI
                         HaveSyncMapTime = true;
                         if (Mathf.Abs(m_MapTimeSeconds - seconds) > 0.5f)
                             m_MapTimeSeconds = seconds;
-                        m_DebugText.color = Color.green;
-                        m_DebugText.text = seconds.ToString();
                     }
-                    else
+                    Color color = result == MapTimeParseResult.WellDone ? Color.green : Color.red;
+                    Global.BackThread.RunInMainThread(() =>
                     {
-                        m_DebugText.color = Color.red;
+                        m_DebugText.color = color;
                         m_DebugText.text = seconds.ToString();
-                    }
+                    }, BackThread.UpdateMode.AsSoonAsPossible);
                 })
                     .DoIt();
             }
