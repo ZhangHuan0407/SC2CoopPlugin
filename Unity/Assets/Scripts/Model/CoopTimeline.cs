@@ -1,33 +1,49 @@
 ﻿using System;
 using System.Collections.Generic;
-using Game.OCR;
-using Game.UI;
+using UnityEngine;
 
 namespace Game.Model
 {
     public class CoopTimeline
     {
-        public AIModel AI;
-        public MapModel Map;
-        public CommanderPipeline Commander;
-        public float MapTime;
+        private AIModel m_AI;
+        public AIModel AI
+        {
+            get => m_AI;
+            set => m_AI = value;
+        }
+        private MapModel m_Map;
+        public MapModel Map
+        {
+            get => m_Map;
+            set => m_Map = value;
+        }
+        private CommanderPipeline m_Commander;
+        public CommanderPipeline Commander
+        {
+            get => m_Commander;
+            set => m_Commander = value;
+        }
+        public float MapTime { get; private set; }
+        public IReadOnlyList<IEventModel> EventModels { get; private set; }
         private List<IEventModel> m_AllEventModels;
         public bool RebuildEventModels { get; set; }
 
         public CoopTimeline()
         {
             MapTime = 0f;
+            EventModels = Array.Empty<IEventModel>();
             m_AllEventModels = new List<IEventModel>(100);
             RebuildEventModels = true;
         }
 
-        public void Update(TestDialog testDialog)
+        public void Update(float time)
         {
             if (RebuildEventModels)
             {
                 RebuildEventModels = false;
                 m_AllEventModels.Clear();
-                m_AllEventModels.AddRange(AI.EventModels);
+                m_AllEventModels.AddRange(AI.BuildEventModels(this));
                 m_AllEventModels.AddRange(Map.BuildEventModels(this));
                 m_AllEventModels.AddRange(Commander.EventModels);
                 m_AllEventModels.Sort((l, r) =>
@@ -37,8 +53,10 @@ namespace Game.Model
                         compare = l.Guid.CompareTo(r.Guid);
                     return compare;
                 });
+                Debug.Log($"time: {time}, AllEventModels: {m_AllEventModels.Count}");
             }
             List<IEventModel> eventModels = new List<IEventModel>();
+            MapTime = time;
             for (int i = 0; i < m_AllEventModels.Count; i++)
             {
                 IEventModel eventModel = m_AllEventModels[i];
@@ -49,7 +67,7 @@ namespace Game.Model
                     continue;
                 eventModels.Add(eventModel);
             }
-            testDialog.UpdateModelView(eventModels.ToArray(), MapTime);
+            EventModels = eventModels.ToArray();
         }
     }
 }

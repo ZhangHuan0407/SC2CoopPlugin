@@ -111,6 +111,9 @@ namespace Game.OCR
         {
             recognizeAreaRect = UpTo4(recognizeAreaRect);
             Rectangle recognizeRect = recognizeAreaRect;
+            // 不知道为什么 LockBits 随机性报错
+            // 资料指出可能是mono的bug，然而unity根本不修mono
+            // Debug.Log($"bitmap:{bitmap}, recognizeRect: {recognizeRect}");
             BitmapData bitmapData = bitmap.LockBits(recognizeRect, ImageLockMode.ReadOnly, PixelFormat.Format24bppRgb);
             int dataLength = recognizeRect.Height * recognizeRect.Width * 3;
             byte[] grayMap = RentBytesCache(dataLength);

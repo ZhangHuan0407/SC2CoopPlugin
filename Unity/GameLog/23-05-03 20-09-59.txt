@@ -1,0 +1,96 @@
+[23-05-03 20:09:59] LoadingThread caller System
+System SetWindowState
+TopMostAndBlockRaycast
+
+[23-05-03 20:10:00] LoadingThread caller System
+System BackThread.Awake
+ManagedThreadId: 416, IsBackground: False, ThreadState: Running
+
+[23-05-03 20:10:00] LoadingThread caller System
+System OCRProcess
+start ocr process ../WindowsOCR/bin/Debug/net5.0/WindowsOCR.exe -port=56438 -mainprocess=3576 id 42144
+
+[23-05-03 20:10:00] LoadingThread caller System
+System PushDialog
+prefabPath: Dialogs/MainManuDialog, GameObject: MainManuDialog (UnityEngine.GameObject)
+
+[23-05-03 20:10:07] LoadingThread caller System
+System OnClickGameStartButton
+
+
+[23-05-03 20:10:07] LoadingThread caller System
+System PushDialog
+prefabPath: Dialogs/CoopTimelineDialog, GameObject: CoopTimelineDialog (UnityEngine.GameObject)
+
+[23-05-03 20:10:08] Thread 416 caller System.AggregateException: One or more errors occurred. (A null reference or invalid value was found [GDI+ status: InvalidParameter]) ---> System.ArgumentException: A null reference or invalid value was found [GDI+ status: InvalidParameter]
+  at System.Drawing.GDIPlus.CheckStatus (System.Drawing.Status status) [0x00098] in <9f8369cf044a4b81b7298c50a0d50038>:0 
+  at System.Drawing.Bitmap.LockBits (System.Drawing.Rectangle rect, System.Drawing.Imaging.ImageLockMode flags, System.Drawing.Imaging.PixelFormat format, System.Drawing.Imaging.BitmapData bitmapData) [0x00011] in <9f8369cf044a4b81b7298c50a0d50038>:0 
+  at System.Drawing.Bitmap.LockBits (System.Drawing.Rectangle rect, System.Drawing.Imaging.ImageLockMode flags, System.Drawing.Imaging.PixelFormat format) [0x00006] in <9f8369cf044a4b81b7298c50a0d50038>:0 
+  at (wrapper remoting-invoke-with-check) System.Drawing.Bitmap.LockBits(System.Drawing.Rectangle,System.Drawing.Imaging.ImageLockMode,System.Drawing.Imaging.PixelFormat)
+  at Game.OCR.MapTime.SplitSubArea (System.Drawing.Bitmap bitmap, System.Boolean isMSK, System.Drawing.Rectangle& recognizeAreaRect, System.Byte[]& grayBytes) [0x0001f] in D:\SC2CoopPlugin\Unity\Assets\Scripts\MapTimeOCR\MapTime.Windows.cs:117 
+  at Game.OCR.MapTime.TryParse (System.Boolean isMSK, Game.OCR.RectAnchor rect, System.Int32& seconds) [0x00023] in D:\SC2CoopPlugin\Unity\Assets\Scripts\MapTimeOCR\MapTime.Windows.cs:74 
+  at Game.UI.CoopTimelineDialog+<>c__DisplayClass31_0.<Update>b__0 () [0x0001d] in D:\SC2CoopPlugin\Unity\Assets\Scripts\Dialog\CoopTimelineDialog.cs:129 
+  at System.Threading.Tasks.Task.InnerInvoke () [0x0000f] in <4a4789deb75f446a81a24a1a00bdd3f9>:0 
+  at System.Threading.Tasks.Task.Execute () [0x00000] in <4a4789deb75f446a81a24a1a00bdd3f9>:0 
+   --- End of inner exception stack trace ---
+---> (Inner Exception #0) System.ArgumentException: A null reference or invalid value was found [GDI+ status: InvalidParameter]
+  at System.Drawing.GDIPlus.CheckStatus (System.Drawing.Status status) [0x00098] in <9f8369cf044a4b81b7298c50a0d50038>:0 
+  at System.Drawing.Bitmap.LockBits (System.Drawing.Rectangle rect, System.Drawing.Imaging.ImageLockMode flags, System.Drawing.Imaging.PixelFormat format, System.Drawing.Imaging.BitmapData bitmapData) [0x00011] in <9f8369cf044a4b81b7298c50a0d50038>:0 
+  at System.Drawing.Bitmap.LockBits (System.Drawing.Rectangle rect, System.Drawing.Imaging.ImageLockMode flags, System.Drawing.Imaging.PixelFormat format) [0x00006] in <9f8369cf044a4b81b7298c50a0d50038>:0 
+  at (wrapper remoting-invoke-with-check) System.Drawing.Bitmap.LockBits(System.Drawing.Rectangle,System.Drawing.Imaging.ImageLockMode,System.Drawing.Imaging.PixelFormat)
+  at Game.OCR.MapTime.SplitSubArea (System.Drawing.Bitmap bitmap, System.Boolean isMSK, System.Drawing.Rectangle& recognizeAreaRect, System.Byte[]& grayBytes) [0x0001f] in D:\SC2CoopPlugin\Unity\Assets\Scripts\MapTimeOCR\MapTime.Windows.cs:117 
+  at Game.OCR.MapTime.TryParse (System.Boolean isMSK, Game.OCR.RectAnchor rect, System.Int32& seconds) [0x00023] in D:\SC2CoopPlugin\Unity\Assets\Scripts\MapTimeOCR\MapTime.Windows.cs:74 
+  at Game.UI.CoopTimelineDialog+<>c__DisplayClass31_0.<Update>b__0 () [0x0001d] in D:\SC2CoopPlugin\Unity\Assets\Scripts\Dialog\CoopTimelineDialog.cs:129 
+  at System.Threading.Tasks.Task.InnerInvoke () [0x0000f] in <4a4789deb75f446a81a24a1a00bdd3f9>:0 
+  at System.Threading.Tasks.Task.Execute () [0x00000] in <4a4789deb75f446a81a24a1a00bdd3f9>:0 <---
+
+BackThread.BackThread task
+
+[23-05-03 20:10:11] LoadingThread caller System
+System CoopTimelineDialog
+OnClickButtonSelectCommander
+
+[23-05-03 20:10:11] LoadingThread caller System
+System PushDialog
+prefabPath: Dialogs/OpenCommanderFileDialog, GameObject: OpenCommanderFileDialog (UnityEngine.GameObject)
+
+[23-05-03 20:10:11] LoadingThread caller System
+System FilterCommanderPipelines
+
+
+[23-05-03 20:10:13] LoadingThread caller System
+System OnClickOKButton
+
+
+[23-05-03 20:10:13] LoadingThread caller System
+System CommanderPipelineTable.Instantiate
+:/Users/23609/AppData/LocalLow/SC2CoopPlugin/SC2CoopPlugin
+
+[23-05-03 20:10:20] Thread 416 caller System.AggregateException: One or more errors occurred. (A null reference or invalid value was found [GDI+ status: InvalidParameter]) ---> System.ArgumentException: A null reference or invalid value was found [GDI+ status: InvalidParameter]
+  at System.Drawing.GDIPlus.CheckStatus (System.Drawing.Status status) [0x00098] in <9f8369cf044a4b81b7298c50a0d50038>:0 
+  at System.Drawing.Bitmap.LockBits (System.Drawing.Rectangle rect, System.Drawing.Imaging.ImageLockMode flags, System.Drawing.Imaging.PixelFormat format, System.Drawing.Imaging.BitmapData bitmapData) [0x00011] in <9f8369cf044a4b81b7298c50a0d50038>:0 
+  at System.Drawing.Bitmap.LockBits (System.Drawing.Rectangle rect, System.Drawing.Imaging.ImageLockMode flags, System.Drawing.Imaging.PixelFormat format) [0x00006] in <9f8369cf044a4b81b7298c50a0d50038>:0 
+  at (wrapper remoting-invoke-with-check) System.Drawing.Bitmap.LockBits(System.Drawing.Rectangle,System.Drawing.Imaging.ImageLockMode,System.Drawing.Imaging.PixelFormat)
+  at Game.OCR.MapTime.SplitSubArea (System.Drawing.Bitmap bitmap, System.Boolean isMSK, System.Drawing.Rectangle& recognizeAreaRect, System.Byte[]& grayBytes) [0x0001f] in D:\SC2CoopPlugin\Unity\Assets\Scripts\MapTimeOCR\MapTime.Windows.cs:117 
+  at Game.OCR.MapTime.TryParse (System.Boolean isMSK, Game.OCR.RectAnchor rect, System.Int32& seconds) [0x00023] in D:\SC2CoopPlugin\Unity\Assets\Scripts\MapTimeOCR\MapTime.Windows.cs:74 
+  at Game.UI.CoopTimelineDialog+<>c__DisplayClass31_0.<Update>b__0 () [0x0001d] in D:\SC2CoopPlugin\Unity\Assets\Scripts\Dialog\CoopTimelineDialog.cs:129 
+  at System.Threading.Tasks.Task.InnerInvoke () [0x0000f] in <4a4789deb75f446a81a24a1a00bdd3f9>:0 
+  at System.Threading.Tasks.Task.Execute () [0x00000] in <4a4789deb75f446a81a24a1a00bdd3f9>:0 
+   --- End of inner exception stack trace ---
+---> (Inner Exception #0) System.ArgumentException: A null reference or invalid value was found [GDI+ status: InvalidParameter]
+  at System.Drawing.GDIPlus.CheckStatus (System.Drawing.Status status) [0x00098] in <9f8369cf044a4b81b7298c50a0d50038>:0 
+  at System.Drawing.Bitmap.LockBits (System.Drawing.Rectangle rect, System.Drawing.Imaging.ImageLockMode flags, System.Drawing.Imaging.PixelFormat format, System.Drawing.Imaging.BitmapData bitmapData) [0x00011] in <9f8369cf044a4b81b7298c50a0d50038>:0 
+  at System.Drawing.Bitmap.LockBits (System.Drawing.Rectangle rect, System.Drawing.Imaging.ImageLockMode flags, System.Drawing.Imaging.PixelFormat format) [0x00006] in <9f8369cf044a4b81b7298c50a0d50038>:0 
+  at (wrapper remoting-invoke-with-check) System.Drawing.Bitmap.LockBits(System.Drawing.Rectangle,System.Drawing.Imaging.ImageLockMode,System.Drawing.Imaging.PixelFormat)
+  at Game.OCR.MapTime.SplitSubArea (System.Drawing.Bitmap bitmap, System.Boolean isMSK, System.Drawing.Rectangle& recognizeAreaRect, System.Byte[]& grayBytes) [0x0001f] in D:\SC2CoopPlugin\Unity\Assets\Scripts\MapTimeOCR\MapTime.Windows.cs:117 
+  at Game.OCR.MapTime.TryParse (System.Boolean isMSK, Game.OCR.RectAnchor rect, System.Int32& seconds) [0x00023] in D:\SC2CoopPlugin\Unity\Assets\Scripts\MapTimeOCR\MapTime.Windows.cs:74 
+  at Game.UI.CoopTimelineDialog+<>c__DisplayClass31_0.<Update>b__0 () [0x0001d] in D:\SC2CoopPlugin\Unity\Assets\Scripts\Dialog\CoopTimelineDialog.cs:129 
+  at System.Threading.Tasks.Task.InnerInvoke () [0x0000f] in <4a4789deb75f446a81a24a1a00bdd3f9>:0 
+  at System.Threading.Tasks.Task.Execute () [0x00000] in <4a4789deb75f446a81a24a1a00bdd3f9>:0 <---
+
+BackThread.BackThread task
+
+[23-05-03 20:10:41] LoadingThread caller System
+System BackThread.OnDestroy
+ManagedThreadId: 416, IsBackground: False, ThreadState: WaitSleepJoin
+

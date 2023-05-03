@@ -40,6 +40,7 @@ namespace Game.Editor
             AppendEnum<AmonAIName>();
             AppendEnum<CommanderName>();
             AppendEnum<MapName>();
+            AppendEnum<MapSubType>();
             AppendEnum<SystemLanguage>();
             AppendEnum<UnitLabel>();
 

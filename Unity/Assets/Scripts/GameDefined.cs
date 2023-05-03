@@ -44,6 +44,7 @@ namespace Game
         public const string UnitListDialog = "Dialogs/UnitListDialog";
 
         public const string MaxClentVersionKey = "MaxClentVersion";
+        public const string LastUpdateCheckKey = "LastUpdateCheck";
         public const string CommanderPreferenceLanguage = "CommanderPreferenceLanguage";
         public const string ClientNewVersionWebPage = "";
 

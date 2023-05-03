@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Tween;
 using Table;
+using Game.OCR;
 
 namespace Game.UI
 {
@@ -17,6 +18,7 @@ namespace Game.UI
         public bool DestroyFlag { get; set; }
         public string PrefabPath { get; set; }
 
+        [SerializeField]
         private RectTransform m_RectTrans;
 
         [Header("Event Model View")]
@@ -41,6 +43,7 @@ namespace Game.UI
         private Dropdown m_SubTypeDropdown;
         private List<(MapSubType, string)> m_SubTypeDataList;
 
+        public bool HaveSyncMapTime;
         private Tweener m_MapTimeRecognizeTweener;
         private float m_LastParseTime;
         private volatile float m_MapTimeSeconds;
@@ -53,7 +56,7 @@ namespace Game.UI
             Application.targetFrameRate = 10;
 
             OCR.RectAnchor rectAnchor = Global.UserSetting.RectPositions[RectAnchorKey.PluginDialog];
-            m_RectTrans.anchoredPosition = new Vector2(rectAnchor.Left, rectAnchor.Top);
+            m_RectTrans.anchoredPosition = new Vector2(rectAnchor.Left, -rectAnchor.Top);
             m_RectTrans.sizeDelta = new Vector2(rectAnchor.Width, rectAnchor.Height);
 
             m_AttackWaveTemplate.SetActive(false);
@@ -93,6 +96,30 @@ namespace Game.UI
             m_SubTypeDropdown.onValueChanged.AddListener(OnSubTypeDropdown_ValueChanged);
 
             m_CoopTimeline = new CoopTimeline();
+            m_CoopTimeline.AI = TableManager.ModelTable.InstantiateModel<AIModel>("AI_Template");
+
+            // todo 重写此处的选择逻辑，如果OCR已经给出了结果，默认使用OCR给出的结果
+            m_CoopTimeline.Map = TableManager.ModelTable.InstantiateModel<MapModel>("UnknownMap");
+            int mapNameIndex = 0;
+            for (int i = 0; i < m_MapNameDataList.Count; i++)
+                if (m_MapNameDataList[i].Item1 == m_CoopTimeline.Map.MapName)
+                {
+                    mapNameIndex = i;
+                    break;
+                }
+            m_MapDropdown.SetValueWithoutNotify(mapNameIndex);
+
+            int mapSubTypeIndex = 0;
+            for (int i = 0; i < m_SubTypeDataList.Count; i++)
+                if (m_SubTypeDataList[i].Item1 == m_CoopTimeline.Map.MapSubType)
+                {
+                    mapSubTypeIndex = i;
+                    break;
+                }
+            m_SubTypeDropdown.SetValueWithoutNotify(mapSubTypeIndex);
+
+            m_CoopTimeline.Commander = TableManager.ModelTable.InstantiateModel<CommanderPipeline>("CommanderPipeline_Template");
+
             m_ViewReference = new Dictionary<Guid, IEventView>();
         }
 
@@ -108,7 +135,85 @@ namespace Game.UI
 
         private void Update()
         {
-            
+            m_LastParseTime += Time.deltaTime;
+            if (HaveSyncMapTime)
+                m_MapTimeSeconds += Time.deltaTime / 1.4f;
+            if (m_LastParseTime > 0.5f)
+            {
+                m_LastParseTime = 0f;
+                int seconds = -1;
+                MapTimeParseResult result = MapTimeParseResult.Unknown;
+                m_MapTimeRecognizeTweener = Global.BackThread.WaitingBackThreadTweener(() =>
+                {
+                    RectAnchor rectAnchor = Global.UserSetting.RectPositions[RectAnchorKey.MapTime];
+                    Global.MapTime.UpdateScreenShot();
+                    result = Global.MapTime.TryParse(m_CoopTimeline.Commander.Commander == CommanderName.Mengsk, rectAnchor, out seconds);
+                    if (result == MapTimeParseResult.WellDone)
+                    {
+                        HaveSyncMapTime = true;
+                        if (Mathf.Abs(m_MapTimeSeconds - seconds) > 0.5f)
+                            m_MapTimeSeconds = seconds;
+                    }
+                })
+                    .DoIt();
+            }
+
+            RebuildView();
+        }
+        private void RebuildView()
+        {
+            m_CoopTimeline.Update(m_MapTimeSeconds);
+            IReadOnlyList<IEventModel> eventModels = m_CoopTimeline.EventModels;
+
+            HashSet<Guid> set = new HashSet<Guid>();
+            for (int i = 0; i < eventModels.Count; i++)
+            {
+                IEventModel eventModel = eventModels[i];
+                if (!m_ViewReference.TryGetValue(eventModel.Guid, out _))
+                    m_ViewReference.Add(eventModel.Guid, CreateView(eventModel));
+                set.Add(eventModel.Guid);
+            }
+            List<Guid> deleteGuidList = new List<Guid>();
+            foreach (Guid guid in m_ViewReference.Keys)
+            {
+                if (!set.Contains(guid))
+                    deleteGuidList.Add(guid);
+            }
+            for (int i = 0; i < deleteGuidList.Count; i++)
+            {
+                IEventView eventView = m_ViewReference[deleteGuidList[i]];
+                UnityEngine.Object.Destroy(eventView.gameObject);
+                m_ViewReference.Remove(deleteGuidList[i]);
+            }
+            for (int i = 0; i < eventModels.Count; i++)
+            {
+                IEventModel eventModel = eventModels[i];
+                IEventView eventView = m_ViewReference[eventModel.Guid];
+                eventView.UpdateView(m_MapTimeSeconds);
+            }
+        }
+        private IEventView CreateView(IEventModel eventModel)
+        {
+            GameObject template = null;
+            switch (eventModel)
+            {
+                case AttackWaveEventModel attackWaveEventModel:
+                    template = m_AttackWaveTemplate;
+                    break;
+                case PlayerOperatorEventModel playerOperatorEventModel:
+                    template = m_PlayerOperatorTemplate;
+                    break;
+                case MapTriggerEventModel mapTriggerEventModel:
+                    template = m_MapTriggerTemplate;
+                    break;
+                default:
+                    break;
+            }
+            GameObject go = Instantiate(template, m_EventModelParentTrans);
+            go.SetActive(true);
+            IEventView eventView = go.GetComponent<IEventView>();
+            eventView.SetModel(eventModel, m_CoopTimeline);
+            return eventView;
         }
 
         private void OnClickButtonBack()
@@ -130,6 +235,7 @@ namespace Game.UI
                         string id = dialog.CommanderPipelineId;
                         LogService.System("CommanderPipelineTable.Instantiate", id);
                         m_CoopTimeline.Commander = TableManager.CommanderPipelineTable.Instantiate(id);
+                        m_CoopTimeline.RebuildEventModels = true;
                     }
                     Show();
                 })
@@ -149,8 +255,11 @@ namespace Game.UI
         {
             LogService.System(nameof(CoopTimelineDialog), $"{nameof(OnSubTypeDropdown_ValueChanged)} index: {index}");
             MapSubType mapSubType = m_SubTypeDataList[index].Item1;
-            m_CoopTimeline.Map.MapSubType = mapSubType;
-            m_CoopTimeline.RebuildEventModels = true;
+            if (m_CoopTimeline.Map.MapSubType != mapSubType)
+            {
+                m_CoopTimeline.Map.MapSubType = mapSubType;
+                m_CoopTimeline.RebuildEventModels = true;
+            }
         }
     }
 }

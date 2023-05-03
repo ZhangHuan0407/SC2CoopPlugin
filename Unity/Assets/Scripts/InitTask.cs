@@ -10,6 +10,7 @@ using UnityEngine.SceneManagement;
 using Stopwatch = System.Diagnostics.Stopwatch;
 using Game.OCR;
 using UnityEditor;
+using Tween;
 
 namespace Game
 {
@@ -80,15 +81,21 @@ namespace Game
                     .CopyFilesTo(new DirectoryInfo(GameDefined.LocalResourceDirectory), true);
                 Global.ResourceRepositoryConfig.IOLock.ExitWriteLock();
             }
-            DownloadResourceTool tool = new DownloadResourceTool(Global.ResourceRepositoryConfig, GameDefined.Version);
-
-            Task<ResourceUpdateResult> checkUpdateTask = tool.CheckUpdateAsync();
-            Tween.LogicTween.WaitUntil(() => checkUpdateTask.IsCompleted)
-                            .OnComplete(() =>
-                            {
-                                int maxClientVersion = PlayerPrefs.GetInt(GameDefined.MaxClentVersionKey);
-                                PlayerPrefs.SetInt(GameDefined.MaxClentVersionKey, Mathf.Max(tool.MaxClentVersion, maxClientVersion));
-                            });
+            int lastUpdateCheck = PlayerPrefs.GetInt(GameDefined.LastUpdateCheckKey, 0);
+            int currentTime = (int)(DateTime.Now - new DateTime(1970, 1, 1)).TotalSeconds;
+            if (Mathf.Abs(currentTime - lastUpdateCheck) > 86400)
+            {
+                DownloadResourceTool tool = new DownloadResourceTool(Global.ResourceRepositoryConfig, GameDefined.Version);
+                Task<ResourceUpdateResult> checkUpdateTask = tool.CheckUpdateAsync();
+                Tweener tweener = Tween.LogicTween.WaitUntil(() => checkUpdateTask.IsCompleted)
+                                                    .OnComplete(() =>
+                                                    {
+                                                        int maxClientVersion = PlayerPrefs.GetInt(GameDefined.MaxClentVersionKey);
+                                                        PlayerPrefs.SetInt(GameDefined.MaxClentVersionKey, Mathf.Max(tool.MaxClentVersion, maxClientVersion));
+                                                        PlayerPrefs.SetInt(GameDefined.LastUpdateCheckKey, currentTime);
+                                                    });
+                tweener.DoIt();
+            }
 
 #if !UNITY_EDITOR
             if (Directory.Exists(GameDefined.TempDirectory))

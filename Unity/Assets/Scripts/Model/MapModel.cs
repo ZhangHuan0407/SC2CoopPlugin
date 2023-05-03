@@ -37,17 +37,6 @@ namespace Game.Model
             MapSubType = MapSubType.AorB;
         }
 
-        public static MapModel CreateDebug()
-        {
-            MapModel model = new MapModel();
-            model.MapName = MapName.RiftsToKorhal;
-            model.EventModels = new IEventModel[]
-            {
-            };
-            model.MapSubType = MapSubType.AorB;
-            return model;
-        }
-
         public IList<IEventModel> BuildEventModels(CoopTimeline coopTimeline)
         {
             List<IEventModel> eventModels = new List<IEventModel>();

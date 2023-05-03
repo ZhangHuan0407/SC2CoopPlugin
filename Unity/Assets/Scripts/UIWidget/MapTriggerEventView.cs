@@ -6,7 +6,7 @@ using Table;
 
 namespace Game.UI
 {
-    public class AttackWaveEventView : MonoBehaviour, IEventView
+    public class MapTriggerEventView : MonoBehaviour, IEventView
     {
         [SerializeField]
         private Image[] m_Icon;
@@ -15,7 +15,7 @@ namespace Game.UI
         [SerializeField]
         private Text m_Countdown;
 
-        private AttackWaveEventModel m_Model;
+        private MapTriggerEventModel m_Model;
         public Guid Guid => m_Model.Guid;
 
         public void UpdateView(float time)
@@ -28,7 +28,7 @@ namespace Game.UI
 
         public void SetModel(IEventModel eventModel, CoopTimeline coopTimeline)
         {
-            m_Model = eventModel as AttackWaveEventModel;
+            m_Model = eventModel as MapTriggerEventModel;
             AttackWaveTable.Entry attackWaveEntry = TableManager.AttackWaveTable[coopTimeline.AI.AIName, m_Model.Technology];
             for (int i = 0; i < m_Icon.Length; i++)
             {

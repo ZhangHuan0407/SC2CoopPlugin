@@ -44,8 +44,8 @@ namespace Game.UI
 
             m_MapTimeSeconds = 0f;
             m_CoopTimeline = new CoopTimeline();
-            m_CoopTimeline.AI = AIModel.CreateDebug();
-            m_CoopTimeline.Map = MapModel.CreateDebug();
+            m_CoopTimeline.AI = TableManager.ModelTable.InstantiateModel<AIModel>("AI_Template");
+            m_CoopTimeline.Map = TableManager.ModelTable.InstantiateModel<MapModel>("UnknownMap");
             m_CoopTimeline.Commander = TableManager.ModelTable.InstantiateModel<CommanderPipeline>("CommanderPipeline_Template");
             m_ViewReference = new Dictionary<Guid, IEventView>();
             RebuildView();
@@ -99,8 +99,8 @@ namespace Game.UI
 
         private void RebuildView()
         {
-            m_CoopTimeline.MapTime = m_MapTimeSeconds;
-            m_CoopTimeline.Update(this);
+            //m_CoopTimeline.MapTime = m_MapTimeSeconds;
+            //m_CoopTimeline.Update(this);
         }
         public void UpdateModelView(IEventModel[] eventModels, float time)
         {

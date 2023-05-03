@@ -20,5 +20,6 @@ namespace Table
         TheVermillionProblem,
         VoidLaunch,
         VoidThrashing,
+        Unknown = 100,
     }
 }
