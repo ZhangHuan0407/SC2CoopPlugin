@@ -79,15 +79,14 @@ namespace Game.OCR
             JSONObject package = JSONMap.ToJSON(new InitParameters_Request(DefaultLanguageTag,
                                                                            new RectAnchor(0, 0, screenSize.Width, screenSize.Height)));
             processingHandle[ProtocolId.InitParameters](new ProtocolRequest(default, package));
-            Console.WriteLine(new RectAnchor().ToString());
+            Console.WriteLine(new RectAnchor(272, 786, 100, 52).ToString());
             while (true)
             {
                 Console.WriteLine("wait input:");
                 string input = Console.ReadLine();
-                //bool parse = RectAnchor.TryParse(input, out RectAnchor rectAnchor);
-                RectAnchor rectAnchor = new RectAnchor(0, 0, 1920, 1080);
-                //if (!parse)
-                //    continue;
+                bool parse = RectAnchor.TryParse(input, out RectAnchor rectAnchor);
+                if (!parse)
+                    continue;
                 RecognizeWindowArea_Request.Task[] tasks = new RecognizeWindowArea_Request.Task[]
                 {
                     new RecognizeWindowArea_Request.Task()
