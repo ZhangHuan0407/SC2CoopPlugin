@@ -43,6 +43,9 @@ namespace Game.UI
         private Dropdown m_SubTypeDropdown;
         private List<(MapSubType, string)> m_SubTypeDataList;
 
+        [Header("Debug")]
+        private Text m_DebugText;
+
         public bool HaveSyncMapTime;
         private Tweener m_MapTimeRecognizeTweener;
         private float m_LastParseTime;
@@ -153,6 +156,13 @@ namespace Game.UI
                         HaveSyncMapTime = true;
                         if (Mathf.Abs(m_MapTimeSeconds - seconds) > 0.5f)
                             m_MapTimeSeconds = seconds;
+                        m_DebugText.color = Color.green;
+                        m_DebugText.text = seconds.ToString();
+                    }
+                    else
+                    {
+                        m_DebugText.color = Color.red;
+                        m_DebugText.text = seconds.ToString();
                     }
                 })
                     .DoIt();
