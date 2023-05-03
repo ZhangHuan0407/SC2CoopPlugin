@@ -453,7 +453,9 @@ namespace Game.Editor
                 if (m_SelectedUnitSet.Contains(entry.ID))
                     idSet.Add(entries[i].ID);
             }
-            if (string.IsNullOrWhiteSpace(m_SearchText))
+            if (string.IsNullOrWhiteSpace(m_SearchText) &&
+                m_FilterCommander == CommanderName.None &&
+                m_FilterLabel == UnitLabel.None)
             {
                 for (int i = 0; i < entries.Length; i++)
                     idSet.Add(entries[i].ID);
@@ -464,6 +466,12 @@ namespace Game.Editor
                 for (int i = 0; i < entries.Length; i++)
                 {
                     UnitTable.Entry entry = entries[i];
+                    if (m_FilterCommander != CommanderName.None &&
+                        (entry.Commander != m_FilterCommander))
+                        continue;
+                    if (m_FilterLabel != UnitLabel.None &&
+                        (entry.Label & m_FilterLabel) == 0)
+                        continue;
                     if (regex.IsMatch(entry.ID.ToString()) ||
                         regex.IsMatch(entry.Name.Key) ||
                         regex.IsMatch(entry.Annotation))
@@ -475,12 +483,6 @@ namespace Game.Editor
             foreach (int id in idSet)
             {
                 UnitTable.Entry entry = m_UnitTable.Data[id];
-                if (m_FilterCommander != CommanderName.None &&
-                    (entry.Commander != m_FilterCommander))
-                    continue;
-                if (m_FilterLabel != UnitLabel.None &&
-                    (entry.Label & m_FilterLabel) == 0)
-                    continue;
                 JSONObject @object = JSONMap.ToJSON(entry);
                 m_InShowList.Add(JSONMap.ParseJSON<UnitTableEntryWrapper>(@object));
                 if (m_InShowList.Count > 150)

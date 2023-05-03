@@ -37,47 +37,47 @@
     {
         "m_AI": "MastersAndMachines",
         "m_Technology": 1,
-        "m_UnitID": []
+        "m_UnitID": [1558702847]
     },
     {
         "m_AI": "MastersAndMachines",
         "m_Technology": 2,
-        "m_UnitID": []
+        "m_UnitID": [1115350661,1558702847]
     },
     {
         "m_AI": "MastersAndMachines",
         "m_Technology": 3,
-        "m_UnitID": []
+        "m_UnitID": [668847318,1115350661,1558702847]
     },
     {
         "m_AI": "MastersAndMachines",
         "m_Technology": 4,
-        "m_UnitID": []
+        "m_UnitID": [668847318,1138883677,1115350661]
     },
     {
         "m_AI": "MastersAndMachines",
         "m_Technology": 5,
-        "m_UnitID": []
+        "m_UnitID": [548557503,668847318,1115350661,1558702847]
     },
     {
         "m_AI": "MastersAndMachines",
         "m_Technology": 6,
-        "m_UnitID": []
+        "m_UnitID": [1044613125,548557503,1115350661,1558702847]
     },
     {
         "m_AI": "MastersAndMachines",
         "m_Technology": 7,
-        "m_UnitID": []
+        "m_UnitID": [1044613125,1138883677,668847318,1115350661,1558702847]
     },
     {
         "m_AI": "ToweringWalkers",
         "m_Technology": 1,
-        "m_UnitID": []
+        "m_UnitID": [1558702847]
     },
     {
         "m_AI": "ToweringWalkers",
         "m_Technology": 2,
-        "m_UnitID": []
+        "m_UnitID": [0,1558702847]
     },
     {
         "m_AI": "ToweringWalkers",
@@ -247,37 +247,37 @@
     {
         "m_AI": "VanguardOfAiur",
         "m_Technology": 1,
-        "m_UnitID": []
+        "m_UnitID": [1558702847]
     },
     {
         "m_AI": "VanguardOfAiur",
         "m_Technology": 2,
-        "m_UnitID": []
+        "m_UnitID": [1558702847,1864322335]
     },
     {
         "m_AI": "VanguardOfAiur",
         "m_Technology": 3,
-        "m_UnitID": []
+        "m_UnitID": [1558702847,1864322335,668847318]
     },
     {
         "m_AI": "VanguardOfAiur",
         "m_Technology": 4,
-        "m_UnitID": []
+        "m_UnitID": [1864322335,1443053190]
     },
     {
         "m_AI": "VanguardOfAiur",
         "m_Technology": 5,
-        "m_UnitID": []
+        "m_UnitID": [1558702847,668847318,548557503,1443053190]
     },
     {
         "m_AI": "VanguardOfAiur",
         "m_Technology": 6,
-        "m_UnitID": []
+        "m_UnitID": [1558702847,1864322335,668847318,1153914215]
     },
     {
         "m_AI": "VanguardOfAiur",
         "m_Technology": 7,
-        "m_UnitID": []
+        "m_UnitID": [1558702847,1864322335,668847318,548557503,1443053190,1153914215]
     },
     {
         "m_AI": "FleetOfTheMatriarch",
