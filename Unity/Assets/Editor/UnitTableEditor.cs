@@ -108,7 +108,7 @@ namespace Game.Editor
             GUILayout.BeginHorizontal();
             GUILayout.Label("Regex", GUILayout.Width(80f));
             m_SearchText = GUILayout.TextField(m_SearchText, GUILayout.MinWidth(150f), GUILayout.MaxWidth(300f));
-            m_FilterCommander = (CommanderName)EditorGUILayout.EnumFlagsField((CommanderWrapper)m_FilterCommander, GUILayout.Width(100f));
+            m_FilterCommander = (CommanderName)EditorGUILayout.EnumPopup((CommanderWrapper)m_FilterCommander, GUILayout.Width(100f));
             m_FilterLabel = (UnitLabel)EditorGUILayout.EnumFlagsField((UnitLabelWrapper)m_FilterLabel, GUILayout.Width(80f));
             if (GUILayout.Button("Search", GUILayout.Width(60f)))
             {
@@ -476,7 +476,10 @@ namespace Game.Editor
             {
                 UnitTable.Entry entry = m_UnitTable.Data[id];
                 if (m_FilterCommander != CommanderName.None &&
-                    (entry.Commander & m_FilterCommander) == 0)
+                    (entry.Commander != m_FilterCommander))
+                    continue;
+                if (m_FilterLabel != UnitLabel.None &&
+                    (entry.Label & m_FilterLabel) == 0)
                     continue;
                 JSONObject @object = JSONMap.ToJSON(entry);
                 m_InShowList.Add(JSONMap.ParseJSON<UnitTableEntryWrapper>(@object));
