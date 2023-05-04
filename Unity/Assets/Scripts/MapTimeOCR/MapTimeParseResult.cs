@@ -6,6 +6,7 @@ namespace Game.OCR
     public enum MapTimeParseResult
     {
         Unknown,
+        MonitorParameterError,
         RectCountError,
         ParseNumberCountError,
         NumberInvalid,

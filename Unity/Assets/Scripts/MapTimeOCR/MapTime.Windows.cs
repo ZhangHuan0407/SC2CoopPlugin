@@ -70,6 +70,9 @@ namespace Game.OCR
         public MapTimeParseResult TryParse(bool isMSK, RectAnchor rect, out int seconds)
         {
             seconds = -1;
+            if (ScreenShot.Width < rect.Right ||
+                ScreenShot.Height < rect.Bottom)
+                return MapTimeParseResult.MonitorParameterError;
             Rectangle recognizeAreaRect = new Rectangle(rect.Left, rect.Top, rect.Width, rect.Height);
             List<RectAnchor> subAreaRectList = SplitSubArea(ScreenShot, isMSK, ref recognizeAreaRect, out byte[] grayBytes);
             if (subAreaRectList.Count < 3 || subAreaRectList.Count >= MapTimeParameter.RectCountLimit)

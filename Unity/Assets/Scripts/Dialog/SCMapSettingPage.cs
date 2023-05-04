@@ -62,7 +62,7 @@ namespace Game.UI
             {
                 m_MapTimeRectText.gameObject.SetActive(false);
                 m_MapTimeRectInput.gameObject.SetActive(true);
-                RectAnchor rectAnchor = SettingDialog.UserSetting.RectPositions[RectAnchorKey.CoopMenu];
+                RectAnchor rectAnchor = SettingDialog.UserSetting.RectPositions[RectAnchorKey.MapTime];
                 m_MapTimeRectInput.SetTextWithoutNotify(rectAnchor.ToString());
                 m_MapTimeRectInput.textComponent.color = Color.black;
             }
@@ -70,9 +70,9 @@ namespace Game.UI
             {
                 string input = m_MapTimeRectInput.text;
                 if (RectAnchor.TryParse(input, out RectAnchor rectAnchor))
-                    SettingDialog.UserSetting.RectPositions[RectAnchorKey.CoopMenu] = rectAnchor;
+                    SettingDialog.UserSetting.RectPositions[RectAnchorKey.MapTime] = rectAnchor;
                 else
-                    rectAnchor = SettingDialog.UserSetting.RectPositions[RectAnchorKey.CoopMenu];
+                    rectAnchor = SettingDialog.UserSetting.RectPositions[RectAnchorKey.MapTime];
                 m_MapTimeRectText.gameObject.SetActive(true);
                 m_MapTimeRectText.text = rectAnchor.ToString();
                 m_MapTimeRectInput.gameObject.SetActive(false);

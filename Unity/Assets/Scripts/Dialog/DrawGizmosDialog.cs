@@ -24,16 +24,16 @@ namespace Game.UI
             m_Group = new List<Image>();
             m_LineImage.gameObject.SetActive(false);
 
-            Vector2 referenceResolution = CameraCanvas.ReferenceResolution;
-            float referenceRatio = referenceResolution.x / referenceResolution.y;
-            Vector2 currentResolution = new Vector2(Screen.width, Screen.height);
-            float currentRatio = currentResolution.x / currentResolution.y;
-            float localScale;
-            if (currentRatio > referenceRatio)
-                localScale = referenceResolution.y / currentResolution.y;
-            else
-                localScale = referenceResolution.x / currentResolution.x;
-            transform.localScale = new Vector3(localScale, localScale, 1f);
+            //Vector2 referenceResolution = CameraCanvas.ReferenceResolution;
+            //float referenceRatio = referenceResolution.x / referenceResolution.y;
+            //Vector2 currentResolution = new Vector2(Screen.width, Screen.height);
+            //float currentRatio = currentResolution.x / currentResolution.y;
+            //float localScale;
+            //if (currentRatio > referenceRatio)
+            //    localScale = referenceResolution.y / currentResolution.y;
+            //else
+            //    localScale = referenceResolution.x / currentResolution.x;
+            //transform.localScale = new Vector3(localScale, localScale, 1f);
         }
 
         public void Hide()
@@ -50,8 +50,8 @@ namespace Game.UI
         {
             Vector2 canvasSize = CameraCanvas.CanvasSize;
             Rect rect = default;
-            rect.xMin = Mathf.LerpUnclamped(-canvasSize.x / 2f, canvasSize.x / 2f, (float)rectAnchor.Left / GameDefined.ScreenWidth);
-            rect.yMin = Mathf.LerpUnclamped(canvasSize.y / 2f, -canvasSize.y / 2f, (float)(rectAnchor.Top + rectAnchor.Height) / GameDefined.ScreenHeight);
+            rect.xMin = Mathf.LerpUnclamped(0f, canvasSize.x, (float)rectAnchor.Left / GameDefined.ScreenWidth);
+            rect.yMin = Mathf.LerpUnclamped(0f, -canvasSize.y, (float)(rectAnchor.Top + rectAnchor.Height) / GameDefined.ScreenHeight);
             rect.width = Mathf.LerpUnclamped(0f, canvasSize.x, (float)rectAnchor.Width / GameDefined.ScreenWidth);
             rect.height = Mathf.LerpUnclamped(0f, canvasSize.y, (float)rectAnchor.Height / GameDefined.ScreenHeight);
 

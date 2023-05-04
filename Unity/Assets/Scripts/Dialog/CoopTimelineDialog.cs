@@ -55,6 +55,8 @@ namespace Game.UI
         private CoopTimeline m_CoopTimeline;
         private Dictionary<Guid, IEventView> m_ViewReference;
 
+        private DrawGizmosDialog m_DrawGizmosDialog;
+
         private void Awake()
         {
             Application.targetFrameRate = 10;
@@ -125,6 +127,15 @@ namespace Game.UI
             m_CoopTimeline.Commander = TableManager.ModelTable.InstantiateModel<CommanderPipeline>("CommanderPipeline_Template");
 
             m_ViewReference = new Dictionary<Guid, IEventView>();
+        }
+
+        private void Start()
+        {
+            if (Global.UserSetting.IsProgrammer)
+            {
+                m_DrawGizmosDialog = CameraCanvas.PushDialog(GameDefined.DrawGizmosDialogPath) as DrawGizmosDialog;
+                m_DrawGizmosDialog.DrawRectAnchor(Global.UserSetting.RectPositions[RectAnchorKey.MapTime]);
+            }
         }
 
         public void Hide()
@@ -229,6 +240,8 @@ namespace Game.UI
         private void OnClickButtonBack()
         {
             LogService.System(nameof(CoopTimelineDialog), nameof(OnClickButtonBack));
+            if (m_DrawGizmosDialog)
+                CameraCanvas.PopDialog(m_DrawGizmosDialog);
             CameraCanvas.PopDialog(this);
             CameraCanvas.PushDialog(GameDefined.MainManuDialog);
         }
