@@ -57,10 +57,11 @@ namespace Game.OCR
                     InitParameters_Request request = new InitParameters_Request(Global.UserSetting.InGameLanguage, 
                                                                                 screenSize: new RectAnchor(0, 0, GameDefined.ScreenWidth, GameDefined.ScreenHeight));
                     (HeadData head, InitParameters_Response package) response = SendRequest_Internal<InitParameters_Response>(ProtocolId.InitParameters, request);
-                    NeedSyncParameters = response.head.StatusCode == ErrorCode.OK && response.package.OcrInitSuccess;
+                    NeedSyncParameters = response.head.StatusCode != ErrorCode.OK || !response.package.OcrInitSuccess;
                     if (NeedSyncParameters)
                     {
                         HeadData head = response.head;
+                        head.StatusCode = ErrorCode.OcrNotInit;
                         head.ProtocolId = protocolId;
                         return (head, default);
                     }
@@ -84,6 +85,7 @@ namespace Game.OCR
                             PackageLength = packageBytes.Length,
                             ProtocolId = protocolId,
                             SequenceId = sequenceId,
+                            StatusCode = ErrorCode.OK,
                         };
                         WriteStructToBytes(head, headBuffer, 0, HeadData.Size);
                         m_NetworkStream.Write(headBuffer, 0, HeadData.Size);

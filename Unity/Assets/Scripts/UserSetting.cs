@@ -62,6 +62,7 @@ namespace Game
                 m_Version = GameDefined.Version;
             int screenWidth = GameDefined.ScreenWidth;
             int screenHeight = GameDefined.ScreenHeight;
+            m_InGameLanguage = "zh-Hans-CN";
             if (!m_RectPositions.ContainsKey(RectAnchorKey.CommanderName))
             {
                 RectAnchor rectAnchor = new RectAnchor();

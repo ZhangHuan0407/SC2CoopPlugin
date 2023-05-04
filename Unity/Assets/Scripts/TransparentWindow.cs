@@ -127,9 +127,9 @@ namespace Game
         {
             if (Input.GetKeyDown(KeyCode.Escape))
             {
-                if (WindowState == WindowState.TopMostAndRaycastIgnore)
-                    SetWindowState(WindowState.HideAllAndRaycastIgnore);
-                else if (WindowState == WindowState.HideAllAndRaycastIgnore)
+                if (WindowState == WindowState.TopMostAndRaycastIgnore ||
+                    WindowState == WindowState.HideAllAndRaycastIgnore)
+                    //SetWindowState(WindowState.HideAllAndRaycastIgnore);
                     SetWindowState(WindowState.TopMostAndBlockRaycast);
                 else if (WindowState == WindowState.TopMostAndBlockRaycast)
                     SetWindowState(WindowState.TopMostAndRaycastIgnore);

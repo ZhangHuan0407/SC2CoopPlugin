@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using Tween;
 using Table;
 using Game.OCR;
+using System.Text.RegularExpressions;
 
 namespace Game.UI
 {
@@ -157,19 +158,64 @@ namespace Game.UI
             {
                 m_LastParseTime = 0f;
                 int seconds = -1;
-                MapTimeParseResult result = MapTimeParseResult.Unknown;
+                //MapTimeParseResult result = MapTimeParseResult.Unknown;
                 RectAnchor rectAnchor = Global.UserSetting.RectPositions[RectAnchorKey.MapTime];
+                bool debug = Global.UserSetting.IsProgrammer;
                 m_MapTimeRecognizeTweener = Global.BackThread.WaitingBackThreadTweener(() =>
                 {
-                    Global.MapTime.UpdateScreenShot();
-                    result = Global.MapTime.TryParse(m_CoopTimeline.Commander.Commander == CommanderName.Mengsk, rectAnchor, out seconds);
-                    if (result == MapTimeParseResult.WellDone)
+                    RecognizeWindowArea_Request.Task[] tasks = new RecognizeWindowArea_Request.Task[1]
+                    {
+                        new RecognizeWindowArea_Request.Task()
+                        {
+                            RectAnchor = rectAnchor,
+                            Tag = "MapTime",
+                        }
+                    };
+                    var task = OCRConnectorA.Instance.SendRequestAsync<RecognizeWindowArea_Response>(ProtocolId.RecognizeWindowArea,
+                                                                                                     new RecognizeWindowArea_Request(tasks, debug));
+                    (HeadData, RecognizeWindowArea_Response) response = task.GetAwaiter().GetResult();
+                    if (response.Item1.StatusCode != ErrorCode.OK)
+                        return;
+                    RecognizeWindowArea_Response.Result[] list = response.Item2.ResultList;
+                    if (list.Length > 0 && list[0].Contents.Length == 1 &&
+                        Regex.IsMatch(list[0].Contents[0], "[0-9\\.:,]{3,}"))
+                    {
+                        HaveSyncMapTime = true;
+                        string content = list[0].Contents[0].Replace(".", "").Replace(":", "").Replace(",", "");
+                        int value = int.Parse(content);
+                        List<int> numberSymbols = new List<int>();
+                        while (value > 0)
+                        {
+                            numberSymbols.Add(value % 10);
+                            value /= 10;
+                        }
+                        seconds = 0;
+                        int baseValue = 1;
+                        for (int i = 0; i < numberSymbols.Count; i += 2)
+                        {
+                            int numberSymbolA = numberSymbols[i];
+                            int numberSymbolB = 0;
+                            if (i + 1 < numberSymbols.Count)
+                            {
+                                numberSymbolB = numberSymbols[i + 1];
+                                if (numberSymbolB >= 7)
+                                    seconds = int.MinValue;
+                            }
+
+                            seconds += baseValue * (numberSymbolA + numberSymbolB * 10);
+                            baseValue *= 60;
+                        }
+                    }
+                    //Global.MapTime.UpdateScreenShot();
+                    //result = Global.MapTime.TryParse(m_CoopTimeline.Commander.Commander == CommanderName.Mengsk, rectAnchor, out seconds);
+                    if (seconds >= 0)
                     {
                         HaveSyncMapTime = true;
                         if (Mathf.Abs(m_MapTimeSeconds - seconds) > 0.5f)
                             m_MapTimeSeconds = seconds;
                     }
-                    Color color = result == MapTimeParseResult.WellDone ? Color.green : Color.red;
+                    //Color color = result == MapTimeParseResult.WellDone ? Color.green : Color.red;
+                    Color color = seconds >= 0 ? new Color(0.3f, 1f, 0.3f) : new Color(0.9f, 0.3f, 0.3f);
                     Global.BackThread.RunInMainThread(() =>
                     {
                         m_DebugText.color = color;
