@@ -23,6 +23,17 @@ namespace Game.UI
         {
             m_Group = new List<Image>();
             m_LineImage.gameObject.SetActive(false);
+
+            Vector2 referenceResolution = CameraCanvas.ReferenceResolution;
+            float referenceRatio = referenceResolution.x / referenceResolution.y;
+            Vector2 currentResolution = new Vector2(Screen.width, Screen.height);
+            float currentRatio = currentResolution.x / currentResolution.y;
+            float localScale;
+            if (currentRatio > referenceRatio)
+                localScale = referenceResolution.y / currentResolution.y;
+            else
+                localScale = referenceResolution.x / currentResolution.x;
+            transform.localScale = new Vector3(localScale, localScale, 1f);
         }
 
         public void Hide()
