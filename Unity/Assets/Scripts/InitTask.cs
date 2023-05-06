@@ -11,6 +11,8 @@ using Stopwatch = System.Diagnostics.Stopwatch;
 using Game.OCR;
 using UnityEditor;
 using Tween;
+using Process = System.Diagnostics.Process;
+using System.Security.Cryptography;
 
 namespace Game
 {
@@ -129,8 +131,61 @@ namespace Game
             yield return null;
             Game.UI.CameraCanvas.PushDialog(GameDefined.MainManuDialog);
 
+            CheckStarCraftProcess(1f);
+
             Debug.Log($"Finish init task {stopwatch.ElapsedMilliseconds} ms");
             Destroy(gameObject);
+        }
+
+        private static void CheckStarCraftProcess(float waitTime)
+        {
+            TimeTween.DoTime(waitTime)
+                .OnComplete(() =>
+                {
+                    if (Global.StarCraftProcess == null || Global.StarCraftProcess.HasExited)
+                    {
+                        Global.StarCraftProcess?.Dispose();
+                        Global.StarCraftProcess = null;
+                    }
+                    CheckStarCraftProcess(Global.StarCraftProcess == null ? 5f : 30f);
+                    if (Global.StarCraftProcess == null)
+                    {
+                        Process[] processList = null;
+                        try
+                        {
+                            processList = Process.GetProcesses();
+                            for (int i = 0; i < processList.Length; i++)
+                            {
+                                if (string.Equals("SC2_x64", processList[i].ProcessName, StringComparison.OrdinalIgnoreCase))
+                                {
+                                    Global.StarCraftProcess = processList[i];
+                                    break;
+                                }
+                                else if (string.Equals("SC2", processList[i].ProcessName, StringComparison.OrdinalIgnoreCase))
+                                {
+                                    Global.StarCraftProcess = processList[i];
+                                    break;
+                                }
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            Debug.LogException(e);
+                        }
+                        finally
+                        {
+                            if (processList != null)
+                            {
+                                for (int i = 0; i < processList.Length; i++)
+                                {
+                                    if (processList[i] != Global.StarCraftProcess)
+                                        processList[i].Dispose();
+                                }
+                            }
+                        }
+                    }
+                })
+                .DoIt();
         }
     }
 }
