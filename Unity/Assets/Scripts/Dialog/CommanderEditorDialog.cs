@@ -331,12 +331,12 @@ namespace Game.UI
         private void OnClickHowToShareButtonButton()
         {
             LogService.System(nameof(OnClickHowToShareButtonButton), string.Empty);
-            Application.OpenURL(GameDefined.HowToShareWebPage);
+            Application.OpenURL(GameDefined.ShareCommanderPipelineChineseWiki);
         }
         private void OnClickHowToUseButtonButton()
         {
             LogService.System(nameof(OnClickHowToUseButtonButton), string.Empty);
-            Application.OpenURL(GameDefined.HowToUseWebPage);
+            Application.OpenURL(GameDefined.CommanderEditorChineseWiki);
         }
         #endregion
     }

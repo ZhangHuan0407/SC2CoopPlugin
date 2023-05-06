@@ -46,10 +46,10 @@ namespace Game
         public const string MaxClentVersionKey = "MaxClentVersion";
         public const string LastUpdateCheckKey = "LastUpdateCheck";
         public const string CommanderPreferenceLanguage = "CommanderPreferenceLanguage";
-        public const string ClientNewVersionWebPage = "";
+        public const string ClientNewVersionWebPage = "https://gitcode.net/qq_34919016/sc2coopplugin-resource/-/releases/";
 
-        public const string HowToShareWebPage = "";
-        public const string HowToUseWebPage = "";
+        public const string ShareCommanderPipelineChineseWiki = "https://gitcode.net/qq_34919016/sc2coopplugin-resource/-/wikis/Chinese/ShareCommanderPipeline";
+        public const string CommanderEditorChineseWiki = "https://gitcode.net/qq_34919016/sc2coopplugin-resource/-/wikis/Chinese/CommanderEditor";
 
         public static void CallFromLoadingThread()
         {
