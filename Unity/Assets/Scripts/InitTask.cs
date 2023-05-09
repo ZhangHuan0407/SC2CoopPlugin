@@ -75,6 +75,9 @@ namespace Game
             };
 #endif
 
+#if UNITY_EDITOR
+            DownloadResourceEditor.CopySubmodule();
+#endif
             Global.ResourceRepositoryConfig = new RepositoryConfig(GameDefined.RemoteResourceRepository, GameDefined.LocalResourceDirectory);
             if (!Directory.Exists(GameDefined.LocalResourceDirectory))
             {

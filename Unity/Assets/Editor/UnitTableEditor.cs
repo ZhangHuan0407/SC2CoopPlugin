@@ -26,11 +26,9 @@ namespace Game.Editor
         private static Dictionary<string, Texture> m_UnitTextureCache = new Dictionary<string, Texture>();
         private static List<string> m_TryLoadList = new List<string>();
 
-        private UnitTable m_UnitTable;
-        public UnitTable UnitTable => m_UnitTable;
+        public UnitTable UnitTable => EditorTableManager.UnitTable;
 
         private int m_SaveDelay;
-        private string m_UnitTablePath;
 
         private string m_SearchText;
         private CommanderName m_FilterCommander;
@@ -56,15 +54,10 @@ namespace Game.Editor
 
         private void OnEnable()
         {
-            for (int i = 0; i < GameDefined.JSONSerializedRegisterTypes.Length; i++)
-                JSONMap.RegisterType(GameDefined.JSONSerializedRegisterTypes[i]);
+            EditorTableManager.Refresh();
 
             titleContent = new GUIContent("Unit Table Edit");
             minSize = new Vector2(550f, 400f);
-
-            m_UnitTablePath = $"{GameDefined.ResourceSubmoduleDirectory}/Tables/UnitTable.json";
-            string content = File.ReadAllText(m_UnitTablePath);
-            m_UnitTable = JSONMap.ParseJSON<UnitTable>(JSONObject.Create(content));
 
             m_SaveDelay = -1;
             m_SearchText = string.Empty;
@@ -72,10 +65,7 @@ namespace Game.Editor
             m_InShowList = new List<UnitTableEntryWrapper>();
             m_UnfoldSet = new HashSet<int>();
             m_ScrollPosition = Vector2.zero;
-            if (m_UnitTable != null)
-            {
-                FilterTable();
-            }
+            FilterTable();
         }
 
         private void OnInspectorUpdate()
@@ -97,13 +87,6 @@ namespace Game.Editor
         }
         private void OnGUI()
         {
-            GUILayout.BeginHorizontal();
-            GUILayout.Label("UnitTablePath");
-            GUILayout.Label(m_UnitTablePath);
-            GUILayout.FlexibleSpace();
-            GUILayout.EndHorizontal();
-            GUILayout.Space(15f);
-
             // Tool
             GUILayout.BeginHorizontal();
             GUILayout.Label("Regex", GUILayout.Width(80f));
@@ -128,9 +111,9 @@ namespace Game.Editor
                 SaveUnitTable();
                 m_SaveDelay = -1;
             }
+            GUILayout.EndHorizontal();
 
             // Unit Table Head
-            GUILayout.EndHorizontal();
             GUILayout.BeginHorizontal();
             if (GUILayout.Button("Lock", GUILayout.Width(38f)))
                 EditorApplication.delayCall += () =>
@@ -197,6 +180,7 @@ namespace Game.Editor
                         m_SelectedUnitSet.Remove(entry.ID);
                 };
             }
+            int hashCode = entry.GetHashCode();
             if (m_UnfoldSet.Contains(entry.ID))
             {
                 if (GUILayout.Button(entry.ID.ToString(), GUILayout.Width(80f)))
@@ -238,7 +222,6 @@ namespace Game.Editor
             GUILayout.EndHorizontal();
             if (!m_UnfoldSet.Contains(entry.ID))
                 return;
-            int hashCode = entry.GetHashCode();
             GUILayout.BeginHorizontal();
             GUILayout.Space(20f);
             //GUILayout.Label("Name", GUILayout.MinWidth(80f));
@@ -327,7 +310,7 @@ namespace Game.Editor
                 PrintGuardList(entry);
             }
 
-            if (entry.GetHashCode() != hashCode)
+            if (m_SaveDelay < 0 && entry.GetHashCode() != hashCode)
                 m_SaveDelay = 200;
         }
         private void PrintWeaponList(UnitTableEntryWrapper entry)
@@ -414,14 +397,14 @@ namespace Game.Editor
             do
             {
                 randomID = UnityEngine.Random.Range(1, int.MaxValue);
-            } while (m_UnitTable.Data.ContainsKey(randomID));
+            } while (UnitTable.Data.ContainsKey(randomID));
             UnitTableEntryWrapper entry = new UnitTableEntryWrapper()
             {
                 ID = randomID,
                 Annotation = m_NewEntryAnnotation,
             };
             JSONObject @object = JSONMap.ToJSON(entry);
-            m_UnitTable.InsertEntry_Editor(JSONMap.ParseJSON<UnitTable.Entry>(@object));
+            UnitTable.OverrideEntry_Editor(JSONMap.ParseJSON<UnitTable.Entry>(@object));
             m_NewEntryAnnotation = string.Empty;
             m_SelectedUnitSet.Add(entry.ID);
             m_InShowList.Add(entry);
@@ -432,8 +415,8 @@ namespace Game.Editor
             do
             {
                 randomID = UnityEngine.Random.Range(1, int.MaxValue);
-            } while (m_UnitTable.Data.ContainsKey(randomID));
-            UnitTable.Entry entry = m_InShowList.FirstOrDefault(e => e.ID == m_NewEntryCopyID) ?? m_UnitTable.Data[m_NewEntryCopyID];
+            } while (UnitTable.Data.ContainsKey(randomID));
+            UnitTable.Entry entry = m_InShowList.FirstOrDefault(e => e.ID == m_NewEntryCopyID) ?? UnitTable.Data[m_NewEntryCopyID];
             if (entry is null)
                 Debug.LogError("not found " + m_NewEntryCopyID);
             UnitTableEntryWrapper newEntry = JSONMap.ParseJSON<UnitTableEntryWrapper>(JSONMap.ToJSON(entry));
@@ -446,7 +429,7 @@ namespace Game.Editor
         {
             HashSet<int> idSet = new HashSet<int>();
             m_InShowList.Clear();
-            UnitTable.Entry[] entries = m_UnitTable.Data.Values.OrderBy(entry => entry.ID).ToArray();
+            UnitTable.Entry[] entries = UnitTable.Data.Values.OrderBy(entry => entry.ID).ToArray();
             for (int i = 0; i < entries.Length; i++)
             {
                 UnitTable.Entry entry = entries[i];
@@ -482,7 +465,7 @@ namespace Game.Editor
             }
             foreach (int id in idSet)
             {
-                UnitTable.Entry entry = m_UnitTable.Data[id];
+                UnitTable.Entry entry = UnitTable.Data[id];
                 JSONObject @object = JSONMap.ToJSON(entry);
                 m_InShowList.Add(JSONMap.ParseJSON<UnitTableEntryWrapper>(@object));
                 if (m_InShowList.Count > 150)
@@ -497,25 +480,17 @@ namespace Game.Editor
             {
                 JSONObject @object = JSONMap.ToJSON(m_InShowList[i]);
                 UnitTable.Entry entry = JSONMap.ParseJSON<UnitTable.Entry>(@object);
-                m_UnitTable.InsertEntry_Editor(entry);
+                UnitTable.OverrideEntry_Editor(entry);
             }
         }
         private void SaveUnitTable()
         {
             OverrideTable();
-            if (string.IsNullOrWhiteSpace(m_UnitTablePath))
-            {
-                Debug.LogError("Save failed");
-                return;
-            }
-            JSONObject @table = JSONMap.ToJSON(m_UnitTable);
+            JSONObject @table = JSONMap.ToJSON(UnitTable);
             for (int i = 0; i < @table.list.Count; i++)
                 @table.list[i].Bake(true);
             string content = @table.ToString(true);
-            File.WriteAllText(m_UnitTablePath, content);
-            string localUnitTablePath = $"{GameDefined.LocalResourceDirectory}/Tables/UnitTable.json";
-            Directory.CreateDirectory(Path.GetDirectoryName(localUnitTablePath));
-            File.Copy(m_UnitTablePath, localUnitTablePath, true);
+            EditorTableManager.SaveTable<UnitTable>(@table);
         }
     }
 }

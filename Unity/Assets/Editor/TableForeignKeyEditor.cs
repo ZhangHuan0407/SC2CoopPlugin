@@ -9,33 +9,10 @@ namespace Game.Editor
 {
     public static class TableForeignKeyEditor
     {
-        private static AttackWaveTable m_AttackWaveTable;
-        private static MasteriesTable m_MasteriesTable;
-        private static PrestigeTable m_PrestigeTable;
-        private static UnitTable m_UnitTable;
-        private static TechnologyTable m_TechnologyTable;
-
-        private static void LoadInnerTables()
-        {
-            for (int i = 0; i < GameDefined.JSONSerializedRegisterTypes.Length; i++)
-                JSONMap.RegisterType(GameDefined.JSONSerializedRegisterTypes[i]);
-
-            m_AttackWaveTable = LoadTable<AttackWaveTable>("AttackWaveTable.json");
-            m_MasteriesTable = LoadTable<MasteriesTable>("MasteriesTable.json");
-            m_PrestigeTable = LoadTable<PrestigeTable>("PrestigeTable.json");
-            m_UnitTable = LoadTable<UnitTable>("UnitTable.json");
-            m_TechnologyTable = LoadTable<TechnologyTable>("TechnologyTable.json");
-
-            T LoadTable<T>(string tableName)
-            {
-                string content = File.ReadAllText($"{GameDefined.ResourceSubmoduleDirectory}/Tables/{tableName}");
-                return JSONMap.ParseJSON<T>(JSONObject.Create(content));
-            }
-        }
         [MenuItem("Tools/Merge StringID")]
         public static void MergeStringID()
         {
-            LoadInnerTables();
+            EditorTableManager.Refresh();
             HashSet<string> stringIDSet = new HashSet<string>();
             AppendEnum<AmonAIName>();
             AppendEnum<CommanderName>();
@@ -44,7 +21,7 @@ namespace Game.Editor
             AppendEnum<SystemLanguage>();
             AppendEnum<UnitLabel>();
 
-            foreach (MasteriesTable.Entry[] entries in m_MasteriesTable.Data.Values)
+            foreach (MasteriesTable.Entry[] entries in EditorTableManager.MasteriesTable.Data.Values)
             {
                 for (int i = 0; i < entries.Length; i++)
                 {
@@ -54,7 +31,7 @@ namespace Game.Editor
                 }
             }
 
-            foreach (PrestigeTable.Entry[] entries in m_PrestigeTable.Data.Values)
+            foreach (PrestigeTable.Entry[] entries in EditorTableManager.PrestigeTable.Data.Values)
             {
                 for (int i = 0; i < entries.Length; i++)
                 {
@@ -64,15 +41,15 @@ namespace Game.Editor
                 }
             }
 
-            foreach (UnitTable.Entry entry in m_UnitTable.Data.Values)
+            foreach (UnitTable.Entry entry in EditorTableManager.UnitTable.Data.Values)
             {
                 stringIDSet.Add(entry.Name.Key);
             }
 
-            foreach (TechnologyTable.Entry entry in m_TechnologyTable.Data.Values)
+            foreach (TechnologyTable.Entry entry in EditorTableManager.TechnologyTable.Data.Values)
             {
                 stringIDSet.Add(entry.Name.Key);
-                stringIDSet.Add(entry.Describe.Key);
+                //stringIDSet.Add(entry.Describe.Key);
             }
 
             foreach (string line in File.ReadAllLines("Assets/Editor/UI.StringID.txt"))
@@ -167,60 +144,5 @@ namespace Game.Editor
             string content = JSONMap.ToJSON(table).ToString(false);
             Debug.Log(content);
         }
-
-        //[MenuItem("Tools/Unused/Fix Table")]
-        //public static void Fix()
-        //{
-        //    LoadInnerTables();
-        //    Dictionary<string, string> fixMap = new Dictionary<string, string>();
-        //    foreach (UnitTable.Entry entry in m_UnitTable.Data.Values)
-        //    {
-        //        string before, after;
-        //        if (entry.Label.HasFlag(UnitLabel.Building))
-        //        {
-        //            var a = entry.Name;
-        //            before = a.Key;
-        //            a.Key = $"Building.{a.Key}";
-        //            after = a.Key;
-        //            entry.Name = a;
-        //        }
-        //        else
-        //        {
-        //            var a = entry.Name;
-        //            before = a.Key;
-        //            a.Key = $"Unit.{a.Key}";
-        //            after = a.Key;
-        //            entry.Name = a;
-        //        }
-        //        fixMap[before] = after;
-        //    }
-
-        //    JSONObject @table = JSONMap.ToJSON(m_UnitTable);
-        //    for (int i = 0; i < @table.list.Count; i++)
-        //        @table.list[i].Bake(true);
-        //    string content = @table.ToString(true);
-        //    File.WriteAllText($"{GameDefined.ResourceSubmoduleDirectory}/Tables/UnitTable.json", content);
-
-        //    string submoduleLocalizationDirectory = $"{GameDefined.ResourceSubmoduleDirectory}/Localization";
-        //    foreach (string filePath in Directory.GetFiles(submoduleLocalizationDirectory, "*.json"))
-        //    {
-        //        string languageName = Path.GetFileNameWithoutExtension(filePath);
-        //        if (!Enum.TryParse<SystemLanguage>(languageName, out SystemLanguage language))
-        //            continue;
-        //        JSONObject @object = JSONObject.Create(File.ReadAllText(filePath));
-        //        SortedDictionary<string, JSONObject> sortedDictionary = new SortedDictionary<string, JSONObject>(@object.dictionary);
-        //        foreach (var pair in fixMap)
-        //        {
-        //            if (sortedDictionary.ContainsKey(pair.Key))
-        //            {
-        //                JSONObject str = sortedDictionary[pair.Key];
-        //                sortedDictionary.Remove(pair.Key);
-        //                sortedDictionary[pair.Value] = str;
-        //            }
-        //        }
-        //        @object.dictionary = new Dictionary<string, JSONObject>(sortedDictionary);
-        //        File.WriteAllText(filePath, @object.ToString(true));
-        //    }
-        //}
     }
 }

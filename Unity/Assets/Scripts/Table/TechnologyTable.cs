@@ -14,8 +14,8 @@ namespace Table
         public class Entry
         {
             [SerializeField]
-            private string m_ID;
-            public string ID
+            protected int m_ID;
+            public int ID
             {
                 get => m_ID;
                 private set => m_ID = value;
@@ -30,15 +30,15 @@ namespace Table
             }
 
             [SerializeField]
-            protected StringID m_Describe;
-            public StringID Describe
+            protected string m_Annotation;
+            public string Annotation
             {
-                get => m_Describe;
-                private set => m_Describe = value;
+                get => m_Annotation;
+                private set => m_Annotation = value;
             }
 
             [SerializeField]
-            private int m_Unit0;
+            protected int m_Unit0;
             public int Unit0
             {
                 get => m_Unit0;
@@ -46,7 +46,7 @@ namespace Table
             }
 
             [SerializeField]
-            private int m_Unit1;
+            protected int m_Unit1;
             public int Unit1
             {
                 get => m_Unit1;
@@ -54,7 +54,7 @@ namespace Table
             }
 
             [SerializeField]
-            private CommanderName m_Commander;
+            protected CommanderName m_Commander;
             public CommanderName Commander
             {
                 get => m_Commander;
@@ -62,7 +62,7 @@ namespace Table
             }
 
             [SerializeField]
-            private int m_Duration;
+            protected int m_Duration;
             public int Duration
             {
                 get => m_Duration;
@@ -70,7 +70,7 @@ namespace Table
             }
 
             [SerializeField]
-            private int m_UnlockLevel;
+            protected int m_UnlockLevel;
             public int UnlockLevel
             {
                 get => m_UnlockLevel;
@@ -78,7 +78,7 @@ namespace Table
             }
 
             [SerializeField]
-            private int m_CrystalCost;
+            protected int m_CrystalCost;
             public int CrystalCost
             {
                 get => m_CrystalCost;
@@ -86,22 +86,34 @@ namespace Table
             }
 
             [SerializeField]
-            private int m_GasCost;
+            protected int m_GasCost;
             public int GasCost
             {
                 get => m_GasCost;
                 private set => m_GasCost = value;
             }
+
+            [SerializeField]
+            protected string m_Texture;
+            public string Texture
+            {
+                get => m_Texture;
+                private set => m_Texture = value;
+            }
         }
 
         [SerializeField]
-        private Dictionary<string, Entry> m_Data;
-        public IReadOnlyDictionary<string, Entry> Data => m_Data;
+        private Dictionary<int, Entry> m_Data;
+        public IReadOnlyDictionary<int, Entry> Data => m_Data;
 
         public TechnologyTable()
         {
-            m_Data = new Dictionary<string, Entry>();
+            m_Data = new Dictionary<int, Entry>();
         }
+
+#if UNITY_EDITOR
+        public void OverrideEntry_Editor(Entry entry) => m_Data[entry.ID] = entry;
+#endif
 
         #region Serialized
         public static JSONObject ToJSON(object instance)

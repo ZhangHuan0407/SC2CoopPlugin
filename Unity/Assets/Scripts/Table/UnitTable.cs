@@ -215,7 +215,7 @@ namespace Table
         }
 
 #if UNITY_EDITOR
-        public void InsertEntry_Editor(Entry entry) => m_Data[entry.ID] = entry;
+        public void OverrideEntry_Editor(Entry entry) => m_Data[entry.ID] = entry;
 #endif
 
         #region Serialized
