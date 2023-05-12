@@ -39,7 +39,7 @@ namespace Game.UI
                     if (entry != null)
                         m_Icon[i].sprite = entry.LoadTexture();
                     else
-                        m_Icon[i].sprite = Resources.Load<Sprite>("Textures/Unknown");
+                        m_Icon[i].sprite = ResourcesInterface.Load<Sprite>("Textures/Unknown");
                 }
                 else
                 {

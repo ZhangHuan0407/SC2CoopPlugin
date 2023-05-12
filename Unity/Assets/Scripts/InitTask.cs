@@ -102,6 +102,8 @@ namespace Game
                 tweener.DoIt();
             }
 
+            ResourcesInterface.Init();
+
 #if !UNITY_EDITOR
             if (Directory.Exists(GameDefined.TempDirectory))
                 Directory.Delete(GameDefined.TempDirectory, true);

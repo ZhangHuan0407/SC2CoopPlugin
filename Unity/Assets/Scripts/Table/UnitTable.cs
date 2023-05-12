@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using Game;
 using UnityEngine;
 
 namespace Table
@@ -192,7 +193,7 @@ namespace Table
             {
                 if (string.IsNullOrWhiteSpace(Texture))
                     return null;
-                return Resources.Load<Sprite>($"Textures/{Texture}");
+                return ResourcesInterface.Load<Sprite>($"Textures/{Texture}");
             }
         }
 
