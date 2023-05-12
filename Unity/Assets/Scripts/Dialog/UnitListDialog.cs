@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Table;
-using System.Text.RegularExpressions;
 
 namespace Game.UI
 {
@@ -85,8 +84,8 @@ namespace Game.UI
             {
                 m_OKButton.interactable = false;
                 m_UnitLabel.text = string.Empty;
-                StopCoroutine(nameof(DelayFilter));
-                StartCoroutine(nameof(DelayFilter), 0.1f);
+                StopCoroutine(nameof(RebuildList));
+                StartCoroutine(nameof(RebuildList));
             });
             m_UnitTemplate.gameObject.SetActive(false);
             m_UnitLabel.text = string.Empty;
@@ -107,15 +106,13 @@ namespace Game.UI
             CameraCanvas.PopDialog(this);
         }
 
-        private IEnumerator DelayFilter(float delay)
+        private IEnumerator RebuildList()
         {
-            yield return new WaitForSeconds(delay);
+            yield return new WaitForEndOfFrame();
             foreach (Transform childTrans in m_ContentTrans)
             {
-                childTrans.SetParent(null, false);
                 UnityEngine.Object.Destroy(childTrans.gameObject);
             }
-            yield return new WaitForEndOfFrame();
             string commanderKey = m_CommanderOptions[m_CommanderDropdown.value];
             CommanderName? commanderName = StrToCommander[commanderKey];
             //string regexStr = m_UnitRegexInput.text;
@@ -144,9 +141,14 @@ namespace Game.UI
                     m_UnitLabel.text = $"{entry.ID}, {entry.Name.Localization}";
                     m_OKButton.interactable = true;
                 });
-                if (i % 100 == 99)
+                if (i % 50 == 49)
                     yield return null;
             }
+        }
+
+        private void OnDestroy()
+        {
+            Resources.UnloadUnusedAssets();
         }
     }
 }
