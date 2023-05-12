@@ -42,6 +42,7 @@ namespace Game
         public const string TestDialog = "Dialogs/TestDialog";
         public const string UpdateResourceDialog = "Dialogs/UpdateResourceDialog";
         public const string UnitListDialog = "Dialogs/UnitListDialog";
+        public const string TechnologyListDialog = "Dialogs/TechnologyListDialog";
 
         public const string MaxClentVersionKey = "MaxClentVersion";
         public const string LastUpdateCheckKey = "LastUpdateCheck";

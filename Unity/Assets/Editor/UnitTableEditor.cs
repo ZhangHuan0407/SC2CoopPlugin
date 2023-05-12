@@ -42,7 +42,7 @@ namespace Game.Editor
         private string m_NewEntryAnnotation;
         private int m_NewEntryCopyID;
 
-        [MenuItem("Tools/Unit Table Edit")]
+        [MenuItem("Tools/Unit Table Edit", priority = 41)]
         public static UnitTableWindow OpenWindow()
         {
             UnitTableWindow editorWindow = GetWindow<UnitTableWindow>();

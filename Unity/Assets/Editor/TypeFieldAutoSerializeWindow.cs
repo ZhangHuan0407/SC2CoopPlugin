@@ -301,7 +301,7 @@ namespace Game.Editor
         private int m_OptionIsDirty;
 
         /* ctor */
-        [MenuItem("Tools/Type Field Auto Serialize")]
+        [MenuItem("Tools/Type Field Auto Serialize", priority = 20)]
         public static TypeFieldAutoSerializeWindow OpenWindow()
         {
             TypeFieldAutoSerializeWindow editorWindow = GetWindow<TypeFieldAutoSerializeWindow>();

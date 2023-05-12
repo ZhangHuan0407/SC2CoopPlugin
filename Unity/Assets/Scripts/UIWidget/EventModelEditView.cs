@@ -42,16 +42,25 @@ namespace Game.UI
         [SerializeField]
         private InputField m_EndTimeInput;
 
-        [Header("Unit")]
+        [Header("TextureList")]
         [SerializeField]
         private Transform m_UnitTrans;
         [SerializeField]
         private Button[] m_UnitButtonList;
 
+        [Header("Technology")]
+        [SerializeField]
+        private Transform m_TechnologyTrans;
+        [SerializeField]
+        private Button[] m_TechnologyButtonList;
+
         private void Awake()
         {
             m_EventModelType.ClearOptions();
-            m_EventModelType.options.Add(new Dropdown.OptionData(nameof(PlayerOperatorEventModel)));
+            m_EventModelType.options.Add(new Dropdown.OptionData("Unit"));
+            m_EventModelType.options.Add(new Dropdown.OptionData("Technology"));
+            m_EventModelType.onValueChanged.AddListener(OnEventModelType_ValueChanged);
+
             m_DeleteButton.onClick.AddListener(EventModel_Delete);
             m_CopyButton.onClick.AddListener(EventModel_Copy);
             m_UpButton.onClick.AddListener(EventModel_Up);
@@ -68,6 +77,13 @@ namespace Game.UI
                 int index = i;
                 m_UnitButtonList[i].onClick.AddListener(() => OnClickUnitButton(index));
             }
+
+            m_TechnologyTrans.gameObject.SetActive(false);
+            for (int i = 0; i < m_TechnologyButtonList.Length; i++)
+            {
+                int index = i;
+                m_TechnologyButtonList[i].onClick.AddListener(() => OnClickTechnologyButton(index));
+            }
         }
 
         public void SetCommanderModel(CommanderPipeline pipeline, IEventModel eventModel)
@@ -83,7 +99,9 @@ namespace Game.UI
             m_EndTimeInput.SetTextWithoutNotify(eventModel.EndTime.ToString());
             if (eventModel is PlayerOperatorEventModel playerOperatorEventModel)
             {
+                m_EventModelType.SetValueWithoutNotify(0);
                 m_UnitTrans.gameObject.SetActive(true);
+                m_TechnologyTrans.gameObject.SetActive(false);
                 for (int i = 0; i < m_UnitButtonList.Length; i++)
                 {
                     Button button = m_UnitButtonList[i];
@@ -92,16 +110,35 @@ namespace Game.UI
                         (button.targetGraphic as Image).sprite = entry.LoadTexture();
                     else
                     {
-                        (button.targetGraphic as Image).sprite = Resources.Load<Sprite>("Textures/plus");
+                        (button.targetGraphic as Image).sprite = ResourcesInterface.Load<Sprite>("Textures/plus");
                         // 自定义或高版本不兼容数据
                         if (i < playerOperatorEventModel.UnitIDList.Length)
                             playerOperatorEventModel.UnitIDList[i] = 0;
                     }
                 }
             }
+            else if (eventModel is PlayerTechnologyEventModel playerTechnologyEventModel)
+            {
+                m_EventModelType.SetValueWithoutNotify(1);
+                m_UnitTrans.gameObject.SetActive(false);
+                m_TechnologyTrans.gameObject.SetActive(true);
+                for (int i = 0; i < m_TechnologyButtonList.Length; i++)
+                {
+                    Button button = m_TechnologyButtonList[i];
+                    if (TableManager.TechnologyTable[playerTechnologyEventModel.TechnologyID] is TechnologyTable.Entry entry)
+                        (button.targetGraphic as Image).sprite = entry.LoadTexture();
+                    else
+                    {
+                        (button.targetGraphic as Image).sprite = ResourcesInterface.Load<Sprite>("Textures/plus");
+                        // 自定义或高版本不兼容数据
+                        playerTechnologyEventModel.TechnologyID = 0;
+                    }
+                }
+            }
             else
             {
                 m_UnitTrans.gameObject.SetActive(false);
+                m_TechnologyTrans.gameObject.SetActive(false);
             }
         }
 
@@ -214,6 +251,14 @@ namespace Game.UI
             CommanderContentDialog.Redo();
         }
 
+        private void OnEventModelType_ValueChanged(int index)
+        {
+            int dataIndex = transform.GetSiblingIndex();
+            LogService.System(nameof(OnStartTime_ValueChanged), $"dataIndex: {dataIndex}, guid: {m_Guid}");
+            IEventModel eventModel = m_CommanderPipeline.EventModels.First(m => m.Guid == m_Guid);
+            return;
+        }
+
         private void OnStartTime_ValueChanged(string input)
         {
             int dataIndex = transform.GetSiblingIndex();
@@ -285,6 +330,70 @@ namespace Game.UI
                                                     view.m_EndTimeInput.text = oldValue.ToString();
                                                 });
             CommanderContentDialog.Redo();
+        }
+
+        private void OnClickTechnologyButton(int index)
+        {
+            TechnologyListDialog technologyListDialog = CameraCanvas.PushDialog(GameDefined.TechnologyListDialog) as TechnologyListDialog;
+            int dataIndex = transform.GetSiblingIndex();
+            int[] newTechnologyID = new int[1];
+            Tweener tweener = LogicTween.WaitUntil(() => technologyListDialog.DestroyFlag);
+            tweener.OnComplete(() =>
+                    {
+                        if (technologyListDialog.DialogResult == DialogResult.OK &&
+                            this &&
+                            CommanderContentDialog)
+                            newTechnologyID[0] = technologyListDialog.TechnologyID;
+                        else
+                            tweener.FromHeadToEndIfNeedStop(out _);
+                    });
+            tweener = tweener.Then(LogicTween.AppendCallback(() =>
+            {
+                IEventModel eventModel = m_CommanderPipeline.EventModels.First(m => m.Guid == m_Guid);
+                int[] oldTechnologyID = new int[1];
+                if (eventModel is PlayerTechnologyEventModel playerTechnologyEventModel)
+                {
+                    oldTechnologyID[0] = playerTechnologyEventModel.TechnologyID;
+                }
+                CommanderContentDialog.AppendRecord(nameof(OnClickTechnologyButton),
+                                                    (dialog) =>
+                                                    {
+                                                        OnClickTechnologyButton_Redo(dialog, dataIndex, index, newTechnologyID);
+                                                    },
+                                                    (dialog) =>
+                                                    {
+                                                        OnClickTechnologyButton_Undo(dialog, dataIndex, index, oldTechnologyID);
+                                                    });
+                CommanderContentDialog.Redo();
+            }));
+            tweener.DoIt();
+        }
+        private static void OnClickTechnologyButton_Redo(CommanderContentDialog dialog, int dataIndex, int index, int[] newTechnologyID)
+        {
+            IEventModel eventModel = dialog.CommanderPipeline.EventModels[dataIndex];
+            if (eventModel is PlayerTechnologyEventModel playerTechnologyEventModel)
+            {
+                playerTechnologyEventModel.TechnologyID = newTechnologyID[0];
+            }
+            UnitTable.Entry unitEntry = TableManager.UnitTable[newTechnologyID[0]];
+            EventModelEditView view = dialog.EventModelsRectTrans.GetChild(dataIndex).GetComponent<EventModelEditView>();
+            (view.m_UnitButtonList[index].targetGraphic as Image).sprite = unitEntry.LoadTexture();
+        }
+        private static void OnClickTechnologyButton_Undo(CommanderContentDialog dialog, int dataIndex, int index, int[] oldTechnologyID)
+        {
+            IEventModel eventModel = dialog.CommanderPipeline.EventModels[dataIndex];
+            if (eventModel is PlayerTechnologyEventModel playerTechnologyEventModel)
+            {
+                playerTechnologyEventModel.TechnologyID = oldTechnologyID[0];
+            }
+            Sprite technologySprite;
+            if (oldTechnologyID[0] != 0 &&
+                TableManager.TechnologyTable[oldTechnologyID[0]] is TechnologyTable.Entry technologyEntry)
+                technologySprite = technologyEntry.LoadTexture();
+            else
+                technologySprite = ResourcesInterface.Load<Sprite>("Textures/plus");
+            EventModelEditView view = dialog.EventModelsRectTrans.GetChild(dataIndex).GetComponent<EventModelEditView>();
+            (view.m_TechnologyButtonList[index].targetGraphic as Image).sprite = technologySprite;
         }
 
         private void OnClickUnitButton(int index)
@@ -360,7 +469,7 @@ namespace Game.UI
                 TableManager.UnitTable[oldUnitID[0]] is UnitTable.Entry unitEntry)
                 unitSprite = unitEntry.LoadTexture();
             else
-                unitSprite = Resources.Load<Sprite>("Textures/plus");
+                unitSprite = ResourcesInterface.Load<Sprite>("Textures/plus");
             EventModelEditView view = dialog.EventModelsRectTrans.GetChild(dataIndex).GetComponent<EventModelEditView>();
             (view.m_UnitButtonList[index].targetGraphic as Image).sprite = unitSprite;
         }

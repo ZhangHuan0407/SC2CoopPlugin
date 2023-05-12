@@ -9,7 +9,7 @@ namespace Game.Editor
 {
     public static class TableForeignKeyEditor
     {
-        [MenuItem("Tools/Merge StringID")]
+        [MenuItem("Tools/Merge StringID", priority = 40)]
         public static void MergeStringID()
         {
             EditorTableManager.Refresh();

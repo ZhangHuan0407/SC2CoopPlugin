@@ -37,7 +37,7 @@ namespace Game.Editor
 
         private int m_NewEntryCopyID;
 
-        [MenuItem("Tools/Tech Table Edit")]
+        [MenuItem("Tools/Tech Table Edit", priority = 41)]
         public static TechnologyTableWindow OpenWindow()
         {
             TechnologyTableWindow editorWindow = GetWindow<TechnologyTableWindow>();

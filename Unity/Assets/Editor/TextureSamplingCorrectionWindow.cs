@@ -11,6 +11,16 @@ namespace Game.Editor
         private Texture2D m_OutputTexture;
         private AnimationCurve m_SamplingCorrection;
 
+        [MenuItem("Tools/Merge StringID", priority = 41)]
+        public static TextureSamplingCorrectionWindow OpenWindow()
+        {
+            TextureSamplingCorrectionWindow editorWindow = GetWindow<TextureSamplingCorrectionWindow>();
+            var rect = editorWindow.position;
+            rect.width = 830f;
+            editorWindow.position = rect;
+            return editorWindow;
+        }
+
         private void OnEnable()
         {
             m_InputTexture = null;

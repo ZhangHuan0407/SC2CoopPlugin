@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
+using Game;
 using UnityEngine;
 
 namespace Table
@@ -100,11 +101,27 @@ namespace Table
                 get => m_Texture;
                 private set => m_Texture = value;
             }
+
+            public Sprite LoadTexture()
+            {
+                if (string.IsNullOrWhiteSpace(Texture))
+                    return null;
+                return ResourcesInterface.Load<Sprite>($"Textures/{Texture}");
+            }
         }
 
         [SerializeField]
         private Dictionary<int, Entry> m_Data;
         public IReadOnlyDictionary<int, Entry> Data => m_Data;
+
+        public Entry this[int id]
+        {
+            get
+            {
+                Data.TryGetValue(id, out Entry entry);
+                return entry;
+            }
+        }
 
         public TechnologyTable()
         {
