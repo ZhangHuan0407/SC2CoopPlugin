@@ -136,7 +136,12 @@ namespace Table
         public static JSONObject ToJSON(object instance)
         {
             if (instance is TechnologyTable table)
-                return JSONMap.FieldsToJSON(table.m_Data.Values.ToArray(), null);
+            {
+                JSONObject @array = new JSONObject(JSONObject.Type.ARRAY);
+                foreach (Entry entry in table.m_Data.Values)
+                    @array.list.Add(JSONMap.ToJSON(entry));
+                return @array;
+            }
             else
                 return new JSONObject(JSONObject.Type.NULL);
         }

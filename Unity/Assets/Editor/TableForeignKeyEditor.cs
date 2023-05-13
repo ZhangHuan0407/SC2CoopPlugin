@@ -144,5 +144,65 @@ namespace Game.Editor
             string content = JSONMap.ToJSON(table).ToString(false);
             Debug.Log(content);
         }
+
+        [MenuItem("Tools/Unused/Create Tech Table Entries")]
+        public static void CreateTechTableEntries()
+        {
+            string[] allFiles = Directory.GetFiles("Assets/Resources/abc", "*.png");
+            JSONObject @list = new JSONObject(JSONObject.Type.ARRAY);
+            for (int i = 0; i < allFiles.Length; i++)
+            {
+                string filePath = allFiles[i];
+                string fileName = Path.GetFileNameWithoutExtension(filePath);
+                CommanderName? commanderName = null;
+                //if (fileName.StartsWith("PA"))
+                //commanderName = CommanderName.Artanis;
+                // else if (fileName.StartsWith("PB"))
+                //commanderName = CommanderName.Karax;
+                //else if (fileName.StartsWith("PC"))
+                //    commanderName = CommanderName.Alarak;
+                //else if (fileName.StartsWith("PD"))
+                //    commanderName = CommanderName.Fenix;
+                //if (fileName.StartsWith("TB"))
+                //    commanderName = CommanderName.Raynor;
+                //else if (fileName.StartsWith("TC"))
+                //    commanderName = CommanderName.Tychus;
+                //else if (fileName.StartsWith("TD"))
+                //    commanderName = CommanderName.HanAndHorner;
+                //else if (fileName.StartsWith("TE"))
+                //    commanderName = CommanderName.Mengsk;
+                //else if (fileName.StartsWith("TF"))
+                //    commanderName = CommanderName.Nova;
+                //if (fileName.StartsWith("ZA"))
+                //    commanderName = CommanderName.Kerrigan;
+                //else if (fileName.StartsWith("ZB"))
+                //    commanderName = CommanderName.Stetmann;
+                //else if (fileName.StartsWith("ZC"))
+                //    commanderName = CommanderName.Zagara;
+                //else if (fileName.StartsWith("ZD"))
+                //    commanderName = CommanderName.Dehaka;
+
+                if (commanderName == null)
+                {
+                    continue;
+                }
+                TechnologyTableEntryWrapper entry = new TechnologyTableEntryWrapper()
+                {
+                    ID = UnityEngine.Random.Range(1, int.MaxValue),
+                    Annotation = $"{commanderName} {fileName}",
+                    Commander = (CommanderName)commanderName,
+                    Name = new StringID(fileName),
+                    Texture = fileName,
+                };
+                list.Add(JSONMap.ToJSON(entry));
+            }
+
+            for (int i = 0; i < list.Count; i++)
+            {
+                list[i].Bake(true);
+            }
+            string content = @list.ToString(true);
+            UnityEngine.Debug.Log(content);
+        }
     }
 }

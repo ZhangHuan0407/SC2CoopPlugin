@@ -117,7 +117,7 @@ namespace Game.Editor
         public static JSONObject ToJSON(object instance) => JSONMap.FieldsToJSON(instance, null);
         public static object ParseJSON(JSONObject @object)
         {
-            UnitTableEntryWrapper entry = new UnitTableEntryWrapper();
+            TechnologyTableEntryWrapper entry = new TechnologyTableEntryWrapper();
             JSONMap.FieldsParseJSON(entry, @object);
             return entry;
         }
