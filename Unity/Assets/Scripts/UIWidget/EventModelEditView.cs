@@ -255,8 +255,40 @@ namespace Game.UI
         {
             int dataIndex = transform.GetSiblingIndex();
             LogService.System(nameof(OnStartTime_ValueChanged), $"dataIndex: {dataIndex}, guid: {m_Guid}");
-            IEventModel eventModel = m_CommanderPipeline.EventModels.First(m => m.Guid == m_Guid);
-            return;
+            IEventModel oldEventModel = m_CommanderPipeline.EventModels.First(m => m.Guid == m_Guid);
+            string label = m_EventModelType.options[m_EventModelType.value].text;
+            string oldContent = JSONMap.ToJSON(typeof(IEventModel), oldEventModel).ToString();
+            IEventModel newEventModel;
+            string newContent;
+            if (label == "Unit")
+            {
+                newEventModel = new PlayerOperatorEventModel();
+            }
+            else if (label == "Technology")
+            {
+                newEventModel = new PlayerTechnologyEventModel();
+            }
+            else
+                throw new NotImplementedException();
+            newEventModel.Guid = oldEventModel.Guid;
+            newContent = JSONMap.ToJSON(typeof(IEventModel), newEventModel).ToString();
+
+            CommanderContentDialog.AppendRecord(nameof(OnEventModelType_ValueChanged),
+                                                (dialog) =>
+                                                {
+                                                    IEventModel eventModel2 = JSONMap.ParseJSON<IEventModel>(JSONObject.Create(newContent));
+                                                    m_CommanderPipeline.EventModels[dataIndex] = eventModel2;
+                                                    EventModelEditView view = CommanderContentDialog.EventModelsRectTrans.GetChild(dataIndex).GetComponent<EventModelEditView>();
+                                                    view.SetCommanderModel(CommanderContentDialog.CommanderPipeline, eventModel2);
+                                                },
+                                                (dialog) =>
+                                                {
+                                                    IEventModel eventModel2 = JSONMap.ParseJSON<IEventModel>(JSONObject.Create(oldContent));
+                                                    m_CommanderPipeline.EventModels[dataIndex] = eventModel2;
+                                                    EventModelEditView view = CommanderContentDialog.EventModelsRectTrans.GetChild(dataIndex).GetComponent<EventModelEditView>();
+                                                    view.SetCommanderModel(CommanderContentDialog.CommanderPipeline, eventModel2);
+                                                });
+            CommanderContentDialog.Redo();
         }
 
         private void OnStartTime_ValueChanged(string input)
@@ -375,9 +407,9 @@ namespace Game.UI
             {
                 playerTechnologyEventModel.TechnologyID = newTechnologyID[0];
             }
-            UnitTable.Entry unitEntry = TableManager.UnitTable[newTechnologyID[0]];
+            TechnologyTable.Entry technologyEntry = TableManager.TechnologyTable[newTechnologyID[0]];
             EventModelEditView view = dialog.EventModelsRectTrans.GetChild(dataIndex).GetComponent<EventModelEditView>();
-            (view.m_UnitButtonList[index].targetGraphic as Image).sprite = unitEntry.LoadTexture();
+            (view.m_TechnologyButtonList[index].targetGraphic as Image).sprite = technologyEntry.LoadTexture();
         }
         private static void OnClickTechnologyButton_Undo(CommanderContentDialog dialog, int dataIndex, int index, int[] oldTechnologyID)
         {

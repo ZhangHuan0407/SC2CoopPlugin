@@ -171,7 +171,7 @@ namespace Game.Editor
 
             GUILayout.BeginHorizontal();
             GUILayout.Label("CrystalCost", GUILayout.Width(80f));
-            entry.CrystalCost = EditorGUILayout.IntField(entry.CrystalCost, GUILayout.Width(100f));
+            entry.CrystalCost = EditorGUILayout.IntField(entry.CrystalCost, GUILayout.Width(80f));
             GUILayout.Label("GasCost", GUILayout.Width(80f));
             entry.GasCost = EditorGUILayout.IntField(entry.GasCost, GUILayout.Width(80f));
             GUILayout.Label("Duration", GUILayout.Width(80f));
@@ -179,15 +179,15 @@ namespace Game.Editor
             GUILayout.Label("Unlock", GUILayout.Width(80f));
             entry.UnlockLevel = EditorGUILayout.IntField(entry.UnlockLevel, GUILayout.Width(80f));
 
-            entry.Unit0 = EditorGUILayout.IntField(entry.Unit0, GUILayout.Width(150f));
-            entry.Unit1 = EditorGUILayout.IntField(entry.Unit1, GUILayout.Width(150f));
-            entry.Texture = EditorGUILayout.TextField(entry.Texture, GUILayout.Width(180f));
+            entry.Unit0 = EditorGUILayout.IntField(entry.Unit0, GUILayout.Width(120f));
+            entry.Unit1 = EditorGUILayout.IntField(entry.Unit1, GUILayout.Width(120f));
+            entry.Texture = EditorGUILayout.TextField(entry.Texture, GUILayout.Width(80f));
             if (!string.IsNullOrWhiteSpace(entry.Texture))
             {
                 m_TechTextureCache.TryGetValue(entry.Texture, out Texture texture);
                 if (texture == null)
                     m_TryLoadList.Add(entry.Texture);
-                GUILayout.Label(texture, GUILayout.Width(80f), GUILayout.Height(80f));
+                GUILayout.Label(texture, GUILayout.Width(64f), GUILayout.Height(64f));
             }
 
             GUILayout.EndHorizontal();
