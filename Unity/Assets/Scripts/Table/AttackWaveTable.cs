@@ -61,7 +61,16 @@ namespace Table
 
         public Entry this[AmonAIName AIName, int technology]
         {
-            get => Data[AIName][technology];
+            get
+            {
+                Entry[] data = Data[AIName];
+                for (int i = 0; i < data.Length; i++)
+                {
+                    if (data[i].Technology == technology)
+                        return data[i];
+                }
+                return null;
+            }
         }
 
         public AttackWaveTable()
