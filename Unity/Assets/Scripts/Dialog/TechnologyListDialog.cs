@@ -112,7 +112,6 @@ namespace Game.UI
             yield return new WaitForSeconds(delay);
             foreach (Transform childTrans in m_ContentTrans)
             {
-                childTrans.SetParent(null, false);
                 UnityEngine.Object.Destroy(childTrans.gameObject);
             }
             yield return new WaitForEndOfFrame();
