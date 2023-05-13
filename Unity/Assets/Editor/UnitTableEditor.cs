@@ -489,7 +489,6 @@ namespace Game.Editor
             JSONObject @table = JSONMap.ToJSON(UnitTable);
             for (int i = 0; i < @table.list.Count; i++)
                 @table.list[i].Bake(true);
-            string content = @table.ToString(true);
             EditorTableManager.SaveTable<UnitTable>(@table);
         }
     }

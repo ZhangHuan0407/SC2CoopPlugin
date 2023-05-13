@@ -204,5 +204,29 @@ namespace Game.Editor
             string content = @list.ToString(true);
             UnityEngine.Debug.Log(content);
         }
+
+        [MenuItem("Tools/Unused/Copy Unit Entries")]
+        public static void CopyUnitEntries()
+        {
+            EditorTableManager.Refresh();
+            JSONObject @list = new JSONObject(JSONObject.Type.ARRAY);
+            foreach (UnitTable.Entry entry in EditorTableManager.UnitTable.Data.Values)
+            {
+                if (entry.Commander == CommanderName.Amon && entry.Annotation.Contains(" P "))
+                {
+                    JSONObject @object = JSONMap.ToJSON(entry);
+                    @object.SetField("m_ID", UnityEngine.Random.Range(1, int.MaxValue));
+                    @object.SetField("m_Annotation", @object.GetField("m_Annotation").str.Replace("Amon", "Artanis"));
+                    @object.SetField("m_Commander", CommanderName.Artanis.ToString());
+                    @list.Add(@object);
+                }
+            }
+            for (int i = 0; i < @list.Count; i++)
+            {
+                @list.list[i].Bake(true);
+            }
+            string content = @list.ToString(true);
+            UnityEngine.Debug.Log(content);
+        }
     }
 }

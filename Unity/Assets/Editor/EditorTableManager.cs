@@ -48,6 +48,8 @@ namespace Game.Editor
         public static void SaveTable<T>(JSONObject @table)
         {
             string tablePath = $"{GameDefined.ResourceSubmoduleDirectory}/Tables/{typeof(T).Name}.json";
+            string content = @table.ToString(true);
+            File.WriteAllText(tablePath, content);
         }
     }
 }

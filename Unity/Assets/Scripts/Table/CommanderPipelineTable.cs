@@ -161,7 +161,7 @@ namespace Table
                             Fileinfo = new FileInfo(filePath),
                             Language = pipeline.Language,
                             Level = pipeline.Level,
-                            Id = path.Substring(lastIndexOf + 1),
+                            Id = filePath.Substring(lastIndexOf + path.Length),
                             Prestige = pipeline.Prestige,
                             Masteries = Enumerable.Sum(pipeline.Masteries),
                             Title = pipeline.Title,
