@@ -24,6 +24,9 @@ namespace Game.Editor
 {
     public class MapModelEditorWindow : EditorWindow
     {
+        private static Dictionary<string, Texture> m_TechTextureCache = new Dictionary<string, Texture>();
+        private static List<string> m_TryLoadList = new List<string>();
+
         private string m_MapModelPath;
         private MapModel m_MapModel;
 
@@ -54,6 +57,14 @@ namespace Game.Editor
         private void OnInspectorUpdate()
         {
             Repaint();
+            if (m_TryLoadList.Count > 0)
+            {
+                string textureName = m_TryLoadList[0];
+                Texture2D texture = AssetDatabase.LoadAssetAtPath<Texture2D>($"Assets/Resources/Textures/{textureName}.png");
+                if (texture != null)
+                    m_TechTextureCache[textureName] = texture;
+                m_TryLoadList.RemoveAll((str) => str == textureName);
+            }
         }
         private void OnGUI()
         {
@@ -169,6 +180,9 @@ namespace Game.Editor
         private void PrintContent(AttackWaveEventModel attackWaveEventModel)
         {
             GUILayout.BeginHorizontal();
+
+            GUILayout.BeginVertical();
+            GUILayout.BeginHorizontal();
             GUILayout.Label(nameof(AttackWaveEventModel), GUILayout.Width(250f));
             attackWaveEventModel.Annotation = GUILayout.TextField(attackWaveEventModel.Annotation, GUILayout.MinWidth(100f));
             GUILayout.FlexibleSpace();
@@ -184,6 +198,7 @@ namespace Game.Editor
             GUILayout.Label("EndTime", GUILayout.Width(70f));
             attackWaveEventModel.EndTime = EditorGUILayout.FloatField(attackWaveEventModel.EndTime, GUILayout.Width(60f));
             GUILayout.EndHorizontal();
+
             GUILayout.BeginHorizontal();
             GUILayout.Space(20f);
             GUILayout.Label("Hide", GUILayout.Width(60f));
@@ -192,8 +207,29 @@ namespace Game.Editor
             attackWaveEventModel.Technology = EditorGUILayout.IntField(attackWaveEventModel.Technology, GUILayout.Width(50f));
             GUILayout.Label("IncreasedScale", GUILayout.Width(120f));
             attackWaveEventModel.IncreasedScale = EditorGUILayout.Toggle(attackWaveEventModel.IncreasedScale, GUILayout.Width(20f));
+            GUILayout.Label("BigHybrid", GUILayout.Width(100f));
+            attackWaveEventModel.BigHybrid = EditorGUILayout.IntField(attackWaveEventModel.BigHybrid, GUILayout.Width(60f));
+            GUILayout.Label("SmallHybrid", GUILayout.Width(100f));
+            attackWaveEventModel.SmallHybrid = EditorGUILayout.IntField(attackWaveEventModel.SmallHybrid, GUILayout.Width(60f));
             GUILayout.EndHorizontal();
-            GUILayout.Space(5f);
+
+            GUILayout.BeginHorizontal();
+            attackWaveEventModel.Texture = EditorGUILayout.TextField(attackWaveEventModel.Texture, GUILayout.Width(100f));
+            GUILayout.EndHorizontal();
+
+            GUILayout.EndVertical();
+
+            if (!string.IsNullOrWhiteSpace(attackWaveEventModel.Texture))
+            {
+                m_TechTextureCache.TryGetValue(attackWaveEventModel.Texture, out Texture texture);
+                if (texture == null)
+                    m_TryLoadList.Add(attackWaveEventModel.Texture);
+                GUILayout.Label(texture, GUILayout.Width(128f), GUILayout.Height(128f));
+            }
+
+            GUILayout.FlexibleSpace();
+            GUILayout.EndHorizontal();
+            GUILayout.Space(8f);
         }
         private void PrintContent(MapTriggerEventModel mapTriggerEventModel)
         {

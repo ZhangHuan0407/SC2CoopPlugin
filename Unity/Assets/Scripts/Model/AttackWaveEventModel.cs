@@ -79,10 +79,41 @@ namespace Game.Model
             set => m_IncreasedScale = value;
         }
 
+        [SerializeField]
+        private string m_Texture;
+        public string Texture
+        {
+            get => m_Texture;
+            set => m_Texture = value;
+        }
+
+        [SerializeField]
+        private int m_BigHybrid;
+        public int BigHybrid
+        {
+            get => m_BigHybrid;
+            set => m_BigHybrid = value;
+        }
+
+        [SerializeField]
+        private int m_SmallHybrid;
+        public int SmallHybrid
+        {
+            get => m_SmallHybrid;
+            set => m_SmallHybrid = value;
+        }
+
         public AttackWaveEventModel()
         {
         }
 
         public bool SkipEvent(CoopTimeline timeline) => Hide || (timeline.Map.MapSubType & MapSubType) == 0;
+
+        public Sprite LoadMapTexture()
+        {
+            if (string.IsNullOrWhiteSpace(Texture))
+                return null;
+            return ResourcesInterface.Load<Sprite>($"Textures/{Texture}");
+        }
     }
 }

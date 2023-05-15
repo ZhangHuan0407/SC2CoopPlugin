@@ -14,6 +14,8 @@ namespace Game.UI
         private Image m_Progress;
         [SerializeField]
         private Text m_Countdown;
+        [SerializeField]
+        private Image m_Map;
 
         private AttackWaveEventModel m_Model;
         public Guid Guid => m_Model.Guid;
@@ -46,6 +48,7 @@ namespace Game.UI
                     m_Icon[i].gameObject.SetActive(false);
                 }
             }
+            m_Map.sprite = m_Model.LoadMapTexture();
         }
     }
 }
