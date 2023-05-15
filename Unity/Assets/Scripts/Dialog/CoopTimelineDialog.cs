@@ -62,7 +62,7 @@ namespace Game.UI
 
         private void Awake()
         {
-            Application.targetFrameRate = 10;
+            Application.targetFrameRate = 24;
 
             OCR.RectAnchor rectAnchor = Global.UserSetting.RectPositions[RectAnchorKey.PluginDialog];
             m_RectTrans.anchoredPosition = new Vector2(rectAnchor.Left, -rectAnchor.Top);

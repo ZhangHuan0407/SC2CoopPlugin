@@ -33,7 +33,7 @@ namespace Game.UI
 
         private void Awake()
         {
-            Application.targetFrameRate = 30;
+            Application.targetFrameRate = 60;
 
             m_SettingButton.onClick.AddListener(OnClickSettingButton);
             m_GameStartButton.onClick.AddListener(OnClickGameStartButton);

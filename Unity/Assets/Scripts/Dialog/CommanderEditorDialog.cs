@@ -109,7 +109,7 @@ namespace Game.UI
             m_HowToShareButton.onClick.AddListener(OnClickHowToShareButtonButton);
             m_HowToUseButton.onClick.AddListener(OnClickHowToUseButtonButton);
 
-            Application.targetFrameRate = 20;
+            Application.targetFrameRate = 60;
         }
 
         private void Update()
