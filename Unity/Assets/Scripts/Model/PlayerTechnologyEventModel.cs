@@ -7,11 +7,11 @@ namespace Game.Model
     public class PlayerTechnologyEventModel : IEventModel
     {
         [SerializeField]
-        private int m_TechnologyID;
-        public int TechnologyID
+        private int[] m_TechnologyIDList;
+        public int[] TechnologyIDList
         {
-            get => m_TechnologyID;
-            set => m_TechnologyID = value;
+            get => m_TechnologyIDList;
+            set => m_TechnologyIDList = value;
         }
 
         [SerializeField]

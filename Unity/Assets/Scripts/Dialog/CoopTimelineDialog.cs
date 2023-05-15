@@ -30,6 +30,8 @@ namespace Game.UI
         [SerializeField]
         private GameObject m_PlayerOperatorTemplate;
         [SerializeField]
+        private GameObject m_PlayerTechnologyTemplate;
+        [SerializeField]
         private Transform m_EventModelParentTrans;
 
         [Header("Tool")]
@@ -69,6 +71,7 @@ namespace Game.UI
             m_AttackWaveTemplate.SetActive(false);
             m_MapTriggerTemplate.SetActive(false);
             m_PlayerOperatorTemplate.SetActive(false);
+            m_PlayerTechnologyTemplate.SetActive(false);
 
             m_MapTimeRecognizeTweener = null;
             m_LastParseTime = 0f;
@@ -252,7 +255,16 @@ namespace Game.UI
             for (int i = 0; i < deleteGuidList.Count; i++)
             {
                 IEventView eventView = m_ViewReference[deleteGuidList[i]];
-                UnityEngine.Object.Destroy(eventView.gameObject);
+                RectTransform eventViewRectTramsform = (eventView.gameObject.transform as RectTransform);
+                float startTime = Time.time;
+                eventViewRectTramsform.DoLocalScale(new Vector3(1f, 0f, 1f), 0.3f)
+                                      .OnUpdate(() =>
+                                      {
+                                          eventView.gameObject.GetComponent<CanvasGroup>().alpha = 1f - (Time.time - startTime) / 0.18f;
+                                      })
+                                      .OnComplete(() => UnityEngine.Object.Destroy(eventView.gameObject))
+                                      .DoIt();
+                
                 m_ViewReference.Remove(deleteGuidList[i]);
             }
             for (int i = 0; i < eventModels.Count; i++)
@@ -261,6 +273,7 @@ namespace Game.UI
                 IEventView eventView = m_ViewReference[eventModel.Guid];
                 eventView.UpdateView(m_MapTimeSeconds);
             }
+            LayoutRebuilder.MarkLayoutForRebuild(m_EventModelParentTrans as RectTransform);
         }
         private IEventView CreateView(IEventModel eventModel)
         {
@@ -275,6 +288,9 @@ namespace Game.UI
                     break;
                 case MapTriggerEventModel mapTriggerEventModel:
                     template = m_MapTriggerTemplate;
+                    break;
+                case PlayerTechnologyEventModel playerTechnologyEventModel:
+                    template = m_PlayerTechnologyTemplate;
                     break;
                 default:
                     break;

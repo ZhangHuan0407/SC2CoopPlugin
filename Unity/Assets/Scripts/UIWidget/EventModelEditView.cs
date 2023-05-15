@@ -125,13 +125,15 @@ namespace Game.UI
                 for (int i = 0; i < m_TechnologyButtonList.Length; i++)
                 {
                     Button button = m_TechnologyButtonList[i];
-                    if (TableManager.TechnologyTable[playerTechnologyEventModel.TechnologyID] is TechnologyTable.Entry entry)
+                    if (i < playerTechnologyEventModel.TechnologyIDList.Length &&
+                        TableManager.TechnologyTable[playerTechnologyEventModel.TechnologyIDList[i]] is TechnologyTable.Entry entry)
                         (button.targetGraphic as Image).sprite = entry.LoadTexture();
                     else
                     {
                         (button.targetGraphic as Image).sprite = ResourcesInterface.Load<Sprite>("Textures/plus");
                         // 自定义或高版本不兼容数据
-                        playerTechnologyEventModel.TechnologyID = 0;
+                        if (i < playerTechnologyEventModel.TechnologyIDList.Length)
+                            playerTechnologyEventModel.TechnologyIDList[i] = 0;
                     }
                 }
             }
@@ -385,7 +387,8 @@ namespace Game.UI
                 int[] oldTechnologyID = new int[1];
                 if (eventModel is PlayerTechnologyEventModel playerTechnologyEventModel)
                 {
-                    oldTechnologyID[0] = playerTechnologyEventModel.TechnologyID;
+                    if (index < playerTechnologyEventModel.TechnologyIDList.Length)
+                        oldTechnologyID[0] = playerTechnologyEventModel.TechnologyIDList[index];
                 }
                 CommanderContentDialog.AppendRecord(nameof(OnClickTechnologyButton),
                                                     (dialog) =>
@@ -405,7 +408,13 @@ namespace Game.UI
             IEventModel eventModel = dialog.CommanderPipeline.EventModels[dataIndex];
             if (eventModel is PlayerTechnologyEventModel playerTechnologyEventModel)
             {
-                playerTechnologyEventModel.TechnologyID = newTechnologyID[0];
+                if (playerTechnologyEventModel.TechnologyIDList.Length <= index)
+                {
+                    int[] newList = new int[index + 1];
+                    Array.Copy(playerTechnologyEventModel.TechnologyIDList, newList, playerTechnologyEventModel.TechnologyIDList.Length);
+                    playerTechnologyEventModel.TechnologyIDList = newList;
+                }
+                playerTechnologyEventModel.TechnologyIDList[index] = newTechnologyID[0];
             }
             TechnologyTable.Entry technologyEntry = TableManager.TechnologyTable[newTechnologyID[0]];
             EventModelEditView view = dialog.EventModelsRectTrans.GetChild(dataIndex).GetComponent<EventModelEditView>();
@@ -416,7 +425,13 @@ namespace Game.UI
             IEventModel eventModel = dialog.CommanderPipeline.EventModels[dataIndex];
             if (eventModel is PlayerTechnologyEventModel playerTechnologyEventModel)
             {
-                playerTechnologyEventModel.TechnologyID = oldTechnologyID[0];
+                if (playerTechnologyEventModel.TechnologyIDList.Length <= index)
+                {
+                    int[] newList = new int[index + 1];
+                    Array.Copy(playerTechnologyEventModel.TechnologyIDList, newList, playerTechnologyEventModel.TechnologyIDList.Length);
+                    playerTechnologyEventModel.TechnologyIDList = newList;
+                }
+                playerTechnologyEventModel.TechnologyIDList[index] = oldTechnologyID[0];
             }
             Sprite technologySprite;
             if (oldTechnologyID[0] != 0 &&
