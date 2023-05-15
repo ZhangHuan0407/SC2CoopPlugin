@@ -54,6 +54,7 @@ namespace Game.UI
         private Tweener m_MapTimeRecognizeTweener;
         private float m_LastParseTime;
         private volatile float m_MapTimeSeconds;
+        private float m_Confidence;
 
         private CoopTimeline m_CoopTimeline;
         private Dictionary<Guid, IEventView> m_ViewReference;
@@ -212,16 +213,34 @@ namespace Game.UI
                         if (seconds >= 0)
                         {
                             HaveSyncMapTime = true;
-                            if (Mathf.FloorToInt(seconds + 0.1f) != m_MapTimeSeconds)
+                            if (!HaveSyncMapTime)
+                            {
+                                m_Confidence = 1f;
+                                m_MapTimeSeconds = seconds + 0.1f;
+                            }
+                            else if (Mathf.FloorToInt(seconds + 0.1f) != m_MapTimeSeconds)
                             {
                                 if (Mathf.Abs(seconds - m_MapTimeSeconds) > 1.5f)
-                                    m_MapTimeSeconds = seconds + 0.1f;
+                                {
+                                    if (m_Confidence > 0.5f)
+                                        m_Confidence *= 0.75f;
+                                    else
+                                    {
+                                        m_Confidence = Mathf.Max(m_Confidence, 0.85f);
+                                        m_MapTimeSeconds = Mathf.Lerp(m_MapTimeSeconds, seconds + 0.1f, 0.01f);
+                                    }
+                                }
                                 else
-                                    m_MapTimeSeconds = Mathf.Lerp(m_MapTimeSeconds, seconds + 0.1f, 0.3f) ;
+                                {
+                                    m_MapTimeSeconds = Mathf.Lerp(seconds + 0.1f, m_MapTimeSeconds, m_Confidence);
+                                    m_Confidence = Mathf.Max(m_Confidence, 0.85f);
+                                }
                             }
                         }
+                        else
+                            m_Confidence *= 0.92f;
                     }
-                    Color color = response.Item1.StatusCode == ErrorCode.OK ? new Color(0.3f, 1f, 0.3f) : new Color(0.9f, 0.3f, 0.3f);
+                    Color color = m_Confidence > 0.5f ? new Color(0.3f, 1f, 0.3f) : new Color(0.9f, 0.3f, 0.3f);
                     Global.BackThread.RunInMainThread(() =>
                     {
                         m_DebugText.color = color;
