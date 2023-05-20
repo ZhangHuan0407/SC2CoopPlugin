@@ -133,7 +133,7 @@
 			"m_SmallHybrid":2,
 			"m_Technology":1,
 			"m_Annotation":"穿梭机卫队1",
-			"class":"Game.Model.MapTriggerEventModel"
+			"class":"Game.Model.AttackWaveEventModel"
 		},
 		{
 			"m_Guid":"1c5c891a-df2f-4f08-9fcf-1001a301f915",
@@ -147,7 +147,7 @@
 			"m_SmallHybrid":2,
 			"m_Technology":2,
 			"m_Annotation":"穿梭机卫队2",
-			"class":"Game.Model.MapTriggerEventModel"
+			"class":"Game.Model.AttackWaveEventModel"
 		},
 		{
 			"m_Guid":"dc8e802e-9108-4c8c-b380-ee2066f88208",
@@ -161,7 +161,7 @@
 			"m_SmallHybrid":3,
 			"m_Technology":3,
 			"m_Annotation":"穿梭机卫队3",
-			"class":"Game.Model.MapTriggerEventModel"
+			"class":"Game.Model.AttackWaveEventModel"
 		},
 		{
 			"m_Guid":"ff7ec01f-f3c8-4a4c-9235-e7aa3f3e0b84",
@@ -175,7 +175,7 @@
 			"m_SmallHybrid":0,
 			"m_Technology":4,
 			"m_Annotation":"穿梭机卫队4",
-			"class":"Game.Model.MapTriggerEventModel"
+			"class":"Game.Model.AttackWaveEventModel"
 		},
 		{
 			"m_Guid":"80a0f9be-c6d3-4d1d-bf2f-c2da19d11e77",
@@ -189,7 +189,7 @@
 			"m_SmallHybrid":0,
 			"m_Technology":4,
 			"m_Annotation":"穿梭机卫队5",
-			"class":"Game.Model.MapTriggerEventModel"
+			"class":"Game.Model.AttackWaveEventModel"
 		},
 		{
 			"m_Guid":"1b418035-f7b7-4800-b96d-c812739858a1",
@@ -203,7 +203,7 @@
 			"m_SmallHybrid":2,
 			"m_Technology":6,
 			"m_Annotation":"穿梭机卫队6",
-			"class":"Game.Model.MapTriggerEventModel"
+			"class":"Game.Model.AttackWaveEventModel"
 		},
 		{
 			"m_Guid":"acb3e545-19c4-4f9e-9eb9-b4e93e34969e",
@@ -217,7 +217,7 @@
 			"m_SmallHybrid":2,
 			"m_Technology":7,
 			"m_Annotation":"穿梭机卫队7",
-			"class":"Game.Model.MapTriggerEventModel"
+			"class":"Game.Model.AttackWaveEventModel"
 		}
 	]
 }

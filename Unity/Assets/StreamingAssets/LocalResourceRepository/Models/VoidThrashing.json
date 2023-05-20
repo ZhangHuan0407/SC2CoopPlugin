@@ -241,7 +241,7 @@
 			"m_SmallHybrid":0,
 			"m_Technology":-1,
 			"m_Annotation":"虚空撕裂者1",
-			"class":"Game.Model.MapTriggerEventModel"
+			"class":"Game.Model.AttackWaveEventModel"
 		},
 		{
 			"m_Guid":"9e5960d5-6ee0-4e13-bc54-dc44a5f7b93a",
@@ -255,7 +255,7 @@
 			"m_SmallHybrid":0,
 			"m_Technology":-1,
 			"m_Annotation":"虚空撕裂者2",
-			"class":"Game.Model.MapTriggerEventModel"
+			"class":"Game.Model.AttackWaveEventModel"
 		},
 		{
 			"m_Guid":"b851f5fa-42d6-46fd-bb60-3fd4b7fc24ab",
@@ -269,7 +269,7 @@
 			"m_SmallHybrid":0,
 			"m_Technology":-1,
 			"m_Annotation":"虚空撕裂者3",
-			"class":"Game.Model.MapTriggerEventModel"
+			"class":"Game.Model.AttackWaveEventModel"
 		},
 		{
 			"m_Guid":"76700887-3626-4407-9c3a-75511da52b05",
@@ -283,7 +283,7 @@
 			"m_SmallHybrid":0,
 			"m_Technology":-1,
 			"m_Annotation":"虚空撕裂者4",
-			"class":"Game.Model.MapTriggerEventModel"
+			"class":"Game.Model.AttackWaveEventModel"
 		}
 	]
 }
