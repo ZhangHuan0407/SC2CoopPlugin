@@ -56,6 +56,7 @@ namespace Game.Model
 
         public PlayerTechnologyEventModel()
         {
+            m_TechnologyIDList = Array.Empty<int>();
         }
 
         public bool SkipEvent(CoopTimeline timeline) => false;

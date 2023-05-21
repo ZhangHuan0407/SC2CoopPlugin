@@ -369,6 +369,7 @@ namespace Game.UI
         private void OnClickTechnologyButton(int index)
         {
             TechnologyListDialog technologyListDialog = CameraCanvas.PushDialog(GameDefined.TechnologyListDialog) as TechnologyListDialog;
+            technologyListDialog.SetCommanderName(m_CommanderPipeline.Commander);
             int dataIndex = transform.GetSiblingIndex();
             int[] newTechnologyID = new int[1];
             Tweener tweener = LogicTween.WaitUntil(() => technologyListDialog.DestroyFlag);
@@ -446,6 +447,7 @@ namespace Game.UI
         private void OnClickUnitButton(int index)
         {
             UnitListDialog unitListDialog = CameraCanvas.PushDialog(GameDefined.UnitListDialog) as UnitListDialog;
+            unitListDialog.SetCommanderName(m_CommanderPipeline.Commander);
             int dataIndex = transform.GetSiblingIndex();
             int[] newUnitID = new int[1];
             Tweener tweener = LogicTween.WaitUntil(() => unitListDialog.DestroyFlag);

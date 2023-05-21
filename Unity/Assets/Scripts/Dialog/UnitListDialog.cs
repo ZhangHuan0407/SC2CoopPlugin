@@ -106,6 +106,17 @@ namespace Game.UI
             CameraCanvas.PopDialog(this);
         }
 
+        public void SetCommanderName(CommanderName commanderName)
+        {
+            int index = 0;
+            foreach (CommanderName? value in StrToCommander.Values)
+            {
+                if (commanderName == value)
+                    break;
+                index++;
+            }
+            m_CommanderDropdown.value = index;
+        }
         private IEnumerator RebuildList()
         {
             yield return new WaitForEndOfFrame();
