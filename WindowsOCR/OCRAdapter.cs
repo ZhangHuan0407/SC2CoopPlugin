@@ -122,8 +122,9 @@ namespace WindowsOCR
             for (int i = 0; i < recognizeRequest.TaskList.Length; i++)
             {
                 RectAnchor rectAnchor = recognizeRequest.TaskList[i].RectAnchor;
+                int sharpen = recognizeRequest.TaskList[i].Sharpen;
                 Rectangle recognizeRect = new Rectangle(rectAnchor.Left, rectAnchor.Top, rectAnchor.Width, rectAnchor.Height);
-                CopySubBitmapToStream(recognizeRect);
+                CopySubBitmapToStream(recognizeRect, sharpen);
                 var getDecoder = BitmapDecoder.CreateAsync(m_MemoryStream.AsRandomAccessStream());
                 await getDecoder;
                 BitmapDecoder decoder = getDecoder.GetResults();
@@ -152,7 +153,7 @@ namespace WindowsOCR
         //    m_MemoryStream.SetLength(m_MemoryStream.Position);
         //    m_MemoryStream.Seek(0, SeekOrigin.Begin);
         //}
-        private void CopySubBitmapToStream(Rectangle srcRegion)
+        private void CopySubBitmapToStream(Rectangle srcRegion, int sharpen)
         {
             m_MemoryStream.Seek(0, SeekOrigin.Begin);
             Rectangle destRegion = new Rectangle(0, 0, srcRegion.Width, srcRegion.Height);
@@ -162,6 +163,10 @@ namespace WindowsOCR
                 {
                     destGraphics.DrawImage(m_ScreenBitmap, destRegion, srcRegion, GraphicsUnit.Pixel);
                 }
+                if (sharpen >= 0)
+                {
+                    Sharpen(destBitmap, sharpen / 255f);
+                }
                 destBitmap.Save(m_MemoryStream, ImageFormat.Bmp);
 #if DEBUG || ALPHA
                 destBitmap.Save("SubBitmap.png", ImageFormat.Png);
@@ -169,6 +174,35 @@ namespace WindowsOCR
             }
             m_MemoryStream.SetLength(m_MemoryStream.Position);
             m_MemoryStream.Seek(0, SeekOrigin.Begin);
+        }
+
+        private void Sharpen(Bitmap destBitmap, float value)
+        {
+            value = Math.Clamp(value, 0.01f, 0.99f);
+            int width = destBitmap.Size.Width;
+            int height = destBitmap.Size.Height;
+            for (int x = 0; x < width; x++)
+            {
+                for (int y = 0; y < height; y++)
+                {
+                    Color color = destBitmap.GetPixel(x, y);
+                    float gray = (color.R + color.G + color.B) / (3f * 255f);
+                    if (gray > value)
+                    {
+                        gray = 1f;
+                        //gray = (1 - gray) / (1 - value);
+                        //gray = 1f - gray * gray * (1f - value);
+                    }
+                    else
+                    {
+                        gray = 0f;
+                        //gray = gray / value;
+                        //gray = gray * gray * value;
+                    }
+                    byte grayByte = (byte)Math.Clamp(gray * 255f, 0f, 255f);
+                    destBitmap.SetPixel(x, y, Color.FromArgb(grayByte, grayByte, grayByte));
+                }
+            }
         }
 
         public override void Dispose()

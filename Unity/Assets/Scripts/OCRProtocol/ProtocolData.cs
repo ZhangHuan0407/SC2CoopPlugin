@@ -139,6 +139,10 @@ namespace Game.OCR
         {
             public string Tag;
             public RectAnchor RectAnchor;
+            /// <summary>
+            /// 锐化分界值，如果不启用锐化则为-1
+            /// </summary>
+            public int Sharpen;
         }
 
         public Task[] TaskList;

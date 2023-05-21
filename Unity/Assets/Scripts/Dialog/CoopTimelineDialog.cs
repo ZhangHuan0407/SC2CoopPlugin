@@ -55,6 +55,7 @@ namespace Game.UI
         private float m_LastParseTime;
         private volatile float m_MapTimeSeconds;
         private float m_Confidence;
+        private float m_RealRuntimeTime;
 
         private CoopTimeline m_CoopTimeline;
         private Dictionary<Guid, IEventView> m_ViewReference;
@@ -157,7 +158,10 @@ namespace Game.UI
         {
             m_LastParseTime += Time.deltaTime;
             if (HaveSyncMapTime)
+            {
                 m_MapTimeSeconds += Time.deltaTime * 1.4f;
+                m_RealRuntimeTime += Time.deltaTime * 1.4f;
+            }
             if (m_LastParseTime > 1f)
             {
                 m_LastParseTime = 0f;
@@ -165,6 +169,7 @@ namespace Game.UI
                 //MapTimeParseResult result = MapTimeParseResult.Unknown;
                 RectAnchor rectAnchor = Global.UserSetting.RectPositions[RectAnchorKey.MapTime];
                 bool debug = Global.UserSetting.IsProgrammer;
+                int sharpen = m_CoopTimeline.Commander.Commander == CommanderName.Mengsk ? 128 : 20;
                 m_MapTimeRecognizeTweener = Global.BackThread.WaitingBackThreadTweener(() =>
                 {
                     RecognizeWindowArea_Request.Task[] tasks = new RecognizeWindowArea_Request.Task[1]
@@ -173,6 +178,7 @@ namespace Game.UI
                         {
                             RectAnchor = rectAnchor,
                             Tag = "MapTime",
+                            Sharpen = sharpen,
                         }
                     };
                     var task = OCRConnectorA.Instance.SendRequestAsync<RecognizeWindowArea_Response>(ProtocolId.RecognizeWindowArea,
@@ -215,25 +221,21 @@ namespace Game.UI
                             HaveSyncMapTime = true;
                             if (!HaveSyncMapTime)
                             {
+                                m_RealRuntimeTime = 0f;
                                 m_Confidence = 1f;
                                 m_MapTimeSeconds = seconds + 0.1f;
                             }
                             else if (Mathf.FloorToInt(seconds + 0.1f) != m_MapTimeSeconds)
                             {
-                                if (Mathf.Abs(seconds - m_MapTimeSeconds) > 1.5f)
+                                // 明显 OCR 错误
+                                if (seconds < m_RealRuntimeTime - 2f)
                                 {
-                                    if (m_Confidence > 0.5f)
-                                        m_Confidence *= 0.75f;
-                                    else
-                                    {
-                                        m_Confidence = Mathf.Max(m_Confidence, 0.85f);
-                                        m_MapTimeSeconds = Mathf.Lerp(m_MapTimeSeconds, seconds + 0.1f, 0.01f);
-                                    }
+                                    m_Confidence *= 0.75f;
                                 }
                                 else
                                 {
-                                    m_MapTimeSeconds = Mathf.Lerp(seconds + 0.1f, m_MapTimeSeconds, m_Confidence);
                                     m_Confidence = Mathf.Max(m_Confidence, 0.85f);
+                                    m_MapTimeSeconds = Mathf.Lerp(m_MapTimeSeconds, seconds + 0.1f, m_Confidence);
                                 }
                             }
                         }
