@@ -144,5 +144,12 @@ namespace Game.UI
                 SettingDialog.DrawGizmos.Hide();
             }
         }
+
+        public override void BeforeSave()
+        {
+            m_MapTimeRectEdit.isOn = false;
+            m_MapTaskRectEdit.isOn = false;
+            m_PluginDialogRectEdit.isOn = false;
+        }
     }
 }

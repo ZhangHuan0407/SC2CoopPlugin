@@ -143,5 +143,12 @@ namespace Game.UI
                 SettingDialog.DrawGizmos.Hide();
             }
         }
+
+        public override void BeforeSave()
+        {
+            m_CoopMenuRectEdit.isOn = false;
+            m_CommanderNameRectEdit.isOn = false;
+            m_MasteriesRectEdit.isOn = false;
+        }
     }
 }

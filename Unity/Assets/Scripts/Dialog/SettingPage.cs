@@ -32,5 +32,9 @@ namespace Game.UI
             bool parse = RectAnchor.TryParse(input, out RectAnchor rectAnchor);
             inputField.textComponent.color = parse ? Color.black : Color.red;
         }
+
+        public virtual void BeforeSave()
+        {
+        }
     }
 }

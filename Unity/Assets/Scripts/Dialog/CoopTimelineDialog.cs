@@ -169,7 +169,7 @@ namespace Game.UI
                 //MapTimeParseResult result = MapTimeParseResult.Unknown;
                 RectAnchor rectAnchor = Global.UserSetting.RectPositions[RectAnchorKey.MapTime];
                 bool debug = Global.UserSetting.IsProgrammer;
-                int sharpen = m_CoopTimeline.Commander.Commander == CommanderName.Mengsk ? 128 : 20;
+                int sharpen = m_CoopTimeline.Commander.Commander == CommanderName.Mengsk ? -1 : 20;
                 m_MapTimeRecognizeTweener = Global.BackThread.WaitingBackThreadTweener(() =>
                 {
                     RecognizeWindowArea_Request.Task[] tasks = new RecognizeWindowArea_Request.Task[1]

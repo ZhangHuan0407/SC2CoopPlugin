@@ -89,6 +89,8 @@ namespace Game.UI
         }
         private void OnClickSaveButton()
         {
+            foreach (SettingPage settingPage in m_SettingPageList)
+                settingPage.BeforeSave();
             bool newUser = UserSetting.NewUser;
             Global.UserSetting = UserSetting;
             UserSetting.Save();
