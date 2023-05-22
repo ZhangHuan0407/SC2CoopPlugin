@@ -427,6 +427,7 @@ namespace Game.Editor
 
         private void FilterTable()
         {
+            m_TryLoadList.Clear();
             HashSet<int> idSet = new HashSet<int>();
             m_InShowList.Clear();
             UnitTable.Entry[] entries = UnitTable.Data.Values.OrderBy(entry => entry.ID).ToArray();

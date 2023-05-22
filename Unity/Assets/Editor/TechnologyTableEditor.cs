@@ -214,6 +214,7 @@ namespace Game.Editor
 
         private void FilterTable()
         {
+            m_TryLoadList.Clear();
             HashSet<int> idSet = new HashSet<int>();
             m_InShowList.Clear();
             TechnologyTable.Entry[] entries = EditorTableManager.TechnologyTable.Data.Values.OrderBy(entry => entry.ID).ToArray();

@@ -228,5 +228,53 @@ namespace Game.Editor
             string content = @list.ToString(true);
             UnityEngine.Debug.Log(content);
         }
+
+        [MenuItem("Tools/Unused/Copy Technology Entries")]
+        public static void CopyTechnologyEntries()
+        {
+            EditorTableManager.Refresh();
+            HashSet<int> template = new HashSet<int>()
+            {
+                1186557883,
+                1341713988,
+                652507612,
+                328933127,
+                508716643,
+                374343968,
+                2082051547,
+                933924246,
+                87559477,
+                864974130,
+                50958798,
+                1613513261,
+            };
+            IReadOnlyDictionary<int, TechnologyTable.Entry> technologyData = EditorTableManager.TechnologyTable.Data;
+            List<CommanderName> commanderNames = new List<CommanderName>
+            {
+                CommanderName.HanAndHorner,
+                CommanderName.Mengsk,
+                CommanderName.Stukov,
+                CommanderName.Swann,
+                CommanderName.Tychus,
+            };
+            foreach (var commanderName in commanderNames)
+            {
+                JSONObject @list = new JSONObject(JSONObject.Type.ARRAY);
+                foreach (var templateId in template)
+                {
+                    JSONObject @object = JSONMap.ToJSON(technologyData[templateId]);
+                    @object.SetField("m_ID", UnityEngine.Random.Range(1, int.MaxValue));
+                    @object.SetField("m_Annotation", @object.GetField("m_Annotation").str.Replace("Raynor", commanderName.ToString()));
+                    @object.SetField("m_Commander", commanderName.ToString());
+                    @list.Add(@object);
+                }
+                for (int i = 0; i < @list.Count; i++)
+                {
+                    @list.list[i].Bake(true);
+                }
+                string content = @list.ToString(true);
+                UnityEngine.Debug.Log(content);
+            }
+        }
     }
 }
