@@ -62,7 +62,7 @@ namespace Game.UI
             }
         }
 
-        private static bool IsValid(string fileName) => Regex.IsMatch(fileName, "\\A[\\w\\s_\\-\\.]+\\Z");
+        private static bool IsValid(string fileName) => Regex.IsMatch(fileName, "\\A[\\w\\s_\\-\\.\\']+\\Z");
 
         private void OnFileNameInput_ValueChanged(string input)
         {
