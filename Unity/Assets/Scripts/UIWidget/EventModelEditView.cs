@@ -426,13 +426,13 @@ namespace Game.UI
             IEventModel eventModel = dialog.CommanderPipeline.EventModels[dataIndex];
             if (eventModel is PlayerTechnologyEventModel playerTechnologyEventModel)
             {
-                if (playerTechnologyEventModel.TechnologyIDList.Length <= index)
-                {
-                    int[] newList = new int[index + 1];
-                    Array.Copy(playerTechnologyEventModel.TechnologyIDList, newList, playerTechnologyEventModel.TechnologyIDList.Length);
-                    playerTechnologyEventModel.TechnologyIDList = newList;
-                }
                 playerTechnologyEventModel.TechnologyIDList[index] = oldTechnologyID[0];
+                int trimLength = playerTechnologyEventModel.TechnologyIDList.Length;
+                while (playerTechnologyEventModel.TechnologyIDList[trimLength - 1] == 0 && trimLength > 1)
+                    trimLength--;
+                int[] newList = new int[trimLength];
+                Array.Copy(playerTechnologyEventModel.TechnologyIDList, newList, trimLength);
+                playerTechnologyEventModel.TechnologyIDList = newList;
             }
             Sprite technologySprite;
             if (oldTechnologyID[0] != 0 &&
@@ -505,13 +505,13 @@ namespace Game.UI
             IEventModel eventModel = dialog.CommanderPipeline.EventModels[dataIndex];
             if (eventModel is PlayerOperatorEventModel playerOperatorEventModel)
             {
-                if (playerOperatorEventModel.UnitIDList.Length < index)
-                {
-                    int[] newList = new int[index + 1];
-                    Array.Copy(playerOperatorEventModel.UnitIDList, newList, playerOperatorEventModel.UnitIDList.Length);
-                    playerOperatorEventModel.UnitIDList = newList;
-                }
                 playerOperatorEventModel.UnitIDList[index] = oldUnitID[0];
+                int trimLength = playerOperatorEventModel.UnitIDList.Length;
+                while (playerOperatorEventModel.UnitIDList[trimLength - 1] == 0 && trimLength > 1)
+                    trimLength--;
+                int[] newList = new int[trimLength];
+                Array.Copy(playerOperatorEventModel.UnitIDList, newList, trimLength);
+                playerOperatorEventModel.UnitIDList = newList;
             }
             Sprite unitSprite;
             if (oldUnitID[0] != 0 &&
