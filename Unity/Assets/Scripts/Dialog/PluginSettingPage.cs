@@ -8,15 +8,7 @@ namespace Game.UI
 {
     public class PluginSettingPage : SettingPage
     {
-        private List<(string languageName, SystemLanguage language)> SystemLanguageList = new List<(string, SystemLanguage)>()
-        {
-            (null, SystemLanguage.ChineseSimplified),
-            (null, SystemLanguage.ChineseTraditional),
-            (null, SystemLanguage.English),
-            (null, SystemLanguage.French),
-            (null, SystemLanguage.German),
-            (null, SystemLanguage.Korean),
-        };
+        private List<(string languageName, SystemLanguage language)> SystemLanguageList;
         [SerializeField]
         private Dropdown m_InterfaceLanguage;
         [SerializeField]
@@ -27,10 +19,12 @@ namespace Game.UI
         private void Start()
         {
             m_InGameLanguageDropDown.SetTextWithoutNotify(SettingDialog.UserSetting.InGameLanguage);
-            for (int i = 0; i < SystemLanguageList.Count; i++)
+            SystemLanguageList = new List<(string languageName, SystemLanguage language)>();
+            for (int i = 0; i < GameDefined.SupportedLanguages.Count; i++)
             {
-                string languageName = TableManager.LocalizationTable[SystemLanguageList[i].language];
-                SystemLanguageList[i] = (languageName, SystemLanguageList[i].language);
+                SystemLanguage systemLanguage = GameDefined.SupportedLanguages[i];
+                string languageName = TableManager.LocalizationTable[systemLanguage];
+                SystemLanguageList[i] = (languageName, systemLanguage);
             }
             m_InterfaceLanguage.ClearOptions();
             for (int i = 0;i < SystemLanguageList.Count; i++)

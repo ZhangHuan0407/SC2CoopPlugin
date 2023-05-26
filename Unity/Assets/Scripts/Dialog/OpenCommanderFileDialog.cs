@@ -9,16 +9,6 @@ namespace Game.UI
 {
     public class OpenCommanderFileDialog : MonoBehaviour, IDialog
     {
-        private static readonly Dictionary<string, SystemLanguage?> StrToLanguage = new Dictionary<string, SystemLanguage?>()
-        {
-            { "SystemLanguage.All", null },
-            { "SystemLanguage.ChineseSimplified", SystemLanguage.ChineseSimplified },
-            { "SystemLanguage.ChineseTraditional", SystemLanguage.ChineseTraditional },
-            { "SystemLanguage.English", SystemLanguage.English },
-            { "SystemLanguage.French", SystemLanguage.French },
-            { "SystemLanguage.German", SystemLanguage.German },
-            { "SystemLanguage.Korean", SystemLanguage.Korean },
-        };
         private static readonly Dictionary<string, CommanderName?> StrToCommander = new Dictionary<string, CommanderName?>()
         {
             { "CommanderName.All", null },
@@ -51,11 +41,12 @@ namespace Game.UI
         public DialogResult DialogResult { get; set; }
         public string CommanderPipelineId { get; set; }
 
+        [Header("Option")]
         [SerializeField]
         private InputField m_FilterStrInput;
         [SerializeField]
         private Dropdown m_Language;
-        private List<string> m_RawLanguageOptions;
+        private List<SystemLanguage?> m_RawLanguageOptions;
         [SerializeField]
         private Dropdown m_Commander;
         private List<string> m_RawCommanderOptions;
@@ -69,12 +60,23 @@ namespace Game.UI
         [SerializeField]
         private Button m_CancelButton;
 
+        [Header("Content")]
         [SerializeField]
         private ScrollRect m_ScrollRect;
         [SerializeField]
         private Transform m_ContentTrans;
         [SerializeField]
         private GameObject m_Template;
+
+        [Header("Selected")]
+        [SerializeField]
+        private CanvasGroup m_SelectedFileGroup;
+        [SerializeField]
+        private Text m_FileTitle;
+        [SerializeField]
+        private Text m_FileDesc;
+        [SerializeField]
+        private Button m_DemoButton;
 
         private CommanderPipelineTable.Entry[] m_Entries;
 
@@ -91,15 +93,25 @@ namespace Game.UI
         private void Awake()
         {
             m_Language.ClearOptions();
-            m_RawLanguageOptions = new List<string>();
-            foreach (string key in StrToLanguage.Keys)
+            m_RawLanguageOptions = new List<SystemLanguage?>();
             {
-                string str = TableManager.LocalizationTable[key];
+                string str = TableManager.LocalizationTable["SystemLanguage.All"];
                 m_Language.options.Add(new Dropdown.OptionData(str));
-                m_RawLanguageOptions.Add(key);
+                m_RawLanguageOptions.Add(null);
+            }
+            foreach (SystemLanguage systemLanguage in GameDefined.SupportedLanguages)
+            {
+                string str = TableManager.LocalizationTable[systemLanguage];
+                m_Language.options.Add(new Dropdown.OptionData(str));
+                m_RawLanguageOptions.Add(systemLanguage);
             }
             m_Language.value = 0;
-            string language = PlayerPrefs.GetString(GameDefined.CommanderPreferenceLanguage, Global.UserSetting.InterfaceLanguage.ToString());
+            string preferenceLanguage = PlayerPrefs.GetString(GameDefined.CommanderPreferenceLanguage, Global.UserSetting.InterfaceLanguage.ToString());
+            SystemLanguage? language;
+            if (Enum.TryParse<SystemLanguage>(preferenceLanguage, out SystemLanguage v))
+                language = v;
+            else
+                language = null;
             for (int i = 0; i < m_Language.options.Count; i++)
                 if (m_RawLanguageOptions[i] == language)
                 {
@@ -138,6 +150,8 @@ namespace Game.UI
             m_CancelButton.onClick.AddListener(OnClickCancelButton);
 
             m_Template.gameObject.SetActive(false);
+
+            m_SelectedFileGroup.alpha = 0f;
         }
 
         private void Start()
@@ -148,8 +162,7 @@ namespace Game.UI
         private void FilterCommanderPipelines()
         {
             LogService.System(nameof(FilterCommanderPipelines), string.Empty);
-            string languageOption = m_RawLanguageOptions[m_Language.value];
-            SystemLanguage? languageValue = StrToLanguage[languageOption];
+            SystemLanguage? languageValue = m_RawLanguageOptions[m_Language.value];
             string commanderOption = m_RawCommanderOptions[m_Commander.value];
             CommanderName? commanderValue = StrToCommander[commanderOption];
             string str = m_FilterStrInput.text;
