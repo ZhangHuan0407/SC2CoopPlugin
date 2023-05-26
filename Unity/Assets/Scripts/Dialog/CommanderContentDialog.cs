@@ -124,7 +124,7 @@ namespace Game.UI
             bool shift = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
             if (control && Input.GetKeyDown(KeyCode.S))
             {
-                PlayerWannaSave();
+                PlayerWannaSave(false);
             }
             else if(control && shift && Input.GetKeyDown(KeyCode.Z))
             {
@@ -150,14 +150,14 @@ namespace Game.UI
             tweener.DoIt();
         }
 
-        public void PlayerWannaSave()
+        public void PlayerWannaSave(bool newName)
         {
             m_NeedSave = false;
             Tweener tweener = LogicTween.AppendCallback(() =>
                                         {
                                             LogService.System(nameof(CommanderContentDialog), nameof(PlayerWannaSave));
                                         });
-            if (string.IsNullOrWhiteSpace(FilePath))
+            if (string.IsNullOrWhiteSpace(FilePath) || newName)
             {
                 SaveCommanderFileDialog dialog = CameraCanvas.PushDialog(GameDefined.SaveCommanderFileDialog) as SaveCommanderFileDialog;
                 tweener = tweener.Then(LogicTween.WaitUntil(() => dialog.DestroyFlag))

@@ -28,6 +28,8 @@ namespace Game.UI
         [SerializeField]
         private Button m_SaveFileButton;
         [SerializeField]
+        private Button m_SaveAsFileButton;
+        [SerializeField]
         private Button m_OpenFileButton;
         [SerializeField]
         private Button m_CloseButton;
@@ -87,6 +89,7 @@ namespace Game.UI
             m_FileMenuDropdown.SetActive(false);
             m_CreateFileButton.onClick.AddListener(OnClickCreateFileButton);
             m_SaveFileButton.onClick.AddListener(OnClickSaveFileMenuButton);
+            m_SaveAsFileButton.onClick.AddListener(OnClickSaveAsFileMenuButton);
             m_OpenFileButton.onClick.AddListener(OnClickOpenFileButton);
             m_CloseButton.onClick.AddListener(OnClickCloseButton);
             m_ExitButton.onClick.AddListener(OnClickExitButton);
@@ -148,6 +151,7 @@ namespace Game.UI
             m_MouseIgnoreFrame = Time.frameCount;
             bool containsAny = GetFocusCCDialog() != null;
             m_SaveFileButton.interactable = containsAny;
+            m_SaveAsFileButton.interactable = containsAny;
             m_CloseButton.interactable = containsAny;
         }
 
@@ -176,7 +180,18 @@ namespace Game.UI
             if (dialog)
             {
                 CameraCanvas.SetTopMost(dialog);
-                dialog.PlayerWannaSave();
+                dialog.PlayerWannaSave(false);
+            }
+        }
+
+        private void OnClickSaveAsFileMenuButton()
+        {
+            LogService.System(nameof(OnClickSaveAsFileMenuButton), string.Empty);
+            CommanderContentDialog dialog = GetFocusCCDialog();
+            if (dialog)
+            {
+                CameraCanvas.SetTopMost(dialog);
+                dialog.PlayerWannaSave(true);
             }
         }
 
@@ -223,6 +238,7 @@ namespace Game.UI
 
                 bool containsAny = GetFocusCCDialog() != null;
                 m_SaveFileButton.interactable = containsAny;
+                m_SaveAsFileButton.interactable = containsAny;
                 m_CloseButton.interactable = containsAny;
             }
         }
