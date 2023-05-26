@@ -23,6 +23,8 @@ namespace Game.UI
         [SerializeField]
         private Slider m_LevelSlider;
         [SerializeField]
+        private Text m_LevelValueText;
+        [SerializeField]
         private Text[] m_MasteriesNameTexts;
         [SerializeField]
         private Slider[] m_MasteriesSliders;
@@ -64,6 +66,7 @@ namespace Game.UI
             m_LanguageDropDown.onValueChanged.AddListener(OnLanguageDropDown_ValueChanged);
 
             (m_LevelSlider.GetComponent<SliderEndEdit>()).onEndEdit.AddListener(OnLevelSlider_ValueChanged);
+            m_LevelSlider.onValueChanged.AddListener(i => m_LevelValueText.text = i.ToString());
 
             for (int i = 0; i < m_MasteriesSliders.Length; i++)
             {
@@ -103,6 +106,7 @@ namespace Game.UI
             m_CommanderNameDropDown.SetValueWithoutNotify(index);
 
             m_LevelSlider.value = pipeline.Level;
+            m_LevelValueText.text = pipeline.Level.ToString();
             int languageIndex = GameDefined.SupportedLanguages.IndexOf(pipeline.Language);
             if (languageIndex == -1)
                 languageIndex = 0;
@@ -207,11 +211,13 @@ namespace Game.UI
                                                 {
                                                     dialog.CommanderPipeline.Level = newLevel;
                                                     m_LevelSlider.SetValueWithoutNotify(newLevel);
+                                                    m_LevelValueText.text = newLevel.ToString();
                                                 },
                                                 (dialog) =>
                                                 {
                                                     dialog.CommanderPipeline.Level = oldLevel;
                                                     m_LevelSlider.SetValueWithoutNotify(oldLevel);
+                                                    m_LevelValueText.text = oldLevel.ToString();
                                                 });
             CommanderContentDialog.Redo();
         }
