@@ -19,6 +19,10 @@ namespace Game.UI
         [SerializeField]
         private Dropdown m_CommanderNameDropDown;
         [SerializeField]
+        private Dropdown m_LanguageDropDown;
+        [SerializeField]
+        private Slider m_LevelSlider;
+        [SerializeField]
         private Text[] m_MasteriesNameTexts;
         [SerializeField]
         private Slider[] m_MasteriesSliders;
@@ -49,6 +53,17 @@ namespace Game.UI
                 m_CommanderNameDropDown.options.Add(new Dropdown.OptionData(name));
             }
             m_CommanderNameDropDown.onValueChanged.AddListener(OnCommanderNameDropDown_ValueChanged);
+
+            m_LanguageDropDown.ClearOptions();
+            for (int i = 0; i < GameDefined.SupportedLanguages.Count; i++)
+            {
+                string languageName = TableManager.LocalizationTable[GameDefined.SupportedLanguages[i]];
+                m_LanguageDropDown.options.Add(new Dropdown.OptionData(languageName));
+            }
+            m_LanguageDropDown.value = 0;
+            m_LanguageDropDown.onValueChanged.AddListener(OnLanguageDropDown_ValueChanged);
+
+            (m_LevelSlider.GetComponent<SliderEndEdit>()).onEndEdit.AddListener(OnLevelSlider_ValueChanged);
 
             for (int i = 0; i < m_MasteriesSliders.Length; i++)
             {
@@ -86,6 +101,13 @@ namespace Game.UI
                 }
             }
             m_CommanderNameDropDown.SetValueWithoutNotify(index);
+
+            m_LevelSlider.value = pipeline.Level;
+            int languageIndex = GameDefined.SupportedLanguages.IndexOf(pipeline.Language);
+            if (languageIndex == -1)
+                languageIndex = 0;
+            m_LanguageDropDown.value = languageIndex;
+
             for (int i = 0; i < pipeline.Masteries.Length; i++)
             {
                 m_MasteriesSliders[i].SetValueWithoutNotify(pipeline.Masteries[i]);
@@ -157,6 +179,42 @@ namespace Game.UI
                                                 });
             CommanderContentDialog.Redo();
         }
+
+        private void OnLanguageDropDown_ValueChanged(int newValue)
+        {
+            SystemLanguage newLanguage = GameDefined.SupportedLanguages[newValue];
+            SystemLanguage oldLanguage = m_CommanderPipeline.Language;
+            CommanderContentDialog.AppendRecord(nameof(OnCommanderNameDropDown_ValueChanged),
+                                                (dialog) =>
+                                                {
+                                                    dialog.CommanderPipeline.Language = newLanguage;
+                                                    m_LanguageDropDown.SetValueWithoutNotify(GameDefined.SupportedLanguages.IndexOf(newLanguage));
+                                                },
+                                                (dialog) =>
+                                                {
+                                                    dialog.CommanderPipeline.Language = oldLanguage;
+                                                    m_LanguageDropDown.SetValueWithoutNotify(GameDefined.SupportedLanguages.IndexOf(oldLanguage));
+                                                });
+            CommanderContentDialog.Redo();
+        }
+
+        private void OnLevelSlider_ValueChanged(float newValue)
+        {
+            int newLevel = Mathf.RoundToInt(newValue);
+            int oldLevel = m_CommanderPipeline.Level;
+            CommanderContentDialog.AppendRecord(nameof(OnLevelSlider_ValueChanged),
+                                                (dialog) =>
+                                                {
+                                                    dialog.CommanderPipeline.Level = newLevel;
+                                                    m_LevelSlider.SetValueWithoutNotify(newLevel);
+                                                },
+                                                (dialog) =>
+                                                {
+                                                    dialog.CommanderPipeline.Level = oldLevel;
+                                                    m_LevelSlider.SetValueWithoutNotify(oldLevel);
+                                                });
+            CommanderContentDialog.Redo();
+        }
         private void OnMasteriySlider_EndEdit(Slider sender, Text text, float newValue)
         {
             int index = Array.IndexOf(m_MasteriesSliders, sender);
@@ -177,6 +235,7 @@ namespace Game.UI
                                                 });
             CommanderContentDialog.Redo();
         }
+
         private void OnPrestigeToggle_ValueChanged(Toggle sender, bool newValue)
         {
             if (!newValue)
@@ -197,6 +256,7 @@ namespace Game.UI
                                                 });
             CommanderContentDialog.Redo();
         }
+
         private void OnTitleInput_EndEdit(string input)
         {
             string oldContent = m_CommanderPipeline.Title;
@@ -213,6 +273,7 @@ namespace Game.UI
                                                 });
             CommanderContentDialog.Redo();
         }
+
         private void OnDescInput_EndEdit(string input)
         {
             string oldContent = m_CommanderPipeline.Desc;

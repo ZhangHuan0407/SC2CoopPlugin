@@ -52,7 +52,7 @@ namespace Game
         public const string ShareCommanderPipelineChineseWiki = "https://gitcode.net/qq_34919016/sc2coopplugin-resource/-/wikis/Chinese/ShareCommanderPipeline";
         public const string CommanderEditorChineseWiki = "https://gitcode.net/qq_34919016/sc2coopplugin-resource/-/wikis/Chinese/CommanderEditor";
 
-        public static IReadOnlyList<SystemLanguage> SupportedLanguages = new SystemLanguage[]
+        public static IList<SystemLanguage> SupportedLanguages = new SystemLanguage[]
         {
             SystemLanguage.ChineseSimplified,
             SystemLanguage.ChineseTraditional,
