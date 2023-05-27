@@ -82,6 +82,8 @@ namespace Game.UI
 
         private void Awake()
         {
+            Camera.main.GetComponent<TransparentWindow>().SetWindowState(WindowState.TopMostAndBlockRaycast);
+
             CommanderContentDialogs = new List<CommanderContentDialog>();
 
             // File Menu
@@ -163,6 +165,7 @@ namespace Game.UI
             CommanderContentDialogs.Add(commanderContentDialog);
             CommanderPipeline commanderPipeline = TableManager.ModelTable.InstantiateModel<CommanderPipeline>("CommanderPipeline_Template");
             commanderPipeline.Language = Global.UserSetting.InterfaceLanguage;
+            commanderPipeline.Guid = Guid.NewGuid();
             commanderPipeline.EventModels.Add(new PlayerOperatorEventModel()
             {
                 Guid = Guid.NewGuid(),
@@ -355,5 +358,15 @@ namespace Game.UI
             Application.OpenURL(GameDefined.CommanderEditorChineseWiki);
         }
         #endregion
+
+        private void OnApplicationFocus(bool focus)
+        {
+            WindowState windowState;
+            if (focus)
+                windowState = WindowState.TopMostAndBlockRaycast;
+            else
+                windowState = WindowState.HideAllAndRaycastIgnore;
+            Camera.main.GetComponent<TransparentWindow>().SetWindowState(windowState);
+        }
     }
 }

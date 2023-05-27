@@ -122,5 +122,15 @@ namespace Game.UI
             Show();
             callback?.Invoke();
         }
+
+        private void OnApplicationFocus(bool focus)
+        {
+            WindowState windowState;
+            if (focus)
+                windowState = WindowState.TopMostAndBlockRaycast;
+            else
+                windowState = WindowState.HideAllAndRaycastIgnore;
+            Camera.main.GetComponent<TransparentWindow>().SetWindowState(windowState);
+        }
     }
 }

@@ -65,6 +65,7 @@ namespace Game.UI
         private void Awake()
         {
             Application.targetFrameRate = 24;
+            Camera.main.GetComponent<TransparentWindow>().SetWindowState(WindowState.TopMostAndBlockRaycast);
 
             OCR.RectAnchor rectAnchor = Global.UserSetting.RectPositions[RectAnchorKey.PluginDialog];
             m_RectTrans.anchoredPosition = new Vector2(rectAnchor.Left, -rectAnchor.Top);
@@ -376,6 +377,16 @@ namespace Game.UI
                 m_CoopTimeline.Map.MapSubType = mapSubType;
                 m_CoopTimeline.RebuildEventModels = true;
             }
+        }
+
+        private void OnApplicationFocus(bool focus)
+        {
+            WindowState windowState;
+            if (focus)
+                windowState = WindowState.TopMostAndBlockRaycast;
+            else
+                windowState = WindowState.TopMostAndRaycastIgnore;
+            Camera.main.GetComponent<TransparentWindow>().SetWindowState(windowState);
         }
     }
 }
