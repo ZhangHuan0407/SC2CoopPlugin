@@ -10,11 +10,11 @@ namespace Game
 
         public static void Init()
         {
-            if (File.Exists("AssetBundle"))
+            if (File.Exists("assetbundle"))
             {
                 try
                 {
-                    m_AssetBundle = AssetBundle.LoadFromFile("AssetBundle");
+                    m_AssetBundle = AssetBundle.LoadFromFile("assetbundle");
                 }
                 catch (Exception ex)
                 {
@@ -28,7 +28,7 @@ namespace Game
         {
             T result = null;
             if (m_AssetBundle)
-                result = m_AssetBundle.LoadAsset<T>(name);
+                result = m_AssetBundle.LoadAsset<T>(name.ToLowerInvariant());
             if (result == null)
                 result = Resources.Load<T>(name);
             return result;
