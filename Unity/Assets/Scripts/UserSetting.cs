@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UnityEngine;
 using RectAnchor = Game.OCR.RectAnchor;
 
@@ -149,16 +150,10 @@ namespace Game
 
             userSetting = new UserSetting();
             userSetting.AppendDefaultField();
-            switch (Application.systemLanguage)
-            {
-                case SystemLanguage.ChineseSimplified:
-                case SystemLanguage.ChineseTraditional:
-                    userSetting.InterfaceLanguage = SystemLanguage.ChineseSimplified;
-                    break;
-                default:
-                    userSetting.InterfaceLanguage = SystemLanguage.English;
-                    break;
-            }
+            if (GameDefined.SupportedLanguages.Contains(Application.systemLanguage))
+                userSetting.InterfaceLanguage = Application.systemLanguage;
+            else
+                userSetting.InterfaceLanguage = SystemLanguage.ChineseSimplified;
             return userSetting;
         }
         public static void Save()
