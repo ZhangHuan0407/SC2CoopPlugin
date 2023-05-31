@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Game.Model;
 using Table;
 using UnityEngine;
 using UnityEngine.UI;
@@ -75,6 +76,8 @@ namespace Game.UI
         private Text m_FileTitle;
         [SerializeField]
         private Text m_FileDesc;
+        [SerializeField]
+        private Text m_FilePath;
         [SerializeField]
         private Button m_DemoButton;
 
@@ -152,6 +155,7 @@ namespace Game.UI
             m_Template.gameObject.SetActive(false);
 
             m_SelectedFileGroup.alpha = 0f;
+            m_SelectedFileGroup.interactable = false;
         }
 
         private void Start()
@@ -197,10 +201,27 @@ namespace Game.UI
                 {
                     CommanderPipelineId = entry.Id;
                     m_OKButton.interactable = true;
+                    RebuildSelectedView();
                 });
                 if (i % 20 == 19)
                     yield return null;
             }
+        }
+
+        private void RebuildSelectedView()
+        {
+            CommanderPipeline commanderPipiline = TableManager.CommanderPipelineTable.Instantiate(CommanderPipelineId);
+            m_SelectedFileGroup.alpha = 1f;
+            m_SelectedFileGroup.interactable = true;
+            m_FileTitle.text = commanderPipiline.Title;
+            m_FileDesc.text = commanderPipiline.Desc;
+            m_FilePath.text = TableManager.CommanderPipelineTable[CommanderPipelineId].FullName.Replace("\\", "/");
+            m_DemoButton.onClick.RemoveAllListeners();
+            m_DemoButton.interactable = !string.IsNullOrWhiteSpace(commanderPipiline.DemoURL);
+            m_DemoButton.onClick.AddListener(() =>
+            {
+                Application.OpenURL(commanderPipiline.DemoURL);
+            });
         }
 
         private void OnClickCancelButton()

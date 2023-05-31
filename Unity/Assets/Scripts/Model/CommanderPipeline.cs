@@ -72,6 +72,13 @@ namespace Game.Model
             set => m_EventModels = value;
         }
 
+        [SerializeField]
+        private string m_DemoURL;
+        public string DemoURL
+        {
+            get => m_DemoURL;
+            set => m_DemoURL = value;
+        }
         //public Dictionary<StringID, string> LocalizationTable;
 
         protected CommanderPipeline()
