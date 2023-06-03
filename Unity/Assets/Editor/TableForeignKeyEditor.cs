@@ -46,11 +46,11 @@ namespace Game.Editor
                 stringIDSet.Add(entry.Name.Key);
             }
 
-            foreach (TechnologyTable.Entry entry in EditorTableManager.TechnologyTable.Data.Values)
-            {
-                stringIDSet.Add(entry.Name.Key);
-                //stringIDSet.Add(entry.Describe.Key);
-            }
+            //foreach (TechnologyTable.Entry entry in EditorTableManager.TechnologyTable.Data.Values)
+            //{
+            //    stringIDSet.Add(entry.Name.Key);
+            //    //stringIDSet.Add(entry.Describe.Key);
+            //}
 
             foreach (string line in File.ReadAllLines("Assets/Editor/UI.StringID.txt"))
             {
@@ -275,6 +275,87 @@ namespace Game.Editor
                 string content = @list.ToString(true);
                 UnityEngine.Debug.Log(content);
             }
+        }
+
+        [MenuItem("Tools/Unused/Create Panel Skills")]
+        public static void CreatePanelSkills()
+        {
+            List<(CommanderName commanderName, string textureName)> list = new List<(CommanderName commanderName, string textureName)>()
+            {
+                //(CommanderName.Artanis,      "PA80"),
+                //(CommanderName.Artanis,      "PA81"),
+                //(CommanderName.Artanis,      "PA82"),
+                //(CommanderName.Artanis,      "PA83"),
+                //(CommanderName.Vorazun,      "PB87"),
+                //(CommanderName.Vorazun,      "PB88"),
+                //(CommanderName.Vorazun,      "PB89"),
+                //(CommanderName.Vorazun,      "PB90"),
+                //(CommanderName.Karax,        "PB91"),
+                //(CommanderName.Karax,        "PB92"),
+                //(CommanderName.Karax,        "PB93"),
+                //(CommanderName.Karax,        "PB94"),
+                //(CommanderName.Alarak,       "PC71"),
+                //(CommanderName.Alarak,       "PC72"),
+                //(CommanderName.Zeratul,      "PE31"),
+                //(CommanderName.Zeratul,      "PE32"),
+                //(CommanderName.Zeratul,      "PE33"),
+                //(CommanderName.Zeratul,      "PE34"),
+                //(CommanderName.Zeratul,      "PE35"),
+                //(CommanderName.Zeratul,      "PE36"),
+                //(CommanderName.Zeratul,      "PE37"),
+                //(CommanderName.Zeratul,      "PE38"),
+                //(CommanderName.Zeratul,      "PE39"),
+
+                //(CommanderName.Swann,        "TB70"),
+                //(CommanderName.Swann,        "TB71"),
+                //(CommanderName.Swann,        "TB72"),
+                //(CommanderName.Swann,        "TB73"),
+                //(CommanderName.Raynor,       "TB98"),
+                //(CommanderName.Raynor,       "TB99"),
+                //(CommanderName.Tychus,       "TC96"),
+                //(CommanderName.Tychus,       "TC97"),
+                //(CommanderName.HanAndHorner, "TD68"),
+                //(CommanderName.HanAndHorner, "TD69"),
+                //(CommanderName.HanAndHorner, "TD70"),
+                //(CommanderName.HanAndHorner, "TD71"),
+                //(CommanderName.HanAndHorner, "TD72"),
+                //(CommanderName.HanAndHorner, "TD73"),
+                //(CommanderName.Mengsk,       "TE68"),
+                //(CommanderName.Mengsk,       "TE69"),
+                //(CommanderName.Mengsk,       "TE70"),
+                //(CommanderName.Mengsk,       "TE71"),
+                //(CommanderName.Nova,         "TF83"),
+                //(CommanderName.Nova,         "TF84"),
+                //(CommanderName.Nova,         "TF85"),
+                //(CommanderName.Nova,         "TF86"),
+
+                //(CommanderName.Stetmann,     "ZB71"),
+                //(CommanderName.Stetmann,     "ZB72"),
+                //(CommanderName.Stetmann,     "ZB73"),
+                //(CommanderName.Stetmann,     "ZB74"),
+                //(CommanderName.Stukov,       "ZE8"),
+                //(CommanderName.Stukov,       "ZE73"),
+                //(CommanderName.Stukov,       "ZE74"),
+                //(CommanderName.Stukov,       "ZE75"),
+            };
+            JSONObject @array = new JSONObject(JSONObject.Type.ARRAY);
+            foreach (var (commanderName, textureName) in list)
+            {
+                var wrapper = new UnitTableEntryWrapper();
+                wrapper.Label = UnitLabel.PanelSkills;
+                wrapper.Commander = commanderName;
+                wrapper.Annotation = $"{commanderName} {textureName}";
+                wrapper.ID = UnityEngine.Random.Range(1, int.MaxValue);
+                wrapper.Name = new StringID(textureName);
+                wrapper.Texture = textureName;
+                @array.Add(JSONMap.ToJSON(wrapper));
+            }
+            for (int i = 0; i < @list.Count; i++)
+            {
+                @array[i].Bake(true);
+            }
+            string content = @array.ToString(true);
+            UnityEngine.Debug.Log(content);
         }
     }
 }

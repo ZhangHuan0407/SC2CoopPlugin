@@ -23,5 +23,7 @@ namespace Table
         CannotOperated = 0x0000_4000,
         FlightTarget = 0x0001_0000,
         GroundTarget = 0x0002_0000,
+
+        PanelSkills = 0x0010_0000,
     }
 }
