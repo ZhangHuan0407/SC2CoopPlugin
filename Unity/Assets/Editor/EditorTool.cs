@@ -8,7 +8,7 @@ using System.Text.RegularExpressions;
 
 namespace Game.Editor
 {
-    public static class TableForeignKeyEditor
+    public static class EditorTool
     {
         [MenuItem("Tools/Merge StringID", priority = 40)]
         public static void MergeStringID()
@@ -359,6 +359,13 @@ namespace Game.Editor
             }
             string content = @array.ToString(true);
             UnityEngine.Debug.Log(content);
+        }
+
+        [MenuItem("Tools/Unused/Random Guid")]
+        public static void RandomGuid()
+        {
+            var guid = Guid.NewGuid();
+            Debug.Log(guid);
         }
     }
 }
