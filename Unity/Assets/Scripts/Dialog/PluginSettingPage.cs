@@ -24,7 +24,7 @@ namespace Game.UI
             {
                 SystemLanguage systemLanguage = GameDefined.SupportedLanguages[i];
                 string languageName = TableManager.LocalizationTable[systemLanguage];
-                SystemLanguageList[i] = (languageName, systemLanguage);
+                SystemLanguageList.Add((languageName, systemLanguage));
             }
             m_InterfaceLanguage.ClearOptions();
             for (int i = 0;i < SystemLanguageList.Count; i++)
