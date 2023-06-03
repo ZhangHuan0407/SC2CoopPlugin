@@ -4,6 +4,7 @@ using Table;
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace Game.Editor
 {
@@ -46,11 +47,11 @@ namespace Game.Editor
                 stringIDSet.Add(entry.Name.Key);
             }
 
-            //foreach (TechnologyTable.Entry entry in EditorTableManager.TechnologyTable.Data.Values)
-            //{
-            //    stringIDSet.Add(entry.Name.Key);
-            //    //stringIDSet.Add(entry.Describe.Key);
-            //}
+            foreach (TechnologyTable.Entry entry in EditorTableManager.TechnologyTable.Data.Values)
+            {
+                stringIDSet.Add(entry.Name.Key);
+                //stringIDSet.Add(entry.Describe.Key);
+            }
 
             foreach (string line in File.ReadAllLines("Assets/Editor/UI.StringID.txt"))
             {
@@ -73,6 +74,8 @@ namespace Game.Editor
                     maxPreviousCount = sortedDictionary.Count;
                 foreach (string stringID in stringIDSet)
                 {
+                    if (Regex.IsMatch(stringID, "\\A[A-Za-z]+[0-9]+\\Z"))
+                        continue;
                     if (!sortedDictionary.ContainsKey(stringID))
                         sortedDictionary.Add(stringID, JSONObject.CreateStringObject(string.Empty));
                 }
