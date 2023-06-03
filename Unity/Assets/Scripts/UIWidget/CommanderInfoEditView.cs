@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using UnityEngine.UI.Extension;
 using Table;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace Game.UI
 {
@@ -35,9 +36,16 @@ namespace Game.UI
         [SerializeField]
         private Toggle[] m_PrestigeToggles;
         [SerializeField]
+
         private InputField m_TitleInput;
         [SerializeField]
         private InputField m_DescInput;
+        [SerializeField]
+        private InputField m_GuidInput;
+        [SerializeField]
+        private InputField m_DemoInput;
+        [SerializeField]
+        private Button m_DemoButton;
 
         private void Awake()
         {
@@ -89,6 +97,10 @@ namespace Game.UI
 
             m_TitleInput.onEndEdit.AddListener(OnTitleInput_EndEdit);
             m_DescInput.onEndEdit.AddListener(OnDescInput_EndEdit);
+            m_GuidInput.onEndEdit.AddListener(OnGuidInput_EndEdit);
+
+            m_DemoInput.onEndEdit.AddListener(OnDemoInput_EndEdit);
+            m_DemoButton.onClick.AddListener(OnClickDemoButton);
         }
 
         public void SetCommanderPipeline(CommanderPipeline pipeline)
@@ -121,6 +133,9 @@ namespace Game.UI
             OnChangeCommanderName(m_CommanderPipeline.Commander);
             m_TitleInput.SetTextWithoutNotify(m_CommanderPipeline.Title);
             m_DescInput.SetTextWithoutNotify(m_CommanderPipeline.Desc);
+            m_GuidInput.SetTextWithoutNotify(m_CommanderPipeline.Guid.ToString());
+            m_CommanderPipeline.DemoURL = m_CommanderPipeline.DemoURL ?? string.Empty;
+            m_DemoInput.SetTextWithoutNotify(m_CommanderPipeline.DemoURL);
         }
         private void OnChangeCommanderName(CommanderName commanderName)
         {
@@ -295,6 +310,48 @@ namespace Game.UI
                                                     m_DescInput.SetTextWithoutNotify(oldContent);
                                                 });
             CommanderContentDialog.Redo();
+        }
+
+        private void OnGuidInput_EndEdit(string input)
+        {
+            string oldContent = m_CommanderPipeline.Guid.ToString();
+            CommanderContentDialog.AppendRecord(nameof(OnGuidInput_EndEdit),
+                                               (dialog) =>
+                                               {
+                                                   Guid.TryParse(input, out Guid resut);
+                                                   dialog.CommanderPipeline.Guid = resut;
+                                                   m_DescInput.SetTextWithoutNotify(resut.ToString());
+                                               },
+                                               (dialog) =>
+                                               {
+                                                   Guid.TryParse(oldContent, out Guid resut);
+                                                   dialog.CommanderPipeline.Guid = resut;
+                                                   m_DescInput.SetTextWithoutNotify(resut.ToString());
+                                               });
+            CommanderContentDialog.Redo();
+        }
+
+        private void OnDemoInput_EndEdit(string input)
+        {
+            string oldContent = m_CommanderPipeline.DemoURL;
+            CommanderContentDialog.AppendRecord(nameof(OnDemoInput_EndEdit),
+                                               (dialog) =>
+                                               {
+                                                   dialog.CommanderPipeline.DemoURL = input;
+                                                   m_DemoInput.SetTextWithoutNotify(input);
+                                               },
+                                               (dialog) =>
+                                               {
+                                                   dialog.CommanderPipeline.DemoURL = oldContent;
+                                                   m_DemoInput.SetTextWithoutNotify(oldContent);
+                                               });
+            CommanderContentDialog.Redo();
+        }
+        private void OnClickDemoButton()
+        {
+            m_CommanderPipeline.DemoURL = m_CommanderPipeline.DemoURL.Trim();
+            if (Regex.IsMatch(m_CommanderPipeline.DemoURL, "\\Ahttp(s)?://\\S+\\Z"))
+                Application.OpenURL(m_CommanderPipeline.DemoURL);
         }
     }
 }

@@ -164,7 +164,11 @@ namespace Game.UI
                                 .OnComplete(() =>
                                 {
                                     if (dialog.DialogResult == DialogResult.OK)
+                                    {
+                                        if (newName)
+                                            CommanderPipeline.Guid = Guid.NewGuid();
                                         FilePath = $"{GameDefined.CustomCommanderPipelineDirectoryPath}/{dialog.FileName}";
+                                    }
                                     else
                                         tweener.FromHeadToEndIfNeedStop(out _);
                                 });

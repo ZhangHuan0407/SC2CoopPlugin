@@ -73,6 +73,14 @@ namespace Game.Model
         }
 
         [SerializeField]
+        private Guid m_Guid;
+        public Guid Guid
+        {
+            get => m_Guid;
+            set => m_Guid = value;
+        }
+
+        [SerializeField]
         private string m_DemoURL;
         public string DemoURL
         {

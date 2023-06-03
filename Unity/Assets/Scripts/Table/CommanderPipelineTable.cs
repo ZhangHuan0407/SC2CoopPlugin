@@ -61,6 +61,14 @@ namespace Table
             }
 
             [SerializeField]
+            private Guid m_Guid;
+            public Guid Guid
+            {
+                get => m_Guid;
+                internal set => m_Guid = value;
+            }
+
+            [SerializeField]
             private string m_Id;
             public string Id
             {
@@ -96,10 +104,15 @@ namespace Table
 
         [SerializeField]
         private Dictionary<string, Entry> m_IdToEntries;
-        public Dictionary<string, Entry> IdToEntries
+        public IReadOnlyDictionary<string, Entry> IdToEntries
         {
             get => m_IdToEntries;
-            private set => m_IdToEntries = value;
+        }
+
+        private Dictionary<Guid, Entry> m_GuidToEntries;
+        public IReadOnlyDictionary<Guid, Entry> GuidToEntries
+        {
+            get => m_GuidToEntries;
         }
 
         private List<Entry> m_AllEntries;
@@ -116,13 +129,15 @@ namespace Table
 
         public CommanderPipelineTable()
         {
-            IdToEntries = new Dictionary<string, Entry>();
+            m_IdToEntries = new Dictionary<string, Entry>();
+            m_GuidToEntries = new Dictionary<Guid, Entry>();
             AllEntries = new List<Entry>();
         }
 
         public void SearchAllModelFrom(GitRepository.RepositoryConfig repositoryConfig)
         {
-            IdToEntries.Clear();
+            m_IdToEntries.Clear();
+            m_GuidToEntries.Clear();
             AllEntries.Clear();
             repositoryConfig.IOLock.EnterReadLock();
             try
@@ -162,6 +177,7 @@ namespace Table
                             Language = pipeline.Language,
                             Level = pipeline.Level,
                             Id = filePath.Substring(lastIndexOf + path.Length),
+                            Guid = pipeline.Guid,
                             Prestige = pipeline.Prestige,
                             Masteries = Enumerable.Sum(pipeline.Masteries),
                             Title = pipeline.Title,
@@ -175,7 +191,8 @@ namespace Table
                     }
                     if (entry != null)
                     {
-                        IdToEntries[entry.Id] = entry;
+                        m_IdToEntries[entry.Id] = entry;
+                        m_GuidToEntries[entry.Guid] = entry;
                         AllEntries.Add(entry);
                     }
                 }
@@ -190,7 +207,7 @@ namespace Table
             }
         }
 
-        public List<Entry> Filter(string str, SystemLanguage? language, CommanderName? commanderName, int level)
+        public List<Entry> Filter(string str, SystemLanguage? language, CommanderName? commanderName, int level, bool guidFilter)
         {
             List<Entry> allEntries = AllEntries;
             List<Entry> result = new List<Entry>();
@@ -211,6 +228,8 @@ namespace Table
                     continue;
                 if (!string.IsNullOrWhiteSpace(str) &&
                     !entry.Title.Contains(str))
+                    continue;
+                if (guidFilter && GuidToEntries[entry.Guid] != entry)
                     continue;
                 result.Add(entry);
             }

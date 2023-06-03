@@ -55,6 +55,8 @@ namespace Game.UI
         private Slider m_LevelSlider;
         [SerializeField]
         private Text m_LevelText;
+        [SerializeField]
+        private Toggle m_GuidFilter;
 
         [SerializeField]
         private Button m_OKButton;
@@ -152,6 +154,9 @@ namespace Game.UI
             m_OKButton.interactable = false;
             m_CancelButton.onClick.AddListener(OnClickCancelButton);
 
+            m_GuidFilter.SetIsOnWithoutNotify(PlayerPrefs.GetInt(GameDefined.GuidFilterKey, 1) == 1);
+            m_GuidFilter.onValueChanged.AddListener(OnGuidFilter_ValueChanged);
+
             m_Template.gameObject.SetActive(false);
 
             m_SelectedFileGroup.alpha = 0f;
@@ -171,7 +176,7 @@ namespace Game.UI
             CommanderName? commanderValue = StrToCommander[commanderOption];
             string str = m_FilterStrInput.text;
             int level = Mathf.RoundToInt(m_LevelSlider.value);
-            var commanderPipelineList =  TableManager.CommanderPipelineTable.Filter(str, languageValue, commanderValue, level);
+            var commanderPipelineList =  TableManager.CommanderPipelineTable.Filter(str, languageValue, commanderValue, level, m_GuidFilter.isOn);
             m_Entries = commanderPipelineList.ToArray();
             StopCoroutine(nameof(DelayRebuildContents));
             StartCoroutine(nameof(DelayRebuildContents));
@@ -235,6 +240,11 @@ namespace Game.UI
             LogService.System(nameof(OnClickOKButton), string.Empty);
             DialogResult = DialogResult.OK;
             CameraCanvas.PopDialog(this);
+        }
+        private void OnGuidFilter_ValueChanged(bool newValue)
+        {
+            PlayerPrefs.SetInt(GameDefined.GuidFilterKey, newValue ? 1 : 0);
+            FilterCommanderPipelines();
         }
     }
 }

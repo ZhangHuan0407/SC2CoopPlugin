@@ -28,6 +28,7 @@ UI.CommanderInfo.Masteries
 UI.CommanderInfo.Prestiges
 UI.CommanderInfo.Title
 UI.Dialog.Demo
+UI.Dialog.GuidFilter
 UI.EventModel.EndTime
 UI.EventModel.StartTime
 UI.EventModel.TriggerTime

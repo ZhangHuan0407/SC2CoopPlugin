@@ -46,6 +46,7 @@ namespace Game
 
         public const string MaxClentVersionKey = "MaxClentVersion";
         public const string LastUpdateCheckKey = "LastUpdateCheck";
+        public const string GuidFilterKey = "GuidFilterKey";
         public const string CommanderPreferenceLanguage = "CommanderPreferenceLanguage";
         public const string ClientNewVersionWebPage = "https://gitcode.net/qq_34919016/sc2coopplugin-resource/-/releases/";
 
