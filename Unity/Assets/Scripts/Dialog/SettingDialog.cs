@@ -75,7 +75,7 @@ namespace Game.UI
                     anyNeverLookup = true;
             }
             m_TabList.position = sender.TabListPosition.position;
-            if (UserSetting.NewUser && !anyNeverLookup)
+            //if (UserSetting.NewUser && !anyNeverLookup)
             {
                 m_SaveButton.gameObject.SetActive(true);
             }
