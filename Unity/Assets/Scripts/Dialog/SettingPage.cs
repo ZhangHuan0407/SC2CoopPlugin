@@ -18,7 +18,7 @@ namespace Game.UI
 
         public bool HaveLookup { get; set; }
 
-        private void Awake()
+        protected virtual void Awake()
         {
             m_TabButton.onClick.AddListener(OnClickTabButton);
         }

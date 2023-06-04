@@ -48,7 +48,8 @@ namespace Game.OCR
             return Task.Run(() =>
             {
                 System.Diagnostics.Process starCraftProcess = Global.StarCraftProcess;
-                if (starCraftProcess == null || starCraftProcess.HasExited)
+                if ((starCraftProcess == null || starCraftProcess.HasExited) &&
+                    protocolId == ProtocolId.RecognizeWindowArea)
                     return (new HeadData() { ProtocolId = protocolId, StatusCode = ErrorCode.StarCraftProcessHasExited }, default);
                 if (!m_TcpClient.Client.Connected)
                     return (new HeadData() { ProtocolId = protocolId, StatusCode = ErrorCode.OcrNotInit }, default);

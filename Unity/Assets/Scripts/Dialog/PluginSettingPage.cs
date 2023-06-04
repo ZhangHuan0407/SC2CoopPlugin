@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Game.OCR;
+using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using Table;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,13 +14,48 @@ namespace Game.UI
         [SerializeField]
         private Dropdown m_InterfaceLanguage;
         [SerializeField]
-        private InputField m_InGameLanguageDropDown;
+        private Dropdown m_InGameLanguageDropDown;
         [SerializeField]
         private Toggle m_IsProgrammer;
 
         private void Start()
         {
-            m_InGameLanguageDropDown.SetTextWithoutNotify(SettingDialog.UserSetting.InGameLanguage);
+            (HeadData, AvailableRecognizerLanguages_Response) response = default;
+            Global.BackThread.WaitingBackThreadTweener(() =>
+            {
+                var task = OCRConnectorA.Instance.SendRequestAsync<AvailableRecognizerLanguages_Response>(ProtocolId.AvailableRecognizerLanguages,
+                                                                                                          new AvailableRecognizerLanguages_Request());
+                response = task.GetAwaiter().GetResult();
+            })
+                .OnComplete(() =>
+                {
+                    if (response.Item1.StatusCode == ErrorCode.OK &&
+                        this != null)
+                    {
+                        int index = 0;
+                        m_InGameLanguageDropDown.ClearOptions();
+                        for (int i = 0; i < response.Item2.Languages.Count; i++)
+                        {
+                            AvailableRecognizerLanguages_Response.LanguageItem languageItem = response.Item2.Languages[i];
+                            m_InGameLanguageDropDown.options.Add(new Dropdown.OptionData($"({languageItem.LanguageTag}) {languageItem.DisplayName} {languageItem.NativeName}"));
+                            if (SettingDialog.UserSetting.InGameLanguage == languageItem.LanguageTag)
+                                index = i;
+                        }
+                        // unity 2021.3.23f1 bug, options数量变为1，value 0 变为 0，选中的显示不刷新
+                        // 此处先改为-1，再改为0，让其检查到变更
+                        m_InGameLanguageDropDown.SetValueWithoutNotify(-1);
+                        m_InGameLanguageDropDown.value = index;
+                    }
+                })
+                .DoIt();
+            m_InGameLanguageDropDown.onValueChanged.AddListener((i) =>
+            {
+                string text = m_InGameLanguageDropDown.options[i].text;
+                Match match = Regex.Match(text, "\\((?<LanguageTag>[a-zA-Z-_])+\\)");
+                LogService.System("PluginSettingPage.InGameLanguageDropDown", $"text: {text}, match: {match.Success}");
+                SettingDialog.UserSetting.InGameLanguage = match.Groups["LanguageTag"].Value;
+            });
+            
             SystemLanguageList = new List<(string languageName, SystemLanguage language)>();
             for (int i = 0; i < GameDefined.SupportedLanguages.Count; i++)
             {

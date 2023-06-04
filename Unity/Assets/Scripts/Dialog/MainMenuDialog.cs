@@ -125,6 +125,9 @@ namespace Game.UI
 
         private void OnApplicationFocus(bool focus)
         {
+#if UNITY_EDITOR
+            return;
+#endif
             WindowState windowState;
             if (focus)
                 windowState = WindowState.TopMostAndBlockRaycast;
