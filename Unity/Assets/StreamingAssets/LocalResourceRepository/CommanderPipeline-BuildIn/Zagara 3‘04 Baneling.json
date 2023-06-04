@@ -1,0 +1,35 @@
+{
+	"m_Commander":"Zagara",
+	"m_Language":"ChineseSimplified",
+	"m_Level":15,
+	"m_Masteries":[
+		0,
+		0,
+		0,
+		0,
+		0,
+		0
+	],
+	"m_Prestige":0,
+	"m_Title":"速双爆开局",
+	"m_Desc":"单矿毒爆接第一波红点，随后速二本，爆蚊巢穴",
+	"m_EventModels":[
+		{"m_UnitIDList":[288507513],"m_Guid":"1087c420-a537-4480-a433-b65a053d0952","m_StartTime":5,"m_TriggerTime":10,"m_EndTime":13,"m_Hide":false,"class":"Game.Model.PlayerOperatorEventModel"},
+		{"m_UnitIDList":[288507513],"m_Guid":"3ce5b507-b144-4469-b2f6-b8095688beec","m_StartTime":13,"m_TriggerTime":18,"m_EndTime":21,"m_Hide":false,"class":"Game.Model.PlayerOperatorEventModel"},
+		{"m_UnitIDList":[288507513],"m_Guid":"9725a8f9-2861-48b1-bc60-4af185a971fe","m_StartTime":22,"m_TriggerTime":27,"m_EndTime":30,"m_Hide":false,"class":"Game.Model.PlayerOperatorEventModel"},
+		{"m_UnitIDList":[1967783749],"m_Guid":"9db9c2df-88ee-4429-aa4d-8aaf1ad80cc2","m_StartTime":25,"m_TriggerTime":30,"m_EndTime":33,"m_Hide":false,"class":"Game.Model.PlayerOperatorEventModel"},
+		{"m_UnitIDList":[461852635],"m_Guid":"a4895fd9-6cc9-4bdc-b321-f53ba6c71958","m_StartTime":52,"m_TriggerTime":57,"m_EndTime":60,"m_Hide":false,"class":"Game.Model.PlayerOperatorEventModel"},
+		{"m_UnitIDList":[288507513],"m_Guid":"df778a4a-5aa8-4fac-aeab-c3ac8cdeaac0","m_StartTime":58,"m_TriggerTime":63,"m_EndTime":66,"m_Hide":false,"class":"Game.Model.PlayerOperatorEventModel"},
+		{"m_UnitIDList":[288507513],"m_Guid":"73c18199-7ee2-4a45-855d-07bc494b46ac","m_StartTime":65,"m_TriggerTime":70,"m_EndTime":73,"m_Hide":false,"class":"Game.Model.PlayerOperatorEventModel"},
+		{"m_UnitIDList":[1967783749],"m_Guid":"3c0dde83-2dc6-4c2e-8588-4831982fa685","m_StartTime":70,"m_TriggerTime":75,"m_EndTime":72,"m_Hide":false,"class":"Game.Model.PlayerOperatorEventModel"},
+		{"m_UnitIDList":[2056363934],"m_Guid":"4d34a2f0-832e-4afc-8648-7452ec0be728","m_StartTime":87,"m_TriggerTime":92,"m_EndTime":95,"m_Hide":false,"class":"Game.Model.PlayerOperatorEventModel"},
+		{"m_UnitIDList":[288507513],"m_Guid":"e1c6a92b-977c-4a1b-9c34-3053790cde64","m_StartTime":89,"m_TriggerTime":94,"m_EndTime":97,"m_Hide":false,"class":"Game.Model.PlayerOperatorEventModel"},
+		{"m_UnitIDList":[288507513],"m_Guid":"8e808ad9-ad24-498e-b9ff-020df2f8890f","m_StartTime":98,"m_TriggerTime":103,"m_EndTime":106,"m_Hide":false,"class":"Game.Model.PlayerOperatorEventModel"},
+		{"m_UnitIDList":[288507513],"m_Guid":"544c7198-62c8-466e-a628-1ef241aa1d9d","m_StartTime":107,"m_TriggerTime":112,"m_EndTime":115,"m_Hide":false,"class":"Game.Model.PlayerOperatorEventModel"},
+		{"m_UnitIDList":[55761714],"m_Guid":"70432e17-7eb6-4f2d-be74-8f1164dfbea9","m_StartTime":135,"m_TriggerTime":140,"m_EndTime":145,"m_Hide":false,"class":"Game.Model.PlayerOperatorEventModel"},
+		{"m_UnitIDList":[1322698029],"m_Guid":"13bb650c-c76e-4467-8865-217bdf817c91","m_StartTime":140,"m_TriggerTime":144,"m_EndTime":147,"m_Hide":false,"class":"Game.Model.PlayerOperatorEventModel"},
+		{"m_UnitIDList":[67344857],"m_Guid":"aea4f872-4480-47c8-8caa-a5b898c6cb09","m_StartTime":195,"m_TriggerTime":200,"m_EndTime":203,"m_Hide":false,"class":"Game.Model.PlayerOperatorEventModel"}
+	],
+	"m_Guid":"f575f61e-324a-42bb-85e2-607fc311db9f",
+	"m_DemoURL":"https://www.bilibili.com/video/BV1Ks4y137SW/?share_source=copy_web&vd_source=c175e07827cc8b23ff165e0c962921b2"
+}

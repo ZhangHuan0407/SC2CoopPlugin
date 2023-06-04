@@ -1,0 +1,30 @@
+{
+	"m_Commander":"Dehaka",
+	"m_Language":"ChineseSimplified",
+	"m_Level":1,
+	"m_Masteries":[
+		0,
+		0,
+		0,
+		0,
+		0,
+		0
+	],
+	"m_Prestige":0,
+	"m_Title":"德哈卡的美食之旅",
+	"m_Desc":"这个流程只提示科技建筑和攻防等级",
+	"m_EventModels":[
+		{"m_UnitIDList":[1742285976],"m_Guid":"be5a9ffa-c53d-4fce-be28-f040a024c029","m_StartTime":35,"m_TriggerTime":45,"m_EndTime":50,"m_Hide":false,"class":"Game.Model.PlayerOperatorEventModel"},
+		{"m_UnitIDList":[660187357],"m_Guid":"e64e5ac0-1449-4307-8dd2-230c43223508","m_StartTime":55,"m_TriggerTime":70,"m_EndTime":75,"m_Hide":false,"class":"Game.Model.PlayerOperatorEventModel"},
+		{"m_UnitIDList":[1742285976],"m_Guid":"cfd4a1c2-49db-499b-94f8-da608c1ddd11","m_StartTime":130,"m_TriggerTime":140,"m_EndTime":145,"m_Hide":false,"class":"Game.Model.PlayerOperatorEventModel"},
+		{"m_UnitIDList":[557080013],"m_Guid":"76160637-1650-4e95-9293-05a87b8bc864","m_StartTime":135,"m_TriggerTime":145,"m_EndTime":150,"m_Hide":false,"class":"Game.Model.PlayerOperatorEventModel"},
+		{"m_UnitIDList":[1374544907],"m_Guid":"89714a2e-d961-4ade-ac1e-6dbadf90e8ad","m_StartTime":180,"m_TriggerTime":200,"m_EndTime":220,"m_Hide":false,"class":"Game.Model.PlayerOperatorEventModel"},
+		{"m_UnitIDList":[1545948396],"m_Guid":"3eb1695c-dc42-4d42-9a25-1eb507ed67d9","m_StartTime":225,"m_TriggerTime":245,"m_EndTime":250,"m_Hide":false,"class":"Game.Model.PlayerOperatorEventModel"},
+		{"m_UnitIDList":[350170318,660187357],"m_Guid":"57e45bcb-3a7b-410b-9fa5-e749d17e9528","m_StartTime":340,"m_TriggerTime":360,"m_EndTime":380,"m_Hide":false,"class":"Game.Model.PlayerOperatorEventModel"},
+		{"m_TechnologyIDList":[2062587346,839584650],"m_Guid":"81593c99-54ad-452c-82a5-83f1fc05e5e5","m_StartTime":380,"m_TriggerTime":400,"m_EndTime":420,"m_Hide":false,"class":"Game.Model.PlayerTechnologyEventModel"},
+		{"m_TechnologyIDList":[1033486085,2135092016],"m_Guid":"eb883b69-c27b-49cb-a081-e15ad322a512","m_StartTime":540,"m_TriggerTime":560,"m_EndTime":580,"m_Hide":false,"class":"Game.Model.PlayerTechnologyEventModel"},
+		{"m_TechnologyIDList":[23222246,1809789824],"m_Guid":"ff144049-3786-4105-ac16-ba0ddaee7947","m_StartTime":760,"m_TriggerTime":780,"m_EndTime":800,"m_Hide":false,"class":"Game.Model.PlayerTechnologyEventModel"}
+	],
+	"m_Guid":"2db74dbf-7ee2-426a-a1d7-7e06a793e580",
+	"m_DemoURL":""
+}

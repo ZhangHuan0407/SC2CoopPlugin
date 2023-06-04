@@ -215,12 +215,14 @@ namespace Game.Editor
             JSONObject @list = new JSONObject(JSONObject.Type.ARRAY);
             foreach (UnitTable.Entry entry in EditorTableManager.UnitTable.Data.Values)
             {
-                if (entry.Commander == CommanderName.Amon && entry.Annotation.Contains(" P "))
+                if (entry.Commander == CommanderName.Artanis &&
+                    !entry.Label.HasFlag(UnitLabel.PanelSkills) &&
+                    !entry.Label.HasFlag(UnitLabel.Building))
                 {
                     JSONObject @object = JSONMap.ToJSON(entry);
                     @object.SetField("m_ID", UnityEngine.Random.Range(1, int.MaxValue));
-                    @object.SetField("m_Annotation", @object.GetField("m_Annotation").str.Replace("Amon", "Artanis"));
-                    @object.SetField("m_Commander", CommanderName.Artanis.ToString());
+                    @object.SetField("m_Annotation", @object.GetField("m_Annotation").str.Replace("Artanis", "Vorazun"));
+                    @object.SetField("m_Commander", CommanderName.Vorazun.ToString());
                     @list.Add(@object);
                 }
             }
