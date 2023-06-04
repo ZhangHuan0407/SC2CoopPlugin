@@ -74,7 +74,7 @@ namespace Game.UI
             m_LanguageDropDown.onValueChanged.AddListener(OnLanguageDropDown_ValueChanged);
 
             (m_LevelSlider.GetComponent<SliderEndEdit>()).onEndEdit.AddListener(OnLevelSlider_ValueChanged);
-            m_LevelSlider.onValueChanged.AddListener(i => m_LevelValueText.text = i.ToString());
+            m_LevelSlider.onValueChanged.AddListener(i => m_LevelValueText.text = Mathf.RoundToInt(i).ToString());
 
             for (int i = 0; i < m_MasteriesSliders.Length; i++)
             {
