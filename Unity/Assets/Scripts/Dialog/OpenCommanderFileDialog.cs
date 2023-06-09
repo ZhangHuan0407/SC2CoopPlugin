@@ -82,6 +82,14 @@ namespace Game.UI
         private Text m_FilePath;
         [SerializeField]
         private Button m_DemoButton;
+        [SerializeField]
+        private Text m_LevelRecommend;
+        [SerializeField]
+        private Text[] m_MasteriesNameTexts;
+        [SerializeField]
+        private Text[] m_MasteriesRecommend;
+        [SerializeField]
+        private Toggle m_FavoriteToggle;
 
         private CommanderPipelineTable.Entry[] m_Entries;
 
@@ -221,11 +229,28 @@ namespace Game.UI
             m_FileTitle.text = commanderPipiline.Title;
             m_FileDesc.text = commanderPipiline.Desc;
             m_FilePath.text = TableManager.CommanderPipelineTable[CommanderPipelineId].FullName.Replace("\\", "/");
+            m_LevelRecommend.text = commanderPipiline.Level.ToString();
+            TableManager.MasteriesTable.Data.TryGetValue(commanderPipiline.Commander, out MasteriesTable.Entry[] entries);
+            for (int i = 0; i < m_MasteriesNameTexts.Length && i < entries.Length; i++)
+            {
+                MasteriesTable.Entry entry = entries[i];
+                m_MasteriesNameTexts[i].text = entry.Name.Localization;
+            }
+            for (int i = 0; i < m_MasteriesRecommend.Length; i++)
+            {
+                int mastery = commanderPipiline.Masteries.Length > i ? commanderPipiline.Masteries[i] : 0;
+                m_MasteriesRecommend[i].text = mastery.ToString();
+            }
             m_DemoButton.onClick.RemoveAllListeners();
             m_DemoButton.interactable = !string.IsNullOrWhiteSpace(commanderPipiline.DemoURL);
             m_DemoButton.onClick.AddListener(() =>
             {
                 Application.OpenURL(commanderPipiline.DemoURL);
+            });
+            m_FavoriteToggle.onClick.RemoveAllListeners();
+            m_FavoriteToggle.onClick.AddListener(() =>
+            {
+
             });
         }
 
