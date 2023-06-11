@@ -134,6 +134,11 @@ namespace Table
             AllEntries = new List<Entry>();
         }
 
+        public void UpdateCommanderPipeline(string filePath, CommanderPipeline commanderPipeline)
+        {
+            // 文件数量不多，简单重建下表
+            SearchAllModelFrom(Global.ResourceRepositoryConfig);
+        }
         public void SearchAllModelFrom(GitRepository.RepositoryConfig repositoryConfig)
         {
             m_IdToEntries.Clear();

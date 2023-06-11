@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using Game.Model;
+using Table;
 using Tween;
 using UnityEditor;
 using UnityEngine;
@@ -152,14 +153,21 @@ namespace Game.UI
 
         public void PlayerWannaSave(bool newName)
         {
-            m_NeedSave = false;
             Tweener tweener = LogicTween.AppendCallback(() =>
                                         {
                                             LogService.System(nameof(CommanderContentDialog), nameof(PlayerWannaSave));
                                         });
+            string defultName = string.Empty;
+            if (TableManager.CommanderPipelineTable.GuidToEntries.TryGetValue(CommanderPipeline.Guid, out var entry) &&
+                !entry.IsCCP)
+            {
+                newName = true;
+                defultName = entry.Fileinfo.Name;
+            }
             if (string.IsNullOrWhiteSpace(FilePath) || newName)
             {
                 SaveCommanderFileDialog dialog = CameraCanvas.PushDialog(GameDefined.SaveCommanderFileDialog) as SaveCommanderFileDialog;
+                dialog.FileName = defultName;
                 tweener = tweener.Then(LogicTween.WaitUntil(() => dialog.DestroyFlag))
                                 .OnComplete(() =>
                                 {
@@ -176,12 +184,17 @@ namespace Game.UI
             tweener = tweener.Then(LogicTween.AppendCallback(() =>
                                             {
                                                 Debug.Log(FilePath);
+                                                m_NeedSave = false;
                                                 JSONObject @object = JSONMap.ToJSON(CommanderPipeline);
                                                 JSONObject @eventModels = @object["m_EventModels"];
                                                 for (int i = 0; i < @eventModels.list.Count; i++)
                                                     @eventModels.list[i].Bake(true);
                                                 File.WriteAllText(FilePath, @object.ToString(true));
-                                            }));
+                                            }))
+                              .OnComplete(() =>
+                              {
+                                  TableManager.CommanderPipelineTable.UpdateCommanderPipeline(FilePath, CommanderPipeline);
+                              });
             tweener.DoIt();
         }
 
