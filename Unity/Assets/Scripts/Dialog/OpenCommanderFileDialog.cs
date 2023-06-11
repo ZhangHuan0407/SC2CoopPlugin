@@ -77,11 +77,15 @@ namespace Game.UI
         [SerializeField]
         private Text m_FileTitle;
         [SerializeField]
-        private Text m_FileDesc;
+        private Toggle m_FavoriteToggle;
+        [SerializeField]
+        private Image m_CommanderImage;
         [SerializeField]
         private Text m_FilePath;
         [SerializeField]
         private Button m_DemoButton;
+        [SerializeField]
+        private Text m_PrestigeRecommend;
         [SerializeField]
         private Text m_LevelRecommend;
         [SerializeField]
@@ -89,7 +93,7 @@ namespace Game.UI
         [SerializeField]
         private Text[] m_MasteriesRecommend;
         [SerializeField]
-        private Toggle m_FavoriteToggle;
+        private Text m_FileDesc;
 
         private CommanderPipelineTable.Entry[] m_Entries;
 
@@ -227,6 +231,7 @@ namespace Game.UI
             m_SelectedFileGroup.alpha = 1f;
             m_SelectedFileGroup.interactable = true;
             m_FileTitle.text = commanderPipiline.Title;
+            m_CommanderImage.sprite = ResourcesInterface.Load<Sprite>($"Textures/{commanderPipiline.Commander}");
             m_FileDesc.text = commanderPipiline.Desc;
             m_FilePath.text = TableManager.CommanderPipelineTable[CommanderPipelineId].FullName.Replace("\\", "/");
             m_LevelRecommend.text = commanderPipiline.Level.ToString();
@@ -247,10 +252,15 @@ namespace Game.UI
             {
                 Application.OpenURL(commanderPipiline.DemoURL);
             });
-            m_FavoriteToggle.onClick.RemoveAllListeners();
-            m_FavoriteToggle.onClick.AddListener(() =>
+            m_FavoriteToggle.onValueChanged.RemoveAllListeners();
+            string key = string.Format(GameDefined.FavoriteKey, commanderPipiline.Guid);
+            m_FavoriteToggle.SetIsOnWithoutNotify(PlayerPrefs.GetInt(key) > 0);
+            m_FavoriteToggle.onValueChanged.AddListener((bool toggle) =>
             {
-
+                if (toggle)
+                    PlayerPrefs.SetInt(key, 1);
+                else
+                    PlayerPrefs.DeleteKey(key);
             });
         }
 
