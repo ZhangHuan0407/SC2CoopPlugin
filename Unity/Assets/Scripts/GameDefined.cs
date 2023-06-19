@@ -74,5 +74,15 @@ namespace Game
             Directory.CreateDirectory(CustomCommanderPipelineDirectoryPath);
             Debug.Log(UserSettingFilePath);
         }
+
+        public static readonly List<Vector2Int> StdCanvasResolution = new List<Vector2Int>()
+        {
+            new Vector2Int(1280, 720),
+            new Vector2Int(1920, 1080),
+            new Vector2Int(2560, 1440),
+            new Vector2Int(3840, 2160),
+            new Vector2Int(5120, 2880),
+            new Vector2Int(6016, 3884),
+        };
     }
 }

@@ -8,7 +8,7 @@ namespace Game.UI
     /// <summary>    
     /// 当前UI相机渲染使用的主要画布
     /// </summary>
-    [RequireComponent(typeof(Canvas))]
+    [RequireComponent(typeof(Canvas), typeof(CanvasScaler))]
     public class CameraCanvas : MonoBehaviour
     {
         /* field */
@@ -24,6 +24,11 @@ namespace Game.UI
             {
                 CanvasScaler canvasScaler = m_Instance.GetComponent<CanvasScaler>();
                 return canvasScaler.referenceResolution;
+            }
+            set
+            {
+                CanvasScaler canvasScaler = m_Instance.GetComponent<CanvasScaler>();
+                canvasScaler.referenceResolution = value;
             }
         }
         public static Vector2 CanvasSize => (m_Instance.transform as RectTransform).rect.size;
@@ -47,6 +52,7 @@ namespace Game.UI
             m_Instance = this;
             m_DialogList = new List<IDialog>();
             GetComponent<Canvas>().worldCamera = Camera.main;
+            GetComponent<CanvasScaler>().referenceResolution = Global.UserSetting.CanvasResolution;
         }
 
         /* func */

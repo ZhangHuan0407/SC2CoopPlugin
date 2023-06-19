@@ -49,6 +49,14 @@ namespace Game
         private Dictionary<RectAnchorKey, Game.OCR.RectAnchor> m_RectPositions;
         public Dictionary<RectAnchorKey, Game.OCR.RectAnchor> RectPositions => m_RectPositions;
 
+        [SerializeField]
+        private Vector2Int m_CanvasResolution;
+        public Vector2Int CanvasResolution
+        {
+            get => m_CanvasResolution;
+            set => m_CanvasResolution = value;
+        }
+
         public UserSetting()
         {
             m_Version = 0;
@@ -63,7 +71,8 @@ namespace Game
                 m_Version = GameDefined.Version;
             int screenWidth = GameDefined.ScreenWidth;
             int screenHeight = GameDefined.ScreenHeight;
-            m_InGameLanguage = "zh-Hans-CN";
+            if (string.IsNullOrEmpty(m_InGameLanguage))
+                m_InGameLanguage = "zh-Hans-CN";
             if (!m_RectPositions.ContainsKey(RectAnchorKey.CommanderName))
             {
                 RectAnchor rectAnchor = new RectAnchor();
@@ -127,6 +136,20 @@ namespace Game
                 rectAnchor.Height = 500;
                 m_RectPositions[RectAnchorKey.PluginDialog] = rectAnchor;
             }
+            if (m_CanvasResolution == Vector2Int.zero)
+            {
+                int pixelCount = Screen.width * Screen.height;
+                int delta = int.MaxValue;
+                foreach (Vector2Int StdResolution in GameDefined.StdCanvasResolution)
+                {
+                    int delta2 = Math.Abs(pixelCount - StdResolution.x * StdResolution.y);
+                    if (delta2 < delta)
+                    {
+                        delta = delta2;
+                        m_CanvasResolution = StdResolution;
+                    }
+                }
+            }
         }
 
         public static UserSetting LoadSetting()
@@ -156,12 +179,15 @@ namespace Game
                 userSetting.InterfaceLanguage = SystemLanguage.ChineseSimplified;
             return userSetting;
         }
-        public static void Save()
+        public static void Save(bool systemAutoSave)
         {
             UserSetting userSetting = Global.UserSetting;
             LogService.System(nameof(UserSetting) + nameof(Save), $"NewUser: {userSetting.NewUser}");
-            userSetting.NewUser = false;
-             string content = JSONMap.ToJSON(userSetting).ToString();
+            if (!systemAutoSave)
+            {
+                userSetting.NewUser = false;
+            }
+            string content = JSONMap.ToJSON(userSetting).ToString();
             File.WriteAllText(GameDefined.UserSettingFilePath, content);
         }
         public void VersionFix()

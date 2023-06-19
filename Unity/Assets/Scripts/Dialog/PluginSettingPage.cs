@@ -16,6 +16,8 @@ namespace Game.UI
         [SerializeField]
         private Dropdown m_InGameLanguageDropDown;
         [SerializeField]
+        private Dropdown m_CanvasResolutionDropDown;
+        [SerializeField]
         private Toggle m_IsProgrammer;
 
         private void Start()
@@ -77,6 +79,26 @@ namespace Game.UI
             m_IsProgrammer.onValueChanged.AddListener((bool value) =>
             {
                 SettingDialog.UserSetting.IsProgrammer = value;
+            });
+
+            m_CanvasResolutionDropDown.ClearOptions();
+            for (int i = 0; i < GameDefined.StdCanvasResolution.Count; i++)
+            {
+                Vector2Int resolution = GameDefined.StdCanvasResolution[i];
+                string str = $"{resolution.x}x{resolution.y}";
+                m_CanvasResolutionDropDown.options.Add(new Dropdown.OptionData(str));
+            }
+            m_CanvasResolutionDropDown.value = -1;
+            for (int i = 0; i < GameDefined.StdCanvasResolution.Count; i++)
+            {
+                Vector2Int resolution = GameDefined.StdCanvasResolution[i];
+                if (resolution == SettingDialog.UserSetting.CanvasResolution)
+                    m_CanvasResolutionDropDown.SetValueWithoutNotify(i);
+            }
+            m_CanvasResolutionDropDown.onValueChanged.AddListener((int index) =>
+            {
+                SettingDialog.UserSetting.CanvasResolution = GameDefined.StdCanvasResolution[index];
+                CameraCanvas.ReferenceResolution = SettingDialog.UserSetting.CanvasResolution;
             });
         }
     }

@@ -136,6 +136,8 @@ namespace Game
             yield return null;
             Game.UI.CameraCanvas.PushDialog(GameDefined.MainManuDialog);
 
+            UserSetting.Save(true);
+
             CheckStarCraftProcess(1f);
 
             Debug.Log($"Finish init task {stopwatch.ElapsedMilliseconds} ms");

@@ -84,6 +84,7 @@ namespace Game.UI
 
         private void OnClickCloseButton()
         {
+            CameraCanvas.ReferenceResolution = Global.UserSetting.CanvasResolution;
             CameraCanvas.PopDialog(this);
             CameraCanvas.PopDialog(DrawGizmos);
         }
@@ -93,7 +94,7 @@ namespace Game.UI
                 settingPage.BeforeSave();
             bool newUser = UserSetting.NewUser;
             Global.UserSetting = UserSetting;
-            UserSetting.Save();
+            UserSetting.Save(false);
             StopCoroutine(nameof(SaveFinishTips));
             StartCoroutine(nameof(SaveFinishTips));
         }
